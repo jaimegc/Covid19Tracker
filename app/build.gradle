@@ -17,24 +17,25 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField "String", "BASE_URL", '"https://api.covid19tracking.narrativa.com/api/"'
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
-// To inline the bytecode built with JVM target 1.8 into
-// bytecode that is being built with JVM target 1.6. (e.g. navArgs)
-
-
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8.toString()
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 
+    viewBinding.enabled = true
 }
 
 dependencies {
@@ -50,10 +51,20 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation"
     implementation "androidx.navigation:navigation-ui:$navigation"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipe_refresh"
     implementation "com.google.android.material:material:$design"
 
     // Others
+    implementation "io.arrow-kt:arrow-core-data:$arrow"
     implementation "com.github.PhilJay:MPAndroidChart:$mp_chart"
+    implementation "com.squareup.okhttp3:okhttp:$okhttp"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit"
+    implementation "org.koin:koin-android:$koin"
+    implementation "org.koin:koin-android-scope:$koin"
+    implementation "org.koin:koin-android-viewmodel:$koin"
+    implementation "org.koin:koin-core:$koin"
 
     // Testing
     testImplementation "junit:junit:$junit"

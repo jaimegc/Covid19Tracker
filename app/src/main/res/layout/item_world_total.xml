@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/dimen_4"
+    tools:context=".MainActivity">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/confirmed_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        app:cardBackgroundColor="@color/light_red"
+        app:layout_constraintBottom_toTopOf="@+id/recoverLayout"
+        app:layout_constraintEnd_toStartOf="@+id/open_cases_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="213dp">
+
+            <ImageView
+                android:id="@+id/ic_virus"
+                style="@style/ImageIcon"
+                android:layout_width="82dp"
+                android:layout_height="82dp"
+                android:layout_marginTop="16dp"
+                android:contentDescription="@string/confirmed"
+                android:src="@drawable/ic_virus"
+                android:tint="@color/dark_red"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_confirmed"
+                style="@style/TextCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="4dp"
+                android:textColor="@color/dark_red"
+                app:layout_constraintEnd_toEndOf="@+id/ic_virus"
+                app:layout_constraintStart_toStartOf="@+id/ic_virus"
+                app:layout_constraintTop_toBottomOf="@+id/ic_virus"
+                tools:text="23.138" />
+
+            <ImageView
+                android:id="@+id/ic_trending_confirmed"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:contentDescription="@string/confirmed"
+                android:src="@drawable/ic_trending_up"
+                android:tint="@color/dark_red"
+                app:layout_constraintEnd_toStartOf="@+id/text_new_confirmed"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_confirmed" />
+
+            <TextView
+                android:id="@+id/text_new_confirmed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textColor="@color/dark_red"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/ic_trending_confirmed"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/ic_trending_confirmed"
+                app:layout_constraintTop_toTopOf="@+id/ic_trending_confirmed"
+                tools:text="[1.138] (5.10%)" />
+
+            <TextView
+                style="@style/TextTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/confirmed"
+                android:textColor="@color/dark_red"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/text_new_confirmed"
+                app:layout_constraintStart_toStartOf="@+id/ic_trending_confirmed"
+                app:layout_constraintTop_toBottomOf="@+id/ic_trending_confirmed" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/open_cases_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:cardBackgroundColor="@color/light_blue"
+        app:layout_constraintBottom_toTopOf="@+id/deathLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/confirmed_layout"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="213dp">
+
+            <ImageView
+                android:id="@+id/ic_open_cases"
+                style="@style/ImageIcon"
+                android:layout_width="82dp"
+                android:layout_height="82dp"
+                android:layout_marginTop="16dp"
+                android:contentDescription="@string/open_cases"
+                android:src="@drawable/ic_patient"
+                android:tint="@color/dark_blue"
+                app:layout_constraintBottom_toTopOf="@+id/text_open_cases"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_open_cases"
+                style="@style/TextCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/dark_blue"
+                app:layout_constraintEnd_toEndOf="@+id/ic_open_cases"
+                app:layout_constraintStart_toStartOf="@+id/ic_open_cases"
+                app:layout_constraintTop_toBottomOf="@+id/ic_open_cases"
+                tools:text="23.138" />
+
+            <ImageView
+                android:id="@+id/ic_trending_open_cases"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:contentDescription="@string/confirmed"
+                android:src="@drawable/ic_trending_up"
+                android:tint="@color/dark_blue"
+                app:layout_constraintEnd_toStartOf="@+id/text_new_open_cases"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_open_cases" />
+
+            <TextView
+                android:id="@+id/text_new_open_cases"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textColor="@color/dark_blue"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/ic_trending_open_cases"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/ic_trending_open_cases"
+                app:layout_constraintTop_toTopOf="@+id/ic_trending_open_cases"
+                tools:text="[1.138] (5.10%)" />
+
+            <TextView
+                style="@style/TextTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/open_cases"
+                android:textColor="@color/dark_blue"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/text_new_open_cases"
+                app:layout_constraintStart_toStartOf="@+id/ic_trending_open_cases"
+                app:layout_constraintTop_toBottomOf="@+id/ic_trending_open_cases" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/recoverLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        app:cardBackgroundColor="@color/light_green"
+        app:layout_constraintEnd_toStartOf="@+id/deathLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/confirmed_layout">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="213dp">
+
+            <ImageView
+                android:id="@+id/ic_recovered"
+                style="@style/ImageIcon"
+                android:layout_width="82dp"
+                android:layout_height="82dp"
+                android:layout_marginTop="16dp"
+                android:contentDescription="@string/recovered"
+                android:src="@drawable/ic_heart"
+                android:tint="@color/dark_green"
+                app:layout_constraintBottom_toTopOf="@+id/text_recovered"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_recovered"
+                style="@style/TextCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/dark_green"
+                app:layout_constraintEnd_toEndOf="@+id/ic_recovered"
+                app:layout_constraintStart_toStartOf="@+id/ic_recovered"
+                app:layout_constraintTop_toBottomOf="@+id/ic_recovered"
+                tools:text="23.138" />
+
+            <ImageView
+                android:id="@+id/ic_trending_recovered"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:contentDescription="@string/recovered"
+                android:src="@drawable/ic_trending_up"
+                android:tint="@color/dark_green"
+                app:layout_constraintEnd_toStartOf="@+id/text_new_recovered"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_recovered" />
+
+            <TextView
+                android:id="@+id/text_new_recovered"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textColor="@color/dark_green"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/ic_trending_recovered"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/ic_trending_recovered"
+                app:layout_constraintTop_toTopOf="@+id/ic_trending_recovered"
+                tools:text="[1.138] (5.10%)" />
+
+            <TextView
+                style="@style/TextTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/recovered"
+                android:textColor="@color/dark_green"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/text_new_recovered"
+                app:layout_constraintStart_toStartOf="@+id/ic_trending_recovered"
+                app:layout_constraintTop_toBottomOf="@+id/ic_trending_recovered" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/deathLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:cardBackgroundColor="@color/light_yellow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/recoverLayout"
+        app:layout_constraintTop_toBottomOf="@+id/open_cases_layout">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="213dp">
+
+            <ImageView
+                android:id="@+id/ic_deaths"
+                style="@style/ImageIcon"
+                android:layout_width="82dp"
+                android:layout_height="82dp"
+                android:layout_marginTop="16dp"
+                android:contentDescription="@string/deaths"
+                android:src="@drawable/ic_death"
+                android:tint="@color/dark_orange"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_deaths"
+                style="@style/TextCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/dark_orange"
+                app:layout_constraintEnd_toEndOf="@+id/ic_deaths"
+                app:layout_constraintStart_toStartOf="@+id/ic_deaths"
+                app:layout_constraintTop_toBottomOf="@+id/ic_deaths"
+                tools:text="23.138" />
+
+            <ImageView
+                android:id="@+id/ic_trending_deaths"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:contentDescription="@string/recovered"
+                android:src="@drawable/ic_trending_up"
+                android:tint="@color/dark_orange"
+                app:layout_constraintEnd_toStartOf="@+id/text_new_deaths"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_deaths" />
+
+            <TextView
+                android:id="@+id/text_new_deaths"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textColor="@color/dark_orange"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/ic_trending_deaths"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/ic_trending_deaths"
+                app:layout_constraintTop_toTopOf="@+id/ic_trending_deaths"
+                tools:text="[1.138] (5.10%)" />
+
+            <TextView
+                style="@style/TextTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/deaths"
+                android:textColor="@color/dark_orange"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/text_new_deaths"
+                app:layout_constraintStart_toStartOf="@+id/ic_trending_deaths"
+                app:layout_constraintTop_toBottomOf="@+id/ic_trending_deaths" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/text_last_updated_view"
+        style="@style/TextLastUpdatedTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recoverLayout"
+        tools:text="Last Updated: 1 minutes ago" />
+</androidx.constraintlayout.widget.ConstraintLayout>
