@@ -1,8 +1,8 @@
 package com.jaimegc.covid19tracker.ui.states
 
-import androidx.lifecycle.ViewModel
+import com.jaimegc.covid19tracker.ui.viewmodel.BaseScreenStateViewModel
 
-interface ViewScreenState<S: BaseScreenState, T: ViewModel> {
+interface BaseViewScreenState<T: BaseScreenStateViewModel<S>, S: BaseScreenState> {
     val viewModel: T
     fun handleRenderState(renderState: S)
 }

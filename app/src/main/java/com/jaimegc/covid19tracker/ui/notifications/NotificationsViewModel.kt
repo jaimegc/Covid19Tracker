@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 
 class NotificationsViewModel(
     val getCovidTrackerLast: GetCovidTrackerLast
-) : BaseScreenStateViewModel<WorldTotalStateScreen, CovidTracker>() {
+) : BaseScreenStateViewModel<WorldTotalStateScreen>() {
 
     private val _covidTracker = MutableLiveData<State<CovidTrackerUI>>()
     val covidTracker: LiveData<State<CovidTrackerUI>> = _covidTracker
@@ -33,7 +33,7 @@ class NotificationsViewModel(
             }
         }
 
-    override fun handleScreenState(state: State<CovidTracker>) =
+    private fun handleScreenState(state: State<CovidTracker>) =
         when (state) {
             is State.Success ->
                 _screenState.postValue(ScreenState.Render(WorldTotalStateScreen.Success(state.data.toUI())))
@@ -41,7 +41,7 @@ class NotificationsViewModel(
                 _screenState.postValue(ScreenState.Loading)
     }
 
-    override fun handleError(state: StateError<DomainError>) {
+    private fun handleError(state: StateError<DomainError>) {
 
     }
 }

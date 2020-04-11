@@ -9,12 +9,12 @@ import com.jaimegc.covid19tracker.databinding.FragmentNotificationsBinding
 import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.ui.adapter.WorldTotalAdapter
 import com.jaimegc.covid19tracker.ui.states.ScreenState
-import com.jaimegc.covid19tracker.ui.states.ViewScreenState
+import com.jaimegc.covid19tracker.ui.states.BaseViewScreenState
 import com.jaimegc.covid19tracker.ui.states.WorldTotalStateScreen
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class NotificationsFragment : Fragment(R.layout.fragment_notifications),
-    ViewScreenState<WorldTotalStateScreen, NotificationsViewModel> {
+    BaseViewScreenState<NotificationsViewModel, WorldTotalStateScreen> {
 
     override val viewModel: NotificationsViewModel by viewModel()
     private val worldTotalAdapter = WorldTotalAdapter()
