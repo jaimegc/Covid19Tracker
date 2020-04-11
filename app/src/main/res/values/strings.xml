@@ -13,4 +13,5 @@
     <string name="text_last_updated">Last Updated : %s</string>
     <string name="default_notification_channel_name">Covid-19 India</string>
     <string name="text_trending">[%1$s] (%2$s%%)</string>
+    <string name="text_daily_change">DAILY CHANGE</string>
 </resources>

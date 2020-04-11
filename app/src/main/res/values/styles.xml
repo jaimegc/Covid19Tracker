@@ -48,6 +48,18 @@
         <item name="android:layout_gravity">center</item>
     </style>
 
+    <style name="TextDailyChange">
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Body2</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="TitleDailyChange">
+        <item name="android:textSize">14sp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
     <style name="TextCountSmall">
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Subtitle2
         </item>
