@@ -5,7 +5,7 @@
     <string name="title_notifications">Notifications</string>
 
     <string name="confirmed">Confirmed</string>
-    <string name="open_cases">Active</string>
+    <string name="open_cases">Open cases</string>
     <string name="recovered">Recovered</string>
     <string name="deaths">Deaths</string>
     <string name="default_notification_channel_id">default</string>

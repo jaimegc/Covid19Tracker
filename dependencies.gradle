@@ -40,6 +40,7 @@ ext {
     okhttp                       = '3.14.0'
     permissions                  = '3.7'
     picasso                      = '2.71828'
+    recyclerview                 = '1.2.0-alpha02'
     retrofit                     = '2.6.0'
     rounded_imageview            = '2.3.0'
     room                         = '2.2.5'
@@ -79,6 +80,7 @@ ext {
             okhttp                        : '3.14.0',
             permissions                   : '3.7',
             picasso                       : '2.71828',
+            recyclerview                  : '1.2.0-alpha02',
             retrofit                      : '2.6.0',
             rounded_imageview             : '2.3.0',
             room                          : '2.2.5',
@@ -137,7 +139,7 @@ ext {
             permissions                   : [group: 'com.nabinbhandari.android', name: 'permissions', version: versions.permissions],
             picasso                       : [group: 'com.squareup.picasso', name: 'picasso', version: versions.picasso],
             retrofit                      : [group: 'com.squareup.retrofit2', name: 'retrofit', version: versions.retrofit],
-            recyclerview                  : [group: 'androidx.recyclerview', name: 'recyclerview', version: versions.support],
+            recyclerview                  : [group: 'androidx.recyclerview', name: 'recyclerview', version: versions.recyclerview],
             retrofit_gson                 : [group: 'com.squareup.retrofit2', name: 'converter-gson', version: versions.retrofit],
             rounded_imageview             : [group: 'com.makeramen', name: 'roundedimageview', version: versions.rounded_imageview],
             room_compiler                 : [group: 'androidx.room', name: 'room-compiler', version: versions.room],

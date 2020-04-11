@@ -2,11 +2,29 @@ package com.jaimegc.covid19tracker.domain.model
 
 import com.jaimegc.covid19tracker.extensions.formatDecimals
 import com.jaimegc.covid19tracker.extensions.formatValue
-import com.jaimegc.covid19tracker.ui.model.CovidTrackerTotalUI
-import com.jaimegc.covid19tracker.ui.model.CovidTrackerUI
+import com.jaimegc.covid19tracker.ui.model.*
 
 data class CovidTracker(
+    val dates: Map<String, CovidTrackerDate>,
     val total: CovidTrackerTotal
+)
+
+data class CovidTrackerDate(
+    val countries: Map<String, CovidTrackerDateCountry>,
+    val date: CovidTrackerDateInfo
+)
+
+data class CovidTrackerDateCountry(
+    val id: String,
+    val name: String,
+    val nameEs: String,
+    val total: CovidTrackerTotal
+)
+
+data class CovidTrackerDateInfo(
+    val date: String,
+    val dateGeneration: String,
+    val yesterday: String
 )
 
 data class CovidTrackerTotal(
@@ -26,7 +44,25 @@ data class CovidTrackerTotal(
     val todayVsYesterdayRecovered: Double
 )
 
-fun CovidTracker.toUI(): CovidTrackerUI = CovidTrackerUI(total.toUI())
+fun CovidTracker.toUI(): CovidTrackerUI =
+    CovidTrackerUI(
+        dates = dates.map { date -> date.value.toUI(date.key) }.toList(),
+        total = total.toUI()
+    )
+
+fun CovidTrackerDate.toUI(date: String): CovidTrackerDateUI =
+    CovidTrackerDateUI(
+        date = date,
+        countries = countries.map { country -> country.value.toUI() }.toList()
+    )
+
+private fun CovidTrackerDateCountry.toUI():  CovidTrackerDateCountryUI =
+    CovidTrackerDateCountryUI(
+        id = id,
+        name = name,
+        nameEs = nameEs,
+        total = total.toUI()
+    )
 
 fun CovidTrackerTotal.toUI(): CovidTrackerTotalUI =
     CovidTrackerTotalUI(

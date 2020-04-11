@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.MergeAdapter
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.databinding.FragmentNotificationsBinding
 import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.ui.adapter.WorldTotalAdapter
+import com.jaimegc.covid19tracker.ui.adapter.WorldTotalCountryAdapter
 import com.jaimegc.covid19tracker.ui.states.ScreenState
 import com.jaimegc.covid19tracker.ui.states.BaseViewScreenState
 import com.jaimegc.covid19tracker.ui.states.WorldTotalStateScreen
@@ -18,12 +20,14 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications),
 
     override val viewModel: NotificationsViewModel by viewModel()
     private val worldTotalAdapter = WorldTotalAdapter()
+    private val worldTotalCountryAdapter = WorldTotalCountryAdapter()
+    private val mergeAdapter = MergeAdapter(worldTotalAdapter, worldTotalCountryAdapter)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentNotificationsBinding.bind(view)
 
-        binding.recyclerWorld.adapter = worldTotalAdapter
+        binding.recyclerWorld.adapter = mergeAdapter
 
         viewModel.covidTracker.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
@@ -44,8 +48,10 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications),
 
     override fun handleRenderState(renderState: WorldTotalStateScreen) {
         when (renderState) {
-            is WorldTotalStateScreen.Success ->
+            is WorldTotalStateScreen.Success -> {
                 worldTotalAdapter.submitList(listOf(renderState.data.total))
+                worldTotalCountryAdapter.submitList(renderState.data.dates.first().countries)
+            }
         }
     }
 }

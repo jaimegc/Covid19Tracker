@@ -10,22 +10,23 @@
 
     <style name="TextTitle">
         <item name="android:layout_gravity">center</item>
-        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6
-        </item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6</item>
         <item name="android:textColor">@android:color/white</item>
+        <item name="android:maxLines">1</item>
     </style>
     <style name="TextTitleBlack">
         <item name="android:layout_gravity">center</item>
-        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6
-        </item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6</item>
         <item name="android:textColor">@android:color/black</item>
+        <item name="android:maxLines">1</item>
     </style>
 
-    <style name="TextStateName">
+    <style name="TextPlaceName">
         <item name="android:layout_gravity">center</item>
-        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Body1
-        </item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Body1</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:textColor">@android:color/black</item>
+        <item name="android:maxLines">1</item>
     </style>
 
     <style name="TextLastUpdatedTime">
@@ -61,11 +62,11 @@
     </style>
 
     <style name="TextCountSmall">
-        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Subtitle2
-        </item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Subtitle2</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_gravity">center</item>
-        <item name="android:layout_margin">4dp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:maxLines">1</item>
     </style>
 
     <style name="LayoutStyle">

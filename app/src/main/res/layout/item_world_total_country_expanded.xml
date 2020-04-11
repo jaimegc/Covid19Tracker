@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/dimen_8"
+    android:layout_marginTop="@dimen/dimen_8"
+    android:layout_marginEnd="@dimen/dimen_8"
+    android:background="@drawable/background_card_place">
+
+    <TextView
+        android:id="@+id/text_place"
+        style="@style/TextPlaceName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/ic_expand_collapse"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Maharashtra" />
+
+    <ImageView
+        android:id="@+id/ic_expand_collapse"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/ic_expand_collapse"
+        android:tint="@color/dark_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ic_virus"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/confirmed"
+        android:src="@drawable/ic_virus"
+        android:tint="@color/dark_red"
+        app:layout_constraintEnd_toStartOf="@+id/ic_open_cases"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_place" />
+
+    <TextView
+        android:id="@+id/text_confirmed"
+        style="@style/TextCountSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="15sp"
+        android:textColor="@color/dark_red"
+        app:layout_constraintEnd_toEndOf="@+id/ic_virus"
+        app:layout_constraintStart_toStartOf="@+id/ic_virus"
+        app:layout_constraintTop_toBottomOf="@+id/ic_virus"
+        tools:text="1138" />
+
+    <ImageView
+        android:id="@+id/ic_open_cases"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/open_cases"
+        android:src="@drawable/ic_patient"
+        android:tint="@color/dark_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/ic_virus"
+        app:layout_constraintTop_toBottomOf="@+id/text_place" />
+
+    <TextView
+        android:id="@+id/text_open_cases"
+        style="@style/TextCountSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="15sp"
+        android:textColor="@color/dark_blue"
+        app:layout_constraintEnd_toEndOf="@+id/ic_open_cases"
+        app:layout_constraintStart_toStartOf="@+id/ic_open_cases"
+        app:layout_constraintTop_toBottomOf="@+id/ic_open_cases"
+        tools:text="1138" />
+
+    <ImageView
+        android:id="@+id/ic_recovered"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/recovered"
+        android:src="@drawable/ic_heart"
+        android:tint="@color/dark_green"
+        app:layout_constraintEnd_toStartOf="@+id/ic_deaths"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_confirmed" />
+
+    <TextView
+        android:id="@+id/text_recovered"
+        style="@style/TextCountSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="12dp"
+        android:textColor="@color/dark_green"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/ic_recovered"
+        app:layout_constraintStart_toStartOf="@+id/ic_recovered"
+        app:layout_constraintTop_toBottomOf="@+id/ic_recovered"
+        tools:text="1138" />
+
+    <ImageView
+        android:id="@+id/ic_deaths"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/deaths"
+        android:src="@drawable/ic_death"
+        android:tint="@color/dark_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/ic_recovered"
+        app:layout_constraintTop_toBottomOf="@+id/text_open_cases" />
+
+    <TextView
+        android:id="@+id/text_deaths"
+        style="@style/TextCountSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="12dp"
+        android:textColor="@color/dark_grey"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/ic_deaths"
+        app:layout_constraintStart_toStartOf="@+id/ic_deaths"
+        app:layout_constraintTop_toBottomOf="@+id/ic_deaths"
+        tools:text="1138" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
