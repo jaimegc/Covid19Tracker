@@ -2,6 +2,7 @@ package com.jaimegc.covid19tracker.ui.notifications
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isEmpty
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.MergeAdapter
@@ -39,15 +40,20 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications),
 
         viewModel.screenState.observe(viewLifecycleOwner, Observer { screenState ->
             when (screenState) {
-                ScreenState.Loading -> binding.loading.show()
+                ScreenState.Loading -> if (binding.recyclerWorld.isEmpty()) binding.loading.show()
                 is ScreenState.Render<WorldTotalStateScreen> -> {
                     binding.loading.hide()
+                    binding.swipeRefreshLayout.isRefreshing = false
                     handleRenderState(screenState.renderState)
                 }
             }
         })
 
         viewModel.getCovidTrackerLast()
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            viewModel.getCovidTrackerLast()
+        }
     }
 
     override fun handleRenderState(renderState: WorldTotalStateScreen) {
