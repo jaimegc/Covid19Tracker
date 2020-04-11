@@ -2,6 +2,7 @@ package com.jaimegc.covid19tracker.ui.adapter
 
 import android.transition.ChangeBounds
 import android.transition.TransitionManager
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.animation.Animation
@@ -41,6 +42,15 @@ class WorldTotalCountryAdapter : ListAdapter<CovidTrackerDateCountryUI, WorldTot
                 textRecovered.text = covidTrackerTotalUI.total.todayNewRecovered
                 textDeaths.text = covidTrackerTotalUI.total.todayDeaths
 
+                binding.textNewConfirmed.text = itemView.context.getString(R.string.text_trending,
+                    covidTrackerTotalUI.total.todayNewConfirmed, (covidTrackerTotalUI.total.todayVsYesterdayConfirmed))
+                binding.textNewOpenCases.text = itemView.context.getString(R.string.text_trending,
+                    covidTrackerTotalUI.total.todayNewOpenCases, (covidTrackerTotalUI.total.todayVsYesterdayOpenCases))
+                binding.textNewRecovered.text = itemView.context.getString(R.string.text_trending,
+                    covidTrackerTotalUI.total.todayNewRecovered, (covidTrackerTotalUI.total.todayVsYesterdayRecovered))
+                binding.textNewDeaths.text = itemView.context.getString(R.string.text_trending,
+                    covidTrackerTotalUI.total.todayNewDeaths, (covidTrackerTotalUI.total.todayVsYesterdayDeaths))
+
                 if (covidTrackerTotalUI.isExpanded.not()) {
                     layoutCard = layout
                     constraintSetCollapse.applyTo(layoutCard)
@@ -66,7 +76,10 @@ class WorldTotalCountryAdapter : ListAdapter<CovidTrackerDateCountryUI, WorldTot
                         rotate.fillAfter = true
 
                         icExpandCollapse.startAnimation(rotate)
-                        //textConfirmed.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30F)
+                        textConfirmed.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
+                        textOpenCases.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
+                        textRecovered.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
+                        textDeaths.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
                     } else {
                         val rotate = RotateAnimation(
                             180f, 0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
@@ -75,7 +88,10 @@ class WorldTotalCountryAdapter : ListAdapter<CovidTrackerDateCountryUI, WorldTot
 
                         icExpandCollapse.startAnimation(rotate)
                         constraintSetCollapse.applyTo(layoutCard)
-                        //textConfirmed.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15F)
+                        textConfirmed.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
+                        textOpenCases.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
+                        textRecovered.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
+                        textDeaths.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
                     }
 
                     covidTrackerTotalUI.isExpanded = covidTrackerTotalUI.isExpanded.not()

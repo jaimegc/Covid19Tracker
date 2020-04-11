@@ -38,9 +38,9 @@
 
     <ImageView
         android:id="@+id/ic_virus"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="12dp"
         android:contentDescription="@string/confirmed"
         android:src="@drawable/ic_virus"
         android:tint="@color/dark_red"
@@ -67,10 +67,37 @@
         tools:text="1.138" />
 
     <ImageView
-        android:id="@+id/ic_open_cases"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:id="@+id/ic_trending_confirmed"
+        android:layout_width="15dp"
+        android:layout_height="14dp"
+        android:layout_gravity="center"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="@string/confirmed"
+        android:src="@drawable/ic_trending_up"
+        android:tint="@color/dark_red"
+        app:layout_constraintEnd_toStartOf="@+id/text_new_confirmed"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ic_virus" />
+
+    <TextView
+        android:id="@+id/text_new_confirmed"
+        style="@style/TextDailyChange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/dark_red"
+        app:layout_constraintBottom_toBottomOf="@+id/ic_trending_confirmed"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ic_trending_confirmed"
+        tools:text="[1.138] (5.10%)" />
+
+    <ImageView
+        android:id="@+id/ic_open_cases"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="12dp"
         android:contentDescription="@string/open_cases"
         android:src="@drawable/ic_patient"
         android:tint="@color/dark_blue"
@@ -95,10 +122,37 @@
         tools:text="1.138" />
 
     <ImageView
-        android:id="@+id/ic_recovered"
+        android:id="@+id/ic_trending_open_cases"
         android:layout_width="24dp"
         android:layout_height="24dp"
+        android:layout_gravity="center"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="@string/open_cases"
+        android:src="@drawable/ic_trending_up"
+        android:tint="@color/dark_blue"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/text_new_open_cases"
+        app:layout_constraintTop_toBottomOf="@+id/ic_open_cases" />
+
+    <TextView
+        android:id="@+id/text_new_open_cases"
+        style="@style/TextDailyChange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/dark_blue"
+        app:layout_constraintBottom_toBottomOf="@+id/ic_trending_open_cases"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ic_trending_open_cases"
+        tools:text="[1.138] (5.10%)" />
+
+    <ImageView
+        android:id="@+id/ic_recovered"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="12dp"
         android:contentDescription="@string/recovered"
         android:src="@drawable/ic_heart"
         android:tint="@color/dark_green"
@@ -123,10 +177,37 @@
         tools:text="1.138" />
 
     <ImageView
-        android:id="@+id/ic_deaths"
+        android:id="@+id/ic_trending_recovered"
         android:layout_width="24dp"
         android:layout_height="24dp"
+        android:layout_gravity="center"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="@string/recovered"
+        android:src="@drawable/ic_trending_up"
+        android:tint="@color/dark_green"
+        app:layout_constraintEnd_toStartOf="@+id/text_new_recovered"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ic_recovered" />
+
+    <TextView
+        android:id="@+id/text_new_recovered"
+        style="@style/TextDailyChange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/dark_green"
+        app:layout_constraintBottom_toBottomOf="@+id/ic_trending_recovered"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ic_trending_recovered"
+        tools:text="[1.138] (5.10%)" />
+
+    <ImageView
+        android:id="@+id/ic_deaths"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="12dp"
         android:contentDescription="@string/deaths"
         android:src="@drawable/ic_death"
         android:tint="@color/dark_grey"
@@ -149,5 +230,39 @@
         app:layout_constraintStart_toStartOf="@+id/ic_deaths"
         app:layout_constraintTop_toBottomOf="@+id/ic_deaths"
         tools:text="1.138" />
+
+    <ImageView
+        android:id="@+id/ic_trending_deaths"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="@string/deaths"
+        android:src="@drawable/ic_trending_up"
+        android:tint="@color/dark_grey"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/text_new_deaths"
+        app:layout_constraintTop_toBottomOf="@+id/ic_deaths" />
+
+    <TextView
+        android:id="@+id/text_new_deaths"
+        style="@style/TextDailyChange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/dark_grey"
+        app:layout_constraintBottom_toBottomOf="@+id/ic_trending_deaths"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ic_trending_deaths"
+        tools:text="[1.138] (5.10%)" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

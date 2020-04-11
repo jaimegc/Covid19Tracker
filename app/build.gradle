@@ -57,6 +57,7 @@ dependencies {
 
     // Others
     implementation "io.arrow-kt:arrow-core-data:$arrow"
+    implementation "com.airbnb.android:lottie:$lottie"
     implementation "com.github.PhilJay:MPAndroidChart:$mp_chart"
     implementation "com.squareup.okhttp3:okhttp:$okhttp"
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp"

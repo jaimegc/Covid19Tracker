@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.MergeAdapter
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.databinding.FragmentNotificationsBinding
 import com.jaimegc.covid19tracker.domain.states.State
+import com.jaimegc.covid19tracker.extensions.hide
+import com.jaimegc.covid19tracker.extensions.show
 import com.jaimegc.covid19tracker.ui.adapter.WorldTotalAdapter
 import com.jaimegc.covid19tracker.ui.adapter.WorldTotalCountryAdapter
 import com.jaimegc.covid19tracker.ui.states.ScreenState
@@ -37,9 +39,11 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications),
 
         viewModel.screenState.observe(viewLifecycleOwner, Observer { screenState ->
             when (screenState) {
-                ScreenState.Loading -> { }
-                is ScreenState.Render<WorldTotalStateScreen> ->
+                ScreenState.Loading -> binding.loading.show()
+                is ScreenState.Render<WorldTotalStateScreen> -> {
+                    binding.loading.hide()
                     handleRenderState(screenState.renderState)
+                }
             }
         })
 
