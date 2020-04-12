@@ -10,7 +10,6 @@ import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.domain.states.StateError
 import com.jaimegc.covid19tracker.domain.usecase.GetCovidTrackerLast
 import com.jaimegc.covid19tracker.ui.viewmodel.BaseScreenStateViewModel
-import com.jaimegc.covid19tracker.ui.model.CovidTrackerUI
 import com.jaimegc.covid19tracker.ui.states.ScreenState
 import com.jaimegc.covid19tracker.ui.states.WorldTotalStateScreen
 import kotlinx.coroutines.flow.collect
@@ -19,9 +18,6 @@ import kotlinx.coroutines.launch
 class NotificationsViewModel(
     val getCovidTrackerLast: GetCovidTrackerLast
 ) : BaseScreenStateViewModel<WorldTotalStateScreen>() {
-
-    private val _covidTracker = MutableLiveData<State<CovidTrackerUI>>()
-    val covidTracker: LiveData<State<CovidTrackerUI>> = _covidTracker
 
     override val _screenState = MutableLiveData<ScreenState<WorldTotalStateScreen>>()
     override val screenState: LiveData<ScreenState<WorldTotalStateScreen>> = _screenState

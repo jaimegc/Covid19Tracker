@@ -2,7 +2,10 @@ package com.jaimegc.covid19tracker.di
 
 import com.jaimegc.covid19tracker.data.api.client.CovidTrackerApiClient
 import com.jaimegc.covid19tracker.data.api.config.ServerApiCovidTrackerConfigBuilder
+import com.jaimegc.covid19tracker.data.datasource.LocalCovidTrackerDatasource
+import com.jaimegc.covid19tracker.data.datasource.RemoteCovidTrackerDatasource
 import com.jaimegc.covid19tracker.data.repository.CovidTrackerRepository
+import com.jaimegc.covid19tracker.data.room.Covid19TrackerDatabase
 import com.jaimegc.covid19tracker.domain.usecase.GetCovidTrackerLast
 import com.jaimegc.covid19tracker.ui.notifications.NotificationsViewModel
 import org.koin.android.viewmodel.dsl.viewModel
@@ -26,12 +29,35 @@ val useCaseModule = module {
 
 val repositoryModule = module {
     single {
-        CovidTrackerRepository(get())
+        CovidTrackerRepository(get(), get())
     }
 }
 
 val viewModelModule = module {
     viewModel {
         NotificationsViewModel(get())
+    }
+}
+
+val databaseModule = module {
+    single {
+        Covid19TrackerDatabase.build(get())
+    }
+}
+
+val daoModule = module {
+    single {
+        val database: Covid19TrackerDatabase = get()
+        database.covidTrackerTotalDao()
+    }
+}
+
+val datasourceModule = module {
+    single {
+        RemoteCovidTrackerDatasource(get())
+    }
+
+    single {
+        LocalCovidTrackerDatasource(get())
     }
 }

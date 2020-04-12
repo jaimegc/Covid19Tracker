@@ -8,7 +8,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.MergeAdapter
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.databinding.FragmentNotificationsBinding
-import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.extensions.hide
 import com.jaimegc.covid19tracker.extensions.show
 import com.jaimegc.covid19tracker.ui.adapter.WorldTotalAdapter
@@ -32,12 +31,6 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications),
 
         binding.recyclerWorld.adapter = mergeAdapter
 
-        viewModel.covidTracker.observe(viewLifecycleOwner, Observer { state ->
-            when (state) {
-                is State.Success -> worldTotalAdapter.submitList(listOf(state.data.total))
-            }
-        })
-
         viewModel.screenState.observe(viewLifecycleOwner, Observer { screenState ->
             when (screenState) {
                 ScreenState.Loading -> if (binding.recyclerWorld.isEmpty()) binding.loading.show()
@@ -59,8 +52,8 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications),
     override fun handleRenderState(renderState: WorldTotalStateScreen) {
         when (renderState) {
             is WorldTotalStateScreen.Success -> {
-                worldTotalAdapter.submitList(listOf(renderState.data.total))
-                worldTotalCountryAdapter.submitList(renderState.data.dates.first().countries)
+                worldTotalAdapter.submitList(listOf(renderState.data.worldStats))
+                worldTotalCountryAdapter.submitList(renderState.data.countryStats.countries)
             }
         }
     }

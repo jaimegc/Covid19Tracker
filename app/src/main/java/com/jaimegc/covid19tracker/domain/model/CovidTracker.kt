@@ -5,29 +5,24 @@ import com.jaimegc.covid19tracker.extensions.formatValue
 import com.jaimegc.covid19tracker.ui.model.*
 
 data class CovidTracker(
-    val dates: Map<String, CovidTrackerDate>,
-    val total: CovidTrackerTotal
+    val date: String,
+    val countryStats: CovidTrackerCountryStats,
+    val worldStats: CovidTrackerWorldStats
 )
 
-data class CovidTrackerDate(
-    val countries: Map<String, CovidTrackerDateCountry>,
-    val date: CovidTrackerDateInfo
+data class CovidTrackerCountryStats(
+    val countries: List<CovidTrackerCountry>
 )
 
-data class CovidTrackerDateCountry(
+data class CovidTrackerCountry(
     val id: String,
     val name: String,
     val nameEs: String,
-    val total: CovidTrackerTotal
-)
-
-data class CovidTrackerDateInfo(
     val date: String,
-    val dateGeneration: String,
-    val yesterday: String
+    val worldStats: CovidTrackerWorldStats
 )
 
-data class CovidTrackerTotal(
+data class CovidTrackerWorldStats(
     val date: String,
     val source: String,
     val todayConfirmed: Long,
@@ -41,43 +36,45 @@ data class CovidTrackerTotal(
     val todayVsYesterdayConfirmed: Double,
     val todayVsYesterdayDeaths: Double,
     val todayVsYesterdayOpenCases: Double,
-    val todayVsYesterdayRecovered: Double
+    val todayVsYesterdayRecovered: Double,
+    val updatedAt: String
 )
 
 fun CovidTracker.toUI(): CovidTrackerUI =
     CovidTrackerUI(
-        dates = dates.map { date -> date.value.toUI(date.key) }.toList(),
-        total = total.toUI()
+        countryStats = countryStats.toUI(),
+        worldStats = worldStats.toUI()
     )
 
-fun CovidTrackerDate.toUI(date: String): CovidTrackerDateUI =
-    CovidTrackerDateUI(
-        date = date,
-        countries = countries.map { country -> country.value.toUI() }.toList()
+fun CovidTrackerCountryStats.toUI(): CovidTrackerCountryStatsUI =
+    CovidTrackerCountryStatsUI(
+        countries = countries.map { country -> country.toUI() }.toList()
     )
 
-private fun CovidTrackerDateCountry.toUI():  CovidTrackerDateCountryUI =
-    CovidTrackerDateCountryUI(
+private fun CovidTrackerCountry.toUI():  CovidTrackerCountryUI =
+    CovidTrackerCountryUI(
         id = id,
         name = name,
         nameEs = nameEs,
-        total = total.toUI()
+        date = date,
+        worldStats = worldStats.toUI()
     )
 
-fun CovidTrackerTotal.toUI(): CovidTrackerTotalUI =
-    CovidTrackerTotalUI(
-        date = this.date,
-        source = this.source,
-        todayConfirmed = this.todayConfirmed.formatValue(),
-        todayDeaths = this.todayDeaths.formatValue(),
-        todayNewConfirmed = this.todayNewConfirmed.formatValue(),
-        todayNewDeaths = this.todayNewDeaths.formatValue(),
-        todayNewOpenCases = this.todayNewOpenCases.formatValue(),
-        todayNewRecovered = this.todayNewRecovered.formatValue(),
-        todayOpenCases = this.todayOpenCases.formatValue(),
-        todayRecovered = this.todayRecovered.formatValue(),
-        todayVsYesterdayConfirmed = (this.todayVsYesterdayConfirmed * 100).formatDecimals(),
-        todayVsYesterdayDeaths = (this.todayVsYesterdayDeaths * 100).formatDecimals(),
-        todayVsYesterdayOpenCases = (this.todayVsYesterdayOpenCases * 100).formatDecimals(),
-        todayVsYesterdayRecovered = (this.todayVsYesterdayRecovered * 100).formatDecimals()
+fun CovidTrackerWorldStats.toUI(): CovidTrackerWorldStatsUI =
+    CovidTrackerWorldStatsUI(
+        date = date,
+        source = source,
+        todayConfirmed = todayConfirmed.formatValue(),
+        todayDeaths = todayDeaths.formatValue(),
+        todayNewConfirmed = todayNewConfirmed.formatValue(),
+        todayNewDeaths = todayNewDeaths.formatValue(),
+        todayNewOpenCases = todayNewOpenCases.formatValue(),
+        todayNewRecovered = todayNewRecovered.formatValue(),
+        todayOpenCases = todayOpenCases.formatValue(),
+        todayRecovered = todayRecovered.formatValue(),
+        todayVsYesterdayConfirmed = (todayVsYesterdayConfirmed * 100).formatDecimals(),
+        todayVsYesterdayDeaths = (todayVsYesterdayDeaths * 100).formatDecimals(),
+        todayVsYesterdayOpenCases = (todayVsYesterdayOpenCases * 100).formatDecimals(),
+        todayVsYesterdayRecovered = (todayVsYesterdayRecovered * 100).formatDecimals(),
+        updatedAt = updatedAt
     )
