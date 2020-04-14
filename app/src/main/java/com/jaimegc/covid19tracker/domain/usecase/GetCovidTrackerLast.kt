@@ -12,6 +12,6 @@ class GetCovidTrackerLast(
     private val repository: CovidTrackerRepository
 ) {
 
-    fun getCovidTrackerLast(): Flow<Either<StateError<DomainError>, State<CovidTracker>>> =
+    suspend fun getCovidTrackerLast(): Flow<Either<StateError<DomainError>, State<CovidTracker>>> =
         repository.getCovidTrackerLast()
 }

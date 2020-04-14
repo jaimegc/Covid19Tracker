@@ -2,21 +2,45 @@ package com.jaimegc.covid19tracker.data.datasource
 
 import arrow.core.Either
 import com.jaimegc.covid19tracker.data.api.client.CovidTrackerApiClient
+import com.jaimegc.covid19tracker.data.api.extensions.apiException
 import com.jaimegc.covid19tracker.data.api.extensions.mapResponse
-import com.jaimegc.covid19tracker.data.api.model.toDomain
-import com.jaimegc.covid19tracker.data.room.daos.CovidTrackerTotalDao
-import com.jaimegc.covid19tracker.domain.model.CovidTracker
-import com.jaimegc.covid19tracker.domain.model.DomainError
+import com.jaimegc.covid19tracker.domain.model.toDomain
+import com.jaimegc.covid19tracker.data.room.daos.CovidTrackerDao
+import com.jaimegc.covid19tracker.domain.model.*
+import com.jaimegc.covid19tracker.ui.model.toEntity
+import com.jaimegc.covid19tracker.ui.model.toWorldEntity
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class RemoteCovidTrackerDatasource(
     private val apiClient: CovidTrackerApiClient
 ) {
     suspend fun getCovidTrackerLast(): Either<DomainError, CovidTracker> =
-        mapResponse(apiClient.getCovidTrackerLast()) { covidTracker -> covidTracker.toDomain() }
+        try {
+            mapResponse(apiClient.getCovidTrackerLast()) { covidTracker -> covidTracker.toDomain() }
+        } catch (exception: Exception) {
+            Either.left(exception.apiException())
+        }
 }
 
 class LocalCovidTrackerDatasource(
-    private val covidTrackerTotalDao: CovidTrackerTotalDao
+    private val covidTrackerDao: CovidTrackerDao
 ) {
 
+    fun getCovidTrackerLast(): Flow<Either<DomainError, CovidTracker>> =
+        covidTrackerDao.getByDateNew("2020-04-10").map { covidTrackerPojo ->
+            when (covidTrackerPojo.isValid()) {
+                true -> Either.right(covidTrackerPojo.toDomain())
+                false -> Either.left(DomainError.DatabaseEmptyData)
+            }
+        }
+
+    suspend fun save(covidTracker: CovidTracker) =
+        covidTracker.toEntity().let { covidTrackerEntity ->
+            covidTrackerDao.save(
+                covidTrackerEntity,
+                covidTracker.countryStats.countries.map { country ->
+                    country.toEntity(covidTrackerEntity.date) },
+                covidTracker.worldStats.toWorldEntity(covidTrackerEntity.date))
+        }
 }

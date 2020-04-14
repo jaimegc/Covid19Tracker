@@ -17,10 +17,10 @@ import com.jaimegc.covid19tracker.databinding.ItemWorldTotalCountryExpandedBindi
 import com.jaimegc.covid19tracker.extensions.rotateLeftAnimation
 import com.jaimegc.covid19tracker.extensions.rotateRightAnimation
 import com.jaimegc.covid19tracker.extensions.setTextSizeSp
-import com.jaimegc.covid19tracker.ui.model.CovidTrackerCountryUI
+import com.jaimegc.covid19tracker.ui.model.CountryUI
 
 
-class WorldTotalCountryAdapter : ListAdapter<CovidTrackerCountryUI, WorldTotalCountryAdapter.WorldTotalCountryViewHolder>(DIFF_CALLBACK) {
+class WorldTotalCountryAdapter : ListAdapter<CountryUI, WorldTotalCountryAdapter.WorldTotalCountryViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         WorldTotalCountryViewHolder(ItemWorldTotalCountryBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -29,7 +29,7 @@ class WorldTotalCountryAdapter : ListAdapter<CovidTrackerCountryUI, WorldTotalCo
         holderCountry.bind(getItem(position))
 
     class WorldTotalCountryViewHolder(private val binding: ItemWorldTotalCountryBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(covidTrackerTotalUI: CovidTrackerCountryUI) {
+        fun bind(totalUI: CountryUI) {
             val constraintSetCollapse = ConstraintSet()
             val constraintSetExpand = ConstraintSet()
             lateinit var layoutCard: ConstraintLayout
@@ -37,22 +37,22 @@ class WorldTotalCountryAdapter : ListAdapter<CovidTrackerCountryUI, WorldTotalCo
             with (binding) {
                 constraintSetCollapse.clone(itemView.context, R.layout.item_world_total_country)
                 constraintSetExpand.clone(itemView.context, R.layout.item_world_total_country_expanded)
-                textPlace.text = covidTrackerTotalUI.name
-                textConfirmed.text = covidTrackerTotalUI.worldStats.todayConfirmed
-                textOpenCases.text = covidTrackerTotalUI.worldStats.todayOpenCases
-                textRecovered.text = covidTrackerTotalUI.worldStats.todayNewRecovered
-                textDeaths.text = covidTrackerTotalUI.worldStats.todayDeaths
+                textPlace.text = totalUI.name
+                textConfirmed.text = totalUI.todayStats.confirmed
+                textOpenCases.text = totalUI.todayStats.openCases
+                textRecovered.text = totalUI.todayStats.newRecovered
+                textDeaths.text = totalUI.todayStats.deaths
 
                 binding.textNewConfirmed.text = itemView.context.getString(R.string.text_trending,
-                    covidTrackerTotalUI.worldStats.todayNewConfirmed, (covidTrackerTotalUI.worldStats.todayVsYesterdayConfirmed))
+                    totalUI.todayStats.newConfirmed, (totalUI.todayStats.vsYesterdayConfirmed))
                 binding.textNewOpenCases.text = itemView.context.getString(R.string.text_trending,
-                    covidTrackerTotalUI.worldStats.todayNewOpenCases, (covidTrackerTotalUI.worldStats.todayVsYesterdayOpenCases))
+                    totalUI.todayStats.newOpenCases, (totalUI.todayStats.vsYesterdayOpenCases))
                 binding.textNewRecovered.text = itemView.context.getString(R.string.text_trending,
-                    covidTrackerTotalUI.worldStats.todayNewRecovered, (covidTrackerTotalUI.worldStats.todayVsYesterdayRecovered))
+                    totalUI.todayStats.newRecovered, (totalUI.todayStats.vsYesterdayRecovered))
                 binding.textNewDeaths.text = itemView.context.getString(R.string.text_trending,
-                    covidTrackerTotalUI.worldStats.todayNewDeaths, (covidTrackerTotalUI.worldStats.todayVsYesterdayDeaths))
+                    totalUI.todayStats.newDeaths, (totalUI.todayStats.vsYesterdayDeaths))
 
-                if (covidTrackerTotalUI.isExpanded.not()) {
+                if (totalUI.isExpanded.not()) {
                     layoutCard = layout
                     constraintSetCollapse.applyTo(layoutCard)
                     icVirus.setImageResource(R.drawable.ic_virus)
@@ -69,7 +69,7 @@ class WorldTotalCountryAdapter : ListAdapter<CovidTrackerCountryUI, WorldTotalCo
                     changeBounds.interpolator = OvershootInterpolator()
                     TransitionManager.beginDelayedTransition(layoutCard, changeBounds)
 
-                    if (covidTrackerTotalUI.isExpanded.not()) {
+                    if (totalUI.isExpanded.not()) {
                         icExpandCollapse.rotateLeftAnimation()
                         constraintSetExpand.applyTo(layoutCard)
                         applyTextSizes(textConfirmed, textOpenCases, textRecovered, textDeaths, size = TEXT_SIZE_EXPANDED)
@@ -79,7 +79,7 @@ class WorldTotalCountryAdapter : ListAdapter<CovidTrackerCountryUI, WorldTotalCo
                         applyTextSizes(textConfirmed, textOpenCases, textRecovered, textDeaths, size = TEXT_SIZE_COLLAPSED)
                     }
 
-                    covidTrackerTotalUI.isExpanded = covidTrackerTotalUI.isExpanded.not()
+                    totalUI.isExpanded = totalUI.isExpanded.not()
                 }
             }
         }
@@ -89,11 +89,11 @@ class WorldTotalCountryAdapter : ListAdapter<CovidTrackerCountryUI, WorldTotalCo
     }
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<CovidTrackerCountryUI>() {
-            override fun areItemsTheSame(oldItem: CovidTrackerCountryUI, newItem: CovidTrackerCountryUI): Boolean =
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<CountryUI>() {
+            override fun areItemsTheSame(oldItem: CountryUI, newItem: CountryUI): Boolean =
                 oldItem.name == newItem.name && oldItem.isExpanded == newItem.isExpanded
 
-            override fun areContentsTheSame(oldItem: CovidTrackerCountryUI, newItem: CovidTrackerCountryUI): Boolean =
+            override fun areContentsTheSame(oldItem: CountryUI, newItem: CountryUI): Boolean =
                 oldItem == newItem
         }
 

@@ -1,11 +1,11 @@
 package com.jaimegc.covid19tracker.data.repository
 
-import androidx.annotation.MainThread
 import arrow.core.Either
 import com.jaimegc.covid19tracker.domain.model.DomainError
 import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.domain.states.StateError
-import kotlinx.coroutines.flow.flow
+import com.jaimegc.covid19tracker.extensions.Coroutines
+import kotlinx.coroutines.flow.*
 
 interface BaseRepository<E: DomainError, T> {
 
@@ -15,31 +15,32 @@ interface BaseRepository<E: DomainError, T> {
         val datasources = mutableListOf<Datasource>()
 
         when (policy) {
-            CachePolicy.NetworkOnly -> datasources.add(Datasource.Network)
             CachePolicy.LocalOnly -> datasources.add(Datasource.Local)
-            CachePolicy.LocalFirst -> datasources.addAll(listOf(Datasource.Local, Datasource.Network))
+            CachePolicy.LocalFirst -> datasources.addAll(listOf(Datasource.Network, Datasource.Local))
         }
 
         datasources.map { ds ->
-            val response =
-                when (ds) {
-                    is Datasource.Network -> fetchFromRemote()
-                    is Datasource.Local -> fetchFromLocal()
-                }
+            when (ds) {
+                is Datasource.Network ->
+                    Coroutines.io { fetchFromRemote() }
+                is Datasource.Local ->
 
-            response.fold({ error ->
-                emit(Either.left(StateError.Error(error)))
-            }, { success ->
-                emit(Either.right(State.Success(success)))
-            })
+                    fetchFromLocalState().collect { value ->
+                        value.fold({ error ->
+                            if (error != DomainError.DatabaseEmptyData) {
+                                emit(Either.left(StateError.Error(error)))
+                            }
+                        }, { success ->
+                            emit(Either.right(State.Success(success)))
+                        })
+                }
+            }
         }
     }
 
-    @MainThread
-    suspend fun fetchFromLocal(): Either<DomainError, T> = Either.left(DomainError.LocalDatasourceNotImplemented)
+    suspend fun fetchFromLocalState(): Flow<Either<DomainError, T>>
 
-    @MainThread
-    suspend fun fetchFromRemote(): Either<DomainError, T> = Either.left(DomainError.RemoteDatasourceNotImplemented)
+    suspend fun fetchFromRemote() = Unit
 
     private sealed class Datasource {
         object Local : Datasource()

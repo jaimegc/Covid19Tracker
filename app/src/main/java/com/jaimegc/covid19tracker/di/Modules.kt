@@ -50,6 +50,16 @@ val daoModule = module {
         val database: Covid19TrackerDatabase = get()
         database.covidTrackerTotalDao()
     }
+
+    /*single {
+        val database: Covid19TrackerDatabase = get()
+        database.worldTodayStatsDao()
+    }*/
+
+    single {
+        val database: Covid19TrackerDatabase = get()
+        database.countryTodayStatsDao()
+    }
 }
 
 val datasourceModule = module {

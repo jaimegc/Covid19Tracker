@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.databinding.ItemWorldTotalBinding
-import com.jaimegc.covid19tracker.ui.model.CovidTrackerWorldStatsUI
+import com.jaimegc.covid19tracker.ui.model.TodayStatsUI
 
-class WorldTotalAdapter : ListAdapter<CovidTrackerWorldStatsUI, WorldTotalAdapter.WorldTotalViewHolder>(DIFF_CALLBACK) {
+class WorldTotalAdapter : ListAdapter<TodayStatsUI, WorldTotalAdapter.WorldTotalViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         WorldTotalViewHolder(ItemWorldTotalBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -18,29 +18,29 @@ class WorldTotalAdapter : ListAdapter<CovidTrackerWorldStatsUI, WorldTotalAdapte
         holder.bind(getItem(position))
 
     class WorldTotalViewHolder(private val binding: ItemWorldTotalBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(covidTrackerWorldStatsUI: CovidTrackerWorldStatsUI) {
-            binding.textConfirmed.text = covidTrackerWorldStatsUI.todayConfirmed
-            binding.textOpenCases.text = covidTrackerWorldStatsUI.todayOpenCases
-            binding.textRecovered.text = covidTrackerWorldStatsUI.todayRecovered
-            binding.textDeaths.text = covidTrackerWorldStatsUI.todayDeaths
+        fun bind(worldStatsUI: TodayStatsUI) {
+            binding.textConfirmed.text = worldStatsUI.confirmed
+            binding.textOpenCases.text = worldStatsUI.openCases
+            binding.textRecovered.text = worldStatsUI.recovered
+            binding.textDeaths.text = worldStatsUI.deaths
 
             binding.textNewConfirmed.text = itemView.context.getString(R.string.text_trending,
-                covidTrackerWorldStatsUI.todayNewConfirmed, (covidTrackerWorldStatsUI.todayVsYesterdayConfirmed))
+                worldStatsUI.newConfirmed, (worldStatsUI.vsYesterdayConfirmed))
             binding.textNewOpenCases.text = itemView.context.getString(R.string.text_trending,
-                covidTrackerWorldStatsUI.todayNewOpenCases, (covidTrackerWorldStatsUI.todayVsYesterdayOpenCases))
+                worldStatsUI.newOpenCases, (worldStatsUI.vsYesterdayOpenCases))
             binding.textNewRecovered.text = itemView.context.getString(R.string.text_trending,
-                covidTrackerWorldStatsUI.todayNewRecovered, (covidTrackerWorldStatsUI.todayVsYesterdayRecovered))
+                worldStatsUI.newRecovered, (worldStatsUI.vsYesterdayRecovered))
             binding.textNewDeaths.text = itemView.context.getString(R.string.text_trending,
-                covidTrackerWorldStatsUI.todayNewDeaths, (covidTrackerWorldStatsUI.todayVsYesterdayDeaths))
+                worldStatsUI.newDeaths, (worldStatsUI.vsYesterdayDeaths))
         }
     }
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<CovidTrackerWorldStatsUI>() {
-            override fun areItemsTheSame(oldItem: CovidTrackerWorldStatsUI, newItem: CovidTrackerWorldStatsUI): Boolean =
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<TodayStatsUI>() {
+            override fun areItemsTheSame(oldItem: TodayStatsUI, newItem: TodayStatsUI): Boolean =
                 oldItem.date == newItem.date
 
-            override fun areContentsTheSame(oldItem: CovidTrackerWorldStatsUI, newItem: CovidTrackerWorldStatsUI): Boolean =
+            override fun areContentsTheSame(oldItem: TodayStatsUI, newItem: TodayStatsUI): Boolean =
                 oldItem == newItem
         }
     }

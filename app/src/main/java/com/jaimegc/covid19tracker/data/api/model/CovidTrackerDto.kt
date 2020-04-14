@@ -1,7 +1,6 @@
 package com.jaimegc.covid19tracker.data.api.model
 
 import com.google.gson.annotations.SerializedName
-import com.jaimegc.covid19tracker.domain.model.*
 
 data class CovidTrackerDto(
     @SerializedName("dates") val dates: Map<String, CovidTrackerDateDto>,
@@ -57,59 +56,3 @@ data class CovidTrackerTotalDto(
     @SerializedName("yesterday_open_cases") val yesterdayOpenCases: Long,
     @SerializedName("yesterday_recovered") val yesterdayRecovered: Long
 )
-
-fun CovidTrackerDto.toDomain(): CovidTracker =
-    CovidTracker(
-        date = total.date,
-        countryStats = dates.values.first().toDomain(updatedAt),
-        worldStats = total.toDomain(updatedAt)
-    )
-
-private fun CovidTrackerDateDto.toDomain(updatedAt: String): CovidTrackerCountryStats =
-    CovidTrackerCountryStats(
-        countries = countries.values.map { country -> country.toDomain(updatedAt) }
-    )
-
-private fun CovidTrackerDateCountryDto.toDomain(updatedAt: String):  CovidTrackerCountry =
-    CovidTrackerCountry(
-        id = id,
-        name = name,
-        nameEs = nameEs,
-        date = date,
-        worldStats = CovidTrackerWorldStats(
-            date = date,
-            source = source,
-            todayConfirmed = todayConfirmed,
-            todayDeaths = todayDeaths,
-            todayNewConfirmed = todayNewConfirmed,
-            todayNewDeaths = todayNewDeaths,
-            todayNewOpenCases = todayNewOpenCases,
-            todayNewRecovered = todayNewRecovered,
-            todayOpenCases = todayOpenCases,
-            todayRecovered = todayRecovered,
-            todayVsYesterdayConfirmed = todayVsYesterdayConfirmed,
-            todayVsYesterdayDeaths = todayVsYesterdayDeaths,
-            todayVsYesterdayOpenCases = todayVsYesterdayOpenCases,
-            todayVsYesterdayRecovered = todayVsYesterdayRecovered,
-            updatedAt = updatedAt
-        )
-    )
-
-fun CovidTrackerTotalDto.toDomain(updatedAt: String): CovidTrackerWorldStats =
-    CovidTrackerWorldStats(
-        date = date,
-        source = source,
-        todayConfirmed = todayConfirmed,
-        todayDeaths = todayDeaths,
-        todayNewConfirmed = todayNewConfirmed,
-        todayNewDeaths = todayNewDeaths,
-        todayNewOpenCases = todayNewOpenCases,
-        todayNewRecovered = todayNewRecovered,
-        todayOpenCases = todayOpenCases,
-        todayRecovered = todayRecovered,
-        todayVsYesterdayConfirmed = todayVsYesterdayConfirmed,
-        todayVsYesterdayDeaths = todayVsYesterdayDeaths,
-        todayVsYesterdayOpenCases = todayVsYesterdayOpenCases,
-        todayVsYesterdayRecovered = todayVsYesterdayRecovered,
-        updatedAt = updatedAt
-    )
