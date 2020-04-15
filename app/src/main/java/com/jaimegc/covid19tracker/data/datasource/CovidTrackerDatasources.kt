@@ -28,12 +28,8 @@ class LocalCovidTrackerDatasource(
 ) {
 
     fun getCovidTrackerLast(): Flow<Either<DomainError, CovidTracker>> =
-        covidTrackerDao.getByDateNew("2020-04-10").map { covidTrackerPojo ->
-            when (covidTrackerPojo.isValid()) {
-                true -> Either.right(covidTrackerPojo.toDomain())
-                false -> Either.left(DomainError.DatabaseEmptyData)
-            }
-        }
+        mapEntityValid(covidTrackerDao.getByDate("2020-04-15")) { covidTrackerPojo ->
+            Pair(covidTrackerPojo.isValid(), covidTrackerPojo.toDomain()) }
 
     suspend fun save(covidTracker: CovidTracker) =
         covidTracker.toEntity().let { covidTrackerEntity ->

@@ -1,5 +1,6 @@
 package com.jaimegc.covid19tracker.domain.model
 
+import arrow.core.Either
 import com.jaimegc.covid19tracker.data.api.model.CovidTrackerDateCountryDto
 import com.jaimegc.covid19tracker.data.api.model.CovidTrackerDateDto
 import com.jaimegc.covid19tracker.data.api.model.CovidTrackerDto
@@ -7,6 +8,9 @@ import com.jaimegc.covid19tracker.data.api.model.CovidTrackerTotalDto
 import com.jaimegc.covid19tracker.data.room.entities.CountryTodayStatsEntity
 import com.jaimegc.covid19tracker.data.room.entities.CovidTrackerAndWorldTodayStatsPojo
 import com.jaimegc.covid19tracker.data.room.entities.WorldTodayStatsEntity
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 
 fun CovidTrackerDto.toDomain(): CovidTracker =
     CovidTracker(
@@ -52,7 +56,7 @@ fun CovidTrackerTotalDto.toDomain(updatedAt: String): TodayStats =
         source = source,
         confirmed = todayConfirmed,
         deaths = todayDeaths,
-        newConfirmed = 9999,
+        newConfirmed = todayNewConfirmed,
         newDeaths = todayNewDeaths,
         newOpenCases = todayNewOpenCases,
         newRecovered = todayNewRecovered,
@@ -118,3 +122,17 @@ private fun CountryTodayStatsEntity.toDomain(): Country =
             updatedAt = updatedAt
         )
     )
+
+fun <T, R> mapEntityValid(parse: Flow<T?>, mapper: (T) -> Pair<Boolean, R>): Flow<Either<DomainError, R>> =
+    try {
+        parse.map {
+            it?.let {
+                when (mapper(it).first) {
+                    true -> Either.right(mapper(it).second)
+                    else -> Either.left(DomainError.DatabaseEmptyData)
+                }
+            } ?: Either.left(DomainError.DatabaseEmptyData)
+        }
+    } catch (exception: Exception) {
+        flow { Either.left(DomainError.DatabaseDomainError(exception.toString())) }
+    }

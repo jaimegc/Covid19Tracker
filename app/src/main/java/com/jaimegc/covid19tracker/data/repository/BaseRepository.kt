@@ -27,9 +27,7 @@ interface BaseRepository<E: DomainError, T> {
 
                     fetchFromLocalState().collect { value ->
                         value.fold({ error ->
-                            if (error != DomainError.DatabaseEmptyData) {
-                                emit(Either.left(StateError.Error(error)))
-                            }
+                            emit(Either.left(StateError.Error(error)))
                         }, { success ->
                             emit(Either.right(State.Success(success)))
                         })

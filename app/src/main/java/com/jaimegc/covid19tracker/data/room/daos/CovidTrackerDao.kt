@@ -10,11 +10,9 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 abstract class CovidTrackerDao {
 
+    @Transaction
     @Query("SELECT * FROM covid_tracker WHERE date =:date")
-    abstract fun getByDate(date: String): Flow<CovidTrackerEntity>
-
-    @Query("SELECT * FROM covid_tracker WHERE date =:date")
-    abstract fun getByDateNew(date: String): Flow<CovidTrackerAndWorldTodayStatsPojo>
+    abstract fun getByDate(date: String): Flow<CovidTrackerAndWorldTodayStatsPojo>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insert(covidTracker: CovidTrackerEntity)
