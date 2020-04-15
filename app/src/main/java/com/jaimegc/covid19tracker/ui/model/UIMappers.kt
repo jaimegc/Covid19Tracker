@@ -1,37 +1,31 @@
 package com.jaimegc.covid19tracker.ui.model
 
-import com.jaimegc.covid19tracker.data.room.entities.CountryTodayStatsEntity
-import com.jaimegc.covid19tracker.data.room.entities.CovidTrackerEntity
-import com.jaimegc.covid19tracker.data.room.entities.WorldTodayStatsEntity
-import com.jaimegc.covid19tracker.domain.model.Country
+import com.jaimegc.covid19tracker.data.room.entities.CountryStatsEntity
+import com.jaimegc.covid19tracker.data.room.entities.WorldStatsEntity
 import com.jaimegc.covid19tracker.domain.model.CountryStats
 import com.jaimegc.covid19tracker.domain.model.CovidTracker
-import com.jaimegc.covid19tracker.domain.model.TodayStats
+import com.jaimegc.covid19tracker.domain.model.Stats
+import com.jaimegc.covid19tracker.domain.model.WorldStats
 import com.jaimegc.covid19tracker.extensions.formatDecimals
 import com.jaimegc.covid19tracker.extensions.formatValue
 
 fun CovidTracker.toUI(): CovidTrackerUI =
     CovidTrackerUI(
-        countryStats = countryStats.toUI(),
+        countriesStats = countriesStats.map { country -> country.toUI() }.toList(),
         worldStats = worldStats.toUI()
     )
 
-fun CountryStats.toUI(): CountryStatsUI =
+private fun CountryStats.toUI():  CountryStatsUI =
     CountryStatsUI(
-        countries = countries.map { country -> country.toUI() }.toList()
-    )
-
-private fun Country.toUI():  CountryUI =
-    CountryUI(
         id = id,
         name = name,
         nameEs = nameEs,
         date = date,
-        todayStats = todayStats.toUI()
+        stats = stats.toUI()
     )
 
-fun TodayStats.toUI(): TodayStatsUI =
-    TodayStatsUI(
+fun WorldStats.toUI(): WorldStatsUI =
+    WorldStatsUI(
         date = date,
         source = source,
         confirmed = confirmed.formatValue(),
@@ -49,37 +43,48 @@ fun TodayStats.toUI(): TodayStatsUI =
         updatedAt = updatedAt
     )
 
-fun CovidTracker.toEntity(): CovidTrackerEntity =
-    CovidTrackerEntity(
+fun Stats.toUI(): StatsUI =
+    StatsUI(
         date = date,
-        updateAt = updatedAt
+        source = source,
+        confirmed = confirmed.formatValue(),
+        deaths = deaths.formatValue(),
+        newConfirmed = newConfirmed.formatValue(),
+        newDeaths = newDeaths.formatValue(),
+        newOpenCases = newOpenCases.formatValue(),
+        newRecovered = newRecovered.formatValue(),
+        openCases = openCases.formatValue(),
+        recovered = recovered.formatValue(),
+        vsYesterdayConfirmed = (vsYesterdayConfirmed * 100).formatDecimals(),
+        vsYesterdayDeaths = (vsYesterdayDeaths * 100).formatDecimals(),
+        vsYesterdayOpenCases = (vsYesterdayOpenCases * 100).formatDecimals(),
+        vsYesterdayRecovered = (vsYesterdayRecovered * 100).formatDecimals()
     )
 
-fun Country.toEntity(covidTrackerDateFk: String): CountryTodayStatsEntity =
-    CountryTodayStatsEntity(
+fun CountryStats.toEntity(covidTrackerDateFk: String): CountryStatsEntity =
+    CountryStatsEntity(
         id = id,
         name = name,
         nameEs = nameEs,
         date = date,
-        source = todayStats.source,
-        confirmed = todayStats.confirmed,
-        deaths = todayStats.deaths,
-        newConfirmed = todayStats.newConfirmed,
-        newDeaths = todayStats.newDeaths,
-        newOpenCases = todayStats.newOpenCases,
-        newRecovered = todayStats.newRecovered,
-        openCases = todayStats.openCases,
-        recovered = todayStats.recovered,
-        vsYesterdayConfirmed = todayStats.vsYesterdayConfirmed,
-        vsYesterdayDeaths = todayStats.vsYesterdayDeaths,
-        vsYesterdayOpenCases = todayStats.vsYesterdayOpenCases,
-        vsYesterdayRecovered = todayStats.vsYesterdayRecovered,
-        updatedAt = todayStats.updatedAt,
-        dateCovidTrackerFk = covidTrackerDateFk
+        source = stats.source,
+        confirmed = stats.confirmed,
+        deaths = stats.deaths,
+        newConfirmed = stats.newConfirmed,
+        newDeaths = stats.newDeaths,
+        newOpenCases = stats.newOpenCases,
+        newRecovered = stats.newRecovered,
+        openCases = stats.openCases,
+        recovered = stats.recovered,
+        vsYesterdayConfirmed = stats.vsYesterdayConfirmed,
+        vsYesterdayDeaths = stats.vsYesterdayDeaths,
+        vsYesterdayOpenCases = stats.vsYesterdayOpenCases,
+        vsYesterdayRecovered = stats.vsYesterdayRecovered,
+        dateWorldStatsFk = covidTrackerDateFk
     )
 
-fun TodayStats.toWorldEntity(covidTrackerDateFk: String): WorldTodayStatsEntity =
-    WorldTodayStatsEntity(
+fun WorldStats.toEntity(): WorldStatsEntity =
+    WorldStatsEntity(
         date = date,
         source = source,
         confirmed = confirmed,
@@ -94,6 +99,5 @@ fun TodayStats.toWorldEntity(covidTrackerDateFk: String): WorldTodayStatsEntity 
         vsYesterdayDeaths = vsYesterdayDeaths,
         vsYesterdayOpenCases = vsYesterdayOpenCases,
         vsYesterdayRecovered = vsYesterdayRecovered,
-        updatedAt = updatedAt,
-        dateCovidTrackerFk = covidTrackerDateFk
+        updatedAt = updatedAt
     )

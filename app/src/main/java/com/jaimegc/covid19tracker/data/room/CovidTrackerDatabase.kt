@@ -4,21 +4,20 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.jaimegc.covid19tracker.data.room.daos.CountryTodayStatsDao
+import com.jaimegc.covid19tracker.data.room.daos.CountryStatsDao
 import com.jaimegc.covid19tracker.data.room.daos.CovidTrackerDao
-import com.jaimegc.covid19tracker.data.room.daos.WorldTodayStatsDao
-import com.jaimegc.covid19tracker.data.room.entities.CountryTodayStatsEntity
-import com.jaimegc.covid19tracker.data.room.entities.CovidTrackerEntity
-import com.jaimegc.covid19tracker.data.room.entities.WorldTodayStatsEntity
+import com.jaimegc.covid19tracker.data.room.daos.WorldStatsDao
+import com.jaimegc.covid19tracker.data.room.entities.CountryStatsEntity
+import com.jaimegc.covid19tracker.data.room.entities.WorldStatsEntity
 
 
-@Database(entities = [CovidTrackerEntity::class, CountryTodayStatsEntity::class, WorldTodayStatsEntity::class],
+@Database(entities = [CountryStatsEntity::class, WorldStatsEntity::class],
     version = Covid19TrackerDatabase.version
 )
 abstract class Covid19TrackerDatabase : RoomDatabase() {
     abstract fun covidTrackerTotalDao(): CovidTrackerDao
-    abstract fun countryTodayStatsDao(): CountryTodayStatsDao
-    abstract fun worldTodayStatsDao(): WorldTodayStatsDao
+    abstract fun countryTodayStatsDao(): CountryStatsDao
+    abstract fun worldTodayStatsDao(): WorldStatsDao
 
     companion object {
         const val version = 1

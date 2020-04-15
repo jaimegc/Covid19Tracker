@@ -2,24 +2,50 @@ package com.jaimegc.covid19tracker.data.room.entities
 
 import androidx.room.*
 
-@Entity(tableName = "covid_tracker")
-data class CovidTrackerEntity(
+@Entity(tableName = "world_stats")
+data class WorldStatsEntity(
     @PrimaryKey
     @ColumnInfo(name = "date")
     val date: String,
-    @ColumnInfo(name = "update_at")
-    val updateAt: String
+    @ColumnInfo(name = "source")
+    val source: String,
+    @ColumnInfo(name = "confirmed")
+    val confirmed: Long,
+    @ColumnInfo(name = "deaths")
+    val deaths: Long,
+    @ColumnInfo(name = "new_confirmed")
+    val newConfirmed: Long,
+    @ColumnInfo(name = "new_deaths")
+    val newDeaths: Long,
+    @ColumnInfo(name = "new_open_cases")
+    val newOpenCases: Long,
+    @ColumnInfo(name = "new_recovered")
+    val newRecovered: Long,
+    @ColumnInfo(name = "open_cases")
+    val openCases: Long,
+    @ColumnInfo(name = "recovered")
+    val recovered: Long,
+    @ColumnInfo(name = "vs_yesterday_confirmed")
+    val vsYesterdayConfirmed: Double,
+    @ColumnInfo(name = "vs_yesterday_deaths")
+    val vsYesterdayDeaths: Double,
+    @ColumnInfo(name = "vs_yesterday_open_cases")
+    val vsYesterdayOpenCases: Double,
+    @ColumnInfo(name = "vs_yesterday_recovered")
+    val vsYesterdayRecovered: Double,
+    @ColumnInfo(name = "updated_at")
+    val updatedAt: String
 )
 
 @Entity(
-    tableName = "country_today_stats",
+    tableName = "country_stats",
     foreignKeys = [ForeignKey(
-        entity = CovidTrackerEntity::class,
+        entity = WorldStatsEntity::class,
         parentColumns = arrayOf("date"),
-        childColumns = arrayOf("date_covid_tracker_fk"),
+        childColumns = arrayOf("date_world_stats_fk"),
         onDelete = ForeignKey.CASCADE
     )])
-data class CountryTodayStatsEntity(
+data class CountryStatsEntity(
     @PrimaryKey
     @ColumnInfo(name = "id")
     val id: String,
@@ -55,64 +81,16 @@ data class CountryTodayStatsEntity(
     val vsYesterdayOpenCases: Double,
     @ColumnInfo(name = "vs_yesterday_recovered")
     val vsYesterdayRecovered: Double,
-    @ColumnInfo(name = "updated_at")
-    val updatedAt: String,
-    @ColumnInfo(name = "date_covid_tracker_fk")
-    val dateCovidTrackerFk: String
+    @ColumnInfo(name = "date_world_stats_fk")
+    val dateWorldStatsFk: String
 )
 
-@Entity(
-    tableName = "world_today_stats",
-    foreignKeys = [ForeignKey(
-        entity = CovidTrackerEntity::class,
-        parentColumns = arrayOf("date"),
-        childColumns = arrayOf("date_covid_tracker_fk"),
-        onDelete = ForeignKey.CASCADE
-    )])
-data class WorldTodayStatsEntity(
-    @PrimaryKey
-    @ColumnInfo(name = "date")
-    val date: String,
-    @ColumnInfo(name = "source")
-    val source: String,
-    @ColumnInfo(name = "confirmed")
-    val confirmed: Long,
-    @ColumnInfo(name = "deaths")
-    val deaths: Long,
-    @ColumnInfo(name = "new_confirmed")
-    val newConfirmed: Long,
-    @ColumnInfo(name = "new_deaths")
-    val newDeaths: Long,
-    @ColumnInfo(name = "new_open_cases")
-    val newOpenCases: Long,
-    @ColumnInfo(name = "new_recovered")
-    val newRecovered: Long,
-    @ColumnInfo(name = "open_cases")
-    val openCases: Long,
-    @ColumnInfo(name = "recovered")
-    val recovered: Long,
-    @ColumnInfo(name = "vs_yesterday_confirmed")
-    val vsYesterdayConfirmed: Double,
-    @ColumnInfo(name = "vs_yesterday_deaths")
-    val vsYesterdayDeaths: Double,
-    @ColumnInfo(name = "vs_yesterday_open_cases")
-    val vsYesterdayOpenCases: Double,
-    @ColumnInfo(name = "vs_yesterday_recovered")
-    val vsYesterdayRecovered: Double,
-    @ColumnInfo(name = "updated_at")
-    val updatedAt: String,
-    @ColumnInfo(name = "date_covid_tracker_fk")
-    val dateCovidTrackerFk: String
-)
-
-data class CovidTrackerAndWorldTodayStatsPojo(
+data class WorldAndCountriesPojo(
     @Embedded
-    val covidTracker: CovidTrackerEntity?,
-    @Relation(parentColumn = "date", entityColumn = "date_covid_tracker_fk", entity = CountryTodayStatsEntity::class)
-    val countriesStats: List<CountryTodayStatsEntity>,
-    @Relation(parentColumn = "date", entityColumn = "date_covid_tracker_fk", entity = WorldTodayStatsEntity::class)
-    val worldStats: WorldTodayStatsEntity?
+    val worldStats: WorldStatsEntity?,
+    @Relation(parentColumn = "date", entityColumn = "date_world_stats_fk", entity = CountryStatsEntity::class)
+    val countriesStats: List<CountryStatsEntity>
 ) {
     fun isValid(): Boolean =
-        covidTracker != null && worldStats != null && countriesStats.isNotEmpty()
+        worldStats != null && countriesStats.isNotEmpty()
 }

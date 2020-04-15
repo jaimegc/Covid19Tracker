@@ -1,72 +1,44 @@
 package com.jaimegc.covid19tracker.data.room.daos
 
 import androidx.room.*
-import com.jaimegc.covid19tracker.data.room.entities.CountryTodayStatsEntity
-import com.jaimegc.covid19tracker.data.room.entities.CovidTrackerAndWorldTodayStatsPojo
-import com.jaimegc.covid19tracker.data.room.entities.CovidTrackerEntity
-import com.jaimegc.covid19tracker.data.room.entities.WorldTodayStatsEntity
+import com.jaimegc.covid19tracker.data.room.entities.CountryStatsEntity
+import com.jaimegc.covid19tracker.data.room.entities.WorldAndCountriesPojo
+import com.jaimegc.covid19tracker.data.room.entities.WorldStatsEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 abstract class CovidTrackerDao {
 
     @Transaction
-    @Query("SELECT * FROM covid_tracker WHERE date =:date")
-    abstract fun getByDate(date: String): Flow<CovidTrackerAndWorldTodayStatsPojo>
+    @Query("SELECT * FROM world_stats WHERE date =:date")
+    abstract fun getWorldAndCountriesByDate(date: String): Flow<WorldAndCountriesPojo>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insert(covidTracker: CovidTrackerEntity)
+    abstract suspend fun insertWorld(worldStats: WorldStatsEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insertAll(covidTrackers: List<CovidTrackerEntity>)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insertAllCountryStats(worldStats: List<CountryTodayStatsEntity>)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insertWorldStats(worldStats: WorldTodayStatsEntity)
+    abstract suspend fun insertAllCountryStats(worldStats: List<CountryStatsEntity>)
 
     @Transaction
     open suspend fun save(
-        covidTracker: CovidTrackerEntity,
-        countriesStats: List<CountryTodayStatsEntity>,
-        worldStats: WorldTodayStatsEntity
+        worldStats: WorldStatsEntity,
+        countriesStats: List<CountryStatsEntity>
     ) {
-        insert(covidTracker)
+        insertWorld(worldStats)
         insertAllCountryStats(countriesStats)
-        insertWorldStats(worldStats)
     }
 }
 
 @Dao
-abstract class CountryTodayStatsDao {
+abstract class WorldStatsDao {
 
-    @Query("SELECT * FROM country_today_stats WHERE date =:date")
-    abstract fun getByDate(date: String): Flow<List<CountryTodayStatsEntity>>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insert(worldStats: CountryTodayStatsEntity)
-
-    @Transaction
-    open suspend fun update(worldStats: CountryTodayStatsEntity) {
-        insert(worldStats)
-    }
+    @Query("SELECT * FROM world_stats WHERE date =:date")
+    abstract fun getByDate(date: String): Flow<List<WorldStatsEntity>>
 }
 
 @Dao
-abstract class WorldTodayStatsDao {
+abstract class CountryStatsDao {
 
-    @Query("SELECT * FROM world_today_stats WHERE date =:date")
-    abstract fun getByDate(date: String): Flow<List<WorldTodayStatsEntity>>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insert(worldStats: WorldTodayStatsEntity)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insertAll(worldStats: List<WorldTodayStatsEntity>)
-
-    @Transaction
-    open suspend fun update(worldStats: WorldTodayStatsEntity) {
-        insert(worldStats)
-    }
+    @Query("SELECT * FROM country_stats WHERE date =:date")
+    abstract fun getByDate(date: String): Flow<List<CountryStatsEntity>>
 }

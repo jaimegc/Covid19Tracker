@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.databinding.ItemWorldTotalBinding
-import com.jaimegc.covid19tracker.ui.model.TodayStatsUI
+import com.jaimegc.covid19tracker.ui.model.WorldStatsUI
 
-class WorldTotalAdapter : ListAdapter<TodayStatsUI, WorldTotalAdapter.WorldTotalViewHolder>(DIFF_CALLBACK) {
+class WorldTotalAdapter : ListAdapter<WorldStatsUI, WorldTotalAdapter.WorldTotalViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         WorldTotalViewHolder(ItemWorldTotalBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -18,7 +18,7 @@ class WorldTotalAdapter : ListAdapter<TodayStatsUI, WorldTotalAdapter.WorldTotal
         holder.bind(getItem(position))
 
     class WorldTotalViewHolder(private val binding: ItemWorldTotalBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(worldStatsUI: TodayStatsUI) {
+        fun bind(worldStatsUI: WorldStatsUI) {
             binding.textConfirmed.text = worldStatsUI.confirmed
             binding.textOpenCases.text = worldStatsUI.openCases
             binding.textRecovered.text = worldStatsUI.recovered
@@ -36,11 +36,11 @@ class WorldTotalAdapter : ListAdapter<TodayStatsUI, WorldTotalAdapter.WorldTotal
     }
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<TodayStatsUI>() {
-            override fun areItemsTheSame(oldItem: TodayStatsUI, newItem: TodayStatsUI): Boolean =
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<WorldStatsUI>() {
+            override fun areItemsTheSame(oldItem: WorldStatsUI, newItem: WorldStatsUI): Boolean =
                 oldItem.date == newItem.date
 
-            override fun areContentsTheSame(oldItem: TodayStatsUI, newItem: TodayStatsUI): Boolean =
+            override fun areContentsTheSame(oldItem: WorldStatsUI, newItem: WorldStatsUI): Boolean =
                 oldItem == newItem
         }
     }

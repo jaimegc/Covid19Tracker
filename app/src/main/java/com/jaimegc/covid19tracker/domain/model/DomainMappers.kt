@@ -5,33 +5,29 @@ import com.jaimegc.covid19tracker.data.api.model.CovidTrackerDateCountryDto
 import com.jaimegc.covid19tracker.data.api.model.CovidTrackerDateDto
 import com.jaimegc.covid19tracker.data.api.model.CovidTrackerDto
 import com.jaimegc.covid19tracker.data.api.model.CovidTrackerTotalDto
-import com.jaimegc.covid19tracker.data.room.entities.CountryTodayStatsEntity
-import com.jaimegc.covid19tracker.data.room.entities.CovidTrackerAndWorldTodayStatsPojo
-import com.jaimegc.covid19tracker.data.room.entities.WorldTodayStatsEntity
+import com.jaimegc.covid19tracker.data.room.entities.CountryStatsEntity
+import com.jaimegc.covid19tracker.data.room.entities.WorldAndCountriesPojo
+import com.jaimegc.covid19tracker.data.room.entities.WorldStatsEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
 fun CovidTrackerDto.toDomain(): CovidTracker =
     CovidTracker(
-        date = total.date,
-        updatedAt = updatedAt,
-        countryStats = dates.values.first().toDomain(updatedAt),
+        countriesStats = dates.values.first().toDomain(updatedAt),
         worldStats = total.toDomain(updatedAt)
     )
 
-private fun CovidTrackerDateDto.toDomain(updatedAt: String): CountryStats =
-    CountryStats(
-        countries = countries.values.map { country -> country.toDomain(updatedAt) }
-    )
+private fun CovidTrackerDateDto.toDomain(updatedAt: String): List<CountryStats> =
+    countries.values.map { country -> country.toDomain(updatedAt) }
 
-private fun CovidTrackerDateCountryDto.toDomain(updatedAt: String): Country =
-    Country(
+private fun CovidTrackerDateCountryDto.toDomain(updatedAt: String): CountryStats =
+    CountryStats(
         id = id,
         name = name,
         nameEs = nameEs,
         date = date,
-        todayStats = TodayStats(
+        stats = Stats(
             date = date,
             source = source,
             confirmed = todayConfirmed,
@@ -45,13 +41,12 @@ private fun CovidTrackerDateCountryDto.toDomain(updatedAt: String): Country =
             vsYesterdayConfirmed = todayVsYesterdayConfirmed,
             vsYesterdayDeaths = todayVsYesterdayDeaths,
             vsYesterdayOpenCases = todayVsYesterdayOpenCases,
-            vsYesterdayRecovered = todayVsYesterdayRecovered,
-            updatedAt = updatedAt
+            vsYesterdayRecovered = todayVsYesterdayRecovered
         )
     )
 
-fun CovidTrackerTotalDto.toDomain(updatedAt: String): TodayStats =
-    TodayStats(
+fun CovidTrackerTotalDto.toDomain(updatedAt: String): WorldStats =
+    WorldStats(
         date = date,
         source = source,
         confirmed = todayConfirmed,
@@ -69,18 +64,14 @@ fun CovidTrackerTotalDto.toDomain(updatedAt: String): TodayStats =
         updatedAt = updatedAt
     )
 
-fun CovidTrackerAndWorldTodayStatsPojo.toDomain(): CovidTracker =
+fun WorldAndCountriesPojo.toDomain(): CovidTracker =
     CovidTracker(
-        date = covidTracker!!.date,
-        updatedAt = covidTracker.updateAt,
-        countryStats = CountryStats(countriesStats.map {
-            countryEntity -> countryEntity.toDomain()
-        }),
+        countriesStats = countriesStats.map { countryEntity -> countryEntity.toDomain() },
         worldStats = worldStats!!.toDomain()
     )
 
-private fun WorldTodayStatsEntity.toDomain(): TodayStats =
-    TodayStats(
+private fun WorldStatsEntity.toDomain(): WorldStats =
+    WorldStats(
         date = date,
         source = source,
         confirmed = confirmed,
@@ -98,13 +89,13 @@ private fun WorldTodayStatsEntity.toDomain(): TodayStats =
         updatedAt = updatedAt
     )
 
-private fun CountryTodayStatsEntity.toDomain(): Country =
-    Country(
+private fun CountryStatsEntity.toDomain(): CountryStats =
+    CountryStats(
         id = id,
         name = name,
         nameEs = nameEs,
         date = date,
-        todayStats = TodayStats(
+        stats = Stats(
             date = date,
             source = source,
             confirmed = confirmed,
@@ -118,8 +109,7 @@ private fun CountryTodayStatsEntity.toDomain(): Country =
             vsYesterdayConfirmed = vsYesterdayConfirmed,
             vsYesterdayDeaths = vsYesterdayDeaths,
             vsYesterdayOpenCases = vsYesterdayOpenCases,
-            vsYesterdayRecovered = vsYesterdayRecovered,
-            updatedAt = updatedAt
+            vsYesterdayRecovered = vsYesterdayRecovered
         )
     )
 

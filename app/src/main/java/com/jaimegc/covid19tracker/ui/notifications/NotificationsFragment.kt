@@ -53,7 +53,7 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications),
         when (renderState) {
             is WorldTotalStateScreen.Success -> {
                 worldTotalAdapter.submitList(listOf(renderState.data.worldStats))
-                worldTotalCountryAdapter.submitList(renderState.data.countryStats.countries)
+                worldTotalCountryAdapter.submitList(renderState.data.countriesStats)
             }
         }
     }

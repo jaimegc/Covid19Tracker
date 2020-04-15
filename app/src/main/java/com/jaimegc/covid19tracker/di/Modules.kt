@@ -51,10 +51,10 @@ val daoModule = module {
         database.covidTrackerTotalDao()
     }
 
-    /*single {
+    single {
         val database: Covid19TrackerDatabase = get()
         database.worldTodayStatsDao()
-    }*/
+    }
 
     single {
         val database: Covid19TrackerDatabase = get()

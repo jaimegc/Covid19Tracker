@@ -4,13 +4,11 @@ import arrow.core.Either
 import com.jaimegc.covid19tracker.data.api.client.CovidTrackerApiClient
 import com.jaimegc.covid19tracker.data.api.extensions.apiException
 import com.jaimegc.covid19tracker.data.api.extensions.mapResponse
-import com.jaimegc.covid19tracker.domain.model.toDomain
 import com.jaimegc.covid19tracker.data.room.daos.CovidTrackerDao
+import com.jaimegc.covid19tracker.domain.model.toDomain
 import com.jaimegc.covid19tracker.domain.model.*
 import com.jaimegc.covid19tracker.ui.model.toEntity
-import com.jaimegc.covid19tracker.ui.model.toWorldEntity
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 class RemoteCovidTrackerDatasource(
     private val apiClient: CovidTrackerApiClient
@@ -28,15 +26,13 @@ class LocalCovidTrackerDatasource(
 ) {
 
     fun getCovidTrackerLast(): Flow<Either<DomainError, CovidTracker>> =
-        mapEntityValid(covidTrackerDao.getByDate("2020-04-15")) { covidTrackerPojo ->
+        mapEntityValid(covidTrackerDao.getWorldAndCountriesByDate("2020-04-15")) { covidTrackerPojo ->
             Pair(covidTrackerPojo.isValid(), covidTrackerPojo.toDomain()) }
 
     suspend fun save(covidTracker: CovidTracker) =
-        covidTracker.toEntity().let { covidTrackerEntity ->
-            covidTrackerDao.save(
-                covidTrackerEntity,
-                covidTracker.countryStats.countries.map { country ->
-                    country.toEntity(covidTrackerEntity.date) },
-                covidTracker.worldStats.toWorldEntity(covidTrackerEntity.date))
-        }
+        covidTrackerDao.save(covidTracker.worldStats.toEntity(),
+            covidTracker.countriesStats.map { countryStats ->
+                countryStats.toEntity(covidTracker.worldStats.date)
+            })
+
 }
