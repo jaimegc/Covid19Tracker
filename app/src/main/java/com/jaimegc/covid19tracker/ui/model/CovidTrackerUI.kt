@@ -1,37 +1,53 @@
 package com.jaimegc.covid19tracker.ui.model
 
 data class CovidTrackerUI(
-    val dates: List<CovidTrackerDateUI>,
-    val total: CovidTrackerTotalUI
+    val countriesStats: List<CountryStatsUI>,
+    val worldStats: WorldStatsUI
 )
 
-data class CovidTrackerDateUI(
+data class WorldStatsUI(
     val date: String,
-    val countries: List<CovidTrackerDateCountryUI>
+    val source: String,
+    val confirmed: String,
+    val deaths: String,
+    val newConfirmed: String,
+    val newDeaths: String,
+    val newOpenCases: String,
+    val newRecovered: String,
+    val openCases: String,
+    val recovered: String,
+    val vsYesterdayConfirmed: String,
+    val vsYesterdayDeaths: String,
+    val vsYesterdayOpenCases: String,
+    val vsYesterdayRecovered: String,
+    val updatedAt: String
 )
 
-data class CovidTrackerDateCountryUI(
+data class CountryStatsUI(
     val id: String,
     val name: String,
     val nameEs: String,
-    val total: CovidTrackerTotalUI,
+    val date: String,
+    val stats: StatsUI,
     var isExpanded: Boolean = false
 )
 
-data class CovidTrackerTotalUI(
+data class StatsUI(
     val date: String,
     val source: String,
-    val todayConfirmed: String,
-    val todayDeaths: String,
-    val todayNewConfirmed: String,
-    val todayNewDeaths: String,
-    val todayNewOpenCases: String,
-    val todayNewRecovered: String,
-    val todayOpenCases: String,
-    val todayRecovered: String,
-    val todayVsYesterdayConfirmed: String,
-    val todayVsYesterdayDeaths: String,
-    val todayVsYesterdayOpenCases: String,
-    val todayVsYesterdayRecovered: String
+    val confirmed: String,
+    val deaths: String,
+    val newConfirmed: String,
+    val newDeaths: String,
+    val newOpenCases: String,
+    val newRecovered: String,
+    val openCases: String,
+    val recovered: String,
+    val vsYesterdayConfirmed: String,
+    val vsYesterdayDeaths: String,
+    val vsYesterdayOpenCases: String,
+    val vsYesterdayRecovered: String
 )
+
+
 

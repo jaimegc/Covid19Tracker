@@ -1,23 +1,28 @@
 package com.jaimegc.covid19tracker.data.repository
 
 import arrow.core.Either
-import com.jaimegc.covid19tracker.data.api.client.CovidTrackerApiClient
-import com.jaimegc.covid19tracker.data.api.extensions.mapResponse
-import com.jaimegc.covid19tracker.data.api.model.toDomain
+import arrow.core.Left
+import com.jaimegc.covid19tracker.data.datasource.LocalCovidTrackerDatasource
+import com.jaimegc.covid19tracker.data.datasource.RemoteCovidTrackerDatasource
 import com.jaimegc.covid19tracker.domain.model.CovidTracker
 import com.jaimegc.covid19tracker.domain.model.DomainError
 import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.domain.states.StateError
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.*
 
 class CovidTrackerRepository(
-    private val apiClient: CovidTrackerApiClient
+    private val local: LocalCovidTrackerDatasource,
+    private val remote: RemoteCovidTrackerDatasource
 ) {
 
-    fun getCovidTrackerLast(): Flow<Either<StateError<DomainError>, State<CovidTracker>>> {
-        return object : NetworkRepository<DomainError, CovidTracker>() {
-            override suspend fun fetchFromRemoteEither(): Either<DomainError, CovidTracker> =
-                mapResponse(apiClient.getCovidTrackerLast()) { covidTracker -> covidTracker.toDomain() }
-        }.asFlowEither()
+    suspend fun getCovidTrackerLast(): Flow<Either<StateError<DomainError>, State<CovidTracker>>> {
+        return object : BaseRepository<DomainError, CovidTracker> {
+            override suspend fun fetchFromLocalState(): Flow<Either<DomainError, CovidTracker>> =
+                local.getCovidTrackerLast()
+
+            override suspend fun fetchFromRemote() {
+                remote.getCovidTrackerLast().fold(::Left) { covidTracker -> local.save(covidTracker) }
+            }
+        }.asFlow()
     }
 }

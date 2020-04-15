@@ -44,10 +44,3 @@ fun <T, R> mapResponse(response: T, mapper: (T) -> R): Either<DomainError, R> =
     } catch (exception: Exception) {
         Either.left(DomainError.UnknownDomainError(exception.toString()))
     }
-
-fun <T, R> mapParse(parse: T, mapper: (T) -> R): Either<DomainError, R> =
-    try {
-        Either.right(mapper(parse))
-    } catch (exception: Exception) {
-        Either.left(DomainError.ParseDomainError(exception.toString()))
-    }

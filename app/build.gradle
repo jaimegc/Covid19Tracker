@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
@@ -52,8 +53,12 @@ dependencies {
     implementation "androidx.navigation:navigation-ui:$navigation"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation"
     implementation "androidx.recyclerview:recyclerview:$recyclerview"
+    implementation "androidx.room:room-ktx:$room"
+    implementation "androidx.room:room-runtime:$room"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipe_refresh"
     implementation "com.google.android.material:material:$design"
+
+    kapt "androidx.room:room-compiler:$room"
 
     // Others
     implementation "io.arrow-kt:arrow-core-data:$arrow"
