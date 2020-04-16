@@ -7,7 +7,6 @@ import com.jaimegc.covid19tracker.data.api.extensions.mapResponse
 import com.jaimegc.covid19tracker.data.room.daos.CovidTrackerDao
 import com.jaimegc.covid19tracker.domain.model.toDomain
 import com.jaimegc.covid19tracker.domain.model.*
-import com.jaimegc.covid19tracker.ui.model.toEntity
 import kotlinx.coroutines.flow.Flow
 
 class RemoteCovidTrackerDatasource(

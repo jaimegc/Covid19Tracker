@@ -19,19 +19,19 @@ class WorldTotalAdapter : ListAdapter<WorldStatsUI, WorldTotalAdapter.WorldTotal
 
     class WorldTotalViewHolder(private val binding: ItemWorldTotalBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(worldStatsUI: WorldStatsUI) {
-            binding.textConfirmed.text = worldStatsUI.confirmed
-            binding.textOpenCases.text = worldStatsUI.openCases
-            binding.textRecovered.text = worldStatsUI.recovered
-            binding.textDeaths.text = worldStatsUI.deaths
+            binding.textConfirmed.text = worldStatsUI.stats.confirmed
+            binding.textOpenCases.text = worldStatsUI.stats.openCases
+            binding.textRecovered.text = worldStatsUI.stats.recovered
+            binding.textDeaths.text = worldStatsUI.stats.deaths
 
             binding.textNewConfirmed.text = itemView.context.getString(R.string.text_trending,
-                worldStatsUI.newConfirmed, (worldStatsUI.vsYesterdayConfirmed))
+                worldStatsUI.stats.newConfirmed, (worldStatsUI.stats.vsYesterdayConfirmed))
             binding.textNewOpenCases.text = itemView.context.getString(R.string.text_trending,
-                worldStatsUI.newOpenCases, (worldStatsUI.vsYesterdayOpenCases))
+                worldStatsUI.stats.newOpenCases, (worldStatsUI.stats.vsYesterdayOpenCases))
             binding.textNewRecovered.text = itemView.context.getString(R.string.text_trending,
-                worldStatsUI.newRecovered, (worldStatsUI.vsYesterdayRecovered))
+                worldStatsUI.stats.newRecovered, (worldStatsUI.stats.vsYesterdayRecovered))
             binding.textNewDeaths.text = itemView.context.getString(R.string.text_trending,
-                worldStatsUI.newDeaths, (worldStatsUI.vsYesterdayDeaths))
+                worldStatsUI.stats.newDeaths, (worldStatsUI.stats.vsYesterdayDeaths))
         }
     }
 
