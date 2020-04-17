@@ -7,7 +7,7 @@ import com.jaimegc.covid19tracker.data.datasource.RemoteCovidTrackerDatasource
 import com.jaimegc.covid19tracker.data.repository.CovidTrackerRepository
 import com.jaimegc.covid19tracker.data.room.Covid19TrackerDatabase
 import com.jaimegc.covid19tracker.domain.usecase.GetCovidTrackerLast
-import com.jaimegc.covid19tracker.ui.notifications.WorldViewModel
+import com.jaimegc.covid19tracker.ui.world.WorldViewModel
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

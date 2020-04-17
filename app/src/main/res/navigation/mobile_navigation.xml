@@ -13,13 +13,13 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.jaimegc.covid19tracker.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
+        android:name="com.jaimegc.covid19tracker.ui.country.CountryFragment"
+        android:label="@string/title_country"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/navigation_world"
-        android:name="com.jaimegc.covid19tracker.ui.notifications.WorldFragment"
+        android:name="com.jaimegc.covid19tracker.ui.world.WorldFragment"
         android:label="@string/title_world"
         tools:layout="@layout/fragment_world" />
 </navigation>

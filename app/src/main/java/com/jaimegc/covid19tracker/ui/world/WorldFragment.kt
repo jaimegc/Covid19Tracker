@@ -1,4 +1,4 @@
-package com.jaimegc.covid19tracker.ui.notifications
+package com.jaimegc.covid19tracker.ui.world
 
 import android.os.Bundle
 import android.view.View
@@ -14,11 +14,11 @@ import com.jaimegc.covid19tracker.ui.adapter.WorldAdapter
 import com.jaimegc.covid19tracker.ui.adapter.WorldCountryAdapter
 import com.jaimegc.covid19tracker.ui.states.ScreenState
 import com.jaimegc.covid19tracker.ui.states.BaseViewScreenState
-import com.jaimegc.covid19tracker.ui.states.WorldTotalStateScreen
+import com.jaimegc.covid19tracker.ui.states.WorldStateScreen
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class WorldFragment : Fragment(R.layout.fragment_world),
-    BaseViewScreenState<WorldViewModel, WorldTotalStateScreen> {
+    BaseViewScreenState<WorldViewModel, WorldStateScreen> {
 
     override val viewModel: WorldViewModel by viewModel()
     private val worldAdapter = WorldAdapter()
@@ -34,7 +34,7 @@ class WorldFragment : Fragment(R.layout.fragment_world),
         viewModel.screenState.observe(viewLifecycleOwner, Observer { screenState ->
             when (screenState) {
                 ScreenState.Loading -> if (binding.recyclerWorld.isEmpty()) binding.loading.show()
-                is ScreenState.Render<WorldTotalStateScreen> -> {
+                is ScreenState.Render<WorldStateScreen> -> {
                     binding.loading.hide()
                     binding.swipeRefreshLayout.isRefreshing = false
                     handleRenderState(screenState.renderState)
@@ -49,9 +49,9 @@ class WorldFragment : Fragment(R.layout.fragment_world),
         }
     }
 
-    override fun handleRenderState(renderState: WorldTotalStateScreen) {
+    override fun handleRenderState(renderState: WorldStateScreen) {
         when (renderState) {
-            is WorldTotalStateScreen.Success -> {
+            is WorldStateScreen.Success -> {
                 worldAdapter.submitList(listOf(renderState.data.worldStats))
                 worldCountryAdapter.submitList(renderState.data.countriesStats)
             }

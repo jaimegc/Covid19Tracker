@@ -1,4 +1,4 @@
-package com.jaimegc.covid19tracker.ui.notifications
+package com.jaimegc.covid19tracker.ui.world
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,21 +11,20 @@ import com.jaimegc.covid19tracker.domain.usecase.GetCovidTrackerLast
 import com.jaimegc.covid19tracker.ui.model.toUI
 import com.jaimegc.covid19tracker.ui.viewmodel.BaseScreenStateViewModel
 import com.jaimegc.covid19tracker.ui.states.ScreenState
-import com.jaimegc.covid19tracker.ui.states.WorldTotalStateScreen
+import com.jaimegc.covid19tracker.ui.states.WorldStateScreen
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class WorldViewModel(
     val getCovidTrackerLast: GetCovidTrackerLast
-) : BaseScreenStateViewModel<WorldTotalStateScreen>() {
+) : BaseScreenStateViewModel<WorldStateScreen>() {
 
-    override val _screenState = MutableLiveData<ScreenState<WorldTotalStateScreen>>()
-    override val screenState: LiveData<ScreenState<WorldTotalStateScreen>> = _screenState
+    override val _screenState = MutableLiveData<ScreenState<WorldStateScreen>>()
+    override val screenState: LiveData<ScreenState<WorldStateScreen>> = _screenState
 
     fun getCovidTrackerLast() =
         viewModelScope.launch {
             getCovidTrackerLast.getCovidTrackerLast().collect { result ->
-                println("RUINA STATE: ${result}")
                 result.fold(::handleError, ::handleScreenState)
             }
         }
@@ -33,7 +32,7 @@ class WorldViewModel(
     private fun handleScreenState(state: State<CovidTracker>) =
         when (state) {
             is State.Success ->
-                _screenState.postValue(ScreenState.Render(WorldTotalStateScreen.Success(state.data.toUI())))
+                _screenState.postValue(ScreenState.Render(WorldStateScreen.Success(state.data.toUI())))
             is State.Loading ->
                 _screenState.postValue(ScreenState.Loading)
     }
