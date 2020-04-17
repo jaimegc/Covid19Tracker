@@ -42,36 +42,31 @@ data class StatsEmbedded(
     val vsYesterdayRecovered: Double
 )
 
-@Entity(
-    tableName = "country_stats",
-    foreignKeys = [ForeignKey(
-        entity = WorldStatsEntity::class,
-        parentColumns = arrayOf("date"),
-        childColumns = arrayOf("date_world_stats_fk"),
-        onDelete = ForeignKey.CASCADE
-    )])
-data class CountryStatsEntity(
+@Entity(tableName = "country")
+data class CountryEntity(
     @PrimaryKey
     @ColumnInfo(name = "id")
     val id: String,
     @ColumnInfo(name = "name")
     val name: String,
     @ColumnInfo(name = "name_es")
-    val nameEs: String,
+    val nameEs: String
+)
+
+@Entity(
+    tableName = "stats",
+    primaryKeys = ["date", "id_country_fk"],
+    foreignKeys = [ForeignKey(
+        entity = CountryEntity::class,
+        parentColumns = arrayOf("id"),
+        childColumns = arrayOf("id_country_fk"),
+        onDelete = ForeignKey.CASCADE
+    )])
+data class StatsEntity(
     @ColumnInfo(name = "date")
     val date: String,
     @Embedded
     val stats: StatsEmbedded,
-    @ColumnInfo(name = "date_world_stats_fk")
-    val dateWorldStatsFk: String
+    @ColumnInfo(name = "id_country_fk")
+    val idCountryFk: String
 )
-
-data class WorldAndCountriesPojo(
-    @Embedded
-    val worldStats: WorldStatsEntity?,
-    @Relation(parentColumn = "date", entityColumn = "date_world_stats_fk", entity = CountryStatsEntity::class)
-    val countriesStats: List<CountryStatsEntity>
-) {
-    fun isValid(): Boolean =
-        worldStats != null && countriesStats.isNotEmpty()
-}

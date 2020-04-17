@@ -15,11 +15,11 @@ data class CountryStats(
     val id: String,
     val name: String,
     val nameEs: String,
-    val date: String,
     val stats: Stats
 )
 
 data class Stats(
+    val date: String,
     val source: String,
     val confirmed: Long,
     val deaths: Long,

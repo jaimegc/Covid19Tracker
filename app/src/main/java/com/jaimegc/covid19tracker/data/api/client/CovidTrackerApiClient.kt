@@ -11,5 +11,5 @@ class CovidTrackerApiClient(
 ) : ServerApiClient(serverApiConfig) {
 
     suspend fun getCovidTrackerLast(): CovidTrackerDto =
-        getApi(CovidTrackerRest::class.java).getCovidTrackerByDate("2020-04-15")
+        getApi(CovidTrackerRest::class.java).getCovidTrackerByDate("2020-04-16")
 }

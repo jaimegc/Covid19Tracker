@@ -15,7 +15,7 @@ import com.jaimegc.covid19tracker.ui.states.WorldTotalStateScreen
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class NotificationsViewModel(
+class WorldViewModel(
     val getCovidTrackerLast: GetCovidTrackerLast
 ) : BaseScreenStateViewModel<WorldTotalStateScreen>() {
 
@@ -25,6 +25,7 @@ class NotificationsViewModel(
     fun getCovidTrackerLast() =
         viewModelScope.launch {
             getCovidTrackerLast.getCovidTrackerLast().collect { result ->
+                println("RUINA STATE: ${result}")
                 result.fold(::handleError, ::handleScreenState)
             }
         }

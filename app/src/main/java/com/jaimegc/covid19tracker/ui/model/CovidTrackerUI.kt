@@ -15,12 +15,12 @@ data class CountryStatsUI(
     val id: String,
     val name: String,
     val nameEs: String,
-    val date: String,
     val stats: StatsUI,
     var isExpanded: Boolean = false
 )
 
 data class StatsUI(
+    val date: String,
     val source: String,
     val confirmed: String,
     val deaths: String,

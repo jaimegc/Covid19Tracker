@@ -2,7 +2,7 @@
     <string name="app_name">Covid19Tracker</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_world">World</string>
 
     <string name="confirmed">Confirmed</string>
     <string name="open_cases">Open cases</string>

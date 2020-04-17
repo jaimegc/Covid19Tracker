@@ -5,6 +5,8 @@ import com.jaimegc.covid19tracker.data.api.client.CovidTrackerApiClient
 import com.jaimegc.covid19tracker.data.api.extensions.apiException
 import com.jaimegc.covid19tracker.data.api.extensions.mapResponse
 import com.jaimegc.covid19tracker.data.room.daos.CovidTrackerDao
+import com.jaimegc.covid19tracker.data.room.entities.CountryEntity
+import com.jaimegc.covid19tracker.data.room.entities.StatsEntity
 import com.jaimegc.covid19tracker.domain.model.toDomain
 import com.jaimegc.covid19tracker.domain.model.*
 import kotlinx.coroutines.flow.Flow
@@ -24,14 +26,19 @@ class LocalCovidTrackerDatasource(
     private val covidTrackerDao: CovidTrackerDao
 ) {
 
-    fun getCovidTrackerLast(): Flow<Either<DomainError, CovidTracker>> =
-        mapEntityValid(covidTrackerDao.getWorldAndCountriesByDate("2020-04-15")) { covidTrackerPojo ->
+    suspend fun getCovidTrackerLast(): Flow<Either<DomainError, CovidTracker>> =
+        mapEntityValid(covidTrackerDao.getWorldAndCountriesStatsByDateDV("2020-04-16")) { covidTrackerPojo ->
             Pair(covidTrackerPojo.isValid(), covidTrackerPojo.toDomain()) }
 
-    suspend fun save(covidTracker: CovidTracker) =
-        covidTrackerDao.save(covidTracker.worldStats.toEntity(),
-            covidTracker.countriesStats.map { countryStats ->
-                countryStats.toEntity(covidTracker.worldStats.date)
-            })
+    suspend fun save(covidTracker: CovidTracker) {
+        val countryEntities = mutableListOf<CountryEntity>()
+        val countryStatsEntities = mutableListOf<StatsEntity>()
 
+        covidTracker.countriesStats.map { countryStats ->
+            countryEntities.add(countryStats.toEntity())
+            countryStatsEntities.add(countryStats.stats.toEntity(countryStats.id))
+        }
+
+        covidTrackerDao.save(covidTracker.worldStats.toEntity(), countryEntities, countryStatsEntities)
+    }
 }

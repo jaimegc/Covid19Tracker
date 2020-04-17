@@ -20,7 +20,7 @@ import com.jaimegc.covid19tracker.extensions.setTextSizeSp
 import com.jaimegc.covid19tracker.ui.model.CountryStatsUI
 
 
-class WorldTotalCountryAdapter : ListAdapter<CountryStatsUI, WorldTotalCountryAdapter.WorldTotalCountryViewHolder>(DIFF_CALLBACK) {
+class WorldCountryAdapter : ListAdapter<CountryStatsUI, WorldCountryAdapter.WorldTotalCountryViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         WorldTotalCountryViewHolder(ItemWorldTotalCountryBinding.inflate(LayoutInflater.from(parent.context), parent, false))

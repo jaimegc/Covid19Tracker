@@ -18,8 +18,8 @@
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.jaimegc.covid19tracker.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_world"
+        android:name="com.jaimegc.covid19tracker.ui.notifications.WorldFragment"
+        android:label="@string/title_world"
+        tools:layout="@layout/fragment_world" />
 </navigation>

@@ -9,7 +9,7 @@ import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.databinding.ItemWorldTotalBinding
 import com.jaimegc.covid19tracker.ui.model.WorldStatsUI
 
-class WorldTotalAdapter : ListAdapter<WorldStatsUI, WorldTotalAdapter.WorldTotalViewHolder>(DIFF_CALLBACK) {
+class WorldAdapter : ListAdapter<WorldStatsUI, WorldAdapter.WorldTotalViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         WorldTotalViewHolder(ItemWorldTotalBinding.inflate(LayoutInflater.from(parent.context), parent, false))

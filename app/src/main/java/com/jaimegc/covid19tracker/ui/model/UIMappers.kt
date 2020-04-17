@@ -18,7 +18,6 @@ private fun CountryStats.toUI():  CountryStatsUI =
         id = id,
         name = name,
         nameEs = nameEs,
-        date = date,
         stats = stats.toUI()
     )
 
@@ -27,6 +26,7 @@ fun WorldStats.toUI(): WorldStatsUI =
         date = date,
         updatedAt = updatedAt,
         stats = StatsUI(
+            date = date,
             source = stats.source,
             confirmed = stats.confirmed.formatValue(),
             deaths = stats.deaths.formatValue(),
@@ -45,6 +45,7 @@ fun WorldStats.toUI(): WorldStatsUI =
 
 fun Stats.toUI(): StatsUI =
     StatsUI(
+        date = date,
         source = source,
         confirmed = confirmed.formatValue(),
         deaths = deaths.formatValue(),
