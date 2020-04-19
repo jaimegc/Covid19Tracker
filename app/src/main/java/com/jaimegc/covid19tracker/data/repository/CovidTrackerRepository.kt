@@ -15,13 +15,13 @@ class CovidTrackerRepository(
     private val remote: RemoteCovidTrackerDatasource
 ) {
 
-    suspend fun getCovidTrackerLast(): Flow<Either<StateError<DomainError>, State<CovidTracker>>> {
+    suspend fun getCovidTrackerByDate(date: String): Flow<Either<StateError<DomainError>, State<CovidTracker>>> {
         return object : BaseRepository<DomainError, CovidTracker> {
             override suspend fun fetchFromLocalState(): Flow<Either<DomainError, CovidTracker>> =
-                local.getCovidTrackerLast()
+                local.getCovidTrackerByDate(date)
 
             override suspend fun fetchFromRemote() {
-                remote.getCovidTrackerLast().fold(::Left) { covidTracker -> local.save(covidTracker) }
+                remote.getCovidTrackerByDate(date).fold(::Left) { covidTracker -> local.save(covidTracker) }
             }
         }.asFlow()
     }

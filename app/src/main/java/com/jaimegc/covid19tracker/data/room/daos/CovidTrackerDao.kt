@@ -21,8 +21,11 @@ abstract class CovidTrackerDao {
     @Query("SELECT * FROM country")
     abstract suspend fun getCountries(): List<CountryEntity>
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract suspend fun insertWorldStats(worldStats: WorldStatsEntity)
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    abstract suspend fun insertWorld(worldStats: WorldStatsEntity)
+    abstract suspend fun insertAllWorldsStats(worldsStats: List<WorldStatsEntity>)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract suspend fun insertAllCountries(countries: List<CountryEntity>)
@@ -36,7 +39,18 @@ abstract class CovidTrackerDao {
         countries: List<CountryEntity>,
         countriesStats: List<StatsEntity>
     ) {
-        insertWorld(worldStats)
+        insertWorldStats(worldStats)
+        insertAllCountries(countries)
+        insertAllCountriesStats(countriesStats)
+    }
+
+    @Transaction
+    open suspend fun populateDatabase(
+        worldsStats: List<WorldStatsEntity>,
+        countries: List<CountryEntity>,
+        countriesStats: List<StatsEntity>
+    ) {
+        insertAllWorldsStats(worldsStats)
         insertAllCountries(countries)
         insertAllCountriesStats(countriesStats)
     }

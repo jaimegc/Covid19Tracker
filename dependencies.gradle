@@ -37,7 +37,7 @@ ext {
     mockito                      = '2.27.0'
     mockito_kotlin               = '2.1.0'
     mp_chart                     = 'v3.1.0'
-    navigation                   = '2.2.1'
+    navigation                   = '2.2.2'
     okhttp                       = '3.14.0'
     permissions                  = '3.7'
     picasso                      = '2.71828'
@@ -49,6 +49,7 @@ ext {
     support                      = '1.1.0'
     swipe_refresh                = '1.0.0'
     test                         = '1.2.0'
+    work                         = '2.1.0'
 
     versions = [
             anko                          : '0.10.8',
@@ -78,7 +79,7 @@ ext {
             mockito                       : '2.27.0',
             mockito_kotlin                : '2.1.0',
             mp_chart                      : 'v3.1.0',
-            navigation                    : '2.2.1',
+            navigation                    : '2.2.2',
             okhttp                        : '3.14.0',
             permissions                   : '3.7',
             picasso                       : '2.71828',
@@ -90,6 +91,7 @@ ext {
             support                       : '1.1.0',
             swipe_refresh                 : '1.0.0',
             test                          : '1.2.0',
+            work                          : '2.1.0',
     ]
 
     build_plugins = [
@@ -153,6 +155,7 @@ ext {
             swipe_refresh                 : [group: 'androidx.swiperefreshlayout', name: 'swiperefreshlayout', version: versions.swipe_refresh],
             test_core                     : [group: 'androidx.test', name: 'core', version: versions.test],
             test_running                  : [group: 'androidx.test', name: 'runner', version: versions.test],
+            worker_runtime                : [group: 'androidx.work', name: 'work-runtime-ktx', version: versions.work],
     ]
 
 }

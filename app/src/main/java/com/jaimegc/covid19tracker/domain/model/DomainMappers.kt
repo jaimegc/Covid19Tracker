@@ -12,16 +12,16 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
-fun CovidTrackerDto.toDomain(): CovidTracker =
+fun CovidTrackerDto.toDomain(date: String): CovidTracker =
     CovidTracker(
-        countriesStats = dates.values.first().toDomain(),
-        worldStats = total.toDomain(updatedAt)
+        countriesStats = dates.values.first().toDomain(date),
+        worldStats = total.toDomain(date, updatedAt)
     )
 
-private fun CovidTrackerDateDto.toDomain(): List<CountryStats> =
-    countries.values.map { country -> country.toDomain() }
+private fun CovidTrackerDateDto.toDomain(date: String): List<CountryStats> =
+    countries.values.map { country -> country.toDomain(date) }
 
-private fun CovidTrackerDateCountryDto.toDomain(): CountryStats =
+private fun CovidTrackerDateCountryDto.toDomain(date: String): CountryStats =
     CountryStats(
         id = id,
         name = name,
@@ -44,7 +44,7 @@ private fun CovidTrackerDateCountryDto.toDomain(): CountryStats =
         )
     )
 
-fun CovidTrackerTotalDto.toDomain(updatedAt: String): WorldStats =
+fun CovidTrackerTotalDto.toDomain(date: String, updatedAt: String): WorldStats =
     WorldStats(
         date = date,
         updatedAt = updatedAt,
