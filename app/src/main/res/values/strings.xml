@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">Covid19Tracker</string>
+
+    <!-- Navigation Menu -->
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_country">Country</string>
+    <string name="title_world">World</string>
 
     <string name="confirmed">Confirmed</string>
     <string name="open_cases">Open cases</string>
@@ -11,7 +13,7 @@
     <string name="default_notification_channel_id">default</string>
     <string name="text_confirmed_cases">Confirmed Cases : %s</string>
     <string name="text_last_updated">Last Updated : %s</string>
-    <string name="default_notification_channel_name">Covid-19 India</string>
+    <string name="default_notification_channel_name">Covid19 Tracker</string>
     <string name="text_trending">[%1$s] (%2$s%%)</string>
     <string name="text_daily_change">DAILY CHANGE</string>
 </resources>

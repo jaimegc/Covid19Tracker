@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.*
 
 interface BaseRepository<E: DomainError, T> {
 
-    fun asFlow(policy: CachePolicy = CachePolicy.LocalFirst) = flow<Either<StateError<E>, State<T>>> {
+    fun asFlow(policy: CachePolicy = CachePolicy.LocalOnly) = flow<Either<StateError<E>, State<T>>> {
         emit(Either.right(State.Loading()))
 
         val datasources = mutableListOf<Datasource>()

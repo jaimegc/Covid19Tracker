@@ -7,6 +7,13 @@ data class WorldStatsEntity(
     @PrimaryKey
     @ColumnInfo(name = "date")
     val date: String,
+    @ColumnInfo(name = "updated_at")
+    val updatedAt: String,
+    @Embedded
+    val stats: StatsEmbedded
+)
+
+data class StatsEmbedded(
     @ColumnInfo(name = "source")
     val source: String,
     @ColumnInfo(name = "confirmed")
@@ -32,65 +39,34 @@ data class WorldStatsEntity(
     @ColumnInfo(name = "vs_yesterday_open_cases")
     val vsYesterdayOpenCases: Double,
     @ColumnInfo(name = "vs_yesterday_recovered")
-    val vsYesterdayRecovered: Double,
-    @ColumnInfo(name = "updated_at")
-    val updatedAt: String
+    val vsYesterdayRecovered: Double
 )
 
-@Entity(
-    tableName = "country_stats",
-    foreignKeys = [ForeignKey(
-        entity = WorldStatsEntity::class,
-        parentColumns = arrayOf("date"),
-        childColumns = arrayOf("date_world_stats_fk"),
-        onDelete = ForeignKey.CASCADE
-    )])
-data class CountryStatsEntity(
+@Entity(tableName = "country")
+data class CountryEntity(
     @PrimaryKey
     @ColumnInfo(name = "id")
     val id: String,
     @ColumnInfo(name = "name")
     val name: String,
     @ColumnInfo(name = "name_es")
-    val nameEs: String,
-    @ColumnInfo(name = "date")
-    val date: String,
-    @ColumnInfo(name = "source")
-    val source: String,
-    @ColumnInfo(name = "confirmed")
-    val confirmed: Long,
-    @ColumnInfo(name = "deaths")
-    val deaths: Long,
-    @ColumnInfo(name = "new_confirmed")
-    val newConfirmed: Long,
-    @ColumnInfo(name = "new_deaths")
-    val newDeaths: Long,
-    @ColumnInfo(name = "new_open_cases")
-    val newOpenCases: Long,
-    @ColumnInfo(name = "new_recovered")
-    val newRecovered: Long,
-    @ColumnInfo(name = "open_cases")
-    val openCases: Long,
-    @ColumnInfo(name = "recovered")
-    val recovered: Long,
-    @ColumnInfo(name = "vs_yesterday_confirmed")
-    val vsYesterdayConfirmed: Double,
-    @ColumnInfo(name = "vs_yesterday_deaths")
-    val vsYesterdayDeaths: Double,
-    @ColumnInfo(name = "vs_yesterday_open_cases")
-    val vsYesterdayOpenCases: Double,
-    @ColumnInfo(name = "vs_yesterday_recovered")
-    val vsYesterdayRecovered: Double,
-    @ColumnInfo(name = "date_world_stats_fk")
-    val dateWorldStatsFk: String
+    val nameEs: String
 )
 
-data class WorldAndCountriesPojo(
+@Entity(
+    tableName = "stats",
+    primaryKeys = ["date", "id_country_fk"],
+    foreignKeys = [ForeignKey(
+        entity = CountryEntity::class,
+        parentColumns = arrayOf("id"),
+        childColumns = arrayOf("id_country_fk"),
+        onDelete = ForeignKey.CASCADE
+    )])
+data class StatsEntity(
+    @ColumnInfo(name = "date")
+    val date: String,
     @Embedded
-    val worldStats: WorldStatsEntity?,
-    @Relation(parentColumn = "date", entityColumn = "date_world_stats_fk", entity = CountryStatsEntity::class)
-    val countriesStats: List<CountryStatsEntity>
-) {
-    fun isValid(): Boolean =
-        worldStats != null && countriesStats.isNotEmpty()
-}
+    val stats: StatsEmbedded,
+    @ColumnInfo(name = "id_country_fk")
+    val idCountryFk: String
+)

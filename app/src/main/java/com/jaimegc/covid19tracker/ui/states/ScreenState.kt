@@ -7,8 +7,8 @@ sealed class ScreenState<out T : BaseScreenState> {
     class Render<out T : BaseScreenState>(val renderState: T) : ScreenState<T>()
 }
 
-sealed class WorldTotalStateScreen : BaseScreenState() {
-    class Success(val data: CovidTrackerUI) : WorldTotalStateScreen()
+sealed class WorldStateScreen : BaseScreenState() {
+    class Success(val data: CovidTrackerUI) : WorldStateScreen()
 }
 
 sealed class BaseScreenState
