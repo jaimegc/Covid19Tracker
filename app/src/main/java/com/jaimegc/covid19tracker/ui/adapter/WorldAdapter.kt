@@ -12,12 +12,15 @@ import com.jaimegc.covid19tracker.ui.model.WorldStatsUI
 class WorldAdapter : ListAdapter<WorldStatsUI, WorldAdapter.WorldTotalViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        WorldTotalViewHolder(ItemWorldTotalBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        WorldTotalViewHolder(ItemWorldTotalBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false))
 
     override fun onBindViewHolder(holder: WorldTotalViewHolder, position: Int) =
         holder.bind(getItem(position))
 
-    class WorldTotalViewHolder(private val binding: ItemWorldTotalBinding) : RecyclerView.ViewHolder(binding.root) {
+    class WorldTotalViewHolder(
+        private val binding: ItemWorldTotalBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(worldStatsUI: WorldStatsUI) {
             binding.textConfirmed.text = worldStatsUI.stats.confirmed
             binding.textOpenCases.text = worldStatsUI.stats.openCases

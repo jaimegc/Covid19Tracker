@@ -2,7 +2,9 @@ package com.jaimegc.covid19tracker.data.room.pojos
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import com.jaimegc.covid19tracker.data.room.dataviews.CountryAndStatsDV
+import com.jaimegc.covid19tracker.data.room.entities.CountryEntity
+import com.jaimegc.covid19tracker.data.room.entities.StatsEntity
+import com.jaimegc.covid19tracker.data.room.views.CountryAndStatsDV
 import com.jaimegc.covid19tracker.data.room.entities.WorldStatsEntity
 
 data class WorldAndCountriesStatsPojo(
@@ -13,4 +15,14 @@ data class WorldAndCountriesStatsPojo(
 ) {
     fun isValid(): Boolean =
         worldStats != null && countriesStats.isNotEmpty()
+}
+
+data class CountryAndStatsPojo(
+    @Embedded
+    val country: CountryEntity?,
+    @Embedded
+    val stats: StatsEntity?
+) {
+    fun isValid(): Boolean =
+        country != null && stats != null
 }

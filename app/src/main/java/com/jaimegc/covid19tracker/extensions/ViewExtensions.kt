@@ -1,10 +1,24 @@
 package com.jaimegc.covid19tracker.extensions
 
+import android.content.Context
+import android.content.res.Resources
 import android.util.TypedValue
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.MergeAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.github.mikephil.charting.components.ComponentBase
+
+fun Int.toDp(): Int = (this / Resources.getSystem().displayMetrics.density).toInt()
+
+fun Int.toPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
+
+fun Float.toPx(): Float = (this * Resources.getSystem().displayMetrics.density)
+
+fun Float.toDp(): Float = (this / Resources.getSystem().displayMetrics.density)
 
 fun View.hide() {
     visibility = View.GONE
@@ -34,3 +48,10 @@ private fun View.rotateAnimation(duration: Long = 250, fromDegrees: Float, toDeg
 
 fun TextView.setTextSizeSp(size: Float) =
     this.setTextSize(TypedValue.COMPLEX_UNIT_SP, size)
+
+fun TextView.setTextColor(context: Context, colorResource: Int) =
+    setTextColor(ContextCompat.getColor(context, colorResource))
+
+fun RecyclerView.updateAdapter(adapter: MergeAdapter) {
+    if (this.adapter != adapter) this.adapter = adapter
+}

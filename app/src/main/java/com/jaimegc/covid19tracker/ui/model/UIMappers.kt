@@ -60,3 +60,21 @@ fun Stats.toUI(): StatsUI =
         vsYesterdayOpenCases = (vsYesterdayOpenCases * 100).formatDecimals(),
         vsYesterdayRecovered = (vsYesterdayRecovered * 100).formatDecimals()
     )
+
+fun WorldStats.toChartUI(): WorldStatsChartUI =
+    WorldStatsChartUI(
+        date = date,
+        updatedAt = updatedAt,
+        stats = StatsChartUI(
+            date = date,
+            source = stats.source,
+            confirmed = stats.confirmed.toFloat(),
+            deaths = stats.deaths.toFloat(),
+            newConfirmed = stats.newConfirmed.toFloat(),
+            newDeaths = stats.newDeaths.toFloat(),
+            newOpenCases = stats.newOpenCases.toFloat(),
+            newRecovered = stats.newRecovered.toFloat(),
+            openCases = stats.openCases.toFloat(),
+            recovered = stats.recovered.toFloat()
+        )
+    )

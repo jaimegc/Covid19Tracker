@@ -5,9 +5,11 @@ import com.jaimegc.covid19tracker.data.api.model.CovidTrackerDateCountryDto
 import com.jaimegc.covid19tracker.data.api.model.CovidTrackerDateDto
 import com.jaimegc.covid19tracker.data.api.model.CovidTrackerDto
 import com.jaimegc.covid19tracker.data.api.model.CovidTrackerTotalDto
-import com.jaimegc.covid19tracker.data.room.dataviews.CountryAndStatsDV
+import com.jaimegc.covid19tracker.data.room.views.CountryAndStatsDV
 import com.jaimegc.covid19tracker.data.room.entities.*
+import com.jaimegc.covid19tracker.data.room.pojos.CountryAndStatsPojo
 import com.jaimegc.covid19tracker.data.room.pojos.WorldAndCountriesStatsPojo
+import com.jaimegc.covid19tracker.data.room.views.CountryAndStatsOrderByDeathsDV
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -72,10 +74,31 @@ fun WorldAndCountriesStatsPojo.toDomain(): CovidTracker =
         worldStats = worldStats!!.toDomain()
     )
 
-private fun CountryAndStatsDV.toDomain(): CountryStats =
-    CountryStats(country!!.id, country.name, country.nameEs, stats!!.toDomain())
+fun CountryAndStatsPojo.toDomain(): CountryStats =
+    CountryStats(
+        id = country!!.id,
+        name = country.name,
+        nameEs = country.nameEs,
+        stats = stats!!.toDomain()
+    )
 
-private fun WorldStatsEntity.toDomain(): WorldStats =
+fun CountryAndStatsOrderByDeathsDV.toDomain(): CountryStats =
+    CountryStats(
+        id = country!!.id,
+        name = country.name,
+        nameEs = country.nameEs,
+        stats = stats!!.toDomain()
+    )
+
+private fun CountryAndStatsDV.toDomain(): CountryStats =
+    CountryStats(
+        id = country!!.id,
+        name = country.name,
+        nameEs = country.nameEs,
+        stats = stats!!.toDomain()
+    )
+
+fun WorldStatsEntity.toDomain(): WorldStats =
     WorldStats(
         date = date,
         updatedAt = updatedAt,

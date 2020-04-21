@@ -36,5 +36,24 @@ data class StatsUI(
     val vsYesterdayRecovered: String
 )
 
+data class WorldStatsChartUI(
+    val date: String,
+    val updatedAt: String,
+    val stats: StatsChartUI
+)
+
+data class StatsChartUI(
+    val date: String,
+    val source: String,
+    val confirmed: Float,
+    val deaths: Float,
+    val newConfirmed: Float,
+    val newDeaths: Float,
+    val newOpenCases: Float,
+    val newRecovered: Float,
+    val openCases: Float,
+    val recovered: Float
+)
+
 
 

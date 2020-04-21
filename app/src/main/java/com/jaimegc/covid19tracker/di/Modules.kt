@@ -7,6 +7,7 @@ import com.jaimegc.covid19tracker.data.datasource.RemoteCovidTrackerDatasource
 import com.jaimegc.covid19tracker.data.repository.CovidTrackerRepository
 import com.jaimegc.covid19tracker.data.room.Covid19TrackerDatabase
 import com.jaimegc.covid19tracker.domain.usecase.GetCovidTrackerLast
+import com.jaimegc.covid19tracker.domain.usecase.GetWorldStats
 import com.jaimegc.covid19tracker.ui.world.WorldViewModel
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -25,6 +26,10 @@ val useCaseModule = module {
     single {
         GetCovidTrackerLast(get())
     }
+
+    single {
+        GetWorldStats(get())
+    }
 }
 
 val repositoryModule = module {
@@ -35,7 +40,7 @@ val repositoryModule = module {
 
 val viewModelModule = module {
     viewModel {
-        WorldViewModel(get())
+        WorldViewModel(get(), get())
     }
 }
 
@@ -48,17 +53,17 @@ val databaseModule = module {
 val daoModule = module {
     single {
         val database: Covid19TrackerDatabase = get()
-        database.covidTrackerTotalDao()
+        database.covidTrackerDao()
     }
 
     single {
         val database: Covid19TrackerDatabase = get()
-        database.worldTodayStatsDao()
+        database.worldStatsDao()
     }
 
     single {
         val database: Covid19TrackerDatabase = get()
-        database.countryTodayStatsDao()
+        database.countryStatsDao()
     }
 }
 
@@ -68,6 +73,6 @@ val datasourceModule = module {
     }
 
     single {
-        LocalCovidTrackerDatasource(get())
+        LocalCovidTrackerDatasource(get(), get(), get())
     }
 }
