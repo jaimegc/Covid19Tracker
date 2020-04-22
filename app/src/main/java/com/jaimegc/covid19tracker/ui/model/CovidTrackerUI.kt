@@ -42,6 +42,13 @@ data class WorldStatsChartUI(
     val stats: StatsChartUI
 )
 
+data class CountryListStatsChartUI(
+    val id: String,
+    val name: String,
+    val nameEs: String,
+    val stats: List<StatsChartUI>
+)
+
 data class StatsChartUI(
     val date: String,
     val source: String,

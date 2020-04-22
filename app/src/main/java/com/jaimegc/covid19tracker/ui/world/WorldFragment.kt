@@ -16,6 +16,7 @@ import com.jaimegc.covid19tracker.extensions.show
 import com.jaimegc.covid19tracker.extensions.updateAdapter
 import com.jaimegc.covid19tracker.ui.adapter.WorldAdapter
 import com.jaimegc.covid19tracker.ui.adapter.WorldBarChartAdapter
+import com.jaimegc.covid19tracker.ui.adapter.WorldCountriesBarChartAdapter
 import com.jaimegc.covid19tracker.ui.adapter.WorldCountryAdapter
 import com.jaimegc.covid19tracker.ui.states.ScreenState
 import com.jaimegc.covid19tracker.ui.states.BaseViewScreenState
@@ -29,8 +30,9 @@ class WorldFragment : Fragment(R.layout.fragment_world),
     private val worldAdapter = WorldAdapter()
     private val worldCountryAdapter = WorldCountryAdapter()
     private val worldBarChartAdapter = WorldBarChartAdapter()
+    private val worldBarCountriesChartAdapter = WorldCountriesBarChartAdapter()
     private val mergeAdapter = MergeAdapter(worldAdapter, worldCountryAdapter)
-    private val mergeAdapterGraphs = MergeAdapter(worldBarChartAdapter)
+    private val mergeAdapterGraphs = MergeAdapter(worldBarChartAdapter, worldBarCountriesChartAdapter)
     private lateinit var binding: FragmentWorldBinding
     private lateinit var menu: Menu
 
@@ -61,9 +63,14 @@ class WorldFragment : Fragment(R.layout.fragment_world),
                 worldCountryAdapter.submitList(renderState.data.countriesStats)
                 worldAdapter.submitList(listOf(renderState.data.worldStats))
             }
-            is WorldStateScreen.SuccessWorldStatsChart -> {
+            is WorldStateScreen.SuccessWorldStatsCharts -> {
                 binding.recyclerWorld.updateAdapter(mergeAdapterGraphs)
                 worldBarChartAdapter.submitList(listOf(renderState.data))
+            }
+            is WorldStateScreen.SuccessCountriesStatsCharts -> {
+                binding.recyclerWorld.updateAdapter(mergeAdapterGraphs)
+                //println("RUINA: ${renderState.data}")
+                worldBarCountriesChartAdapter.submitList(renderState.data)
             }
         }
     }
@@ -80,6 +87,7 @@ class WorldFragment : Fragment(R.layout.fragment_world),
                 menu.getItem(0).isVisible = false
                 menu.getItem(1).isVisible = true
                 viewModel.getWorldAllStats()
+                viewModel.getCountriesStatsOrderByConfirmed()
                 true
             }
             R.id.list_view -> {

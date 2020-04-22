@@ -4,10 +4,7 @@ import arrow.core.Either
 import arrow.core.Left
 import com.jaimegc.covid19tracker.data.datasource.LocalCovidTrackerDatasource
 import com.jaimegc.covid19tracker.data.datasource.RemoteCovidTrackerDatasource
-import com.jaimegc.covid19tracker.domain.model.CountryStats
-import com.jaimegc.covid19tracker.domain.model.CovidTracker
-import com.jaimegc.covid19tracker.domain.model.DomainError
-import com.jaimegc.covid19tracker.domain.model.WorldStats
+import com.jaimegc.covid19tracker.domain.model.*
 import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.domain.states.StateError
 import kotlinx.coroutines.flow.*
@@ -35,9 +32,9 @@ class CovidTrackerRepository(
         }.asFlow()
     }
 
-    suspend fun getCountriesStatsOrderByConfirmed(): Flow<Either<StateError<DomainError>, State<List<CountryStats>>>> {
-        return object : BaseRepository<DomainError, List<CountryStats>> {
-            override suspend fun fetchFromLocal(): Flow<Either<DomainError, List<CountryStats>>> =
+    suspend fun getCountriesStatsOrderByConfirmed(): Flow<Either<StateError<DomainError>, State<List<CountryListStats>>>> {
+        return object : BaseRepository<DomainError, List<CountryListStats>> {
+            override suspend fun fetchFromLocal(): Flow<Either<DomainError, List<CountryListStats>>> =
                 local.getCountriesStatsOrderByConfirmed()
         }.asFlow()
     }

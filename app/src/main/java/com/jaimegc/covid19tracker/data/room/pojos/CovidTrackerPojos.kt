@@ -20,9 +20,9 @@ data class WorldAndCountriesStatsPojo(
 data class CountryAndStatsPojo(
     @Embedded
     val country: CountryEntity?,
-    @Embedded
-    val stats: StatsEntity?
+    @Relation(parentColumn = "id", entityColumn = "id_country_fk", entity = StatsEntity::class)
+    val stats: List<StatsEntity>
 ) {
     fun isValid(): Boolean =
-        country != null && stats != null
+        country != null && stats.isNotEmpty()
 }

@@ -71,9 +71,10 @@ abstract class CountryStatsDao {
     @Query("SELECT * FROM country WHERE name =:name")
     abstract fun getByName(name: String): Flow<List<CountryEntity>>
 
-    @Query("""SELECT * FROM country""")
-    abstract fun getCountryAndStatsOrderByConfirmed(): Flow<List<CountryAndStatsPojo>>
-
-    @Query("SELECT * FROM country")
-    abstract fun getCountryAndStatsOrderByDeaths(): Flow<List<CountryAndStatsOrderByDeathsDV>>
+    @Query("""
+        SELECT * FROM country, stats 
+        WHERE country.id = stats.id_country_fk
+        GROUP BY country.name
+        ORDER BY stats.confirmed DESC""")
+    abstract fun getCountriesAndStatsOrderByConfirmed(): Flow<List<CountryAndStatsPojo>>
 }

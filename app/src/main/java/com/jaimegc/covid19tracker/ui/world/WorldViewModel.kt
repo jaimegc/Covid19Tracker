@@ -3,11 +3,10 @@ package com.jaimegc.covid19tracker.ui.world
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.jaimegc.covid19tracker.domain.model.CovidTracker
-import com.jaimegc.covid19tracker.domain.model.DomainError
-import com.jaimegc.covid19tracker.domain.model.WorldStats
+import com.jaimegc.covid19tracker.domain.model.*
 import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.domain.states.StateError
+import com.jaimegc.covid19tracker.domain.usecase.GetCountryStats
 import com.jaimegc.covid19tracker.domain.usecase.GetCovidTrackerLast
 import com.jaimegc.covid19tracker.domain.usecase.GetWorldStats
 import com.jaimegc.covid19tracker.ui.model.toChartUI
@@ -20,7 +19,8 @@ import kotlinx.coroutines.launch
 
 class WorldViewModel(
     val getCovidTrackerLast: GetCovidTrackerLast,
-    val getWorldStats: GetWorldStats
+    val getWorldStats: GetWorldStats,
+    val getCountryStats: GetCountryStats
 ) : BaseScreenStateViewModel<WorldStateScreen>() {
 
     override val _screenState = MutableLiveData<ScreenState<WorldStateScreen>>()
@@ -40,6 +40,13 @@ class WorldViewModel(
             }
         }
 
+    fun getCountriesStatsOrderByConfirmed() =
+        viewModelScope.launch {
+            getCountryStats.getCountriesStatsOrderByConfirmed().collect { result ->
+                result.fold(::handleError, ::handleScreenStateCountriesStats)
+            }
+        }
+
     private fun handleScreenStateCovidTracker(state: State<CovidTracker>) =
         when (state) {
             is State.Success ->
@@ -51,8 +58,17 @@ class WorldViewModel(
     private fun handleScreenStateWorldStats(state: State<List<WorldStats>>) =
         when (state) {
             is State.Success ->
-                _screenState.postValue(ScreenState.Render(WorldStateScreen.SuccessWorldStatsChart(
+                _screenState.postValue(ScreenState.Render(WorldStateScreen.SuccessWorldStatsCharts(
                     state.data.map { worldStats -> worldStats.toChartUI() })))
+            is State.Loading ->
+                _screenState.postValue(ScreenState.Loading)
+        }
+
+    private fun handleScreenStateCountriesStats(state: State<List<CountryListStats>>) =
+        when (state) {
+            is State.Success ->
+                _screenState.postValue(ScreenState.Render(WorldStateScreen.SuccessCountriesStatsCharts(
+                    state.data.map { countryStats -> countryStats.toChartUI() })))
             is State.Loading ->
                 _screenState.postValue(ScreenState.Loading)
         }

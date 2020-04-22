@@ -18,6 +18,13 @@ data class CountryStats(
     val stats: Stats
 )
 
+data class CountryListStats(
+    val id: String,
+    val name: String,
+    val nameEs: String,
+    val stats: List<Stats>
+)
+
 data class Stats(
     val date: String,
     val source: String,

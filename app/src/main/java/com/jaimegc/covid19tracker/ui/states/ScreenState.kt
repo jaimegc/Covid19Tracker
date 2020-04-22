@@ -1,5 +1,6 @@
 package com.jaimegc.covid19tracker.ui.states
 
+import com.jaimegc.covid19tracker.ui.model.CountryListStatsChartUI
 import com.jaimegc.covid19tracker.ui.model.CovidTrackerUI
 import com.jaimegc.covid19tracker.ui.model.WorldStatsChartUI
 
@@ -10,7 +11,8 @@ sealed class ScreenState<out T : BaseScreenState> {
 
 sealed class WorldStateScreen : BaseScreenState() {
     class SuccessCovidTracker(val data: CovidTrackerUI) : WorldStateScreen()
-    class SuccessWorldStatsChart(val data: List<WorldStatsChartUI>) : WorldStateScreen()
+    class SuccessWorldStatsCharts(val data: List<WorldStatsChartUI>) : WorldStateScreen()
+    class SuccessCountriesStatsCharts(val data: List<CountryListStatsChartUI>) : WorldStateScreen()
 }
 
 sealed class BaseScreenState

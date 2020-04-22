@@ -6,6 +6,7 @@ import com.jaimegc.covid19tracker.data.datasource.LocalCovidTrackerDatasource
 import com.jaimegc.covid19tracker.data.datasource.RemoteCovidTrackerDatasource
 import com.jaimegc.covid19tracker.data.repository.CovidTrackerRepository
 import com.jaimegc.covid19tracker.data.room.Covid19TrackerDatabase
+import com.jaimegc.covid19tracker.domain.usecase.GetCountryStats
 import com.jaimegc.covid19tracker.domain.usecase.GetCovidTrackerLast
 import com.jaimegc.covid19tracker.domain.usecase.GetWorldStats
 import com.jaimegc.covid19tracker.ui.world.WorldViewModel
@@ -30,6 +31,10 @@ val useCaseModule = module {
     single {
         GetWorldStats(get())
     }
+
+    single {
+        GetCountryStats(get())
+    }
 }
 
 val repositoryModule = module {
@@ -40,7 +45,7 @@ val repositoryModule = module {
 
 val viewModelModule = module {
     viewModel {
-        WorldViewModel(get(), get())
+        WorldViewModel(get(), get(), get())
     }
 }
 

@@ -20,16 +20,16 @@ import com.jaimegc.covid19tracker.extensions.setTextSizeSp
 import com.jaimegc.covid19tracker.ui.model.CountryStatsUI
 
 
-class WorldCountryAdapter : ListAdapter<CountryStatsUI, WorldCountryAdapter.WorldTotalCountryViewHolder>(DIFF_CALLBACK) {
+class WorldCountryAdapter : ListAdapter<CountryStatsUI, WorldCountryAdapter.WorldCountryViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        WorldTotalCountryViewHolder(ItemWorldTotalCountryBinding.inflate(
+        WorldCountryViewHolder(ItemWorldTotalCountryBinding.inflate(
             LayoutInflater.from(parent.context), parent, false))
 
-    override fun onBindViewHolder(holderCountry: WorldTotalCountryViewHolder, position: Int) =
+    override fun onBindViewHolder(holderCountry: WorldCountryViewHolder, position: Int) =
         holderCountry.bind(getItem(position))
 
-    class WorldTotalCountryViewHolder(
+    class WorldCountryViewHolder(
         private val binding: ItemWorldTotalCountryBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(totalStatsUI: CountryStatsUI) {

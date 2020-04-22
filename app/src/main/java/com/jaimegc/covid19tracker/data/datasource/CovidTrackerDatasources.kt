@@ -39,13 +39,13 @@ class LocalCovidTrackerDatasource(
         mapEntityValid(worldStatsDao.getAll()) { worldEntities ->
             Pair(worldEntities.isNotEmpty(), worldEntities.map { worldEntity -> worldEntity.toDomain() }) }
 
-    suspend fun getCountriesStatsOrderByConfirmed(): Flow<Either<DomainError, List<CountryStats>>> =
-        mapEntityValid(countryStatsDao.getCountryAndStatsOrderByConfirmed()) { countriesStats ->
-            Pair(countriesStats.isNotEmpty(), countriesStats.map { countryStats -> countryStats.toDomain() }) }
+    suspend fun getCountriesStatsOrderByConfirmed(): Flow<Either<DomainError, List<CountryListStats>>> =
+        mapEntityValid(countryStatsDao.getCountriesAndStatsOrderByConfirmed()) { countriesListStats ->
+            Pair(countriesListStats.isNotEmpty(), countriesListStats.map { countryStats -> countryStats.toDomain() }) }
 
     suspend fun getCountriesStatsOrderByDeaths(): Flow<Either<DomainError, List<CountryStats>>> =
-        mapEntityValid(countryStatsDao.getCountryAndStatsOrderByDeaths()) { countriesStats ->
-            Pair(countriesStats.isNotEmpty(), countriesStats.map { countryStats -> countryStats.toDomain() }) }
+        mapEntityValid(countryStatsDao.getCountriesAndStatsOrderByConfirmed()) { countriesStats ->
+            Pair(countriesStats.isNotEmpty(), countriesStats.map { countryStats -> countryStats.toDomainOnly() }) }
 
     suspend fun save(covidTracker: CovidTracker) {
         val countryEntities = mutableListOf<CountryEntity>()

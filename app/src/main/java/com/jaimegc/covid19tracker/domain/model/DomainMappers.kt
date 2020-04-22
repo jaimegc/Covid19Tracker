@@ -74,12 +74,20 @@ fun WorldAndCountriesStatsPojo.toDomain(): CovidTracker =
         worldStats = worldStats!!.toDomain()
     )
 
-fun CountryAndStatsPojo.toDomain(): CountryStats =
+fun CountryAndStatsPojo.toDomainOnly(): CountryStats =
     CountryStats(
         id = country!!.id,
         name = country.name,
         nameEs = country.nameEs,
-        stats = stats!!.toDomain()
+        stats = stats[0]!!.toDomain()
+    )
+
+fun CountryAndStatsPojo.toDomain(): CountryListStats =
+    CountryListStats(
+        id = country!!.id,
+        name = country.name,
+        nameEs = country.nameEs,
+        stats = stats.map { countryStats -> countryStats.toDomain() }
     )
 
 fun CountryAndStatsOrderByDeathsDV.toDomain(): CountryStats =
