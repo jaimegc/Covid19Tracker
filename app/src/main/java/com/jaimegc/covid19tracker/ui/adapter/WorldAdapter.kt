@@ -9,15 +9,18 @@ import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.databinding.ItemWorldTotalBinding
 import com.jaimegc.covid19tracker.ui.model.WorldStatsUI
 
-class WorldAdapter : ListAdapter<WorldStatsUI, WorldAdapter.WorldTotalViewHolder>(DIFF_CALLBACK) {
+class WorldAdapter : ListAdapter<WorldStatsUI, WorldAdapter.WorldViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        WorldTotalViewHolder(ItemWorldTotalBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        WorldViewHolder(ItemWorldTotalBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false))
 
-    override fun onBindViewHolder(holder: WorldTotalViewHolder, position: Int) =
+    override fun onBindViewHolder(holder: WorldViewHolder, position: Int) =
         holder.bind(getItem(position))
 
-    class WorldTotalViewHolder(private val binding: ItemWorldTotalBinding) : RecyclerView.ViewHolder(binding.root) {
+    class WorldViewHolder(
+        private val binding: ItemWorldTotalBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(worldStatsUI: WorldStatsUI) {
             binding.textConfirmed.text = worldStatsUI.stats.confirmed
             binding.textOpenCases.text = worldStatsUI.stats.openCases

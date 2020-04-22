@@ -4,7 +4,9 @@ import arrow.core.Either
 import com.jaimegc.covid19tracker.data.api.client.CovidTrackerApiClient
 import com.jaimegc.covid19tracker.data.api.extensions.apiException
 import com.jaimegc.covid19tracker.data.api.extensions.mapResponse
+import com.jaimegc.covid19tracker.data.room.daos.CountryStatsDao
 import com.jaimegc.covid19tracker.data.room.daos.CovidTrackerDao
+import com.jaimegc.covid19tracker.data.room.daos.WorldStatsDao
 import com.jaimegc.covid19tracker.data.room.entities.CountryEntity
 import com.jaimegc.covid19tracker.data.room.entities.StatsEntity
 import com.jaimegc.covid19tracker.data.room.entities.WorldStatsEntity
@@ -24,12 +26,26 @@ class RemoteCovidTrackerDatasource(
 }
 
 class LocalCovidTrackerDatasource(
-    private val covidTrackerDao: CovidTrackerDao
+    private val covidTrackerDao: CovidTrackerDao,
+    private val worldStatsDao: WorldStatsDao,
+    private val countryStatsDao: CountryStatsDao
 ) {
 
     suspend fun getCovidTrackerByDate(date: String): Flow<Either<DomainError, CovidTracker>> =
-        mapEntityValid(covidTrackerDao.getWorldAndCountriesStatsByDateDV(date)) { covidTrackerPojo ->
+        mapEntityValid(covidTrackerDao.getWorldAndCountriesStatsByDate(date)) { covidTrackerPojo ->
             Pair(covidTrackerPojo.isValid(), covidTrackerPojo.toDomain()) }
+
+    suspend fun getWorldAllStats(): Flow<Either<DomainError, List<WorldStats>>> =
+        mapEntityValid(worldStatsDao.getAll()) { worldEntities ->
+            Pair(worldEntities.isNotEmpty(), worldEntities.map { worldEntity -> worldEntity.toDomain() }) }
+
+    suspend fun getCountriesStatsOrderByConfirmed(): Flow<Either<DomainError, List<CountryListStats>>> =
+        mapEntityValid(countryStatsDao.getCountriesAndStatsOrderByConfirmed()) { countriesListStats ->
+            Pair(countriesListStats.isNotEmpty(), countriesListStats.map { countryStats -> countryStats.toDomain() }) }
+
+    suspend fun getCountriesStatsOrderByDeaths(): Flow<Either<DomainError, List<CountryStats>>> =
+        mapEntityValid(countryStatsDao.getCountriesAndStatsOrderByConfirmed()) { countriesStats ->
+            Pair(countriesStats.isNotEmpty(), countriesStats.map { countryStats -> countryStats.toDomainOnly() }) }
 
     suspend fun save(covidTracker: CovidTracker) {
         val countryEntities = mutableListOf<CountryEntity>()

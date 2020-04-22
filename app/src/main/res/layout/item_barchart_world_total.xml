@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/dimen_8"
+    tools:context=".MainActivity">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/confirmed_layout"
+        android:layout_width="match_parent"
+        android:layout_height="229dp"
+        app:cardBackgroundColor="@color/light_red"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/chart_confirmed"
+            android:layout_width="match_parent"
+            android:layout_height="223dp" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/deaths_layout"
+        android:layout_width="match_parent"
+        android:layout_height="229dp"
+        android:layout_marginTop="8dp"
+        app:cardBackgroundColor="@color/light_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/confirmed_layout">
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/chart_deaths"
+            android:layout_width="match_parent"
+            android:layout_height="223dp" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/recovered_layout"
+        android:layout_width="match_parent"
+        android:layout_height="229dp"
+        android:layout_marginTop="8dp"
+        app:cardBackgroundColor="@color/light_green"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/deaths_layout">
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/chart_recovered"
+            android:layout_width="match_parent"
+            android:layout_height="223dp" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/open_cases_layout"
+        android:layout_width="match_parent"
+        android:layout_height="229dp"
+        android:layout_marginTop="8dp"
+        app:cardBackgroundColor="@color/light_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recovered_layout">
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/chart_open_cases"
+            android:layout_width="match_parent"
+            android:layout_height="223dp" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/new_confirmed_layout"
+        android:layout_width="match_parent"
+        android:layout_height="229dp"
+        android:layout_marginTop="8dp"
+        app:cardBackgroundColor="@color/light_red"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/open_cases_layout">
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/chart_new_confirmed"
+            android:layout_width="match_parent"
+            android:layout_height="223dp" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/new_deaths_layout"
+        android:layout_width="match_parent"
+        android:layout_height="229dp"
+        android:layout_marginTop="8dp"
+        app:cardBackgroundColor="@color/light_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_confirmed_layout">
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/chart_new_deaths"
+            android:layout_width="match_parent"
+            android:layout_height="223dp" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/new_recovered_layout"
+        android:layout_width="match_parent"
+        android:layout_height="229dp"
+        android:layout_marginTop="8dp"
+        app:cardBackgroundColor="@color/light_green"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_deaths_layout">
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/chart_new_recovered"
+            android:layout_width="match_parent"
+            android:layout_height="223dp" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/new_open_cases_layout"
+        android:layout_width="match_parent"
+        android:layout_height="229dp"
+        android:layout_marginTop="8dp"
+        app:cardBackgroundColor="@color/light_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_recovered_layout">
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/chart_new_open_cases"
+            android:layout_width="match_parent"
+            android:layout_height="223dp" />
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

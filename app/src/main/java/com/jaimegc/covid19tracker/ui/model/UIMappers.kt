@@ -1,9 +1,6 @@
 package com.jaimegc.covid19tracker.ui.model
 
-import com.jaimegc.covid19tracker.domain.model.CountryStats
-import com.jaimegc.covid19tracker.domain.model.CovidTracker
-import com.jaimegc.covid19tracker.domain.model.Stats
-import com.jaimegc.covid19tracker.domain.model.WorldStats
+import com.jaimegc.covid19tracker.domain.model.*
 import com.jaimegc.covid19tracker.extensions.formatDecimals
 import com.jaimegc.covid19tracker.extensions.formatValue
 
@@ -60,3 +57,43 @@ fun Stats.toUI(): StatsUI =
         vsYesterdayOpenCases = (vsYesterdayOpenCases * 100).formatDecimals(),
         vsYesterdayRecovered = (vsYesterdayRecovered * 100).formatDecimals()
     )
+
+fun WorldStats.toChartUI(): WorldStatsChartUI =
+    WorldStatsChartUI(
+        date = date,
+        updatedAt = updatedAt,
+        stats = StatsChartUI(
+            date = date,
+            source = stats.source,
+            confirmed = stats.confirmed.toFloat(),
+            deaths = stats.deaths.toFloat(),
+            newConfirmed = stats.newConfirmed.toFloat(),
+            newDeaths = stats.newDeaths.toFloat(),
+            newOpenCases = stats.newOpenCases.toFloat(),
+            newRecovered = stats.newRecovered.toFloat(),
+            openCases = stats.openCases.toFloat(),
+            recovered = stats.recovered.toFloat()
+        )
+    )
+
+fun CountryListStats.toChartUI(): CountryListStatsChartUI =
+    CountryListStatsChartUI(
+        id = id,
+        name = name,
+        nameEs = nameEs,
+        stats = stats.map { statsCountry ->
+            StatsChartUI(
+                date = statsCountry.date,
+                source = statsCountry.source,
+                confirmed = statsCountry.confirmed.toFloat(),
+                deaths = statsCountry.deaths.toFloat(),
+                newConfirmed = statsCountry.newConfirmed.toFloat(),
+                newDeaths = statsCountry.newDeaths.toFloat(),
+                newOpenCases = statsCountry.newOpenCases.toFloat(),
+                newRecovered = statsCountry.newRecovered.toFloat(),
+                openCases = statsCountry.openCases.toFloat(),
+                recovered = statsCountry.recovered.toFloat()
+            )
+        }
+    )
+

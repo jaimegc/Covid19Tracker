@@ -36,8 +36,8 @@ class PopulateDatabaseWorker(
         private const val JSON_FILE_EXTENSION = ".json"
         private const val ZIP_FILE_DATES = "dates.zip"
         private val START_DATE = Triple(2020, 1, 23)
-        private val END_DATE = Triple(2020, 4, 18)
-        private val START_DATE_SERVER = Triple(2020, 3, 1)
+        private val END_DATE = Triple(2020, 4, 21)
+        private val START_DATE_SERVER = Triple(2020, 3, 10)
         private val END_DATE_SERVER = Triple(2020, 3, 15)
         private const val DATE_FORMATTER = "YYYY-MM-dd"
         private const val DOWNLOAD_JSONS_FROM_SERVER = false
@@ -64,8 +64,6 @@ class PopulateDatabaseWorker(
                 localDs.populateDatabase(covidTrackers)
             }
 
-            println("RUINA TIME: ${System.currentTimeMillis() - time}")
-
             if (DOWNLOAD_JSONS_FROM_SERVER) downloadAllJsons()
 
             Result.success()
@@ -77,7 +75,10 @@ class PopulateDatabaseWorker(
     private fun getDateFromFileName(date: String): String =
         date.replace(FOLDER, "").replace(JSON_FILE_EXTENSION, "")
 
-    private fun generateDateNames(startDateTriple: Triple<Int, Int, Int>, endDateTriple: Triple<Int, Int, Int>): List<String> {
+    private fun generateDateNames(
+        startDateTriple: Triple<Int, Int, Int>,
+        endDateTriple: Triple<Int, Int, Int>
+    ): List<String> {
         val formatter = SimpleDateFormat(DATE_FORMATTER)
         val dates = mutableListOf<String>()
         val startDate = Calendar.getInstance()

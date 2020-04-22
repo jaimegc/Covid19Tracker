@@ -20,15 +20,18 @@ import com.jaimegc.covid19tracker.extensions.setTextSizeSp
 import com.jaimegc.covid19tracker.ui.model.CountryStatsUI
 
 
-class WorldCountryAdapter : ListAdapter<CountryStatsUI, WorldCountryAdapter.WorldTotalCountryViewHolder>(DIFF_CALLBACK) {
+class WorldCountryAdapter : ListAdapter<CountryStatsUI, WorldCountryAdapter.WorldCountryViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        WorldTotalCountryViewHolder(ItemWorldTotalCountryBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        WorldCountryViewHolder(ItemWorldTotalCountryBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false))
 
-    override fun onBindViewHolder(holderCountry: WorldTotalCountryViewHolder, position: Int) =
+    override fun onBindViewHolder(holderCountry: WorldCountryViewHolder, position: Int) =
         holderCountry.bind(getItem(position))
 
-    class WorldTotalCountryViewHolder(private val binding: ItemWorldTotalCountryBinding) : RecyclerView.ViewHolder(binding.root) {
+    class WorldCountryViewHolder(
+        private val binding: ItemWorldTotalCountryBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(totalStatsUI: CountryStatsUI) {
             val constraintSetCollapse = ConstraintSet()
             val constraintSetExpand = ConstraintSet()
@@ -72,11 +75,13 @@ class WorldCountryAdapter : ListAdapter<CountryStatsUI, WorldCountryAdapter.Worl
                     if (totalStatsUI.isExpanded.not()) {
                         icExpandCollapse.rotateLeftAnimation()
                         constraintSetExpand.applyTo(layoutCard)
-                        applyTextSizes(textConfirmed, textOpenCases, textRecovered, textDeaths, size = TEXT_SIZE_EXPANDED)
+                        applyTextSizes(textConfirmed, textOpenCases, textRecovered, textDeaths,
+                            size = TEXT_SIZE_EXPANDED)
                     } else {
                         icExpandCollapse.rotateRightAnimation()
                         constraintSetCollapse.applyTo(layoutCard)
-                        applyTextSizes(textConfirmed, textOpenCases, textRecovered, textDeaths, size = TEXT_SIZE_COLLAPSED)
+                        applyTextSizes(textConfirmed, textOpenCases, textRecovered, textDeaths,
+                            size = TEXT_SIZE_COLLAPSED)
                     }
 
                     totalStatsUI.isExpanded = totalStatsUI.isExpanded.not()

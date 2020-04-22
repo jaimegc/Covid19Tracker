@@ -4,7 +4,9 @@ import androidx.room.*
 import com.jaimegc.covid19tracker.data.room.entities.CountryEntity
 import com.jaimegc.covid19tracker.data.room.entities.StatsEntity
 import com.jaimegc.covid19tracker.data.room.entities.WorldStatsEntity
+import com.jaimegc.covid19tracker.data.room.pojos.CountryAndStatsPojo
 import com.jaimegc.covid19tracker.data.room.pojos.WorldAndCountriesStatsPojo
+import com.jaimegc.covid19tracker.data.room.views.CountryAndStatsOrderByDeathsDV
 import kotlinx.coroutines.flow.Flow
 
 
@@ -13,13 +15,10 @@ abstract class CovidTrackerDao {
 
     @Transaction
     @Query("SELECT * FROM world_stats WHERE date =:date")
-    abstract fun getWorldAndCountriesStatsByDateDV(date: String): Flow<WorldAndCountriesStatsPojo>
+    abstract fun getWorldAndCountriesStatsByDate(date: String): Flow<WorldAndCountriesStatsPojo>
 
     @Query("SELECT * FROM world_stats")
     abstract suspend fun getWorld(): WorldStatsEntity
-
-    @Query("SELECT * FROM country")
-    abstract suspend fun getCountries(): List<CountryEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insertWorldStats(worldStats: WorldStatsEntity)
@@ -61,6 +60,9 @@ abstract class WorldStatsDao {
 
     @Query("SELECT * FROM world_stats WHERE date =:date")
     abstract fun getByDate(date: String): Flow<List<WorldStatsEntity>>
+
+    @Query("SELECT * FROM world_stats ORDER BY date ASC")
+    abstract fun getAll(): Flow<List<WorldStatsEntity>>
 }
 
 @Dao
@@ -68,4 +70,11 @@ abstract class CountryStatsDao {
 
     @Query("SELECT * FROM country WHERE name =:name")
     abstract fun getByName(name: String): Flow<List<CountryEntity>>
+
+    @Query("""
+        SELECT * FROM country, stats 
+        WHERE country.id = stats.id_country_fk
+        GROUP BY country.name
+        ORDER BY stats.confirmed DESC""")
+    abstract fun getCountriesAndStatsOrderByConfirmed(): Flow<List<CountryAndStatsPojo>>
 }

@@ -1,7 +1,5 @@
 package com.jaimegc.covid19tracker.extensions
 
-import arrow.core.Either
-import arrow.core.Left
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,7 +18,4 @@ object Coroutines {
     fun unconfined(work: suspend(() -> Unit)) =
         CoroutineScope(Dispatchers.Unconfined).launch { work() }
 }
-
-fun <B, C>Either<B, C>.ola(f: (B) -> C) =
-    fold(::Left, { Either.Right(f) })
 

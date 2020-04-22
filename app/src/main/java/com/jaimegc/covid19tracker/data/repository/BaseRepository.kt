@@ -24,8 +24,7 @@ interface BaseRepository<E: DomainError, T> {
                 is Datasource.Network ->
                     Coroutines.io { fetchFromRemote() }
                 is Datasource.Local ->
-
-                    fetchFromLocalState().collect { value ->
+                    fetchFromLocal().collect { value ->
                         value.fold({ error ->
                             emit(Either.left(StateError.Error(error)))
                         }, { success ->
@@ -36,7 +35,7 @@ interface BaseRepository<E: DomainError, T> {
         }
     }
 
-    suspend fun fetchFromLocalState(): Flow<Either<DomainError, T>>
+    suspend fun fetchFromLocal(): Flow<Either<DomainError, T>>
 
     suspend fun fetchFromRemote() = Unit
 

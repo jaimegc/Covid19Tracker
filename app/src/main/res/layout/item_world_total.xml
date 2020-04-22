@@ -6,7 +6,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/dimen_4"
     tools:context=".MainActivity">
 
     <com.google.android.material.card.MaterialCardView
@@ -17,8 +16,8 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
         app:cardBackgroundColor="@color/light_red"
-        app:layout_constraintBottom_toTopOf="@+id/recoverLayout"
-        app:layout_constraintEnd_toStartOf="@+id/open_cases_layout"
+        app:layout_constraintBottom_toTopOf="@+id/recover_layout"
+        app:layout_constraintEnd_toStartOf="@+id/deaths_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -111,114 +110,14 @@
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/open_cases_layout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:cardBackgroundColor="@color/light_blue"
-        app:layout_constraintBottom_toTopOf="@+id/deathLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/confirmed_layout"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="229dp">
-
-            <ImageView
-                android:id="@+id/ic_open_cases"
-                style="@style/ImageIcon"
-                android:layout_width="82dp"
-                android:layout_height="82dp"
-                android:layout_marginTop="16dp"
-                android:contentDescription="@string/open_cases"
-                android:src="@drawable/ic_patient"
-                android:tint="@color/dark_blue"
-                app:layout_constraintBottom_toTopOf="@+id/text_open_cases"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/text_open_cases"
-                style="@style/TextCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:textColor="@color/dark_blue"
-                app:layout_constraintEnd_toEndOf="@+id/ic_open_cases"
-                app:layout_constraintStart_toStartOf="@+id/ic_open_cases"
-                app:layout_constraintTop_toBottomOf="@+id/ic_open_cases"
-                tools:text="23.138" />
-
-            <TextView
-                android:id="@+id/daily_change_new_open_cases"
-                style="@style/TitleDailyChange"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:textStyle="normal"
-                android:textColor="@color/dark_blue"
-                app:layout_constraintEnd_toEndOf="@+id/text_open_cases"
-                app:layout_constraintStart_toStartOf="@+id/text_open_cases"
-                app:layout_constraintTop_toBottomOf="@+id/text_open_cases"
-                android:text="@string/text_daily_change" />
-
-            <ImageView
-                android:id="@+id/ic_trending_open_cases"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="2dp"
-                android:contentDescription="@string/confirmed"
-                android:src="@drawable/ic_trending_up"
-                android:tint="@color/dark_blue"
-                app:layout_constraintEnd_toStartOf="@+id/text_new_open_cases"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/daily_change_new_open_cases" />
-
-            <TextView
-                android:id="@+id/text_new_open_cases"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:textColor="@color/dark_blue"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/ic_trending_open_cases"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/ic_trending_open_cases"
-                app:layout_constraintTop_toTopOf="@+id/ic_trending_open_cases"
-                tools:text="[1.138] (5.10%)" />
-
-            <TextView
-                style="@style/TextTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/open_cases"
-                android:textColor="@color/dark_blue"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/text_new_open_cases"
-                app:layout_constraintStart_toStartOf="@+id/ic_trending_open_cases"
-                app:layout_constraintTop_toBottomOf="@+id/ic_trending_open_cases" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/recoverLayout"
+        android:id="@+id/recover_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
         app:cardBackgroundColor="@color/light_green"
-        app:layout_constraintEnd_toStartOf="@+id/deathLayout"
+        app:layout_constraintEnd_toStartOf="@+id/open_cases_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/confirmed_layout">
 
@@ -310,16 +209,115 @@
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/deathLayout"
+        android:id="@+id/open_cases_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:cardBackgroundColor="@color/light_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/recover_layout"
+        app:layout_constraintTop_toBottomOf="@+id/deaths_layout">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="229dp">
+
+            <ImageView
+                android:id="@+id/ic_open_cases"
+                style="@style/ImageIcon"
+                android:layout_width="82dp"
+                android:layout_height="82dp"
+                android:layout_marginTop="16dp"
+                android:contentDescription="@string/deaths"
+                android:src="@drawable/ic_patient"
+                android:tint="@color/dark_blue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_open_cases"
+                style="@style/TextCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/dark_blue"
+                app:layout_constraintEnd_toEndOf="@+id/ic_open_cases"
+                app:layout_constraintStart_toStartOf="@+id/ic_open_cases"
+                app:layout_constraintTop_toBottomOf="@+id/ic_open_cases"
+                tools:text="23.138" />
+
+            <TextView
+                android:id="@+id/daily_change_new_open_cases"
+                style="@style/TitleDailyChange"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textStyle="normal"
+                android:textColor="@color/dark_blue"
+                app:layout_constraintEnd_toEndOf="@+id/text_open_cases"
+                app:layout_constraintStart_toStartOf="@+id/text_open_cases"
+                app:layout_constraintTop_toBottomOf="@+id/text_open_cases"
+                android:text="@string/text_daily_change" />
+
+            <ImageView
+                android:id="@+id/ic_trending_open_cases"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:contentDescription="@string/open_cases"
+                android:src="@drawable/ic_trending_up"
+                android:tint="@color/dark_blue"
+                app:layout_constraintEnd_toStartOf="@+id/text_new_open_cases"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/daily_change_new_open_cases" />
+
+            <TextView
+                android:id="@+id/text_new_open_cases"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textColor="@color/dark_blue"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/ic_trending_open_cases"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/ic_trending_open_cases"
+                app:layout_constraintTop_toTopOf="@+id/ic_trending_open_cases"
+                tools:text="[1.138] (5.10%)" />
+
+            <TextView
+                style="@style/TextTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/open_cases"
+                android:textColor="@color/dark_blue"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/text_new_open_cases"
+                app:layout_constraintStart_toStartOf="@+id/ic_trending_open_cases"
+                app:layout_constraintTop_toBottomOf="@+id/ic_trending_open_cases" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/deaths_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         app:cardBackgroundColor="@color/light_grey"
+        app:layout_constraintBottom_toTopOf="@+id/open_cases_layout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/recoverLayout"
-        app:layout_constraintTop_toBottomOf="@+id/open_cases_layout">
+        app:layout_constraintStart_toEndOf="@+id/confirmed_layout"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -334,6 +332,7 @@
                 android:contentDescription="@string/deaths"
                 android:src="@drawable/ic_death"
                 android:tint="@color/dark_grey"
+                app:layout_constraintBottom_toTopOf="@+id/text_deaths"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -369,7 +368,7 @@
                 android:layout_height="24dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="2dp"
-                android:contentDescription="@string/recovered"
+                android:contentDescription="@string/deaths"
                 android:src="@drawable/ic_trending_up"
                 android:tint="@color/dark_grey"
                 app:layout_constraintEnd_toStartOf="@+id/text_new_deaths"
@@ -416,6 +415,6 @@
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recoverLayout"
+        app:layout_constraintTop_toBottomOf="@+id/recover_layout"
         tools:text="Last Updated: 1 minutes ago" />
 </androidx.constraintlayout.widget.ConstraintLayout>
