@@ -33,7 +33,6 @@ class WorldCountriesBarChartAdapter : ListAdapter<CountryListStatsChartUI, World
             chartDeaths.configure(countryStatsChartUI.stats.map { countryStats -> countryStats.date },
                 countryStatsChartUI.stats.minBy { countryStats -> countryStats.deaths }!!.deaths)
 
-
             chartConfirmed.setValuesChart(ctx, countryStatsChartUI.stats.map { countryStats ->
                 countryStats.confirmed }, R.string.total_confirmed, R.color.dark_red)
             chartDeaths.setValuesChart(ctx, countryStatsChartUI.stats.map { countryStats ->
