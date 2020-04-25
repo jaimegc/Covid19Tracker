@@ -28,7 +28,7 @@ class WorldViewModel(
 
     fun getCovidTrackerLast() =
         viewModelScope.launch {
-            getCovidTrackerLast.getCovidTrackerByDate("2020-04-19").collect { result ->
+            getCovidTrackerLast.getCovidTrackerByDate("2020-04-21").collect { result ->
                 result.fold(::handleError, ::handleScreenStateCovidTracker)
             }
         }
@@ -43,7 +43,14 @@ class WorldViewModel(
     fun getCountriesStatsOrderByConfirmed() =
         viewModelScope.launch {
             getCountryStats.getCountriesStatsOrderByConfirmed().collect { result ->
-                result.fold(::handleError, ::handleScreenStateCountriesStats)
+                result.fold(::handleError, ::handleScreenStateCountriesBarStats)
+            }
+        }
+
+    fun getCountriesAndStatsWithMostConfirmed() =
+        viewModelScope.launch {
+            getCountryStats.getCountriesAndStatsWithMostConfirmed().collect { result ->
+                result.fold(::handleError, ::handleScreenStateCountriesLineStats)
             }
         }
 
@@ -58,16 +65,25 @@ class WorldViewModel(
     private fun handleScreenStateWorldStats(state: State<List<WorldStats>>) =
         when (state) {
             is State.Success ->
-                _screenState.postValue(ScreenState.Render(WorldStateScreen.SuccessWorldStatsCharts(
+                _screenState.postValue(ScreenState.Render(WorldStateScreen.SuccessWorldStatsBarCharts(
                     state.data.map { worldStats -> worldStats.toChartUI() })))
             is State.Loading ->
                 _screenState.postValue(ScreenState.Loading)
         }
 
-    private fun handleScreenStateCountriesStats(state: State<List<CountryListStats>>) =
+    private fun handleScreenStateCountriesBarStats(state: State<List<CountryListStats>>) =
         when (state) {
             is State.Success ->
-                _screenState.postValue(ScreenState.Render(WorldStateScreen.SuccessCountriesStatsCharts(
+                _screenState.postValue(ScreenState.Render(WorldStateScreen.SuccessCountriesStatsBarCharts(
+                    state.data.map { countryStats -> countryStats.toChartUI() })))
+            is State.Loading ->
+                _screenState.postValue(ScreenState.Loading)
+        }
+
+    private fun handleScreenStateCountriesLineStats(state: State<List<CountryListStats>>) =
+        when (state) {
+            is State.Success ->
+                _screenState.postValue(ScreenState.Render(WorldStateScreen.SuccessCountriesStatsLineCharts(
                     state.data.map { countryStats -> countryStats.toChartUI() })))
             is State.Loading ->
                 _screenState.postValue(ScreenState.Loading)

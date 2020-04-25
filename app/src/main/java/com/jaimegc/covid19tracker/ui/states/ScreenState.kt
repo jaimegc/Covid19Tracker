@@ -11,8 +11,9 @@ sealed class ScreenState<out T : BaseScreenState> {
 
 sealed class WorldStateScreen : BaseScreenState() {
     class SuccessCovidTracker(val data: CovidTrackerUI) : WorldStateScreen()
-    class SuccessWorldStatsCharts(val data: List<WorldStatsChartUI>) : WorldStateScreen()
-    class SuccessCountriesStatsCharts(val data: List<CountryListStatsChartUI>) : WorldStateScreen()
+    class SuccessWorldStatsBarCharts(val data: List<WorldStatsChartUI>) : WorldStateScreen()
+    class SuccessCountriesStatsBarCharts(val data: List<CountryListStatsChartUI>) : WorldStateScreen()
+    class SuccessCountriesStatsLineCharts(val data: List<CountryListStatsChartUI>) : WorldStateScreen()
 }
 
 sealed class BaseScreenState

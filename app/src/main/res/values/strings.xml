@@ -30,4 +30,5 @@
     <!-- Menu -->
     <string name="menu_world_list">World list</string>
     <string name="menu_world_bar_chart">World bar chart</string>
+    <string name="menu_world_line_chart">World line chart</string>
 </resources>

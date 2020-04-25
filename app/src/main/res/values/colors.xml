@@ -13,6 +13,9 @@
     <color name="dark_green">#388E3C</color>
     <color name="dark_blue">#1976D2</color>
     <color name="dark_grey">#6C757D</color>
+    <color name="dark_yellow">#F8DE8B</color>
+    <color name="dark_orange">#E58E52</color>
+    <color name="dark_purple">#7D54A2</color>
     <color name="title_grey">#6C757D</color>
 
 </resources>

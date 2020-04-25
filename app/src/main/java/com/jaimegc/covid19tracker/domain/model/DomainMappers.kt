@@ -7,6 +7,7 @@ import com.jaimegc.covid19tracker.data.api.model.CovidTrackerDto
 import com.jaimegc.covid19tracker.data.api.model.CovidTrackerTotalDto
 import com.jaimegc.covid19tracker.data.room.views.CountryAndStatsDV
 import com.jaimegc.covid19tracker.data.room.entities.*
+import com.jaimegc.covid19tracker.data.room.pojos.CountryAndOneStatsPojo
 import com.jaimegc.covid19tracker.data.room.pojos.CountryAndStatsPojo
 import com.jaimegc.covid19tracker.data.room.pojos.WorldAndCountriesStatsPojo
 import com.jaimegc.covid19tracker.data.room.views.CountryAndStatsOrderByDeathsDV
@@ -79,7 +80,7 @@ fun CountryAndStatsPojo.toDomainOnly(): CountryStats =
         id = country!!.id,
         name = country.name,
         nameEs = country.nameEs,
-        stats = stats[0]!!.toDomain()
+        stats = stats[0].toDomain()
     )
 
 fun CountryAndStatsPojo.toDomain(): CountryListStats =
@@ -89,6 +90,16 @@ fun CountryAndStatsPojo.toDomain(): CountryListStats =
         nameEs = country.nameEs,
         stats = stats.map { countryStats -> countryStats.toDomain() }
     )
+
+fun List<CountryAndOneStatsPojo>.toDomain(): List<CountryAndStatsPojo> =
+    this.groupBy { it.country }.let { mapCountries ->
+        val listCountryAndStatsPojo = mutableListOf<CountryAndStatsPojo>()
+        mapCountries.map { countryStats ->
+            listCountryAndStatsPojo.add(CountryAndStatsPojo(
+                countryStats.key, countryStats.value.map { stats -> stats.stats }))
+        }
+        listCountryAndStatsPojo
+    }
 
 fun CountryAndStatsOrderByDeathsDV.toDomain(): CountryStats =
     CountryStats(
@@ -210,6 +221,20 @@ fun StatsEntity.toDomain(): Stats =
     )
 
 fun <T, R> mapEntityValid(parse: Flow<T?>, mapper: (T) -> Pair<Boolean, R>): Flow<Either<DomainError, R>> =
+    try {
+        parse.map {
+            it?.let {
+                when (mapper(it).first) {
+                    true -> Either.right(mapper(it).second)
+                    else -> Either.left(DomainError.DatabaseEmptyData)
+                }
+            } ?: Either.left(DomainError.DatabaseEmptyData)
+        }
+    } catch (exception: Exception) {
+        flow { Either.left(DomainError.DatabaseDomainError(exception.toString())) }
+    }
+
+fun <T, S, R> mapEntityValid2(parse: Flow<T?>, mapper2: (S) -> Flow<T>, mapper: (T) -> Pair<Boolean, S>): Flow<Either<DomainError, S>> =
     try {
         parse.map {
             it?.let {

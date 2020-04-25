@@ -4,9 +4,9 @@ import androidx.room.*
 import com.jaimegc.covid19tracker.data.room.entities.CountryEntity
 import com.jaimegc.covid19tracker.data.room.entities.StatsEntity
 import com.jaimegc.covid19tracker.data.room.entities.WorldStatsEntity
+import com.jaimegc.covid19tracker.data.room.pojos.CountryAndOneStatsPojo
 import com.jaimegc.covid19tracker.data.room.pojos.CountryAndStatsPojo
 import com.jaimegc.covid19tracker.data.room.pojos.WorldAndCountriesStatsPojo
-import com.jaimegc.covid19tracker.data.room.views.CountryAndStatsOrderByDeathsDV
 import kotlinx.coroutines.flow.Flow
 
 
@@ -77,4 +77,19 @@ abstract class CountryStatsDao {
         GROUP BY country.name
         ORDER BY stats.confirmed DESC""")
     abstract fun getCountriesAndStatsOrderByConfirmed(): Flow<List<CountryAndStatsPojo>>
+
+    @Query("""
+        SELECT * FROM country c
+        INNER JOIN stats s ON c.id = s.id_country_fk AND c.id IN
+        (SELECT id FROM country 
+            INNER JOIN (
+                SELECT id_country_fk, MAX(confirmed) AS maxConfirmed FROM stats 
+                GROUP BY id_country_fk) statsMaxConfirmed
+                ON country.id = statsMaxConfirmed.id_country_fk 
+                ORDER BY statsMaxConfirmed.maxConfirmed DESC LIMIT 5
+            )
+        WHERE confirmed > 10000
+        ORDER BY c.id ASC, s.confirmed ASC
+        """)
+    abstract fun getCountriesAndStatsWithMostConfirmed(): Flow<List<CountryAndOneStatsPojo>>
 }

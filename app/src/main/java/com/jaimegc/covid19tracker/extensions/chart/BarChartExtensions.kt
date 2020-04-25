@@ -10,14 +10,11 @@ import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
-import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
+import com.jaimegc.covid19tracker.extensions.chart.formatter.ChartDayMonthFormatter
 import com.jaimegc.covid19tracker.extensions.toPx
 
-fun BarChart.configure(
-    xAxisValues: List<String>,
-    minAxisLeftValue: Float
-) {
+fun BarChart.configure(xAxisValues: List<String>, minAxisLeftValue: Float = 0f) {
     with(this) {
         setDrawBarShadow(false)
         setDrawValueAboveBar(false)
@@ -30,10 +27,7 @@ fun BarChart.configure(
             granularity = 1f
             textSize = 10f
             typeface = Typeface.DEFAULT_BOLD
-            valueFormatter =
-                ChartDayMonthFormatter(
-                    xAxisValues
-                )
+            valueFormatter = ChartDayMonthFormatter(xAxisValues)
             labelRotationAngle = -45f
         }
 
@@ -51,31 +45,17 @@ fun BarChart.configure(
     }
 }
 
-fun BarChart.setValuesChart(
-    ctx: Context,
-    values: List<Float>,
-    legendStringRes: Int,
-    legendColorRes: Int
-) {
-    val valuesChartConfirmed = mutableListOf<BarEntry>()
+fun BarChart.setValuesChart(ctx: Context, values: List<Float>, legendStringRes: Int, legendColorRes: Int) {
+    val valuesBarChart = mutableListOf<BarEntry>()
 
-    values.mapIndexed { index, value ->
-        valuesChartConfirmed.add(BarEntry(index.toFloat(), value))
-    }
+    values.mapIndexed { index, value -> valuesBarChart.add(BarEntry(index.toFloat(), value)) }
 
-    val dataSetsConfirmed = BarDataSet(valuesChartConfirmed, ctx.getString(legendStringRes))
-    dataSetsConfirmed.setDrawValues(false)
-    dataSetsConfirmed.color = ContextCompat.getColor(ctx, legendColorRes)
+    val barDataSet = BarDataSet(valuesBarChart, ctx.getString(legendStringRes))
+    barDataSet.setDrawValues(false)
+    barDataSet.color = ContextCompat.getColor(ctx, legendColorRes)
 
-    val dataConfirmed = BarData(listOf<IBarDataSet>(dataSetsConfirmed))
-    dataConfirmed.setValueTextSize(10f.toPx())
-    data = dataConfirmed
-}
+    val barData = BarData(listOf<IBarDataSet>(barDataSet))
+    barData.setValueTextSize(12f)
 
-class ChartDayMonthFormatter(
-    private val listDates: List<String>
-) : ValueFormatter() {
-    override fun getFormattedValue(value: Float): String {
-        return listDates[value.toInt()].substring(5, listDates[value.toInt()].length)
-    }
+    data = barData
 }

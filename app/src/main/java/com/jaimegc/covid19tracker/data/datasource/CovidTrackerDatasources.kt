@@ -10,6 +10,7 @@ import com.jaimegc.covid19tracker.data.room.daos.WorldStatsDao
 import com.jaimegc.covid19tracker.data.room.entities.CountryEntity
 import com.jaimegc.covid19tracker.data.room.entities.StatsEntity
 import com.jaimegc.covid19tracker.data.room.entities.WorldStatsEntity
+import com.jaimegc.covid19tracker.data.room.pojos.CountryAndOneStatsPojo
 import com.jaimegc.covid19tracker.domain.model.toDomain
 import com.jaimegc.covid19tracker.domain.model.*
 import kotlinx.coroutines.flow.Flow
@@ -42,6 +43,13 @@ class LocalCovidTrackerDatasource(
     suspend fun getCountriesStatsOrderByConfirmed(): Flow<Either<DomainError, List<CountryListStats>>> =
         mapEntityValid(countryStatsDao.getCountriesAndStatsOrderByConfirmed()) { countriesListStats ->
             Pair(countriesListStats.isNotEmpty(), countriesListStats.map { countryStats -> countryStats.toDomain() }) }
+
+    suspend fun getCountriesAndStatsWithMostConfirmed(): Flow<Either<DomainError, List<CountryListStats>>> =
+        mapEntityValid(countryStatsDao.getCountriesAndStatsWithMostConfirmed()) { countriesListOneStats ->
+            countriesListOneStats.toDomain().let { countriesListStats ->
+                Pair(countriesListStats.isNotEmpty(), countriesListStats.map { countryStats ->
+                    countryStats.toDomain() }) }
+            }
 
     suspend fun getCountriesStatsOrderByDeaths(): Flow<Either<DomainError, List<CountryStats>>> =
         mapEntityValid(countryStatsDao.getCountriesAndStatsOrderByConfirmed()) { countriesStats ->

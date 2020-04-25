@@ -2,14 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item android:id="@+id/list_view"
+        android:icon="@drawable/ic_menu_list"
+        app:showAsAction="always"
+        android:title="@string/menu_world_bar_chart"/>
+
     <item android:id="@+id/bar_chart_view"
         android:icon="@drawable/ic_menu_bar_chart"
         app:showAsAction="always"
         android:title="@string/menu_world_bar_chart"/>
 
-    <item android:id="@+id/list_view"
-        android:icon="@drawable/ic_menu_list"
+    <item android:id="@+id/line_chart_view"
+        android:icon="@drawable/ic_menu_line_chart"
         app:showAsAction="always"
-        android:title="@string/menu_world_bar_chart"/>
+        android:title="@string/menu_world_line_chart"/>
 
 </menu>
