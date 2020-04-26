@@ -51,6 +51,13 @@ class LocalCovidTrackerDatasource(
                     countryStats.toDomain() }) }
             }
 
+    suspend fun getCountriesAndStatsWithMostDeaths(): Flow<Either<DomainError, List<CountryListStats>>> =
+        mapEntityValid(countryStatsDao.getCountriesAndStatsWithMostDeaths()) { countriesListOneStats ->
+            countriesListOneStats.toDomain().let { countriesListStats ->
+                Pair(countriesListStats.isNotEmpty(), countriesListStats.map { countryStats ->
+                    countryStats.toDomain() }) }
+        }
+
     suspend fun getCountriesStatsOrderByDeaths(): Flow<Either<DomainError, List<CountryStats>>> =
         mapEntityValid(countryStatsDao.getCountriesAndStatsOrderByConfirmed()) { countriesStats ->
             Pair(countriesStats.isNotEmpty(), countriesStats.map { countryStats -> countryStats.toDomainOnly() }) }

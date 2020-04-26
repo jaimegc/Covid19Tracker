@@ -13,7 +13,13 @@ sealed class WorldStateScreen : BaseScreenState() {
     class SuccessCovidTracker(val data: CovidTrackerUI) : WorldStateScreen()
     class SuccessWorldStatsBarCharts(val data: List<WorldStatsChartUI>) : WorldStateScreen()
     class SuccessCountriesStatsBarCharts(val data: List<CountryListStatsChartUI>) : WorldStateScreen()
-    class SuccessCountriesStatsLineCharts(val data: List<CountryListStatsChartUI>) : WorldStateScreen()
+    class SuccessCountriesStatsLineCharts(
+        val data: Map<WorldStateCountriesStatsLineChartType, List<CountryListStatsChartUI>>) : WorldStateScreen()
 }
 
 sealed class BaseScreenState
+
+sealed class WorldStateCountriesStatsLineChartType {
+    object MostConfirmed : WorldStateCountriesStatsLineChartType()
+    object MostDeaths : WorldStateCountriesStatsLineChartType()
+}

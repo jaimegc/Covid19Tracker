@@ -45,7 +45,7 @@ fun BarChart.configure(xAxisValues: List<String>, minAxisLeftValue: Float = 0f) 
     }
 }
 
-fun BarChart.setValuesChart(ctx: Context, values: List<Float>, legendStringRes: Int, legendColorRes: Int) {
+fun BarChart.setValues(ctx: Context, values: List<Float>, legendStringRes: Int, legendColorRes: Int) {
     val valuesBarChart = mutableListOf<BarEntry>()
 
     values.mapIndexed { index, value -> valuesBarChart.add(BarEntry(index.toFloat(), value)) }

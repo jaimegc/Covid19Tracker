@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.databinding.ItemBarChartWorldTotalBinding
 import com.jaimegc.covid19tracker.extensions.chart.configure
-import com.jaimegc.covid19tracker.extensions.chart.setValuesChart
+import com.jaimegc.covid19tracker.extensions.chart.setValues
 import com.jaimegc.covid19tracker.ui.model.WorldStatsChartUI
 
 class WorldBarChartAdapter : ListAdapter<List<WorldStatsChartUI>, WorldBarChartAdapter.WorldTotalViewHolder>(DIFF_CALLBACK) {
@@ -51,21 +51,21 @@ class WorldBarChartAdapter : ListAdapter<List<WorldStatsChartUI>, WorldBarChartA
             chartNewOpenCases.configure(listWorldStatsChartUI.map { worldStats -> worldStats.date },
                 listWorldStatsChartUI.minBy { worldStats -> worldStats.stats.newOpenCases }!!.stats.newOpenCases)
 
-            chartConfirmed.setValuesChart(ctx, listWorldStatsChartUI.map { worldStats ->
+            chartConfirmed.setValues(ctx, listWorldStatsChartUI.map { worldStats ->
                 worldStats.stats.confirmed }, R.string.total_confirmed, R.color.dark_red)
-            chartDeaths.setValuesChart(ctx, listWorldStatsChartUI.map { worldStats ->
+            chartDeaths.setValues(ctx, listWorldStatsChartUI.map { worldStats ->
                 worldStats.stats.deaths }, R.string.total_deaths, R.color.dark_grey)
-            chartOpenCases.setValuesChart(ctx, listWorldStatsChartUI.map { worldStats ->
+            chartOpenCases.setValues(ctx, listWorldStatsChartUI.map { worldStats ->
                 worldStats.stats.openCases }, R.string.total_open_cases, R.color.dark_blue)
-            chartRecovered.setValuesChart(ctx, listWorldStatsChartUI.map { worldStats ->
+            chartRecovered.setValues(ctx, listWorldStatsChartUI.map { worldStats ->
                 worldStats.stats.recovered }, R.string.total_recovered, R.color.dark_green)
-            chartNewConfirmed.setValuesChart(ctx, listWorldStatsChartUI.map { worldStats ->
+            chartNewConfirmed.setValues(ctx, listWorldStatsChartUI.map { worldStats ->
                 worldStats.stats.newConfirmed }, R.string.total_new_confirmed, R.color.dark_red)
-            chartNewDeaths.setValuesChart(ctx, listWorldStatsChartUI.map { worldStats ->
+            chartNewDeaths.setValues(ctx, listWorldStatsChartUI.map { worldStats ->
                 worldStats.stats.newDeaths }, R.string.total_new_deaths, R.color.dark_grey)
-            chartNewOpenCases.setValuesChart(ctx, listWorldStatsChartUI.map { worldStats ->
+            chartNewOpenCases.setValues(ctx, listWorldStatsChartUI.map { worldStats ->
                 worldStats.stats.newOpenCases }, R.string.total_new_open_cases, R.color.dark_blue)
-            chartNewRecovered.setValuesChart(ctx, listWorldStatsChartUI.map { worldStats ->
+            chartNewRecovered.setValues(ctx, listWorldStatsChartUI.map { worldStats ->
                 worldStats.stats.newRecovered }, R.string.total_new_recovered, R.color.dark_green)
         }
     }

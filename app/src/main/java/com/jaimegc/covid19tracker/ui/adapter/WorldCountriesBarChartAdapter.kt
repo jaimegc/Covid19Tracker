@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.databinding.ItemBarChartCountryTotalBinding
 import com.jaimegc.covid19tracker.extensions.chart.configure
-import com.jaimegc.covid19tracker.extensions.chart.setValuesChart
+import com.jaimegc.covid19tracker.extensions.chart.setValues
 import com.jaimegc.covid19tracker.ui.model.CountryListStatsChartUI
 
 class WorldCountriesBarChartAdapter : ListAdapter<CountryListStatsChartUI, WorldCountriesBarChartAdapter.CountriesListStatsViewHolder>(DIFF_CALLBACK) {
@@ -33,9 +33,9 @@ class WorldCountriesBarChartAdapter : ListAdapter<CountryListStatsChartUI, World
             chartDeaths.configure(countryStatsChartUI.stats.map { countryStats -> countryStats.date },
                 countryStatsChartUI.stats.minBy { countryStats -> countryStats.deaths }!!.deaths)
 
-            chartConfirmed.setValuesChart(ctx, countryStatsChartUI.stats.map { countryStats ->
+            chartConfirmed.setValues(ctx, countryStatsChartUI.stats.map { countryStats ->
                 countryStats.confirmed }, R.string.total_confirmed, R.color.dark_red)
-            chartDeaths.setValuesChart(ctx, countryStatsChartUI.stats.map { countryStats ->
+            chartDeaths.setValues(ctx, countryStatsChartUI.stats.map { countryStats ->
                 countryStats.deaths }, R.string.total_deaths, R.color.dark_grey)
 
             binding.textPlace.text = countryStatsChartUI.name

@@ -9,10 +9,12 @@ import com.jaimegc.covid19tracker.domain.states.StateError
 import com.jaimegc.covid19tracker.domain.usecase.GetCountryStats
 import com.jaimegc.covid19tracker.domain.usecase.GetCovidTrackerLast
 import com.jaimegc.covid19tracker.domain.usecase.GetWorldStats
+import com.jaimegc.covid19tracker.ui.model.CountryListStatsChartUI
 import com.jaimegc.covid19tracker.ui.model.toChartUI
 import com.jaimegc.covid19tracker.ui.model.toUI
 import com.jaimegc.covid19tracker.ui.viewmodel.BaseScreenStateViewModel
 import com.jaimegc.covid19tracker.ui.states.ScreenState
+import com.jaimegc.covid19tracker.ui.states.WorldStateCountriesStatsLineChartType
 import com.jaimegc.covid19tracker.ui.states.WorldStateScreen
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -26,9 +28,12 @@ class WorldViewModel(
     override val _screenState = MutableLiveData<ScreenState<WorldStateScreen>>()
     override val screenState: LiveData<ScreenState<WorldStateScreen>> = _screenState
 
+    private val mapWorldLineStats =
+        mutableMapOf<WorldStateCountriesStatsLineChartType, List<CountryListStatsChartUI>>()
+
     fun getCovidTrackerLast() =
         viewModelScope.launch {
-            getCovidTrackerLast.getCovidTrackerByDate("2020-04-21").collect { result ->
+            getCovidTrackerLast.getCovidTrackerByDate("2020-04-25").collect { result ->
                 result.fold(::handleError, ::handleScreenStateCovidTracker)
             }
         }
@@ -47,10 +52,29 @@ class WorldViewModel(
             }
         }
 
-    fun getCountriesAndStatsWithMostConfirmed() =
+    fun getWorldMostStats() {
+        mapWorldLineStats.clear()
+        getCountriesAndStatsWithMostConfirmed()
+        getCountriesAndStatsWithMostDeaths()
+    }
+
+    private fun getCountriesAndStatsWithMostConfirmed() =
         viewModelScope.launch {
             getCountryStats.getCountriesAndStatsWithMostConfirmed().collect { result ->
-                result.fold(::handleError, ::handleScreenStateCountriesLineStats)
+                result.fold(
+                    { handleError(it) },
+                    { handleScreenStateCountriesLineStats(it, WorldStateCountriesStatsLineChartType.MostConfirmed) }
+                )
+            }
+        }
+
+    private fun getCountriesAndStatsWithMostDeaths() =
+        viewModelScope.launch {
+            getCountryStats.getCountriesAndStatsWithMostDeaths().collect { result ->
+                result.fold(
+                    { handleError(it) },
+                    { handleScreenStateCountriesLineStats(it, WorldStateCountriesStatsLineChartType.MostDeaths) }
+                )
             }
         }
 
@@ -80,14 +104,20 @@ class WorldViewModel(
                 _screenState.postValue(ScreenState.Loading)
         }
 
-    private fun handleScreenStateCountriesLineStats(state: State<List<CountryListStats>>) =
+    private fun handleScreenStateCountriesLineStats(
+        state: State<List<CountryListStats>>, lineChartType: WorldStateCountriesStatsLineChartType) {
         when (state) {
-            is State.Success ->
-                _screenState.postValue(ScreenState.Render(WorldStateScreen.SuccessCountriesStatsLineCharts(
-                    state.data.map { countryStats -> countryStats.toChartUI() })))
+            is State.Success -> {
+                mapWorldLineStats[lineChartType] = state.data.map { countryStats -> countryStats.toChartUI() }
+                if (mapWorldLineStats.size == 2) {
+                    _screenState.postValue(ScreenState.Render(
+                        WorldStateScreen.SuccessCountriesStatsLineCharts(mapWorldLineStats)))
+                }
+            }
             is State.Loading ->
                 _screenState.postValue(ScreenState.Loading)
         }
+    }
 
     private fun handleError(state: StateError<DomainError>) {
 

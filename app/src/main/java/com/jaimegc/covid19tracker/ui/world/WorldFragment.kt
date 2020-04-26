@@ -26,10 +26,9 @@ class WorldFragment : Fragment(R.layout.fragment_world),
     private val worldCountryAdapter = WorldCountryAdapter()
     private val worldBarChartAdapter = WorldBarChartAdapter()
     private val worldBarCountriesChartAdapter = WorldCountriesBarChartAdapter()
-    private val worldCountryLineChartAdapter = WorldCountryLineChartAdapter()
-    private val mergeAdapter = MergeAdapter(worldAdapter, worldCountryAdapter)
-    private val mergeAdapterBarCharts = MergeAdapter(worldBarChartAdapter, worldBarCountriesChartAdapter)
-    private val mergeAdapterLineCharts = MergeAdapter(worldCountryLineChartAdapter)
+    private val worldLineChartAdapter = WorldLineChartAdapter()
+    private val mergeAdapter = MergeAdapter()
+
     private lateinit var binding: FragmentWorldBinding
     private lateinit var menu: Menu
 
@@ -56,21 +55,30 @@ class WorldFragment : Fragment(R.layout.fragment_world),
     override fun handleRenderState(renderState: WorldStateScreen) {
         when (renderState) {
             is WorldStateScreen.SuccessCovidTracker -> {
-                binding.recyclerWorld.updateAdapter(mergeAdapter)
-                worldCountryAdapter.submitList(renderState.data.countriesStats)
+                mergeAdapter.removeAllAdapters()
+                mergeAdapter.addAdapter(worldAdapter)
+                mergeAdapter.addAdapter(worldCountryAdapter)
                 worldAdapter.submitList(listOf(renderState.data.worldStats))
+                worldCountryAdapter.submitList(renderState.data.countriesStats)
             }
             is WorldStateScreen.SuccessWorldStatsBarCharts -> {
-                binding.recyclerWorld.updateAdapter(mergeAdapterBarCharts)
+                mergeAdapter.addAdapter(0, worldBarChartAdapter)
+                if (mergeAdapter.containsAdapter(worldBarCountriesChartAdapter)) {
+                    binding.recyclerWorld.scrollToPosition(0)
+                }
                 worldBarChartAdapter.submitList(listOf(renderState.data))
             }
             is WorldStateScreen.SuccessCountriesStatsBarCharts -> {
-                binding.recyclerWorld.updateAdapter(mergeAdapterBarCharts)
+                if (mergeAdapter.containsAdapter(worldBarChartAdapter)) {
+                    mergeAdapter.addAdapter(1, worldBarCountriesChartAdapter)
+                } else {
+                    mergeAdapter.addAdapter(0, worldBarCountriesChartAdapter)
+                }
                 worldBarCountriesChartAdapter.submitList(renderState.data)
             }
             is WorldStateScreen.SuccessCountriesStatsLineCharts -> {
-                binding.recyclerWorld.updateAdapter(mergeAdapterLineCharts)
-                worldCountryLineChartAdapter.submitList(listOf(renderState.data))
+                mergeAdapter.addAdapter(worldLineChartAdapter)
+                worldLineChartAdapter.submitList(listOf(renderState.data))
             }
         }
     }
@@ -87,6 +95,7 @@ class WorldFragment : Fragment(R.layout.fragment_world),
             R.id.bar_chart_view -> {
                 menu.showItems(2)
                 menu.hideItems(0, 1)
+                mergeAdapter.removeAllAdapters()
                 viewModel.getWorldAllStats()
                 viewModel.getCountriesStatsOrderByConfirmed()
                 true
@@ -94,12 +103,14 @@ class WorldFragment : Fragment(R.layout.fragment_world),
             R.id.line_chart_view -> {
                 menu.showItems(0)
                 menu.hideItems(1, 2)
-                viewModel.getCountriesAndStatsWithMostConfirmed()
+                mergeAdapter.removeAllAdapters()
+                viewModel.getWorldMostStats()
                 true
             }
             R.id.list_view -> {
                 menu.showItems(1)
                 menu.hideItems(0, 2)
+                mergeAdapter.removeAllAdapters()
                 viewModel.getCovidTrackerLast()
                 true
             }

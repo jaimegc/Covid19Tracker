@@ -30,7 +30,7 @@ fun LineChart.configure(xAxisValues: List<String>, minAxisLeftValue: Float = 0f)
 
         with(this.axisLeft) {
             setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
-            axisMinimum = if (minAxisLeftValue >= 0) 0f else minAxisLeftValue
+            axisMinimum = minAxisLeftValue
         }
 
         with(this.legend) {
@@ -42,7 +42,7 @@ fun LineChart.configure(xAxisValues: List<String>, minAxisLeftValue: Float = 0f)
     }
 }
 
-fun LineChart.setValuesChart(
+fun LineChart.setValues(
     ctx: Context,
     listValues: List<List<Float>>,
     legendColorRes: List<Int>,

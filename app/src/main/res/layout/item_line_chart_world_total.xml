@@ -24,4 +24,20 @@
             android:layout_height="223dp" />
     </com.google.android.material.card.MaterialCardView>
 
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/deaths_layout"
+        android:layout_width="match_parent"
+        android:layout_height="229dp"
+        android:layout_marginTop="8dp"
+        app:cardBackgroundColor="@color/light_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/confirmed_layout">
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/chart_deaths"
+            android:layout_width="match_parent"
+            android:layout_height="223dp" />
+    </com.google.android.material.card.MaterialCardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -88,8 +88,23 @@ abstract class CountryStatsDao {
                 ON country.id = statsMaxConfirmed.id_country_fk 
                 ORDER BY statsMaxConfirmed.maxConfirmed DESC LIMIT 5
             )
-        WHERE confirmed > 10000
+        WHERE confirmed > 2000
         ORDER BY c.id ASC, s.confirmed ASC
         """)
     abstract fun getCountriesAndStatsWithMostConfirmed(): Flow<List<CountryAndOneStatsPojo>>
+
+    @Query("""
+        SELECT * FROM country c
+        INNER JOIN stats s ON c.id = s.id_country_fk AND c.id IN
+        (SELECT id FROM country 
+            INNER JOIN (
+                SELECT id_country_fk, MAX(deaths) AS maxDeaths FROM stats 
+                GROUP BY id_country_fk) statsMaxDeaths
+                ON country.id = statsMaxDeaths.id_country_fk 
+                ORDER BY statsMaxDeaths.maxDeaths DESC LIMIT 5
+            )
+        WHERE deaths > 100
+        ORDER BY c.id ASC, s.deaths ASC
+        """)
+    abstract fun getCountriesAndStatsWithMostDeaths(): Flow<List<CountryAndOneStatsPojo>>
 }
