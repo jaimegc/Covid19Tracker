@@ -16,6 +16,18 @@ class GetCountryStats(
     suspend fun getCountriesStatsOrderByConfirmed(): Flow<Either<StateError<DomainError>, State<List<CountryListStats>>>> =
         repository.getCountriesStatsOrderByConfirmed()
 
+    suspend fun getCountriesAndStatsWithMostConfirmed(): Flow<Either<StateError<DomainError>, State<List<CountryListStats>>>> =
+        repository.getCountriesAndStatsWithMostConfirmed()
+
+    suspend fun getCountriesAndStatsWithMostDeaths(): Flow<Either<StateError<DomainError>, State<List<CountryListStats>>>> =
+        repository.getCountriesAndStatsWithMostDeaths()
+
+    suspend fun getCountriesAndStatsWithMostRecovered(): Flow<Either<StateError<DomainError>, State<List<CountryListStats>>>> =
+        repository.getCountriesAndStatsWithMostRecovered()
+
+    suspend fun getCountriesAndStatsWithMostOpenCases(): Flow<Either<StateError<DomainError>, State<List<CountryListStats>>>> =
+        repository.getCountriesAndStatsWithMostOpenCases()
+
     suspend fun getCountriesStatsOrderByDeaths(): Flow<Either<StateError<DomainError>, State<List<CountryStats>>>> =
         repository.getCountriesStatsOrderByDeaths()
 }

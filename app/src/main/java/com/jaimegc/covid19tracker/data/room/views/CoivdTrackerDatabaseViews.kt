@@ -15,25 +15,3 @@ data class CountryAndStatsDV(
     @Embedded
     val stats: StatsEntity?
 )
-
-@DatabaseView("""
-    SELECT * FROM country, stats 
-    WHERE country.id = stats.id_country_fk 
-    ORDER BY confirmed DESC LIMIT 6""")
-data class CountryAndStatsOrderByConfirmedDV(
-    @Embedded
-    val country: CountryEntity?,
-    @Embedded
-    val stats: StatsEntity?
-)
-
-@DatabaseView("""
-    SELECT * FROM country, stats 
-    WHERE country.id = stats.id_country_fk 
-    ORDER BY deaths DESC LIMIT 6""")
-data class CountryAndStatsOrderByDeathsDV(
-    @Embedded
-    val country: CountryEntity?,
-    @Embedded
-    val stats: StatsEntity?
-)

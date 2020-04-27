@@ -11,13 +11,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.MergeAdapter
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.databinding.FragmentWorldBinding
-import com.jaimegc.covid19tracker.extensions.hide
-import com.jaimegc.covid19tracker.extensions.show
-import com.jaimegc.covid19tracker.extensions.updateAdapter
-import com.jaimegc.covid19tracker.ui.adapter.WorldAdapter
-import com.jaimegc.covid19tracker.ui.adapter.WorldBarChartAdapter
-import com.jaimegc.covid19tracker.ui.adapter.WorldCountriesBarChartAdapter
-import com.jaimegc.covid19tracker.ui.adapter.WorldCountryAdapter
+import com.jaimegc.covid19tracker.extensions.*
+import com.jaimegc.covid19tracker.ui.adapter.*
 import com.jaimegc.covid19tracker.ui.states.ScreenState
 import com.jaimegc.covid19tracker.ui.states.BaseViewScreenState
 import com.jaimegc.covid19tracker.ui.states.WorldStateScreen
@@ -31,8 +26,9 @@ class WorldFragment : Fragment(R.layout.fragment_world),
     private val worldCountryAdapter = WorldCountryAdapter()
     private val worldBarChartAdapter = WorldBarChartAdapter()
     private val worldBarCountriesChartAdapter = WorldCountriesBarChartAdapter()
-    private val mergeAdapter = MergeAdapter(worldAdapter, worldCountryAdapter)
-    private val mergeAdapterGraphs = MergeAdapter(worldBarChartAdapter, worldBarCountriesChartAdapter)
+    private val worldLineChartAdapter = WorldLineChartAdapter()
+    private val mergeAdapter = MergeAdapter()
+
     private lateinit var binding: FragmentWorldBinding
     private lateinit var menu: Menu
 
@@ -59,18 +55,30 @@ class WorldFragment : Fragment(R.layout.fragment_world),
     override fun handleRenderState(renderState: WorldStateScreen) {
         when (renderState) {
             is WorldStateScreen.SuccessCovidTracker -> {
-                binding.recyclerWorld.updateAdapter(mergeAdapter)
-                worldCountryAdapter.submitList(renderState.data.countriesStats)
+                mergeAdapter.removeAllAdapters()
+                mergeAdapter.addAdapter(worldAdapter)
+                mergeAdapter.addAdapter(worldCountryAdapter)
                 worldAdapter.submitList(listOf(renderState.data.worldStats))
+                worldCountryAdapter.submitList(renderState.data.countriesStats)
             }
-            is WorldStateScreen.SuccessWorldStatsCharts -> {
-                binding.recyclerWorld.updateAdapter(mergeAdapterGraphs)
+            is WorldStateScreen.SuccessWorldStatsBarCharts -> {
+                mergeAdapter.addAdapter(0, worldBarChartAdapter)
+                if (mergeAdapter.containsAdapter(worldBarCountriesChartAdapter)) {
+                    binding.recyclerWorld.scrollToPosition(0)
+                }
                 worldBarChartAdapter.submitList(listOf(renderState.data))
             }
-            is WorldStateScreen.SuccessCountriesStatsCharts -> {
-                binding.recyclerWorld.updateAdapter(mergeAdapterGraphs)
-                //println("RUINA: ${renderState.data}")
+            is WorldStateScreen.SuccessCountriesStatsBarCharts -> {
+                if (mergeAdapter.containsAdapter(worldBarChartAdapter)) {
+                    mergeAdapter.addAdapter(1, worldBarCountriesChartAdapter)
+                } else {
+                    mergeAdapter.addAdapter(0, worldBarCountriesChartAdapter)
+                }
                 worldBarCountriesChartAdapter.submitList(renderState.data)
+            }
+            is WorldStateScreen.SuccessCountriesStatsLineCharts -> {
+                mergeAdapter.addAdapter(worldLineChartAdapter)
+                worldLineChartAdapter.submitList(listOf(renderState.data))
             }
         }
     }
@@ -78,21 +86,31 @@ class WorldFragment : Fragment(R.layout.fragment_world),
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
         inflater.inflate(R.menu.menu_world, menu).also {
             this.menu = menu
-            menu.getItem(1).isVisible = false
+            menu.showItems(1)
+            menu.hideItems(0, 2)
         }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.bar_chart_view -> {
-                menu.getItem(0).isVisible = false
-                menu.getItem(1).isVisible = true
+                menu.showItems(2)
+                menu.hideItems(0, 1)
+                mergeAdapter.removeAllAdapters()
                 viewModel.getWorldAllStats()
                 viewModel.getCountriesStatsOrderByConfirmed()
                 true
             }
+            R.id.line_chart_view -> {
+                menu.showItems(0)
+                menu.hideItems(1, 2)
+                mergeAdapter.removeAllAdapters()
+                viewModel.getWorldMostStats()
+                true
+            }
             R.id.list_view -> {
-                menu.getItem(0).isVisible = true
-                menu.getItem(1).isVisible = false
+                menu.showItems(1)
+                menu.hideItems(0, 2)
+                mergeAdapter.removeAllAdapters()
                 viewModel.getCovidTrackerLast()
                 true
             }

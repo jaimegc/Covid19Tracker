@@ -3,6 +3,7 @@ package com.jaimegc.covid19tracker.extensions
 import android.content.Context
 import android.content.res.Resources
 import android.util.TypedValue
+import android.view.Menu
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
@@ -54,4 +55,26 @@ fun TextView.setTextColor(context: Context, colorResource: Int) =
 
 fun RecyclerView.updateAdapter(adapter: MergeAdapter) {
     if (this.adapter != adapter) this.adapter = adapter
+}
+
+fun MergeAdapter.removeAllAdapters() =
+    this.adapters.map { adapter -> removeAdapter(adapter) }
+
+fun <T: RecyclerView.ViewHolder>MergeAdapter.removeAllAdaptersExcept(adapter: RecyclerView.Adapter<T>) =
+    this.adapters.map { if (it != adapter) removeAdapter(adapter) }
+
+fun <T: RecyclerView.ViewHolder> MergeAdapter.containsAdapter(
+    adapter: RecyclerView.Adapter<T>,
+    removeOthers: Boolean = false
+): Boolean =
+    this.adapters.contains(adapter).also { isContent ->
+        if (isContent && removeOthers) removeAllAdaptersExcept(adapter)
+    }
+
+fun Menu.showItems(vararg itemsPos: Int) {
+    for (itemPos in itemsPos) getItem(itemPos).isVisible = true
+}
+
+fun Menu.hideItems(vararg itemsPos: Int) {
+    for (itemPos in itemsPos) getItem(itemPos).isVisible = false
 }

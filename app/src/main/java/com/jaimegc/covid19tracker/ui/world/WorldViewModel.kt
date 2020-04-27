@@ -9,26 +9,33 @@ import com.jaimegc.covid19tracker.domain.states.StateError
 import com.jaimegc.covid19tracker.domain.usecase.GetCountryStats
 import com.jaimegc.covid19tracker.domain.usecase.GetCovidTrackerLast
 import com.jaimegc.covid19tracker.domain.usecase.GetWorldStats
+import com.jaimegc.covid19tracker.ui.model.CountryListStatsChartUI
 import com.jaimegc.covid19tracker.ui.model.toChartUI
 import com.jaimegc.covid19tracker.ui.model.toUI
 import com.jaimegc.covid19tracker.ui.viewmodel.BaseScreenStateViewModel
 import com.jaimegc.covid19tracker.ui.states.ScreenState
+import com.jaimegc.covid19tracker.ui.states.WorldStateCountriesStatsLineChartType
 import com.jaimegc.covid19tracker.ui.states.WorldStateScreen
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class WorldViewModel(
-    val getCovidTrackerLast: GetCovidTrackerLast,
-    val getWorldStats: GetWorldStats,
-    val getCountryStats: GetCountryStats
+    private val getCovidTrackerLast: GetCovidTrackerLast,
+    private val getWorldStats: GetWorldStats,
+    private val getCountryStats: GetCountryStats
 ) : BaseScreenStateViewModel<WorldStateScreen>() {
 
     override val _screenState = MutableLiveData<ScreenState<WorldStateScreen>>()
     override val screenState: LiveData<ScreenState<WorldStateScreen>> = _screenState
 
+    private val mapWorldLineStats =
+        mutableMapOf<WorldStateCountriesStatsLineChartType, List<CountryListStatsChartUI>>()
+
+    private val lineChartTypeSize = WorldStateCountriesStatsLineChartType::class.nestedClasses.size
+
     fun getCovidTrackerLast() =
         viewModelScope.launch {
-            getCovidTrackerLast.getCovidTrackerByDate("2020-04-19").collect { result ->
+            getCovidTrackerLast.getCovidTrackerByDate("2020-04-26").collect { result ->
                 result.fold(::handleError, ::handleScreenStateCovidTracker)
             }
         }
@@ -43,7 +50,55 @@ class WorldViewModel(
     fun getCountriesStatsOrderByConfirmed() =
         viewModelScope.launch {
             getCountryStats.getCountriesStatsOrderByConfirmed().collect { result ->
-                result.fold(::handleError, ::handleScreenStateCountriesStats)
+                result.fold(::handleError, ::handleScreenStateCountriesBarStats)
+            }
+        }
+
+    fun getWorldMostStats() {
+        mapWorldLineStats.clear()
+        getCountriesAndStatsWithMostConfirmed()
+        getCountriesAndStatsWithMostDeaths()
+        getCountriesAndStatsWithMostRecovered()
+        getCountriesAndStatsWithMostOpenCases()
+    }
+
+    private fun getCountriesAndStatsWithMostConfirmed() =
+        viewModelScope.launch {
+            getCountryStats.getCountriesAndStatsWithMostConfirmed().collect { result ->
+                result.fold(
+                    { handleError(it) },
+                    { handleScreenStateCountriesLineStats(it, WorldStateCountriesStatsLineChartType.MostConfirmed) }
+                )
+            }
+        }
+
+    private fun getCountriesAndStatsWithMostDeaths() =
+        viewModelScope.launch {
+            getCountryStats.getCountriesAndStatsWithMostDeaths().collect { result ->
+                result.fold(
+                    { handleError(it) },
+                    { handleScreenStateCountriesLineStats(it, WorldStateCountriesStatsLineChartType.MostDeaths) }
+                )
+            }
+        }
+
+    private fun getCountriesAndStatsWithMostRecovered() =
+        viewModelScope.launch {
+            getCountryStats.getCountriesAndStatsWithMostRecovered().collect { result ->
+                result.fold(
+                    { handleError(it) },
+                    { handleScreenStateCountriesLineStats(it, WorldStateCountriesStatsLineChartType.MostRecovered) }
+                )
+            }
+        }
+
+    private fun getCountriesAndStatsWithMostOpenCases() =
+        viewModelScope.launch {
+            getCountryStats.getCountriesAndStatsWithMostOpenCases().collect { result ->
+                result.fold(
+                    { handleError(it) },
+                    { handleScreenStateCountriesLineStats(it, WorldStateCountriesStatsLineChartType.MostOpenCases) }
+                )
             }
         }
 
@@ -58,20 +113,36 @@ class WorldViewModel(
     private fun handleScreenStateWorldStats(state: State<List<WorldStats>>) =
         when (state) {
             is State.Success ->
-                _screenState.postValue(ScreenState.Render(WorldStateScreen.SuccessWorldStatsCharts(
+                _screenState.postValue(ScreenState.Render(WorldStateScreen.SuccessWorldStatsBarCharts(
                     state.data.map { worldStats -> worldStats.toChartUI() })))
             is State.Loading ->
                 _screenState.postValue(ScreenState.Loading)
         }
 
-    private fun handleScreenStateCountriesStats(state: State<List<CountryListStats>>) =
+    private fun handleScreenStateCountriesBarStats(state: State<List<CountryListStats>>) =
         when (state) {
             is State.Success ->
-                _screenState.postValue(ScreenState.Render(WorldStateScreen.SuccessCountriesStatsCharts(
+                _screenState.postValue(ScreenState.Render(WorldStateScreen.SuccessCountriesStatsBarCharts(
                     state.data.map { countryStats -> countryStats.toChartUI() })))
             is State.Loading ->
                 _screenState.postValue(ScreenState.Loading)
         }
+
+    private fun handleScreenStateCountriesLineStats(
+        state: State<List<CountryListStats>>, lineChartType: WorldStateCountriesStatsLineChartType) {
+        when (state) {
+            is State.Success -> {
+                mapWorldLineStats[lineChartType] = state.data.map { countryStats -> countryStats.toChartUI() }
+
+                if (mapWorldLineStats.size == lineChartTypeSize) {
+                    _screenState.postValue(ScreenState.Render(
+                        WorldStateScreen.SuccessCountriesStatsLineCharts(mapWorldLineStats)))
+                }
+            }
+            is State.Loading ->
+                _screenState.postValue(ScreenState.Loading)
+        }
+    }
 
     private fun handleError(state: StateError<DomainError>) {
 

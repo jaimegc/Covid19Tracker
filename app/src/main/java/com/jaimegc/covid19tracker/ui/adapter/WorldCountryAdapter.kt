@@ -43,7 +43,7 @@ class WorldCountryAdapter : ListAdapter<CountryStatsUI, WorldCountryAdapter.Worl
                 textPlace.text = totalStatsUI.name
                 textConfirmed.text = totalStatsUI.stats.confirmed
                 textOpenCases.text = totalStatsUI.stats.openCases
-                textRecovered.text = totalStatsUI.stats.newRecovered
+                textRecovered.text = totalStatsUI.stats.recovered
                 textDeaths.text = totalStatsUI.stats.deaths
 
                 binding.textNewConfirmed.text = itemView.context.getString(R.string.text_trending,

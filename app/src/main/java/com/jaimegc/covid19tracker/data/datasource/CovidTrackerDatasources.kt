@@ -11,6 +11,7 @@ import com.jaimegc.covid19tracker.data.room.entities.CountryEntity
 import com.jaimegc.covid19tracker.data.room.entities.StatsEntity
 import com.jaimegc.covid19tracker.data.room.entities.WorldStatsEntity
 import com.jaimegc.covid19tracker.domain.model.toDomain
+import com.jaimegc.covid19tracker.domain.model.toPojoOrdered
 import com.jaimegc.covid19tracker.domain.model.*
 import kotlinx.coroutines.flow.Flow
 
@@ -42,6 +43,34 @@ class LocalCovidTrackerDatasource(
     suspend fun getCountriesStatsOrderByConfirmed(): Flow<Either<DomainError, List<CountryListStats>>> =
         mapEntityValid(countryStatsDao.getCountriesAndStatsOrderByConfirmed()) { countriesListStats ->
             Pair(countriesListStats.isNotEmpty(), countriesListStats.map { countryStats -> countryStats.toDomain() }) }
+
+    suspend fun getCountriesAndStatsWithMostConfirmed(): Flow<Either<DomainError, List<CountryListStats>>> =
+        mapEntityValid(countryStatsDao.getCountriesAndStatsWithMostConfirmed()) { countriesListOneStats ->
+            countriesListOneStats.toPojoOrdered().let { countriesListStats ->
+                Pair(countriesListStats.isNotEmpty(), countriesListStats.map { countryStats ->
+                    countryStats.toDomain() }) }
+            }
+
+    suspend fun getCountriesAndStatsWithMostDeaths(): Flow<Either<DomainError, List<CountryListStats>>> =
+        mapEntityValid(countryStatsDao.getCountriesAndStatsWithMostDeaths()) { countriesListOneStats ->
+            countriesListOneStats.toPojoOrdered().let { countriesListStats ->
+                Pair(countriesListStats.isNotEmpty(), countriesListStats.map { countryStats ->
+                    countryStats.toDomain() }) }
+        }
+
+    suspend fun getCountriesAndStatsWithMostRecovered(): Flow<Either<DomainError, List<CountryListStats>>> =
+        mapEntityValid(countryStatsDao.getCountriesAndStatsWithMostRecovered()) { countriesListOneStats ->
+            countriesListOneStats.toPojoOrdered().let { countriesListStats ->
+                Pair(countriesListStats.isNotEmpty(), countriesListStats.map { countryStats ->
+                    countryStats.toDomain() }) }
+        }
+
+    suspend fun getCountriesAndStatsWithMostOpenCases(): Flow<Either<DomainError, List<CountryListStats>>> =
+        mapEntityValid(countryStatsDao.getCountriesAndStatsWithMostOpenCases()) { countriesListOneStats ->
+            countriesListOneStats.toPojoOrdered().let { countriesListStats ->
+                Pair(countriesListStats.isNotEmpty(), countriesListStats.map { countryStats ->
+                    countryStats.toDomain() }) }
+        }
 
     suspend fun getCountriesStatsOrderByDeaths(): Flow<Either<DomainError, List<CountryStats>>> =
         mapEntityValid(countryStatsDao.getCountriesAndStatsOrderByConfirmed()) { countriesStats ->
