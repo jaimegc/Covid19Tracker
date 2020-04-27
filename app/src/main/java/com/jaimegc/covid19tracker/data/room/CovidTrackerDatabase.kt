@@ -32,12 +32,12 @@ abstract class Covid19TrackerDatabase : RoomDatabase() {
 
         fun build(context: Context): Covid19TrackerDatabase =
             Room.databaseBuilder(context.applicationContext, Covid19TrackerDatabase::class.java, DATABASE_NAME)
-                //.createFromAsset("database/covid19-tracker-db")
+                .createFromAsset("database/covid19-tracker-db")
                 .addCallback(object : RoomDatabase.Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         super.onCreate(db)
-                        val request = OneTimeWorkRequestBuilder<PopulateDatabaseWorker>().build()
-                        WorkManager.getInstance(context).enqueue(request)
+                        //val request = OneTimeWorkRequestBuilder<PopulateDatabaseWorker>().build()
+                        //WorkManager.getInstance(context).enqueue(request)
                     }
                 })
                 .fallbackToDestructiveMigration()

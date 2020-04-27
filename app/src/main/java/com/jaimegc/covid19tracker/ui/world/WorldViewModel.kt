@@ -35,7 +35,7 @@ class WorldViewModel(
 
     fun getCovidTrackerLast() =
         viewModelScope.launch {
-            getCovidTrackerLast.getCovidTrackerByDate("2020-04-25").collect { result ->
+            getCovidTrackerLast.getCovidTrackerByDate("2020-04-26").collect { result ->
                 result.fold(::handleError, ::handleScreenStateCovidTracker)
             }
         }
