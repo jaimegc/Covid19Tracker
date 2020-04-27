@@ -10,7 +10,6 @@ import com.jaimegc.covid19tracker.data.room.entities.*
 import com.jaimegc.covid19tracker.data.room.pojos.CountryAndOneStatsPojo
 import com.jaimegc.covid19tracker.data.room.pojos.CountryAndStatsPojo
 import com.jaimegc.covid19tracker.data.room.pojos.WorldAndCountriesStatsPojo
-import com.jaimegc.covid19tracker.data.room.views.CountryAndStatsOrderByDeathsDV
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -91,7 +90,7 @@ fun CountryAndStatsPojo.toDomain(): CountryListStats =
         stats = stats.map { countryStats -> countryStats.toDomain() }
     )
 
-fun List<CountryAndOneStatsPojo>.toDomain(): List<CountryAndStatsPojo> =
+fun List<CountryAndOneStatsPojo>.toPojoOrdered(): List<CountryAndStatsPojo> =
     this.groupBy { it.country }.let { mapCountries ->
         val listCountryAndStatsPojo = mutableListOf<CountryAndStatsPojo>()
         mapCountries.map { countryStats ->
@@ -100,14 +99,6 @@ fun List<CountryAndOneStatsPojo>.toDomain(): List<CountryAndStatsPojo> =
         }
         listCountryAndStatsPojo
     }
-
-fun CountryAndStatsOrderByDeathsDV.toDomain(): CountryStats =
-    CountryStats(
-        id = country!!.id,
-        name = country.name,
-        nameEs = country.nameEs,
-        stats = stats!!.toDomain()
-    )
 
 private fun CountryAndStatsDV.toDomain(): CountryStats =
     CountryStats(

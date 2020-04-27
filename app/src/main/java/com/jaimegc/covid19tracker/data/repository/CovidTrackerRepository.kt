@@ -53,6 +53,20 @@ class CovidTrackerRepository(
         }.asFlow()
     }
 
+    suspend fun getCountriesAndStatsWithMostRecovered(): Flow<Either<StateError<DomainError>, State<List<CountryListStats>>>> {
+        return object : BaseRepository<DomainError, List<CountryListStats>> {
+            override suspend fun fetchFromLocal(): Flow<Either<DomainError, List<CountryListStats>>> =
+                local.getCountriesAndStatsWithMostRecovered()
+        }.asFlow()
+    }
+
+    suspend fun getCountriesAndStatsWithMostOpenCases(): Flow<Either<StateError<DomainError>, State<List<CountryListStats>>>> {
+        return object : BaseRepository<DomainError, List<CountryListStats>> {
+            override suspend fun fetchFromLocal(): Flow<Either<DomainError, List<CountryListStats>>> =
+                local.getCountriesAndStatsWithMostOpenCases()
+        }.asFlow()
+    }
+
     suspend fun getCountriesStatsOrderByDeaths(): Flow<Either<StateError<DomainError>, State<List<CountryStats>>>> {
         return object : BaseRepository<DomainError, List<CountryStats>> {
             override suspend fun fetchFromLocal(): Flow<Either<DomainError, List<CountryStats>>> =

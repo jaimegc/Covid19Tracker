@@ -20,9 +20,9 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class WorldViewModel(
-    val getCovidTrackerLast: GetCovidTrackerLast,
-    val getWorldStats: GetWorldStats,
-    val getCountryStats: GetCountryStats
+    private val getCovidTrackerLast: GetCovidTrackerLast,
+    private val getWorldStats: GetWorldStats,
+    private val getCountryStats: GetCountryStats
 ) : BaseScreenStateViewModel<WorldStateScreen>() {
 
     override val _screenState = MutableLiveData<ScreenState<WorldStateScreen>>()
@@ -30,6 +30,8 @@ class WorldViewModel(
 
     private val mapWorldLineStats =
         mutableMapOf<WorldStateCountriesStatsLineChartType, List<CountryListStatsChartUI>>()
+
+    private val lineChartTypeSize = WorldStateCountriesStatsLineChartType::class.nestedClasses.size
 
     fun getCovidTrackerLast() =
         viewModelScope.launch {
@@ -56,6 +58,8 @@ class WorldViewModel(
         mapWorldLineStats.clear()
         getCountriesAndStatsWithMostConfirmed()
         getCountriesAndStatsWithMostDeaths()
+        getCountriesAndStatsWithMostRecovered()
+        getCountriesAndStatsWithMostOpenCases()
     }
 
     private fun getCountriesAndStatsWithMostConfirmed() =
@@ -74,6 +78,26 @@ class WorldViewModel(
                 result.fold(
                     { handleError(it) },
                     { handleScreenStateCountriesLineStats(it, WorldStateCountriesStatsLineChartType.MostDeaths) }
+                )
+            }
+        }
+
+    private fun getCountriesAndStatsWithMostRecovered() =
+        viewModelScope.launch {
+            getCountryStats.getCountriesAndStatsWithMostRecovered().collect { result ->
+                result.fold(
+                    { handleError(it) },
+                    { handleScreenStateCountriesLineStats(it, WorldStateCountriesStatsLineChartType.MostRecovered) }
+                )
+            }
+        }
+
+    private fun getCountriesAndStatsWithMostOpenCases() =
+        viewModelScope.launch {
+            getCountryStats.getCountriesAndStatsWithMostOpenCases().collect { result ->
+                result.fold(
+                    { handleError(it) },
+                    { handleScreenStateCountriesLineStats(it, WorldStateCountriesStatsLineChartType.MostOpenCases) }
                 )
             }
         }
@@ -109,7 +133,8 @@ class WorldViewModel(
         when (state) {
             is State.Success -> {
                 mapWorldLineStats[lineChartType] = state.data.map { countryStats -> countryStats.toChartUI() }
-                if (mapWorldLineStats.size == 2) {
+
+                if (mapWorldLineStats.size == lineChartTypeSize) {
                     _screenState.postValue(ScreenState.Render(
                         WorldStateScreen.SuccessCountriesStatsLineCharts(mapWorldLineStats)))
                 }

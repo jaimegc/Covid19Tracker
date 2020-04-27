@@ -22,4 +22,6 @@ sealed class BaseScreenState
 sealed class WorldStateCountriesStatsLineChartType {
     object MostConfirmed : WorldStateCountriesStatsLineChartType()
     object MostDeaths : WorldStateCountriesStatsLineChartType()
+    object MostRecovered : WorldStateCountriesStatsLineChartType()
+    object MostOpenCases : WorldStateCountriesStatsLineChartType()
 }

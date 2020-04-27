@@ -39,6 +39,12 @@ class WorldLineChartAdapter :
                     is WorldStateCountriesStatsLineChartType.MostDeaths ->
                         configureLineChart(
                             ctx, binding.chartDeaths, mapCountriesStatsChartUI.getValue(type), type, 100f)
+                    is WorldStateCountriesStatsLineChartType.MostRecovered ->
+                        configureLineChart(
+                            ctx, binding.chartRecovered, mapCountriesStatsChartUI.getValue(type), type, 2000f)
+                    is WorldStateCountriesStatsLineChartType.MostOpenCases ->
+                        configureLineChart(
+                            ctx, binding.chartOpenCases, mapCountriesStatsChartUI.getValue(type), type, 2000f)
                 }
             }
         }
@@ -63,6 +69,10 @@ class WorldLineChartAdapter :
                             listCountryStats.add(stats.confirmed)
                         is WorldStateCountriesStatsLineChartType.MostDeaths ->
                             listCountryStats.add(stats.deaths)
+                        is WorldStateCountriesStatsLineChartType.MostRecovered ->
+                            listCountryStats.add(stats.recovered)
+                        is WorldStateCountriesStatsLineChartType.MostOpenCases ->
+                            listCountryStats.add(stats.openCases)
                     }
                 }
                 countryStatsValues.add(listCountryStats)

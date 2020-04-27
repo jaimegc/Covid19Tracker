@@ -79,27 +79,28 @@ abstract class CountryStatsDao {
     abstract fun getCountriesAndStatsOrderByConfirmed(): Flow<List<CountryAndStatsPojo>>
 
     @Query("""
-        SELECT * FROM country c
-        INNER JOIN stats s ON c.id = s.id_country_fk AND c.id IN
-        (SELECT id FROM country 
-            INNER JOIN (
-                SELECT id_country_fk, MAX(confirmed) AS maxConfirmed FROM stats 
-                GROUP BY id_country_fk) statsMaxConfirmed
+        SELECT * FROM country c, stats s
+        WHERE c.id = s.id_country_fk AND s.confirmed > 2000 AND c.id IN (
+            SELECT id FROM country 
+                INNER JOIN (
+                    SELECT id_country_fk, MAX(confirmed) AS maxConfirmed FROM stats 
+                    GROUP BY id_country_fk
+                ) statsMaxConfirmed
                 ON country.id = statsMaxConfirmed.id_country_fk 
                 ORDER BY statsMaxConfirmed.maxConfirmed DESC LIMIT 5
             )
-        WHERE confirmed > 2000
         ORDER BY c.id ASC, s.confirmed ASC
         """)
     abstract fun getCountriesAndStatsWithMostConfirmed(): Flow<List<CountryAndOneStatsPojo>>
 
     @Query("""
         SELECT * FROM country c
-        INNER JOIN stats s ON c.id = s.id_country_fk AND c.id IN
-        (SELECT id FROM country 
-            INNER JOIN (
-                SELECT id_country_fk, MAX(deaths) AS maxDeaths FROM stats 
-                GROUP BY id_country_fk) statsMaxDeaths
+        INNER JOIN stats s ON c.id = s.id_country_fk AND c.id IN (
+            SELECT id FROM country 
+                INNER JOIN (
+                    SELECT id_country_fk, MAX(deaths) AS maxDeaths FROM stats 
+                    GROUP BY id_country_fk
+                ) statsMaxDeaths
                 ON country.id = statsMaxDeaths.id_country_fk 
                 ORDER BY statsMaxDeaths.maxDeaths DESC LIMIT 5
             )
@@ -107,4 +108,35 @@ abstract class CountryStatsDao {
         ORDER BY c.id ASC, s.deaths ASC
         """)
     abstract fun getCountriesAndStatsWithMostDeaths(): Flow<List<CountryAndOneStatsPojo>>
+
+    @Query("""
+        SELECT * FROM country c, stats s
+        WHERE c.id = s.id_country_fk AND s.recovered > 2000 AND c.id IN (
+            SELECT id FROM country 
+                INNER JOIN (
+                    SELECT id_country_fk, MAX(recovered) AS maxRecovered FROM stats 
+                    GROUP BY id_country_fk
+                ) statsMaxRecovered
+                ON country.id = statsMaxRecovered.id_country_fk 
+                ORDER BY statsMaxRecovered.maxRecovered DESC LIMIT 5
+            )
+        ORDER BY c.id ASC, s.recovered ASC
+        """)
+    abstract fun getCountriesAndStatsWithMostRecovered(): Flow<List<CountryAndOneStatsPojo>>
+
+    @Query("""
+        SELECT * FROM country c
+        INNER JOIN stats s ON c.id = s.id_country_fk AND c.id IN (
+            SELECT id FROM country 
+                INNER JOIN (
+                    SELECT id_country_fk, MAX(open_cases) AS maxOpenCases FROM stats 
+                    GROUP BY id_country_fk
+                ) statsMaxOpenCases
+                ON country.id = statsMaxOpenCases.id_country_fk 
+                ORDER BY statsMaxOpenCases.maxOpenCases DESC LIMIT 5
+            )
+        WHERE open_cases > 2000
+        ORDER BY c.id ASC, s.open_cases ASC
+        """)
+    abstract fun getCountriesAndStatsWithMostOpenCases(): Flow<List<CountryAndOneStatsPojo>>
 }

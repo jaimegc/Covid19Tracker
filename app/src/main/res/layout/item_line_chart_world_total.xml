@@ -40,4 +40,36 @@
             android:layout_height="223dp" />
     </com.google.android.material.card.MaterialCardView>
 
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/recovered_layout"
+        android:layout_width="match_parent"
+        android:layout_height="229dp"
+        android:layout_marginTop="8dp"
+        app:cardBackgroundColor="@color/light_green"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/deaths_layout">
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/chart_recovered"
+            android:layout_width="match_parent"
+            android:layout_height="223dp" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/open_cases_layout"
+        android:layout_width="match_parent"
+        android:layout_height="229dp"
+        android:layout_marginTop="8dp"
+        app:cardBackgroundColor="@color/light_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recovered_layout">
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/chart_open_cases"
+            android:layout_width="match_parent"
+            android:layout_height="223dp" />
+    </com.google.android.material.card.MaterialCardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
