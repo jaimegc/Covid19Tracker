@@ -17,4 +17,9 @@
         app:showAsAction="always"
         android:title="@string/menu_world_line_chart"/>
 
+    <item android:id="@+id/pie_chart_view"
+        android:icon="@drawable/ic_menu_pie_chart"
+        app:showAsAction="always"
+        android:title="@string/menu_world_pie_chart"/>
+
 </menu>

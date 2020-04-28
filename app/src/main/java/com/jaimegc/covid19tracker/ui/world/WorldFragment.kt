@@ -15,6 +15,7 @@ import com.jaimegc.covid19tracker.extensions.*
 import com.jaimegc.covid19tracker.ui.adapter.*
 import com.jaimegc.covid19tracker.ui.states.ScreenState
 import com.jaimegc.covid19tracker.ui.states.BaseViewScreenState
+import com.jaimegc.covid19tracker.ui.states.CovidTrackerType
 import com.jaimegc.covid19tracker.ui.states.WorldStateScreen
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -27,6 +28,8 @@ class WorldFragment : Fragment(R.layout.fragment_world),
     private val worldBarChartAdapter = WorldBarChartAdapter()
     private val worldBarCountriesChartAdapter = WorldCountriesBarChartAdapter()
     private val worldLineChartAdapter = WorldLineChartAdapter()
+    private val worldCountriesPieChartAdapter = WorldCountriesPieChartAdapter()
+    private val worldPieChartAdapter = WorldPieChartAdapter()
     private val mergeAdapter = MergeAdapter()
 
     private lateinit var binding: FragmentWorldBinding
@@ -48,7 +51,7 @@ class WorldFragment : Fragment(R.layout.fragment_world),
             }
         })
 
-        viewModel.getCovidTrackerLast()
+        viewModel.getCovidTrackerLast(CovidTrackerType.Normal)
         setHasOptionsMenu(true)
     }
 
@@ -80,38 +83,46 @@ class WorldFragment : Fragment(R.layout.fragment_world),
                 mergeAdapter.addAdapter(worldLineChartAdapter)
                 worldLineChartAdapter.submitList(listOf(renderState.data))
             }
+            is WorldStateScreen.SuccessCountriesStatsPieCharts -> {
+                mergeAdapter.addAdapter(worldPieChartAdapter)
+                mergeAdapter.addAdapter(worldCountriesPieChartAdapter)
+                worldPieChartAdapter.submitList(listOf(renderState.data[0].worldStats))
+                worldCountriesPieChartAdapter.submitList(renderState.data)
+            }
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
         inflater.inflate(R.menu.menu_world, menu).also {
             this.menu = menu
-            menu.showItems(1)
-            menu.hideItems(0, 2)
+            menu.enableItem(0)
         }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            R.id.list_view -> {
+                menu.enableItem(0)
+                mergeAdapter.removeAllAdapters()
+                viewModel.getCovidTrackerLast(CovidTrackerType.Normal)
+                true
+            }
             R.id.bar_chart_view -> {
-                menu.showItems(2)
-                menu.hideItems(0, 1)
+                menu.enableItem(1)
                 mergeAdapter.removeAllAdapters()
                 viewModel.getWorldAllStats()
                 viewModel.getCountriesStatsOrderByConfirmed()
                 true
             }
             R.id.line_chart_view -> {
-                menu.showItems(0)
-                menu.hideItems(1, 2)
+                menu.enableItem(2)
                 mergeAdapter.removeAllAdapters()
                 viewModel.getWorldMostStats()
                 true
             }
-            R.id.list_view -> {
-                menu.showItems(1)
-                menu.hideItems(0, 2)
+            R.id.pie_chart_view -> {
+                menu.enableItem(3)
                 mergeAdapter.removeAllAdapters()
-                viewModel.getCovidTrackerLast()
+                viewModel.getCovidTrackerLast(CovidTrackerType.PieChart)
                 true
             }
             else -> super.onOptionsItemSelected(item)

@@ -77,6 +77,7 @@ fun LineChart.setValues(
     val lineData = LineData(listLinesDataSet.toList())
     lineData.setValueTextColor(Color.WHITE)
     lineData.setValueTextSize(12f)
+    lineData.isHighlightEnabled = false
 
     data = lineData
 }

@@ -2,6 +2,7 @@ package com.jaimegc.covid19tracker.extensions
 
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.Color
 import android.util.TypedValue
 import android.view.Menu
 import android.view.View
@@ -77,4 +78,14 @@ fun Menu.showItems(vararg itemsPos: Int) {
 
 fun Menu.hideItems(vararg itemsPos: Int) {
     for (itemPos in itemsPos) getItem(itemPos).isVisible = false
+}
+
+fun Menu.enableItem(itemPos: Int) {
+    for (index in 0 until size()) {
+        if (index != itemPos) {
+            getItem(index).icon.setTint(Color.BLACK)
+        } else {
+            getItem(index).icon.setTint(Color.WHITE)
+        }
+    }
 }

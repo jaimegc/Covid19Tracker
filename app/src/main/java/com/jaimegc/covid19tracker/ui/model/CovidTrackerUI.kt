@@ -62,5 +62,10 @@ data class StatsChartUI(
     val recovered: Float
 )
 
+data class WorldCountryStatsUI(
+    val countryStats: CountryStatsUI,
+    val worldStats: WorldStatsChartUI
+)
+
 
 
