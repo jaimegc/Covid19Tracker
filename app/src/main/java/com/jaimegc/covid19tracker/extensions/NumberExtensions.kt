@@ -9,6 +9,12 @@ fun Double.formatDecimals(): String = numberFormatDecimals(this).format(this)
 
 fun Long.formatValue(): String = numberFormat().format(this)
 
+fun Double.percentage(value: Double): String =
+    "${(this / value * 100).formatDecimals()}%"
+
+fun Float.percentage(value: Float): String =
+    "${(this / value * 100).toDouble().formatDecimals()}%"
+
 private fun numberFormatDecimals(value: Double, totalDecimals: Int = 2): NumberFormat {
     val locale = Locale.getDefault()
     val result = NumberFormat.getInstance(locale)

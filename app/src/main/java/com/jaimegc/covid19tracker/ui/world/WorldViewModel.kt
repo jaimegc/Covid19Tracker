@@ -10,7 +10,7 @@ import com.jaimegc.covid19tracker.domain.usecase.GetCountryStats
 import com.jaimegc.covid19tracker.domain.usecase.GetCovidTrackerLast
 import com.jaimegc.covid19tracker.domain.usecase.GetWorldStats
 import com.jaimegc.covid19tracker.ui.model.CountryListStatsChartUI
-import com.jaimegc.covid19tracker.ui.model.toChartUI
+import com.jaimegc.covid19tracker.ui.model.toListChartUI
 import com.jaimegc.covid19tracker.ui.model.toUI
 import com.jaimegc.covid19tracker.ui.states.CovidTrackerType
 import com.jaimegc.covid19tracker.ui.viewmodel.BaseScreenStateViewModel
@@ -115,7 +115,7 @@ class WorldViewModel(
                             WorldStateScreen.SuccessCovidTracker(state.data.toUI())))
                     is CovidTrackerType.PieChart ->
                         _screenState.postValue(ScreenState.Render(
-                            WorldStateScreen.SuccessCountriesStatsPieCharts(state.data.toChartUI())))
+                            WorldStateScreen.SuccessCountriesStatsPieCharts(state.data.toListChartUI())))
                 }
             is State.Loading ->
                 _screenState.postValue(ScreenState.Loading)
@@ -125,7 +125,7 @@ class WorldViewModel(
         when (state) {
             is State.Success ->
                 _screenState.postValue(ScreenState.Render(WorldStateScreen.SuccessWorldStatsBarCharts(
-                    state.data.map { worldStats -> worldStats.toChartUI() })))
+                    state.data.map { worldStats -> worldStats.toListChartUI() })))
             is State.Loading ->
                 _screenState.postValue(ScreenState.Loading)
         }
@@ -134,7 +134,7 @@ class WorldViewModel(
         when (state) {
             is State.Success ->
                 _screenState.postValue(ScreenState.Render(WorldStateScreen.SuccessCountriesStatsBarCharts(
-                    state.data.map { countryStats -> countryStats.toChartUI() })))
+                    state.data.map { countryStats -> countryStats.toListChartUI() })))
             is State.Loading ->
                 _screenState.postValue(ScreenState.Loading)
         }
@@ -143,7 +143,7 @@ class WorldViewModel(
         state: State<List<CountryListStats>>, lineChartType: WorldStateCountriesStatsLineChartType) {
         when (state) {
             is State.Success -> {
-                mapWorldLineStats[lineChartType] = state.data.map { countryStats -> countryStats.toChartUI() }
+                mapWorldLineStats[lineChartType] = state.data.map { countryStats -> countryStats.toListChartUI() }
 
                 if (mapWorldLineStats.size == lineChartTypeSize) {
                     _screenState.postValue(ScreenState.Render(

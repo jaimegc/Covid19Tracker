@@ -58,7 +58,7 @@ fun Stats.toUI(): StatsUI =
         vsYesterdayRecovered = (vsYesterdayRecovered * 100).formatDecimals()
     )
 
-fun WorldStats.toChartUI(): WorldStatsChartUI =
+fun WorldStats.toListChartUI(): WorldStatsChartUI =
     WorldStatsChartUI(
         date = date,
         updatedAt = updatedAt,
@@ -76,7 +76,7 @@ fun WorldStats.toChartUI(): WorldStatsChartUI =
         )
     )
 
-fun CountryListStats.toChartUI(): CountryListStatsChartUI =
+fun CountryListStats.toListChartUI(): CountryListStatsChartUI =
     CountryListStatsChartUI(
         id = id,
         name = name,
@@ -97,5 +97,26 @@ fun CountryListStats.toChartUI(): CountryListStatsChartUI =
         }
     )
 
-fun CovidTracker.toChartUI(): List<WorldCountryStatsUI> =
-    countriesStats.map { country -> WorldCountryStatsUI(country.toUI(), worldStats.toChartUI()) }
+fun CountryStats.toChartUI(): CountryStatsChartUI =
+    CountryStatsChartUI(
+        id = id,
+        name = name,
+        nameEs = nameEs,
+        stats = StatsChartUI(
+            date = stats.date,
+            source = stats.source,
+            confirmed = stats.confirmed.toFloat(),
+            deaths = stats.deaths.toFloat(),
+            newConfirmed = stats.newConfirmed.toFloat(),
+            newDeaths = stats.newDeaths.toFloat(),
+            newOpenCases = stats.newOpenCases.toFloat(),
+            newRecovered = stats.newRecovered.toFloat(),
+            openCases = stats.openCases.toFloat(),
+            recovered = stats.recovered.toFloat()
+        )
+    )
+
+fun CovidTracker.toListChartUI(): List<WorldCountryStatsUI> =
+    countriesStats.map { country ->
+        WorldCountryStatsUI(country.toChartUI(), worldStats.toListChartUI())
+    }

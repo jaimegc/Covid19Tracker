@@ -8,7 +8,7 @@
     android:layout_marginStart="@dimen/dimen_8"
     android:layout_marginTop="@dimen/dimen_8"
     android:layout_marginEnd="@dimen/dimen_8"
-    android:layout_marginBottom="20dp"
+    android:paddingBottom="@dimen/dimen_8"
     android:background="@drawable/background_card_place">
 
     <TextView
@@ -25,19 +25,119 @@
         tools:text="Maharashtra" />
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/deaths_layout"
+        android:id="@+id/total_layout"
         android:layout_width="match_parent"
-        android:layout_height="229dp"
+        android:layout_height="320dp"
         android:layout_margin="@dimen/dimen_8"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:cardBackgroundColor="#EEE"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_place">
 
         <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/chart_deaths"
+            android:id="@+id/chart_total"
             android:layout_width="match_parent"
-            android:layout_height="223dp" />
+            android:layout_height="303dp" />
     </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/percentage_total"
+        style="@style/TextPercentagePieChart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/percentage_total"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/total_layout" />
+
+    <ImageView
+        android:id="@+id/square_confirmed"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/background_square"
+        android:backgroundTint="@color/dark_red"
+        android:tint="@color/dark_red"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/percentage_total" />
+
+    <TextView
+        android:id="@+id/percentage_confirmed"
+        style="@style/TextPercentagePieChart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/square_confirmed"
+        app:layout_constraintStart_toEndOf="@+id/square_confirmed"
+        app:layout_constraintTop_toTopOf="@+id/square_confirmed"
+        tools:text="10,25%" />
+
+    <ImageView
+        android:id="@+id/square_deaths"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginStart="12dp"
+        android:background="@drawable/background_square"
+        android:backgroundTint="@color/dark_grey"
+        app:layout_constraintBottom_toBottomOf="@+id/percentage_confirmed"
+        app:layout_constraintStart_toEndOf="@+id/percentage_confirmed"
+        app:layout_constraintTop_toTopOf="@+id/percentage_confirmed" />
+
+    <TextView
+        android:id="@+id/percentage_deaths"
+        style="@style/TextPercentagePieChart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/square_deaths"
+        app:layout_constraintStart_toEndOf="@+id/square_deaths"
+        app:layout_constraintTop_toTopOf="@+id/square_deaths"
+        tools:text="10,25%" />
+
+    <ImageView
+        android:id="@+id/square_recovered"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginStart="12dp"
+        android:background="@drawable/background_square"
+        android:backgroundTint="@color/dark_green"
+        app:layout_constraintBottom_toBottomOf="@+id/percentage_deaths"
+        app:layout_constraintStart_toEndOf="@+id/percentage_deaths"
+        app:layout_constraintTop_toTopOf="@+id/percentage_deaths" />
+
+    <TextView
+        android:id="@+id/percentage_recovered"
+        style="@style/TextPercentagePieChart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/square_recovered"
+        app:layout_constraintStart_toEndOf="@+id/square_recovered"
+        app:layout_constraintTop_toTopOf="@+id/square_recovered"
+        tools:text="10,25%" />
+
+    <ImageView
+        android:id="@+id/square_open_cases"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_marginStart="12dp"
+        android:background="@drawable/background_square"
+        android:backgroundTint="@color/dark_blue"
+        app:layout_constraintBottom_toBottomOf="@+id/percentage_recovered"
+        app:layout_constraintStart_toEndOf="@+id/percentage_recovered"
+        app:layout_constraintTop_toTopOf="@+id/percentage_recovered" />
+
+    <TextView
+        android:id="@+id/percentage_open_cases"
+        style="@style/TextPercentagePieChart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/square_open_cases"
+        app:layout_constraintStart_toEndOf="@+id/square_open_cases"
+        app:layout_constraintTop_toTopOf="@+id/square_open_cases"
+        tools:text="10,25%" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

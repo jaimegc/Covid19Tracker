@@ -26,6 +26,7 @@
     <string name="total_new_deaths">Daily deaths</string>
     <string name="total_new_recovered">Daily recovered</string>
     <string name="total_new_open_cases">Daily open cases</string>
+    <string name="percentage_total">Percentage of total:</string>
 
     <!-- Menu -->
     <string name="menu_world_list">World list</string>
