@@ -10,8 +10,9 @@ import com.jaimegc.covid19tracker.domain.usecase.GetCountryStats
 import com.jaimegc.covid19tracker.domain.usecase.GetCovidTrackerLast
 import com.jaimegc.covid19tracker.domain.usecase.GetWorldStats
 import com.jaimegc.covid19tracker.ui.model.CountryListStatsChartUI
-import com.jaimegc.covid19tracker.ui.model.toChartUI
+import com.jaimegc.covid19tracker.ui.model.toListChartUI
 import com.jaimegc.covid19tracker.ui.model.toUI
+import com.jaimegc.covid19tracker.ui.states.CovidTrackerType
 import com.jaimegc.covid19tracker.ui.viewmodel.BaseScreenStateViewModel
 import com.jaimegc.covid19tracker.ui.states.ScreenState
 import com.jaimegc.covid19tracker.ui.states.WorldStateCountriesStatsLineChartType
@@ -33,10 +34,13 @@ class WorldViewModel(
 
     private val lineChartTypeSize = WorldStateCountriesStatsLineChartType::class.nestedClasses.size
 
-    fun getCovidTrackerLast() =
+    fun getCovidTrackerLast(type: CovidTrackerType) =
         viewModelScope.launch {
-            getCovidTrackerLast.getCovidTrackerByDate("2020-04-26").collect { result ->
-                result.fold(::handleError, ::handleScreenStateCovidTracker)
+            getCovidTrackerLast.getCovidTrackerByDate("2020-04-28").collect { result ->
+                result.fold(
+                    { handleError(it) },
+                    { handleScreenStateCovidTracker(it, type) }
+                )
             }
         }
 
@@ -102,10 +106,17 @@ class WorldViewModel(
             }
         }
 
-    private fun handleScreenStateCovidTracker(state: State<CovidTracker>) =
+    private fun handleScreenStateCovidTracker(state: State<CovidTracker>, type: CovidTrackerType) =
         when (state) {
             is State.Success ->
-                _screenState.postValue(ScreenState.Render(WorldStateScreen.SuccessCovidTracker(state.data.toUI())))
+                when (type) {
+                    is CovidTrackerType.Normal ->
+                        _screenState.postValue(ScreenState.Render(
+                            WorldStateScreen.SuccessCovidTracker(state.data.toUI())))
+                    is CovidTrackerType.PieChart ->
+                        _screenState.postValue(ScreenState.Render(
+                            WorldStateScreen.SuccessCountriesStatsPieCharts(state.data.toListChartUI())))
+                }
             is State.Loading ->
                 _screenState.postValue(ScreenState.Loading)
     }
@@ -114,7 +125,7 @@ class WorldViewModel(
         when (state) {
             is State.Success ->
                 _screenState.postValue(ScreenState.Render(WorldStateScreen.SuccessWorldStatsBarCharts(
-                    state.data.map { worldStats -> worldStats.toChartUI() })))
+                    state.data.map { worldStats -> worldStats.toListChartUI() })))
             is State.Loading ->
                 _screenState.postValue(ScreenState.Loading)
         }
@@ -123,7 +134,7 @@ class WorldViewModel(
         when (state) {
             is State.Success ->
                 _screenState.postValue(ScreenState.Render(WorldStateScreen.SuccessCountriesStatsBarCharts(
-                    state.data.map { countryStats -> countryStats.toChartUI() })))
+                    state.data.map { countryStats -> countryStats.toListChartUI() })))
             is State.Loading ->
                 _screenState.postValue(ScreenState.Loading)
         }
@@ -132,7 +143,7 @@ class WorldViewModel(
         state: State<List<CountryListStats>>, lineChartType: WorldStateCountriesStatsLineChartType) {
         when (state) {
             is State.Success -> {
-                mapWorldLineStats[lineChartType] = state.data.map { countryStats -> countryStats.toChartUI() }
+                mapWorldLineStats[lineChartType] = state.data.map { countryStats -> countryStats.toListChartUI() }
 
                 if (mapWorldLineStats.size == lineChartTypeSize) {
                     _screenState.postValue(ScreenState.Render(

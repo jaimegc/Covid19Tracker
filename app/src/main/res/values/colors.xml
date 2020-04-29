@@ -7,7 +7,8 @@
     <color name="light_red">#FFCDD2</color>
     <color name="light_green">#C8E6C9</color>
     <color name="light_blue">#BBDEFB</color>
-    <color name="light_grey">#dbdbdb</color>
+    <color name="light_grey">#DBDBDB</color>
+    <color name="very_light_grey">#EEE</color>
 
     <color name="dark_red">#D32F2F</color>
     <color name="dark_green">#388E3C</color>
@@ -17,5 +18,6 @@
     <color name="dark_orange">#E58E52</color>
     <color name="dark_purple">#7D54A2</color>
     <color name="title_grey">#6C757D</color>
+    <color name="border_card">#4C4C4C</color>
 
 </resources>

@@ -12,7 +12,6 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.jaimegc.covid19tracker.extensions.chart.formatter.ChartDayMonthFormatter
-import com.jaimegc.covid19tracker.extensions.toPx
 
 fun BarChart.configure(xAxisValues: List<String>, minAxisLeftValue: Float = 0f) {
     with(this) {
@@ -31,12 +30,12 @@ fun BarChart.configure(xAxisValues: List<String>, minAxisLeftValue: Float = 0f) 
             labelRotationAngle = -45f
         }
 
-        with(this.axisLeft) {
+        with(axisLeft) {
             setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
             axisMinimum = if (minAxisLeftValue >= 0) 0f else minAxisLeftValue
         }
 
-        with(this.legend) {
+        with(legend) {
             form = Legend.LegendForm.SQUARE
             textSize = 12f
             verticalAlignment = Legend.LegendVerticalAlignment.TOP
@@ -56,6 +55,7 @@ fun BarChart.setValues(ctx: Context, values: List<Float>, legendStringRes: Int, 
 
     val barData = BarData(listOf<IBarDataSet>(barDataSet))
     barData.setValueTextSize(12f)
+    barData.isHighlightEnabled = false
 
     data = barData
 }
