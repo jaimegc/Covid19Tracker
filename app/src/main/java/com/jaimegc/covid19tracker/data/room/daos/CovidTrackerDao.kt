@@ -2,7 +2,8 @@ package com.jaimegc.covid19tracker.data.room.daos
 
 import androidx.room.*
 import com.jaimegc.covid19tracker.data.room.entities.CountryEntity
-import com.jaimegc.covid19tracker.data.room.entities.StatsEntity
+import com.jaimegc.covid19tracker.data.room.entities.CountryStatsEntity
+import com.jaimegc.covid19tracker.data.room.entities.RegionStatsEntity
 import com.jaimegc.covid19tracker.data.room.entities.WorldStatsEntity
 import com.jaimegc.covid19tracker.data.room.pojos.CountryAndOneStatsPojo
 import com.jaimegc.covid19tracker.data.room.pojos.CountryAndStatsPojo
@@ -30,13 +31,16 @@ abstract class CovidTrackerDao {
     abstract suspend fun insertAllCountries(countries: List<CountryEntity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insertAllCountriesStats(countriesStats: List<StatsEntity>)
+    abstract suspend fun insertAllCountriesStats(countriesStats: List<CountryStatsEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract suspend fun insertAllRegionsStats(regionsStats: List<RegionStatsEntity>)
 
     @Transaction
     open suspend fun save(
         worldStats: WorldStatsEntity,
         countries: List<CountryEntity>,
-        countriesStats: List<StatsEntity>
+        countriesStats: List<CountryStatsEntity>
     ) {
         insertWorldStats(worldStats)
         insertAllCountries(countries)
@@ -47,11 +51,13 @@ abstract class CovidTrackerDao {
     open suspend fun populateDatabase(
         worldsStats: List<WorldStatsEntity>,
         countries: List<CountryEntity>,
-        countriesStats: List<StatsEntity>
+        countriesStats: List<CountryStatsEntity>,
+        regionsStats: List<RegionStatsEntity>
     ) {
         insertAllWorldsStats(worldsStats)
         insertAllCountries(countries)
         insertAllCountriesStats(countriesStats)
+        insertAllRegionsStats(regionsStats)
     }
 }
 
@@ -72,18 +78,18 @@ abstract class CountryStatsDao {
     abstract fun getByName(name: String): Flow<List<CountryEntity>>
 
     @Query("""
-        SELECT * FROM country, stats 
-        WHERE country.id = stats.id_country_fk
+        SELECT * FROM country, country_stats 
+        WHERE country.id = country_stats.id_country_fk
         GROUP BY country.name
-        ORDER BY stats.confirmed DESC""")
+        ORDER BY country_stats.confirmed DESC""")
     abstract fun getCountriesAndStatsOrderByConfirmed(): Flow<List<CountryAndStatsPojo>>
 
     @Query("""
-        SELECT * FROM country c, stats s
+        SELECT * FROM country c, country_stats s
         WHERE c.id = s.id_country_fk AND s.confirmed > 2000 AND c.id IN (
             SELECT id FROM country 
                 INNER JOIN (
-                    SELECT id_country_fk, MAX(confirmed) AS maxConfirmed FROM stats 
+                    SELECT id_country_fk, MAX(confirmed) AS maxConfirmed FROM country_stats 
                     GROUP BY id_country_fk
                 ) statsMaxConfirmed
                 ON country.id = statsMaxConfirmed.id_country_fk 
@@ -95,10 +101,10 @@ abstract class CountryStatsDao {
 
     @Query("""
         SELECT * FROM country c
-        INNER JOIN stats s ON c.id = s.id_country_fk AND c.id IN (
+        INNER JOIN country_stats s ON c.id = s.id_country_fk AND c.id IN (
             SELECT id FROM country 
                 INNER JOIN (
-                    SELECT id_country_fk, MAX(deaths) AS maxDeaths FROM stats 
+                    SELECT id_country_fk, MAX(deaths) AS maxDeaths FROM country_stats 
                     GROUP BY id_country_fk
                 ) statsMaxDeaths
                 ON country.id = statsMaxDeaths.id_country_fk 
@@ -110,11 +116,11 @@ abstract class CountryStatsDao {
     abstract fun getCountriesAndStatsWithMostDeaths(): Flow<List<CountryAndOneStatsPojo>>
 
     @Query("""
-        SELECT * FROM country c, stats s
+        SELECT * FROM country c, country_stats s
         WHERE c.id = s.id_country_fk AND s.recovered > 2000 AND c.id IN (
             SELECT id FROM country 
                 INNER JOIN (
-                    SELECT id_country_fk, MAX(recovered) AS maxRecovered FROM stats 
+                    SELECT id_country_fk, MAX(recovered) AS maxRecovered FROM country_stats 
                     GROUP BY id_country_fk
                 ) statsMaxRecovered
                 ON country.id = statsMaxRecovered.id_country_fk 
@@ -126,10 +132,10 @@ abstract class CountryStatsDao {
 
     @Query("""
         SELECT * FROM country c
-        INNER JOIN stats s ON c.id = s.id_country_fk AND c.id IN (
+        INNER JOIN country_stats s ON c.id = s.id_country_fk AND c.id IN (
             SELECT id FROM country 
                 INNER JOIN (
-                    SELECT id_country_fk, MAX(open_cases) AS maxOpenCases FROM stats 
+                    SELECT id_country_fk, MAX(open_cases) AS maxOpenCases FROM country_stats 
                     GROUP BY id_country_fk
                 ) statsMaxOpenCases
                 ON country.id = statsMaxOpenCases.id_country_fk 

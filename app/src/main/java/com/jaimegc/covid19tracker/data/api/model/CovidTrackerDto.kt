@@ -16,7 +16,7 @@ data class CovidTrackerDateCountryDto(
     @SerializedName("id") val id: String,
     @SerializedName("name") val name: String,
     @SerializedName("name_es") val nameEs: String,
-    @SerializedName("source") val source: String,
+    @SerializedName("source") val source: String? = null,
     @SerializedName("today_confirmed") val todayConfirmed: Long,
     @SerializedName("today_deaths") val todayDeaths: Long,
     @SerializedName("today_new_confirmed") val todayNewConfirmed: Long,
@@ -32,11 +32,13 @@ data class CovidTrackerDateCountryDto(
     @SerializedName("yesterday_confirmed") val yesterdayConfirmed: Long,
     @SerializedName("yesterday_deaths") val yesterdayDeaths: Long,
     @SerializedName("yesterday_open_cases") val yesterdayOpenCases: Long,
-    @SerializedName("yesterday_recovered") val yesterdayRecovered: Long
+    @SerializedName("yesterday_recovered") val yesterdayRecovered: Long,
+    @SerializedName("regions") val regions: List<CovidTrackerDateCountryDto>? = null,
+    @SerializedName("sub_regions") val subRegions: List<CovidTrackerDateCountryDto>? = null
 )
 
 data class CovidTrackerTotalDto(
-    @SerializedName("source") val source: String,
+    @SerializedName("source") val source: String? = null,
     @SerializedName("today_confirmed") val todayConfirmed: Long,
     @SerializedName("today_deaths") val todayDeaths: Long,
     @SerializedName("today_new_confirmed") val todayNewConfirmed: Long,

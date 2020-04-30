@@ -8,7 +8,8 @@ import com.jaimegc.covid19tracker.data.room.daos.CountryStatsDao
 import com.jaimegc.covid19tracker.data.room.daos.CovidTrackerDao
 import com.jaimegc.covid19tracker.data.room.daos.WorldStatsDao
 import com.jaimegc.covid19tracker.data.room.entities.CountryEntity
-import com.jaimegc.covid19tracker.data.room.entities.StatsEntity
+import com.jaimegc.covid19tracker.data.room.entities.RegionStatsEntity
+import com.jaimegc.covid19tracker.data.room.entities.CountryStatsEntity
 import com.jaimegc.covid19tracker.data.room.entities.WorldStatsEntity
 import com.jaimegc.covid19tracker.domain.model.toDomain
 import com.jaimegc.covid19tracker.domain.model.toPojoOrdered
@@ -78,7 +79,7 @@ class LocalCovidTrackerDatasource(
 
     suspend fun save(covidTracker: CovidTracker) {
         val countryEntities = mutableListOf<CountryEntity>()
-        val countryStatsEntities = mutableListOf<StatsEntity>()
+        val countryStatsEntities = mutableListOf<CountryStatsEntity>()
 
         covidTracker.countriesStats.map { countryStats ->
             countryEntities.add(countryStats.toEntity())
@@ -92,20 +93,26 @@ class LocalCovidTrackerDatasource(
         val maxDaysToSave = 7 // To avoid memory leaks
         val worldStatsEntities = mutableListOf<WorldStatsEntity>()
         val countryEntities = mutableListOf<CountryEntity>()
-        val countryStatsEntities = mutableListOf<StatsEntity>()
+        val countryStatsEntities = mutableListOf<CountryStatsEntity>()
+        val regionStatsEntities = mutableListOf<RegionStatsEntity>()
 
         covidTrackers.mapIndexed { index, covidTracker ->
             worldStatsEntities.add(covidTracker.worldStats.toEntity())
             covidTracker.countriesStats.map { countryStats ->
                 if (index == 0) countryEntities.add(countryStats.toEntity())
                 countryStatsEntities.add(countryStats.stats.toEntity(countryStats.id))
+                countryStats.regionStats?.map { regionStats ->
+                    regionStatsEntities.add(regionStats.toRegionEntity(countryStats.id))
+                }
             }
 
             if (index.rem(maxDaysToSave) == 0 || index == covidTrackers.size - 1) {
-                covidTrackerDao.populateDatabase(worldStatsEntities, countryEntities, countryStatsEntities)
+                covidTrackerDao.populateDatabase(
+                    worldStatsEntities, countryEntities, countryStatsEntities, regionStatsEntities)
                 worldStatsEntities.clear()
                 countryEntities.clear()
                 countryStatsEntities.clear()
+                regionStatsEntities.clear()
             }
         }
     }
