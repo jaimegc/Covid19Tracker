@@ -21,9 +21,6 @@ import retrofit2.Response
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.zip.ZipFile
-import java.util.zip.ZipInputStream
-
 
 class PopulateDatabaseWorker(
     val context: Context,
@@ -122,32 +119,6 @@ class PopulateDatabaseWorker(
             writer.close()
         } catch (exception: IOException) {
             Log.e("Exception", "File write internal storage failed: $exception")
-        }
-    }
-
-    // TODO: This is not ready
-    private suspend fun openZipFile() {
-        applicationContext.assets.open("${FOLDER}$ZIP_FILE_DATES").use { stream ->
-            ZipInputStream(stream).use { zipStream ->
-
-                val dataStream = DataInputStream(zipStream)
-                stream.readBytes()
-                stream.close()
-
-                val zipFileeee = "${context.filesDir}${File.separator}Holita"
-
-                val zipFiles = ZipFile(zipFileeee)
-
-                var zipFile = zipStream.nextEntry
-                var length = 0
-
-                while (zipFile != null) {
-                    if (zipFile.isDirectory.not()) {
-
-                    }
-                    zipFile = zipStream.nextEntry
-                }
-            }
         }
     }
 }

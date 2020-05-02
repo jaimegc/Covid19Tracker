@@ -3,7 +3,7 @@ package com.jaimegc.covid19tracker.data.room.pojos
 import androidx.room.Embedded
 import androidx.room.Relation
 import com.jaimegc.covid19tracker.data.room.entities.CountryEntity
-import com.jaimegc.covid19tracker.data.room.entities.StatsEntity
+import com.jaimegc.covid19tracker.data.room.entities.CountryStatsEntity
 import com.jaimegc.covid19tracker.data.room.views.CountryAndStatsDV
 import com.jaimegc.covid19tracker.data.room.entities.WorldStatsEntity
 
@@ -20,13 +20,13 @@ data class WorldAndCountriesStatsPojo(
 data class CountryAndStatsPojo(
     @Embedded
     val country: CountryEntity?,
-    @Relation(parentColumn = "id", entityColumn = "id_country_fk", entity = StatsEntity::class)
-    val stats: List<StatsEntity>
+    @Relation(parentColumn = "id", entityColumn = "id_country_fk", entity = CountryStatsEntity::class)
+    val stats: List<CountryStatsEntity>
 )
 
 class CountryAndOneStatsPojo(
     @Embedded
     val country: CountryEntity?,
     @Embedded
-    val stats: StatsEntity
+    val countryStats: CountryStatsEntity
 )

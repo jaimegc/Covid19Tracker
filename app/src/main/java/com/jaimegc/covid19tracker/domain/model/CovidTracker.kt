@@ -15,7 +15,8 @@ data class CountryStats(
     val id: String,
     val name: String,
     val nameEs: String,
-    val stats: Stats
+    val stats: Stats,
+    val regionStats: List<RegionStats>? = null
 )
 
 data class CountryListStats(
@@ -23,6 +24,15 @@ data class CountryListStats(
     val name: String,
     val nameEs: String,
     val stats: List<Stats>
+)
+
+data class RegionStats(
+    val id: String,
+    val name: String,
+    val nameEs: String,
+    val date: String,
+    val stats: Stats,
+    val subRegionStats: List<RegionStats>? = null
 )
 
 data class Stats(

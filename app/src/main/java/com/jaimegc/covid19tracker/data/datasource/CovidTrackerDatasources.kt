@@ -7,9 +7,7 @@ import com.jaimegc.covid19tracker.data.api.extensions.mapResponse
 import com.jaimegc.covid19tracker.data.room.daos.CountryStatsDao
 import com.jaimegc.covid19tracker.data.room.daos.CovidTrackerDao
 import com.jaimegc.covid19tracker.data.room.daos.WorldStatsDao
-import com.jaimegc.covid19tracker.data.room.entities.CountryEntity
-import com.jaimegc.covid19tracker.data.room.entities.StatsEntity
-import com.jaimegc.covid19tracker.data.room.entities.WorldStatsEntity
+import com.jaimegc.covid19tracker.data.room.entities.*
 import com.jaimegc.covid19tracker.domain.model.toDomain
 import com.jaimegc.covid19tracker.domain.model.toPojoOrdered
 import com.jaimegc.covid19tracker.domain.model.*
@@ -76,36 +74,42 @@ class LocalCovidTrackerDatasource(
         mapEntityValid(countryStatsDao.getCountriesAndStatsOrderByConfirmed()) { countriesStats ->
             Pair(countriesStats.isNotEmpty(), countriesStats.map { countryStats -> countryStats.toDomainOnly() }) }
 
-    suspend fun save(covidTracker: CovidTracker) {
-        val countryEntities = mutableListOf<CountryEntity>()
-        val countryStatsEntities = mutableListOf<StatsEntity>()
-
-        covidTracker.countriesStats.map { countryStats ->
-            countryEntities.add(countryStats.toEntity())
-            countryStatsEntities.add(countryStats.stats.toEntity(countryStats.id))
-        }
-
-        covidTrackerDao.save(covidTracker.worldStats.toEntity(), countryEntities, countryStatsEntities)
-    }
+    suspend fun save(covidTracker: CovidTracker) = populateDatabase(listOf(covidTracker))
 
     suspend fun populateDatabase(covidTrackers: List<CovidTracker>) {
         val maxDaysToSave = 7 // To avoid memory leaks
         val worldStatsEntities = mutableListOf<WorldStatsEntity>()
         val countryEntities = mutableListOf<CountryEntity>()
-        val countryStatsEntities = mutableListOf<StatsEntity>()
+        val countryStatsEntities = mutableListOf<CountryStatsEntity>()
+        val regionStatsEntities = mutableListOf<RegionStatsEntity>()
+        val subRegionStatsEntities = mutableListOf<SubRegionStatsEntity>()
 
         covidTrackers.mapIndexed { index, covidTracker ->
             worldStatsEntities.add(covidTracker.worldStats.toEntity())
             covidTracker.countriesStats.map { countryStats ->
                 if (index == 0) countryEntities.add(countryStats.toEntity())
                 countryStatsEntities.add(countryStats.stats.toEntity(countryStats.id))
+                countryStats.regionStats?.map { regionStats ->
+                    regionStatsEntities.add(regionStats.toRegionEntity(countryStats.id))
+                    regionStats.subRegionStats?.map { subRegionStats ->
+                        subRegionStatsEntities.add(
+                            subRegionStats.toSubRegionEntity(regionStats.id, countryStats.id))
+                    }
+                }
             }
 
             if (index.rem(maxDaysToSave) == 0 || index == covidTrackers.size - 1) {
-                covidTrackerDao.populateDatabase(worldStatsEntities, countryEntities, countryStatsEntities)
+                covidTrackerDao.populateDatabase(
+                    worldsStats = worldStatsEntities,
+                    countries = countryEntities,
+                    countriesStats = countryStatsEntities,
+                    regionsStats = regionStatsEntities,
+                    subRegionsStats = subRegionStatsEntities)
+
                 worldStatsEntities.clear()
                 countryEntities.clear()
                 countryStatsEntities.clear()
+                regionStatsEntities.clear()
             }
         }
     }

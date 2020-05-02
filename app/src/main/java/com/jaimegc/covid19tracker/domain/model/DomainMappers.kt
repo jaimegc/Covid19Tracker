@@ -30,7 +30,7 @@ private fun CovidTrackerDateCountryDto.toDomain(date: String): CountryStats =
         nameEs = nameEs,
         stats = Stats(
             date = date,
-            source = source,
+            source = source ?: "",
             confirmed = todayConfirmed,
             deaths = todayDeaths,
             newConfirmed = todayNewConfirmed,
@@ -43,7 +43,8 @@ private fun CovidTrackerDateCountryDto.toDomain(date: String): CountryStats =
             vsYesterdayDeaths = todayVsYesterdayDeaths,
             vsYesterdayOpenCases = todayVsYesterdayOpenCases,
             vsYesterdayRecovered = todayVsYesterdayRecovered
-        )
+        ),
+        regionStats = regions?.map { region -> toRegionDomain(region, date) }
     )
 
 fun CovidTrackerTotalDto.toDomain(date: String, updatedAt: String): WorldStats =
@@ -52,7 +53,7 @@ fun CovidTrackerTotalDto.toDomain(date: String, updatedAt: String): WorldStats =
         updatedAt = updatedAt,
         stats = Stats(
             date = date,
-            source = source,
+            source = source ?: "",
             confirmed = todayConfirmed,
             deaths = todayDeaths,
             newConfirmed = todayNewConfirmed,
@@ -95,7 +96,7 @@ fun List<CountryAndOneStatsPojo>.toPojoOrdered(): List<CountryAndStatsPojo> =
         val listCountryAndStatsPojo = mutableListOf<CountryAndStatsPojo>()
         mapCountries.map { countryStats ->
             listCountryAndStatsPojo.add(CountryAndStatsPojo(
-                countryStats.key, countryStats.value.map { stats -> stats.stats }))
+                countryStats.key, countryStats.value.map { stats -> stats.countryStats }))
         }
         listCountryAndStatsPojo
     }
@@ -105,7 +106,7 @@ private fun CountryAndStatsDV.toDomain(): CountryStats =
         id = country!!.id,
         name = country.name,
         nameEs = country.nameEs,
-        stats = stats!!.toDomain()
+        stats = countryStats!!.toDomain()
     )
 
 fun WorldStatsEntity.toDomain(): WorldStats =
@@ -115,12 +116,12 @@ fun WorldStatsEntity.toDomain(): WorldStats =
         stats = stats.toDomain(date)
     )
 
-private fun CountryEntity.toDomain(stats: StatsEntity): CountryStats =
+private fun CountryEntity.toDomain(countryStats: CountryStatsEntity): CountryStats =
     CountryStats(
         id = id,
         name = name,
         nameEs = nameEs,
-        stats = stats.toDomain()
+        stats = countryStats.toDomain()
     )
 
 fun StatsEmbedded.toDomain(date: String): Stats =
@@ -139,6 +140,31 @@ fun StatsEmbedded.toDomain(date: String): Stats =
         vsYesterdayDeaths = vsYesterdayDeaths,
         vsYesterdayOpenCases = vsYesterdayOpenCases,
         vsYesterdayRecovered = vsYesterdayRecovered
+    )
+
+private fun toRegionDomain(stats: CovidTrackerDateCountryDto, date: String): RegionStats =
+    RegionStats(
+        id = stats.id,
+        name = stats.name,
+        nameEs = stats.nameEs,
+        date = date,
+        stats = Stats(
+            date = date,
+            source = stats.source ?: "",
+            confirmed = stats.todayConfirmed,
+            deaths = stats.todayDeaths,
+            newConfirmed = stats.todayNewConfirmed,
+            newDeaths = stats.todayNewDeaths,
+            newOpenCases = stats.todayNewOpenCases,
+            newRecovered = stats.todayNewRecovered,
+            openCases = stats.todayOpenCases,
+            recovered = stats.todayRecovered,
+            vsYesterdayConfirmed = stats.todayVsYesterdayConfirmed,
+            vsYesterdayDeaths = stats.todayVsYesterdayDeaths,
+            vsYesterdayOpenCases = stats.todayVsYesterdayOpenCases,
+            vsYesterdayRecovered = stats.todayVsYesterdayRecovered
+        ),
+        subRegionStats = stats.subRegions?.map { region -> toRegionDomain(region, date) }
     )
 
 fun CountryStats.toEntity(): CountryEntity =
@@ -172,8 +198,8 @@ fun Stats.toEmbedded(): StatsEmbedded =
         vsYesterdayRecovered = vsYesterdayRecovered
     )
 
-fun Stats.toEntity(idCountryFk: String): StatsEntity =
-    StatsEntity(
+fun Stats.toEntity(idCountryFk: String): CountryStatsEntity =
+    CountryStatsEntity(
         date = date,
         stats = StatsEmbedded(
             source = source,
@@ -193,7 +219,7 @@ fun Stats.toEntity(idCountryFk: String): StatsEntity =
         idCountryFk = idCountryFk
     )
 
-fun StatsEntity.toDomain(): Stats =
+fun CountryStatsEntity.toDomain(): Stats =
     Stats(
         date = date,
         source = stats.source,
@@ -211,21 +237,56 @@ fun StatsEntity.toDomain(): Stats =
         vsYesterdayRecovered = stats.vsYesterdayRecovered
     )
 
-fun <T, R> mapEntityValid(parse: Flow<T?>, mapper: (T) -> Pair<Boolean, R>): Flow<Either<DomainError, R>> =
-    try {
-        parse.map {
-            it?.let {
-                when (mapper(it).first) {
-                    true -> Either.right(mapper(it).second)
-                    else -> Either.left(DomainError.DatabaseEmptyData)
-                }
-            } ?: Either.left(DomainError.DatabaseEmptyData)
-        }
-    } catch (exception: Exception) {
-        flow { Either.left(DomainError.DatabaseDomainError(exception.toString())) }
-    }
+fun RegionStats.toRegionEntity(idCountryFk: String): RegionStatsEntity =
+    RegionStatsEntity(
+        id = id,
+        name = name,
+        nameEs = nameEs,
+        date = date,
+        stats = StatsEmbedded(
+            source = stats.source,
+            confirmed = stats.confirmed,
+            deaths = stats.deaths,
+            newConfirmed = stats.newConfirmed,
+            newDeaths = stats.newDeaths,
+            newOpenCases = stats.newOpenCases,
+            newRecovered = stats.newRecovered,
+            openCases = stats.openCases,
+            recovered = stats.recovered,
+            vsYesterdayConfirmed = stats.vsYesterdayConfirmed,
+            vsYesterdayDeaths = stats.vsYesterdayDeaths,
+            vsYesterdayOpenCases = stats.vsYesterdayOpenCases,
+            vsYesterdayRecovered = stats.vsYesterdayRecovered
+        ),
+        idCountryFk = idCountryFk
+    )
 
-fun <T, S, R> mapEntityValid2(parse: Flow<T?>, mapper2: (S) -> Flow<T>, mapper: (T) -> Pair<Boolean, S>): Flow<Either<DomainError, S>> =
+fun RegionStats.toSubRegionEntity(idRegionFk: String, idCountryFk: String): SubRegionStatsEntity =
+    SubRegionStatsEntity(
+        id = id,
+        name = name,
+        nameEs = nameEs,
+        date = date,
+        stats = StatsEmbedded(
+            source = stats.source,
+            confirmed = stats.confirmed,
+            deaths = stats.deaths,
+            newConfirmed = stats.newConfirmed,
+            newDeaths = stats.newDeaths,
+            newOpenCases = stats.newOpenCases,
+            newRecovered = stats.newRecovered,
+            openCases = stats.openCases,
+            recovered = stats.recovered,
+            vsYesterdayConfirmed = stats.vsYesterdayConfirmed,
+            vsYesterdayDeaths = stats.vsYesterdayDeaths,
+            vsYesterdayOpenCases = stats.vsYesterdayOpenCases,
+            vsYesterdayRecovered = stats.vsYesterdayRecovered
+        ),
+        idRegionFk = idRegionFk,
+        idCountryFk = idCountryFk
+    )
+
+fun <T, R> mapEntityValid(parse: Flow<T?>, mapper: (T) -> Pair<Boolean, R>): Flow<Either<DomainError, R>> =
     try {
         parse.map {
             it?.let {
