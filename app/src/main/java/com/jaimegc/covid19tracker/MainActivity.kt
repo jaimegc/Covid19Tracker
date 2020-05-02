@@ -24,8 +24,4 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         binding.navView.setupWithNavController(navController)
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
 }

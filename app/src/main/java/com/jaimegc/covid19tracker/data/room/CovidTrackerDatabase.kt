@@ -10,14 +10,14 @@ import androidx.work.WorkManager
 import com.jaimegc.covid19tracker.data.room.daos.CountryStatsDao
 import com.jaimegc.covid19tracker.data.room.daos.CovidTrackerDao
 import com.jaimegc.covid19tracker.data.room.daos.WorldStatsDao
+import com.jaimegc.covid19tracker.data.room.entities.*
 import com.jaimegc.covid19tracker.data.room.views.CountryAndStatsDV
-import com.jaimegc.covid19tracker.data.room.entities.CountryEntity
-import com.jaimegc.covid19tracker.data.room.entities.StatsEntity
-import com.jaimegc.covid19tracker.data.room.entities.WorldStatsEntity
 import com.jaimegc.covid19tracker.worker.PopulateDatabaseWorker
+import java.io.File
 
 
-@Database(entities = [CountryEntity::class, WorldStatsEntity::class, StatsEntity::class],
+@Database(entities = [CountryEntity::class, WorldStatsEntity::class, CountryStatsEntity::class,
+    RegionStatsEntity::class, SubRegionStatsEntity::class],
     views = [CountryAndStatsDV::class],
     version = Covid19TrackerDatabase.version
 )
@@ -28,14 +28,16 @@ abstract class Covid19TrackerDatabase : RoomDatabase() {
 
     companion object {
         const val version = 1
-        private const val DATABASE_NAME = "covid19-tracker-db"
+        const val DATABASE_NAME = "covid19-tracker-db"
 
         fun build(context: Context): Covid19TrackerDatabase =
-            Room.databaseBuilder(context.applicationContext, Covid19TrackerDatabase::class.java, DATABASE_NAME)
-                .createFromAsset("database/covid19-tracker-db")
+            Room.databaseBuilder(context, Covid19TrackerDatabase::class.java, DATABASE_NAME)
+                //.createFromAsset("covid19-tracker-db")
+                .createFromFile(File("${context.filesDir}${File.separator}$DATABASE_NAME"))
                 .addCallback(object : RoomDatabase.Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         super.onCreate(db)
+                        // Populate database using a Worker
                         //val request = OneTimeWorkRequestBuilder<PopulateDatabaseWorker>().build()
                         //WorkManager.getInstance(context).enqueue(request)
                     }
