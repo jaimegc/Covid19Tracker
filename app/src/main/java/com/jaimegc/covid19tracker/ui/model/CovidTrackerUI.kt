@@ -15,6 +15,7 @@ data class CountryStatsUI(
     val id: String,
     val name: String,
     val nameEs: String,
+    val code: String,
     val stats: StatsUI,
     var isExpanded: Boolean = false
 )
@@ -53,6 +54,7 @@ data class CountryStatsChartUI(
     val id: String,
     val name: String,
     val nameEs: String,
+    val code: String,
     val stats: StatsChartUI
 )
 

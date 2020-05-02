@@ -28,6 +28,7 @@ private fun CovidTrackerDateCountryDto.toDomain(date: String): CountryStats =
         id = id,
         name = name,
         nameEs = nameEs,
+        code = CountryCode(id).code.toLowerCase(),
         stats = Stats(
             date = date,
             source = source ?: "",
@@ -80,6 +81,7 @@ fun CountryAndStatsPojo.toDomainOnly(): CountryStats =
         id = country!!.id,
         name = country.name,
         nameEs = country.nameEs,
+        code = country.code,
         stats = stats[0].toDomain()
     )
 
@@ -88,6 +90,7 @@ fun CountryAndStatsPojo.toDomain(): CountryListStats =
         id = country!!.id,
         name = country.name,
         nameEs = country.nameEs,
+        code = country.code,
         stats = stats.map { countryStats -> countryStats.toDomain() }
     )
 
@@ -106,6 +109,7 @@ private fun CountryAndStatsDV.toDomain(): CountryStats =
         id = country!!.id,
         name = country.name,
         nameEs = country.nameEs,
+        code = country.code,
         stats = countryStats!!.toDomain()
     )
 
@@ -121,6 +125,7 @@ private fun CountryEntity.toDomain(countryStats: CountryStatsEntity): CountrySta
         id = id,
         name = name,
         nameEs = nameEs,
+        code = code,
         stats = countryStats.toDomain()
     )
 
@@ -171,7 +176,8 @@ fun CountryStats.toEntity(): CountryEntity =
     CountryEntity(
         id = id,
         name = name,
-        nameEs = nameEs
+        nameEs = nameEs,
+        code = code
     )
 
 fun WorldStats.toEntity(): WorldStatsEntity =

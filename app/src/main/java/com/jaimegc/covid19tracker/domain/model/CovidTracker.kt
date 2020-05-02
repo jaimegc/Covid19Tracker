@@ -15,6 +15,7 @@ data class CountryStats(
     val id: String,
     val name: String,
     val nameEs: String,
+    val code: String,
     val stats: Stats,
     val regionStats: List<RegionStats>? = null
 )
@@ -23,6 +24,7 @@ data class CountryListStats(
     val id: String,
     val name: String,
     val nameEs: String,
+    val code: String,
     val stats: List<Stats>
 )
 
