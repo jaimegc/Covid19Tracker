@@ -1,10 +1,7 @@
 package com.jaimegc.covid19tracker.data.room.daos
 
 import androidx.room.*
-import com.jaimegc.covid19tracker.data.room.entities.CountryEntity
-import com.jaimegc.covid19tracker.data.room.entities.CountryStatsEntity
-import com.jaimegc.covid19tracker.data.room.entities.RegionStatsEntity
-import com.jaimegc.covid19tracker.data.room.entities.WorldStatsEntity
+import com.jaimegc.covid19tracker.data.room.entities.*
 import com.jaimegc.covid19tracker.data.room.pojos.CountryAndOneStatsPojo
 import com.jaimegc.covid19tracker.data.room.pojos.CountryAndStatsPojo
 import com.jaimegc.covid19tracker.data.room.pojos.WorldAndCountriesStatsPojo
@@ -36,28 +33,22 @@ abstract class CovidTrackerDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insertAllRegionsStats(regionsStats: List<RegionStatsEntity>)
 
-    @Transaction
-    open suspend fun save(
-        worldStats: WorldStatsEntity,
-        countries: List<CountryEntity>,
-        countriesStats: List<CountryStatsEntity>
-    ) {
-        insertWorldStats(worldStats)
-        insertAllCountries(countries)
-        insertAllCountriesStats(countriesStats)
-    }
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract suspend fun insertAllSubRegionsStats(subRegionsStats: List<SubRegionStatsEntity>)
 
     @Transaction
     open suspend fun populateDatabase(
         worldsStats: List<WorldStatsEntity>,
         countries: List<CountryEntity>,
         countriesStats: List<CountryStatsEntity>,
-        regionsStats: List<RegionStatsEntity>
+        regionsStats: List<RegionStatsEntity>,
+        subRegionsStats: List<SubRegionStatsEntity>
     ) {
         insertAllWorldsStats(worldsStats)
         insertAllCountries(countries)
         insertAllCountriesStats(countriesStats)
         insertAllRegionsStats(regionsStats)
+        insertAllSubRegionsStats(subRegionsStats)
     }
 }
 

@@ -95,13 +95,13 @@ data class RegionStatsEntity(
     val idCountryFk: String
 )
 
-/*@Entity(
+@Entity(
     tableName = "sub_region_stats",
-    primaryKeys = ["date", "id_region_fk"],
+    primaryKeys = ["id", "date", "id_region_fk"],
     foreignKeys = [ForeignKey(
         entity = RegionStatsEntity::class,
-        parentColumns = arrayOf("id"),
-        childColumns = arrayOf("id_region_fk"),
+        parentColumns = arrayOf("id", "date", "id_country_fk"),
+        childColumns = arrayOf("id_region_fk", "date", "id_country_fk"),
         onDelete = ForeignKey.CASCADE
     )])
 data class SubRegionStatsEntity(
@@ -116,5 +116,7 @@ data class SubRegionStatsEntity(
     @Embedded
     val stats: StatsEmbedded,
     @ColumnInfo(name = "id_region_fk")
-    val idRegionFk: String
-)*/
+    val idRegionFk: String,
+    @ColumnInfo(name = "id_country_fk")
+    val idCountryFk: String
+)

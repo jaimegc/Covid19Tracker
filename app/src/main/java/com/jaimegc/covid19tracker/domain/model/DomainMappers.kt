@@ -44,8 +44,7 @@ private fun CovidTrackerDateCountryDto.toDomain(date: String): CountryStats =
             vsYesterdayOpenCases = todayVsYesterdayOpenCases,
             vsYesterdayRecovered = todayVsYesterdayRecovered
         ),
-        regionStats = regions?.map { region -> toRegionDomain(region, date) },
-        subRegionStats = subRegions?.map { subRegion -> toRegionDomain(subRegion, date) }
+        regionStats = regions?.map { region -> toRegionDomain(region, date) }
     )
 
 fun CovidTrackerTotalDto.toDomain(date: String, updatedAt: String): WorldStats =
@@ -164,7 +163,8 @@ private fun toRegionDomain(stats: CovidTrackerDateCountryDto, date: String): Reg
             vsYesterdayDeaths = stats.todayVsYesterdayDeaths,
             vsYesterdayOpenCases = stats.todayVsYesterdayOpenCases,
             vsYesterdayRecovered = stats.todayVsYesterdayRecovered
-        )
+        ),
+        subRegionStats = stats.subRegions?.map { region -> toRegionDomain(region, date) }
     )
 
 fun CountryStats.toEntity(): CountryEntity =
@@ -258,6 +258,31 @@ fun RegionStats.toRegionEntity(idCountryFk: String): RegionStatsEntity =
             vsYesterdayOpenCases = stats.vsYesterdayOpenCases,
             vsYesterdayRecovered = stats.vsYesterdayRecovered
         ),
+        idCountryFk = idCountryFk
+    )
+
+fun RegionStats.toSubRegionEntity(idRegionFk: String, idCountryFk: String): SubRegionStatsEntity =
+    SubRegionStatsEntity(
+        id = id,
+        name = name,
+        nameEs = nameEs,
+        date = date,
+        stats = StatsEmbedded(
+            source = stats.source,
+            confirmed = stats.confirmed,
+            deaths = stats.deaths,
+            newConfirmed = stats.newConfirmed,
+            newDeaths = stats.newDeaths,
+            newOpenCases = stats.newOpenCases,
+            newRecovered = stats.newRecovered,
+            openCases = stats.openCases,
+            recovered = stats.recovered,
+            vsYesterdayConfirmed = stats.vsYesterdayConfirmed,
+            vsYesterdayDeaths = stats.vsYesterdayDeaths,
+            vsYesterdayOpenCases = stats.vsYesterdayOpenCases,
+            vsYesterdayRecovered = stats.vsYesterdayRecovered
+        ),
+        idRegionFk = idRegionFk,
         idCountryFk = idCountryFk
     )
 
