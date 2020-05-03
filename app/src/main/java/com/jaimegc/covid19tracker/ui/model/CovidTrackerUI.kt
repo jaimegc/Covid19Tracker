@@ -47,6 +47,7 @@ data class CountryListStatsChartUI(
     val id: String,
     val name: String,
     val nameEs: String,
+    val code: String,
     val stats: List<StatsChartUI>
 )
 

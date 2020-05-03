@@ -16,9 +16,9 @@ import com.jaimegc.covid19tracker.databinding.ItemWorldTotalCountryBinding
 import com.jaimegc.covid19tracker.databinding.ItemWorldTotalCountryExpandedBinding
 import com.jaimegc.covid19tracker.extensions.rotateLeftAnimation
 import com.jaimegc.covid19tracker.extensions.rotateRightAnimation
+import com.jaimegc.covid19tracker.extensions.setEmojiCountry
 import com.jaimegc.covid19tracker.extensions.setTextSizeSp
 import com.jaimegc.covid19tracker.ui.model.CountryStatsUI
-
 
 class WorldCountryAdapter : ListAdapter<CountryStatsUI, WorldCountryAdapter.WorldCountryViewHolder>(DIFF_CALLBACK) {
 
@@ -54,6 +54,8 @@ class WorldCountryAdapter : ListAdapter<CountryStatsUI, WorldCountryAdapter.Worl
                     totalStatsUI.stats.newRecovered, (totalStatsUI.stats.vsYesterdayRecovered))
                 binding.textNewDeaths.text = itemView.context.getString(R.string.text_trending,
                     totalStatsUI.stats.newDeaths, (totalStatsUI.stats.vsYesterdayDeaths))
+
+                binding.icCountryEmoji.setEmojiCountry(totalStatsUI.code)
 
                 if (totalStatsUI.isExpanded.not()) {
                     layoutCard = layout

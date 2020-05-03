@@ -12,16 +12,27 @@
     android:background="@drawable/background_card_place">
 
     <TextView
+        android:id="@+id/ic_country_emoji"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        tools:text="ES"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/text_place"
         style="@style/TextPlaceName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ic_country_emoji"
+        app:layout_constraintStart_toEndOf="@+id/ic_country_emoji"
+        app:layout_constraintTop_toTopOf="@+id/ic_country_emoji"
         tools:text="Maharashtra" />
 
     <com.google.android.material.card.MaterialCardView
