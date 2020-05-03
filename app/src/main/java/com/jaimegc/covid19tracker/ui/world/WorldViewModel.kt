@@ -1,8 +1,6 @@
 package com.jaimegc.covid19tracker.ui.world
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.jaimegc.covid19tracker.domain.model.*
 import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.domain.states.StateError
@@ -23,8 +21,14 @@ import kotlinx.coroutines.launch
 class WorldViewModel(
     private val getCovidTrackerLast: GetCovidTrackerLast,
     private val getWorldStats: GetWorldStats,
-    private val getCountryStats: GetCountryStats
+    private val getCountryStats: GetCountryStats,
+    private val savedStateHandle: SavedStateHandle
 ) : BaseScreenStateViewModel<WorldStateScreen>() {
+
+    companion object {
+        private val MENU_SAVED_DEFAULT = Menu.ListView.toString()
+        private const val MENU_SAVED_STATE_KEY = "MENU_SAVED_STATE_KEY"
+    }
 
     override val _screenState = MutableLiveData<ScreenState<WorldStateScreen>>()
     override val screenState: LiveData<ScreenState<WorldStateScreen>> = _screenState
@@ -36,30 +40,48 @@ class WorldViewModel(
 
     fun getCovidTrackerLast(type: CovidTrackerType) =
         viewModelScope.launch {
+            when (type) {
+                CovidTrackerType.Normal -> setMenu(Menu.ListView)
+                CovidTrackerType.PieChart -> setMenu(Menu.PieChartView)
+            }
             getCovidTrackerLast.getCovidTrackerByDate("2020-05-01").collect { result ->
-                result.fold(
-                    { handleError(it) },
-                    { handleScreenStateCovidTracker(it, type) }
-                )
+                val showResult =
+                    when (type) {
+                        CovidTrackerType.Normal -> isCurrentMenu(Menu.ListView)
+                        CovidTrackerType.PieChart -> isCurrentMenu(Menu.PieChartView)
+                    }
+
+                if (showResult) {
+                    result.fold(
+                        { handleError(it) },
+                        { handleScreenStateCovidTracker(it, type) }
+                    )
+                }
             }
         }
 
     fun getWorldAllStats() =
         viewModelScope.launch {
+            setMenu(Menu.BarChartView)
             getWorldStats.getWorldAllStats().collect { result ->
-                result.fold(::handleError, ::handleScreenStateWorldStats)
+                if (isCurrentMenu(Menu.BarChartView)) {
+                    result.fold(::handleError, ::handleScreenStateWorldStats)
+                }
             }
         }
 
     fun getCountriesStatsOrderByConfirmed() =
         viewModelScope.launch {
             getCountryStats.getCountriesStatsOrderByConfirmed().collect { result ->
-                result.fold(::handleError, ::handleScreenStateCountriesBarStats)
+                if (isCurrentMenu(Menu.BarChartView)) {
+                    result.fold(::handleError, ::handleScreenStateCountriesBarStats)
+                }
             }
         }
 
     fun getWorldMostStats() {
         mapWorldLineStats.clear()
+        setMenu(Menu.LineChartView)
         getCountriesAndStatsWithMostConfirmed()
         getCountriesAndStatsWithMostDeaths()
         getCountriesAndStatsWithMostRecovered()
@@ -69,40 +91,48 @@ class WorldViewModel(
     private fun getCountriesAndStatsWithMostConfirmed() =
         viewModelScope.launch {
             getCountryStats.getCountriesAndStatsWithMostConfirmed().collect { result ->
-                result.fold(
-                    { handleError(it) },
-                    { handleScreenStateCountriesLineStats(it, WorldStateCountriesStatsLineChartType.MostConfirmed) }
-                )
+                if (isCurrentMenu(Menu.LineChartView)) {
+                    result.fold(
+                        { handleError(it) },
+                        { handleScreenStateCountriesLineStats(it, WorldStateCountriesStatsLineChartType.MostConfirmed) }
+                    )
+                }
             }
         }
 
     private fun getCountriesAndStatsWithMostDeaths() =
         viewModelScope.launch {
             getCountryStats.getCountriesAndStatsWithMostDeaths().collect { result ->
-                result.fold(
-                    { handleError(it) },
-                    { handleScreenStateCountriesLineStats(it, WorldStateCountriesStatsLineChartType.MostDeaths) }
-                )
+                if (isCurrentMenu(Menu.LineChartView)) {
+                    result.fold(
+                        { handleError(it) },
+                        { handleScreenStateCountriesLineStats(it, WorldStateCountriesStatsLineChartType.MostDeaths) }
+                    )
+                }
             }
         }
 
     private fun getCountriesAndStatsWithMostRecovered() =
         viewModelScope.launch {
             getCountryStats.getCountriesAndStatsWithMostRecovered().collect { result ->
-                result.fold(
-                    { handleError(it) },
-                    { handleScreenStateCountriesLineStats(it, WorldStateCountriesStatsLineChartType.MostRecovered) }
-                )
+                if (isCurrentMenu(Menu.LineChartView)) {
+                    result.fold(
+                        { handleError(it) },
+                        { handleScreenStateCountriesLineStats(it, WorldStateCountriesStatsLineChartType.MostRecovered) }
+                    )
+                }
             }
         }
 
     private fun getCountriesAndStatsWithMostOpenCases() =
         viewModelScope.launch {
             getCountryStats.getCountriesAndStatsWithMostOpenCases().collect { result ->
-                result.fold(
-                    { handleError(it) },
-                    { handleScreenStateCountriesLineStats(it, WorldStateCountriesStatsLineChartType.MostOpenCases) }
-                )
+                if (isCurrentMenu(Menu.LineChartView)) {
+                    result.fold(
+                        { handleError(it) },
+                        { handleScreenStateCountriesLineStats(it, WorldStateCountriesStatsLineChartType.MostOpenCases) }
+                    )
+                }
             }
         }
 
@@ -157,5 +187,21 @@ class WorldViewModel(
 
     private fun handleError(state: StateError<DomainError>) {
 
+    }
+
+    private fun getSavedMenu(): MutableLiveData<String> =
+        savedStateHandle.getLiveData(MENU_SAVED_STATE_KEY, MENU_SAVED_DEFAULT)
+
+    private fun isCurrentMenu(menu: Menu): Boolean =
+        getSavedMenu().value == menu.toString()
+
+    private fun setMenu(menu: Menu) =
+        savedStateHandle.set(MENU_SAVED_STATE_KEY, menu.toString())
+
+    private sealed class Menu {
+        object ListView : Menu()
+        object BarChartView : Menu()
+        object LineChartView : Menu()
+        object PieChartView : Menu()
     }
 }

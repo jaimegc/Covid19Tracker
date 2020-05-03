@@ -21,7 +21,7 @@ abstract class CovidTrackerDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insertWorldStats(worldStats: WorldStatsEntity)
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insertAllWorldsStats(worldsStats: List<WorldStatsEntity>)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)

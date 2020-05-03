@@ -1,5 +1,6 @@
 package com.jaimegc.covid19tracker.di
 
+import androidx.lifecycle.SavedStateHandle
 import com.jaimegc.covid19tracker.data.api.client.CovidTrackerApiClient
 import com.jaimegc.covid19tracker.data.api.config.ServerApiCovidTrackerConfigBuilder
 import com.jaimegc.covid19tracker.data.datasource.LocalCovidTrackerDatasource
@@ -45,7 +46,11 @@ val repositoryModule = module {
 
 val viewModelModule = module {
     viewModel {
-        WorldViewModel(get(), get(), get())
+        WorldViewModel(get(), get(), get(), get())
+    }
+
+    single {
+        SavedStateHandle()
     }
 }
 
