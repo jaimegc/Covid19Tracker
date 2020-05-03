@@ -15,6 +15,7 @@ private fun CountryStats.toUI():  CountryStatsUI =
         id = id,
         name = name,
         nameEs = nameEs,
+        code = code,
         stats = stats.toUI()
     )
 
@@ -81,6 +82,7 @@ fun CountryListStats.toListChartUI(): CountryListStatsChartUI =
         id = id,
         name = name,
         nameEs = nameEs,
+        code = code,
         stats = stats.map { statsCountry ->
             StatsChartUI(
                 date = statsCountry.date,
@@ -102,6 +104,7 @@ fun CountryStats.toChartUI(): CountryStatsChartUI =
         id = id,
         name = name,
         nameEs = nameEs,
+        code = code,
         stats = StatsChartUI(
             date = stats.date,
             source = stats.source,

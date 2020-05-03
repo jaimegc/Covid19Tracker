@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.MergeAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.github.mikephil.charting.components.ComponentBase
+import com.vdurmont.emoji.EmojiParser
 
 fun Int.toDp(): Int = (this / Resources.getSystem().displayMetrics.density).toInt()
 
@@ -53,6 +53,22 @@ fun TextView.setTextSizeSp(size: Float) =
 
 fun TextView.setTextColor(context: Context, colorResource: Int) =
     setTextColor(ContextCompat.getColor(context, colorResource))
+
+fun TextView.setEmojiCountry(emojiCountryCharacters: String) {
+    text = if (emojiCountryCharacters.length == 2) {
+        val firstLetter =
+            Character.codePointAt(emojiCountryCharacters, 0) - 0x41 + 0x1F1E6
+        val secondLetter =
+            Character.codePointAt(emojiCountryCharacters, 1) - 0x41 + 0x1F1E6
+        String(Character.toChars(firstLetter)) + String(Character.toChars(secondLetter))
+    } else {
+        if (emojiCountryCharacters.isNotEmpty()) {
+            EmojiParser.parseToUnicode(emojiCountryCharacters)
+        } else {
+            ""
+        }
+    }
+}
 
 fun RecyclerView.updateAdapter(adapter: MergeAdapter) {
     if (this.adapter != adapter) this.adapter = adapter

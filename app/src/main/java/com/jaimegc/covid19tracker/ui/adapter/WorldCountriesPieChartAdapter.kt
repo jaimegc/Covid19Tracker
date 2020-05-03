@@ -10,6 +10,7 @@ import com.jaimegc.covid19tracker.databinding.ItemPieChartCountryTotalBinding
 import com.jaimegc.covid19tracker.extensions.chart.configure
 import com.jaimegc.covid19tracker.extensions.chart.setValues
 import com.jaimegc.covid19tracker.extensions.percentage
+import com.jaimegc.covid19tracker.extensions.setEmojiCountry
 import com.jaimegc.covid19tracker.ui.model.WorldCountryStatsUI
 
 class WorldCountriesPieChartAdapter : ListAdapter<WorldCountryStatsUI, WorldCountriesPieChartAdapter.CountriesListStatsViewHolder>(DIFF_CALLBACK) {
@@ -53,6 +54,8 @@ class WorldCountriesPieChartAdapter : ListAdapter<WorldCountryStatsUI, WorldCoun
                     worldCountryStatsUI.worldStats.stats.openCases)
 
             binding.textPlace.text = worldCountryStatsUI.countryStats.name
+
+            binding.icCountryEmoji.setEmojiCountry(worldCountryStatsUI.countryStats.code)
         }
     }
 

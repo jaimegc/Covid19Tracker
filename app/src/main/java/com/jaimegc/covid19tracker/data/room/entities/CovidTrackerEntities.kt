@@ -50,7 +50,9 @@ data class CountryEntity(
     @ColumnInfo(name = "name")
     val name: String,
     @ColumnInfo(name = "name_es")
-    val nameEs: String
+    val nameEs: String,
+    @ColumnInfo(name = "code")
+    val code: String
 )
 
 @Entity(

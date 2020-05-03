@@ -9,6 +9,7 @@ import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.databinding.ItemBarChartCountryTotalBinding
 import com.jaimegc.covid19tracker.extensions.chart.configure
 import com.jaimegc.covid19tracker.extensions.chart.setValues
+import com.jaimegc.covid19tracker.extensions.setEmojiCountry
 import com.jaimegc.covid19tracker.ui.model.CountryListStatsChartUI
 
 class WorldCountriesBarChartAdapter : ListAdapter<CountryListStatsChartUI, WorldCountriesBarChartAdapter.CountriesListStatsViewHolder>(DIFF_CALLBACK) {
@@ -39,6 +40,8 @@ class WorldCountriesBarChartAdapter : ListAdapter<CountryListStatsChartUI, World
                 countryStats.deaths }, R.string.total_deaths, R.color.dark_grey)
 
             binding.textPlace.text = countryStatsChartUI.name
+
+            binding.icCountryEmoji.setEmojiCountry(countryStatsChartUI.code)
         }
     }
 
