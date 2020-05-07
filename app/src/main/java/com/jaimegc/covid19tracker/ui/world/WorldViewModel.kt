@@ -44,7 +44,7 @@ class WorldViewModel(
                 CovidTrackerType.Normal -> setMenu(Menu.ListView)
                 CovidTrackerType.PieChart -> setMenu(Menu.PieChartView)
             }
-            getCovidTrackerLast.getCovidTrackerByDate("2020-05-01").collect { result ->
+            getCovidTrackerLast.getCovidTrackerByDate("2020-05-06").collect { result ->
                 val showResult =
                     when (type) {
                         CovidTrackerType.Normal -> isCurrentMenu(Menu.ListView)

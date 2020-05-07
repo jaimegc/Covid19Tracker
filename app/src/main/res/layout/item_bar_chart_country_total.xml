@@ -33,7 +33,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/ic_country_emoji"
         app:layout_constraintStart_toEndOf="@+id/ic_country_emoji"
         app:layout_constraintTop_toTopOf="@+id/ic_country_emoji"
-        tools:text="Maharashtra" />
+        tools:text="Spain" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/confirmed_layout"

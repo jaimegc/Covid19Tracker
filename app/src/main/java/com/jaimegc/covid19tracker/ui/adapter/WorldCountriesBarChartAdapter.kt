@@ -39,16 +39,16 @@ class WorldCountriesBarChartAdapter : ListAdapter<CountryListStatsChartUI, World
             chartDeaths.setValues(ctx, countryStatsChartUI.stats.map { countryStats ->
                 countryStats.deaths }, R.string.total_deaths, R.color.dark_grey)
 
-            binding.textPlace.text = countryStatsChartUI.name
+            binding.textPlace.text = countryStatsChartUI.country.name
 
-            binding.icCountryEmoji.setEmojiCountry(countryStatsChartUI.code)
+            binding.icCountryEmoji.setEmojiCountry(countryStatsChartUI.country.code)
         }
     }
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<CountryListStatsChartUI>() {
             override fun areItemsTheSame(oldItem: CountryListStatsChartUI, newItem: CountryListStatsChartUI): Boolean =
-                oldItem.id == newItem.id
+                oldItem.country.id == newItem.country.id
 
             override fun areContentsTheSame(oldItem: CountryListStatsChartUI, newItem: CountryListStatsChartUI): Boolean =
                 oldItem == newItem

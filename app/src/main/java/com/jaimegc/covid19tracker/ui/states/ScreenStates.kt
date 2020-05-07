@@ -1,9 +1,6 @@
 package com.jaimegc.covid19tracker.ui.states
 
-import com.jaimegc.covid19tracker.ui.model.CountryListStatsChartUI
-import com.jaimegc.covid19tracker.ui.model.CovidTrackerUI
-import com.jaimegc.covid19tracker.ui.model.WorldCountryStatsUI
-import com.jaimegc.covid19tracker.ui.model.WorldStatsChartUI
+import com.jaimegc.covid19tracker.ui.model.*
 
 sealed class BaseScreenState
 
@@ -31,4 +28,8 @@ sealed class WorldStateCountriesStatsLineChartType {
     object MostDeaths : WorldStateCountriesStatsLineChartType()
     object MostRecovered : WorldStateCountriesStatsLineChartType()
     object MostOpenCases : WorldStateCountriesStatsLineChartType()
+}
+
+sealed class CountryStateScreen : BaseScreenState() {
+    class SuccessCountries(val data: List<CountryUI>) : CountryStateScreen()
 }

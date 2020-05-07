@@ -57,7 +57,9 @@ class WorldLineChartAdapter :
             minAxisLeftValue: Float) {
 
             val countryStatsMaxDays = listCountriesStatsChartUI.maxBy { it.stats.size }
-            chart.configure(countryStatsMaxDays!!.stats.map { it.date }, minAxisLeftValue)
+            chart.configure(
+                countryStatsMaxDays!!.stats.sortedBy { it.date }.map { it.date }, minAxisLeftValue
+            )
 
             val countryStatsValues = mutableListOf<List<Float>>()
 
@@ -80,7 +82,7 @@ class WorldLineChartAdapter :
 
             chart.setValues(ctx, countryStatsValues, listOf(
                 R.color.dark_purple, R.color.dark_blue, R.color.dark_green, R.color.dark_orange, R.color.dark_red),
-                listCountriesStatsChartUI.map { it.name }, countryStatsMaxDays.stats.size)
+                listCountriesStatsChartUI.map { it.country.name }, countryStatsMaxDays.stats.size)
         }
     }
 

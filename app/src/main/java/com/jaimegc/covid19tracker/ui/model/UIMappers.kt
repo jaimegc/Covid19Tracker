@@ -12,10 +12,7 @@ fun CovidTracker.toUI(): CovidTrackerUI =
 
 private fun CountryStats.toUI():  CountryStatsUI =
     CountryStatsUI(
-        id = id,
-        name = name,
-        nameEs = nameEs,
-        code = code,
+        country = country.toUI(),
         stats = stats.toUI()
     )
 
@@ -79,10 +76,7 @@ fun WorldStats.toListChartUI(): WorldStatsChartUI =
 
 fun CountryListStats.toListChartUI(): CountryListStatsChartUI =
     CountryListStatsChartUI(
-        id = id,
-        name = name,
-        nameEs = nameEs,
-        code = code,
+        country = country.toUI(),
         stats = stats.map { statsCountry ->
             StatsChartUI(
                 date = statsCountry.date,
@@ -101,10 +95,7 @@ fun CountryListStats.toListChartUI(): CountryListStatsChartUI =
 
 fun CountryStats.toChartUI(): CountryStatsChartUI =
     CountryStatsChartUI(
-        id = id,
-        name = name,
-        nameEs = nameEs,
-        code = code,
+        country = country.toUI(),
         stats = StatsChartUI(
             date = stats.date,
             source = stats.source,
@@ -123,3 +114,11 @@ fun CovidTracker.toListChartUI(): List<WorldCountryStatsUI> =
     countriesStats.map { country ->
         WorldCountryStatsUI(country.toChartUI(), worldStats.toListChartUI())
     }
+
+fun Country.toUI(): CountryUI =
+    CountryUI(
+        id = id,
+        name = name,
+        nameEs = nameEs,
+        code = code
+    )

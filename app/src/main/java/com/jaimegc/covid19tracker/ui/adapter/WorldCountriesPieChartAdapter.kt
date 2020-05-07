@@ -53,16 +53,16 @@ class WorldCountriesPieChartAdapter : ListAdapter<WorldCountryStatsUI, WorldCoun
                 worldCountryStatsUI.countryStats.stats.openCases.percentage(
                     worldCountryStatsUI.worldStats.stats.openCases)
 
-            binding.textPlace.text = worldCountryStatsUI.countryStats.name
+            binding.textPlace.text = worldCountryStatsUI.countryStats.country.name
 
-            binding.icCountryEmoji.setEmojiCountry(worldCountryStatsUI.countryStats.code)
+            binding.icCountryEmoji.setEmojiCountry(worldCountryStatsUI.countryStats.country.code)
         }
     }
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<WorldCountryStatsUI>() {
             override fun areItemsTheSame(oldItem: WorldCountryStatsUI, newItem: WorldCountryStatsUI): Boolean =
-                oldItem.countryStats.id == newItem.countryStats.id
+                oldItem.countryStats.country.id == newItem.countryStats.country.id
 
             override fun areContentsTheSame(oldItem: WorldCountryStatsUI, newItem: WorldCountryStatsUI): Boolean =
                 oldItem == newItem

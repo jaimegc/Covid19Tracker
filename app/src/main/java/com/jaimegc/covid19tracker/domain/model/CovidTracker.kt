@@ -12,29 +12,44 @@ data class WorldStats(
 )
 
 data class CountryStats(
-    val id: String,
-    val name: String,
-    val nameEs: String,
-    val code: String,
+    val country: Country,
     val stats: Stats,
     val regionStats: List<RegionStats>? = null
 )
 
 data class CountryListStats(
-    val id: String,
-    val name: String,
-    val nameEs: String,
-    val code: String,
+    val country: Country,
     val stats: List<Stats>
 )
 
-data class RegionStats(
+data class Country(
     val id: String,
     val name: String,
     val nameEs: String,
-    val date: String,
+    val code: String
+)
+
+data class Region(
+    val id: String,
+    val name: String,
+    val nameEs: String
+)
+
+data class SubRegion(
+    val id: String,
+    val name: String,
+    val nameEs: String
+)
+
+data class RegionStats(
+    val region: Region,
     val stats: Stats,
-    val subRegionStats: List<RegionStats>? = null
+    val subRegionStats: List<SubRegionStats>? = null
+)
+
+data class SubRegionStats(
+    val subRegion: SubRegion,
+    val stats: Stats
 )
 
 data class Stats(

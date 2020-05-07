@@ -70,46 +70,65 @@ class LocalCovidTrackerDatasource(
                     countryStats.toDomain() }) }
         }
 
-    suspend fun getCountriesStatsOrderByDeaths(): Flow<Either<DomainError, List<CountryStats>>> =
-        mapEntityValid(countryStatsDao.getCountriesAndStatsOrderByConfirmed()) { countriesStats ->
-            Pair(countriesStats.isNotEmpty(), countriesStats.map { countryStats -> countryStats.toDomainOnly() }) }
+    suspend fun getCountries(): Flow<Either<DomainError, List<Country>>> =
+        mapEntityValid(countryStatsDao.getAll()) { countries ->
+            Pair(countries.isNotEmpty(), countries.map { country -> country.toDomain() }) }
 
     suspend fun save(covidTracker: CovidTracker) = populateDatabase(listOf(covidTracker))
 
     suspend fun populateDatabase(covidTrackers: List<CovidTracker>) {
         val maxDaysToSave = 7 // To avoid memory leaks
-        val worldStatsEntities = mutableListOf<WorldStatsEntity>()
+        val worldStats = mutableListOf<WorldStatsEntity>()
         val countryEntities = mutableListOf<CountryEntity>()
         val countryStatsEntities = mutableListOf<CountryStatsEntity>()
+        val regionEntities = mutableListOf<RegionEntity>()
         val regionStatsEntities = mutableListOf<RegionStatsEntity>()
+        val subRegionEntities = mutableListOf<SubRegionEntity>()
         val subRegionStatsEntities = mutableListOf<SubRegionStatsEntity>()
 
         covidTrackers.mapIndexed { index, covidTracker ->
-            worldStatsEntities.add(covidTracker.worldStats.toEntity())
+            worldStats.add(covidTracker.worldStats.toEntity())
             covidTracker.countriesStats.map { countryStats ->
-                if (index == 0) countryEntities.add(countryStats.toEntity())
-                countryStatsEntities.add(countryStats.stats.toEntity(countryStats.id))
+                if (index == 0) {
+                    countryEntities.add(countryStats.toEntity())
+                    countryStats.regionStats?.map { regionStats ->
+                        regionEntities.add(regionStats.region.toEntity(countryStats.country.id))
+                        regionStats.subRegionStats?.map { subRegionStats ->
+                            subRegionEntities.add(subRegionStats.subRegion.toEntity(
+                                regionStats.region.id, countryStats.country.id))
+                        }
+                    }
+                }
+                countryStatsEntities.add(countryStats.stats.toEntity(countryStats.country.id))
                 countryStats.regionStats?.map { regionStats ->
-                    regionStatsEntities.add(regionStats.toRegionEntity(countryStats.id))
+                    regionStatsEntities.add(regionStats.toEntity(
+                        regionStats.region.id, countryStats.country.id))
+
                     regionStats.subRegionStats?.map { subRegionStats ->
                         subRegionStatsEntities.add(
-                            subRegionStats.toSubRegionEntity(regionStats.id, countryStats.id))
+                            subRegionStats.toEntity(subRegionStats.subRegion.id, regionStats.region.id))
                     }
                 }
             }
 
             if (index.rem(maxDaysToSave) == 0 || index == covidTrackers.size - 1) {
                 covidTrackerDao.populateDatabase(
-                    worldsStats = worldStatsEntities,
+                    worldsStats = worldStats,
                     countries = countryEntities,
                     countriesStats = countryStatsEntities,
+                    regions = regionEntities,
                     regionsStats = regionStatsEntities,
-                    subRegionsStats = subRegionStatsEntities)
+                    subRegions = subRegionEntities,
+                    subRegionsStats = subRegionStatsEntities
+                )
 
-                worldStatsEntities.clear()
+                worldStats.clear()
                 countryEntities.clear()
                 countryStatsEntities.clear()
+                regionEntities.clear()
                 regionStatsEntities.clear()
+                subRegionEntities.clear()
+                subRegionStatsEntities.clear()
             }
         }
     }

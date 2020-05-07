@@ -27,7 +27,4 @@ class GetCountryStats(
 
     suspend fun getCountriesAndStatsWithMostOpenCases(): Flow<Either<StateError<DomainError>, State<List<CountryListStats>>>> =
         repository.getCountriesAndStatsWithMostOpenCases()
-
-    suspend fun getCountriesStatsOrderByDeaths(): Flow<Either<StateError<DomainError>, State<List<CountryStats>>>> =
-        repository.getCountriesStatsOrderByDeaths()
 }

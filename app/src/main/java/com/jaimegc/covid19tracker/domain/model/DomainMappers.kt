@@ -25,10 +25,12 @@ private fun CovidTrackerDateDto.toDomain(date: String): List<CountryStats> =
 
 private fun CovidTrackerDateCountryDto.toDomain(date: String): CountryStats =
     CountryStats(
-        id = id,
-        name = name,
-        nameEs = nameEs,
-        code = CountryCode(id).code,
+        country = Country(
+            id = id,
+            name = name,
+            nameEs = nameEs,
+            code = CountryCode(id).code
+        ),
         stats = Stats(
             date = date,
             source = source ?: "",
@@ -76,21 +78,9 @@ fun WorldAndCountriesStatsPojo.toDomain(): CovidTracker =
         worldStats = worldStats!!.toDomain()
     )
 
-fun CountryAndStatsPojo.toDomainOnly(): CountryStats =
-    CountryStats(
-        id = country!!.id,
-        name = country.name,
-        nameEs = country.nameEs,
-        code = country.code,
-        stats = stats[0].toDomain()
-    )
-
 fun CountryAndStatsPojo.toDomain(): CountryListStats =
     CountryListStats(
-        id = country!!.id,
-        name = country.name,
-        nameEs = country.nameEs,
-        code = country.code,
+        country = country!!.toDomain(),
         stats = stats.map { countryStats -> countryStats.toDomain() }
     )
 
@@ -106,10 +96,7 @@ fun List<CountryAndOneStatsPojo>.toPojoOrdered(): List<CountryAndStatsPojo> =
 
 private fun CountryAndStatsDV.toDomain(): CountryStats =
     CountryStats(
-        id = country!!.id,
-        name = country.name,
-        nameEs = country.nameEs,
-        code = country.code,
+        country = country!!.toDomain(),
         stats = countryStats!!.toDomain()
     )
 
@@ -120,13 +107,12 @@ fun WorldStatsEntity.toDomain(): WorldStats =
         stats = stats.toDomain(date)
     )
 
-private fun CountryEntity.toDomain(countryStats: CountryStatsEntity): CountryStats =
-    CountryStats(
+fun CountryEntity.toDomain(): Country =
+    Country(
         id = id,
         name = name,
         nameEs = nameEs,
-        code = code,
-        stats = countryStats.toDomain()
+        code = code
     )
 
 fun StatsEmbedded.toDomain(date: String): Stats =
@@ -149,10 +135,11 @@ fun StatsEmbedded.toDomain(date: String): Stats =
 
 private fun toRegionDomain(stats: CovidTrackerDateCountryDto, date: String): RegionStats =
     RegionStats(
-        id = stats.id,
-        name = stats.name,
-        nameEs = stats.nameEs,
-        date = date,
+        region = Region(
+            id = stats.id,
+            name = stats.name,
+            nameEs = stats.nameEs
+        ),
         stats = Stats(
             date = date,
             source = stats.source ?: "",
@@ -169,15 +156,40 @@ private fun toRegionDomain(stats: CovidTrackerDateCountryDto, date: String): Reg
             vsYesterdayOpenCases = stats.todayVsYesterdayOpenCases,
             vsYesterdayRecovered = stats.todayVsYesterdayRecovered
         ),
-        subRegionStats = stats.subRegions?.map { region -> toRegionDomain(region, date) }
+        subRegionStats = stats.subRegions?.map { region -> toSubRegionDomain(region, date) }
+    )
+
+private fun toSubRegionDomain(stats: CovidTrackerDateCountryDto, date: String): SubRegionStats =
+    SubRegionStats(
+        subRegion = SubRegion(
+            id = stats.id,
+            name = stats.name,
+            nameEs = stats.nameEs
+        ),
+        stats = Stats(
+            date = date,
+            source = stats.source ?: "",
+            confirmed = stats.todayConfirmed,
+            deaths = stats.todayDeaths,
+            newConfirmed = stats.todayNewConfirmed,
+            newDeaths = stats.todayNewDeaths,
+            newOpenCases = stats.todayNewOpenCases,
+            newRecovered = stats.todayNewRecovered,
+            openCases = stats.todayOpenCases,
+            recovered = stats.todayRecovered,
+            vsYesterdayConfirmed = stats.todayVsYesterdayConfirmed,
+            vsYesterdayDeaths = stats.todayVsYesterdayDeaths,
+            vsYesterdayOpenCases = stats.todayVsYesterdayOpenCases,
+            vsYesterdayRecovered = stats.todayVsYesterdayRecovered
+        )
     )
 
 fun CountryStats.toEntity(): CountryEntity =
     CountryEntity(
-        id = id,
-        name = name,
-        nameEs = nameEs,
-        code = code
+        id = country.id,
+        name = country.name,
+        nameEs = country.nameEs,
+        code = country.code
     )
 
 fun WorldStats.toEntity(): WorldStatsEntity =
@@ -243,36 +255,26 @@ fun CountryStatsEntity.toDomain(): Stats =
         vsYesterdayRecovered = stats.vsYesterdayRecovered
     )
 
-fun RegionStats.toRegionEntity(idCountryFk: String): RegionStatsEntity =
-    RegionStatsEntity(
+fun Region.toEntity(idCountryFk: String): RegionEntity =
+    RegionEntity(
         id = id,
         name = name,
         nameEs = nameEs,
-        date = date,
-        stats = StatsEmbedded(
-            source = stats.source,
-            confirmed = stats.confirmed,
-            deaths = stats.deaths,
-            newConfirmed = stats.newConfirmed,
-            newDeaths = stats.newDeaths,
-            newOpenCases = stats.newOpenCases,
-            newRecovered = stats.newRecovered,
-            openCases = stats.openCases,
-            recovered = stats.recovered,
-            vsYesterdayConfirmed = stats.vsYesterdayConfirmed,
-            vsYesterdayDeaths = stats.vsYesterdayDeaths,
-            vsYesterdayOpenCases = stats.vsYesterdayOpenCases,
-            vsYesterdayRecovered = stats.vsYesterdayRecovered
-        ),
         idCountryFk = idCountryFk
     )
 
-fun RegionStats.toSubRegionEntity(idRegionFk: String, idCountryFk: String): SubRegionStatsEntity =
-    SubRegionStatsEntity(
+fun SubRegion.toEntity(idRegionFk: String, idCountryFk: String): SubRegionEntity =
+    SubRegionEntity(
         id = id,
         name = name,
         nameEs = nameEs,
-        date = date,
+        idRegionFk = idRegionFk,
+        idCountryFk = idCountryFk
+    )
+
+fun RegionStats.toEntity(idRegionFk: String, idCountryFk: String): RegionStatsEntity =
+    RegionStatsEntity(
+        date = stats.date,
         stats = StatsEmbedded(
             source = stats.source,
             confirmed = stats.confirmed,
@@ -290,6 +292,28 @@ fun RegionStats.toSubRegionEntity(idRegionFk: String, idCountryFk: String): SubR
         ),
         idRegionFk = idRegionFk,
         idCountryFk = idCountryFk
+    )
+
+fun SubRegionStats.toEntity(idSubRegionFk: String, idRegionFk: String): SubRegionStatsEntity =
+    SubRegionStatsEntity(
+        date = stats.date,
+        stats = StatsEmbedded(
+            source = stats.source,
+            confirmed = stats.confirmed,
+            deaths = stats.deaths,
+            newConfirmed = stats.newConfirmed,
+            newDeaths = stats.newDeaths,
+            newOpenCases = stats.newOpenCases,
+            newRecovered = stats.newRecovered,
+            openCases = stats.openCases,
+            recovered = stats.recovered,
+            vsYesterdayConfirmed = stats.vsYesterdayConfirmed,
+            vsYesterdayDeaths = stats.vsYesterdayDeaths,
+            vsYesterdayOpenCases = stats.vsYesterdayOpenCases,
+            vsYesterdayRecovered = stats.vsYesterdayRecovered
+        ),
+        idSubRegionFk = idSubRegionFk,
+        idRegionFk = idRegionFk
     )
 
 fun <T, R> mapEntityValid(parse: Flow<T?>, mapper: (T) -> Pair<Boolean, R>): Flow<Either<DomainError, R>> =

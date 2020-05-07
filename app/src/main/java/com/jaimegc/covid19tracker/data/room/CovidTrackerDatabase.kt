@@ -17,7 +17,7 @@ import java.io.File
 
 
 @Database(entities = [CountryEntity::class, WorldStatsEntity::class, CountryStatsEntity::class,
-    RegionStatsEntity::class, SubRegionStatsEntity::class],
+    RegionEntity::class, RegionStatsEntity::class, SubRegionEntity::class, SubRegionStatsEntity::class],
     views = [CountryAndStatsDV::class],
     version = Covid19TrackerDatabase.version
 )
@@ -33,13 +33,13 @@ abstract class Covid19TrackerDatabase : RoomDatabase() {
         fun build(context: Context): Covid19TrackerDatabase =
             Room.databaseBuilder(context, Covid19TrackerDatabase::class.java, DATABASE_NAME)
                 //.createFromAsset("covid19-tracker-db")
-                .createFromFile(File("${context.filesDir}${File.separator}$DATABASE_NAME"))
+                //.createFromFile(File("${context.filesDir}${File.separator}$DATABASE_NAME"))
                 .addCallback(object : RoomDatabase.Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         super.onCreate(db)
                         // Populate database using a Worker
-                        //val request = OneTimeWorkRequestBuilder<PopulateDatabaseWorker>().build()
-                        //WorkManager.getInstance(context).enqueue(request)
+                        val request = OneTimeWorkRequestBuilder<PopulateDatabaseWorker>().build()
+                        WorkManager.getInstance(context).enqueue(request)
                     }
                 })
                 .fallbackToDestructiveMigration()

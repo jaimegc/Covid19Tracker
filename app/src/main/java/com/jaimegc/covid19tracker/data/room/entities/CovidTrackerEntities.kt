@@ -74,45 +74,38 @@ data class CountryStatsEntity(
 )
 
 @Entity(
-    tableName = "region_stats",
-    primaryKeys = ["id", "date", "id_country_fk"],
+    tableName = "region",
+    /**
+     *  @id_country_fk There could be two regions with the same id in different countries
+     */
+    primaryKeys = ["id", "id_country_fk"],
     foreignKeys = [ForeignKey(
         entity = CountryEntity::class,
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("id_country_fk"),
         onDelete = ForeignKey.CASCADE
     )])
-data class RegionStatsEntity(
+data class RegionEntity(
     @ColumnInfo(name = "id")
     val id: String,
     @ColumnInfo(name = "name")
     val name: String,
     @ColumnInfo(name = "name_es")
     val nameEs: String,
-    @ColumnInfo(name = "date")
-    val date: String,
-    @Embedded
-    val stats: StatsEmbedded,
     @ColumnInfo(name = "id_country_fk")
     val idCountryFk: String
 )
 
 @Entity(
-    tableName = "sub_region_stats",
-    primaryKeys = ["id", "date", "id_region_fk"],
+    tableName = "region_stats",
+    primaryKeys = ["date", "id_region_fk", "id_country_fk"],
     foreignKeys = [ForeignKey(
-        entity = RegionStatsEntity::class,
-        parentColumns = arrayOf("id", "date", "id_country_fk"),
-        childColumns = arrayOf("id_region_fk", "date", "id_country_fk"),
+        entity = RegionEntity::class,
+        parentColumns = arrayOf("id", "id_country_fk"),
+        childColumns = arrayOf("id_region_fk", "id_country_fk"),
         onDelete = ForeignKey.CASCADE
     )])
-data class SubRegionStatsEntity(
-    @ColumnInfo(name = "id")
-    val id: String,
-    @ColumnInfo(name = "name")
-    val name: String,
-    @ColumnInfo(name = "name_es")
-    val nameEs: String,
+data class RegionStatsEntity(
     @ColumnInfo(name = "date")
     val date: String,
     @Embedded
@@ -121,4 +114,46 @@ data class SubRegionStatsEntity(
     val idRegionFk: String,
     @ColumnInfo(name = "id_country_fk")
     val idCountryFk: String
+)
+
+@Entity(
+    tableName = "sub_region",
+    primaryKeys = ["id", "id_region_fk"],
+    foreignKeys = [ForeignKey(
+        entity = RegionEntity::class,
+        parentColumns = arrayOf("id", "id_country_fk"),
+        childColumns = arrayOf("id_region_fk", "id_country_fk"),
+        onDelete = ForeignKey.CASCADE
+    )])
+data class SubRegionEntity(
+    @ColumnInfo(name = "id")
+    val id: String,
+    @ColumnInfo(name = "name")
+    val name: String,
+    @ColumnInfo(name = "name_es")
+    val nameEs: String,
+    @ColumnInfo(name = "id_region_fk")
+    val idRegionFk: String,
+    @ColumnInfo(name = "id_country_fk")
+    val idCountryFk: String
+)
+
+@Entity(
+    tableName = "sub_region_stats",
+    primaryKeys = ["date", "id_sub_region_fk", "id_region_fk"],
+    foreignKeys = [ForeignKey(
+        entity = SubRegionEntity::class,
+        parentColumns = arrayOf("id", "id_region_fk"),
+        childColumns = arrayOf("id_sub_region_fk", "id_region_fk"),
+        onDelete = ForeignKey.CASCADE
+    )])
+data class SubRegionStatsEntity(
+    @ColumnInfo(name = "date")
+    val date: String,
+    @Embedded
+    val stats: StatsEmbedded,
+    @ColumnInfo(name = "id_sub_region_fk")
+    val idSubRegionFk: String,
+    @ColumnInfo(name = "id_region_fk")
+    val idRegionFk: String
 )

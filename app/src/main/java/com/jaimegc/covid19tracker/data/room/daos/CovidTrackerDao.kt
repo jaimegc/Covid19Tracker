@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 abstract class CovidTrackerDao {
 
     @Transaction
-    @Query("SELECT * FROM world_stats WHERE date =:date")
+    @Query("SELECT * FROM world_stats WHERE date = :date")
     abstract fun getWorldAndCountriesStatsByDate(date: String): Flow<WorldAndCountriesStatsPojo>
 
     @Query("SELECT * FROM world_stats")
@@ -30,8 +30,14 @@ abstract class CovidTrackerDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insertAllCountriesStats(countriesStats: List<CountryStatsEntity>)
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    abstract suspend fun insertAllRegions(regions: List<RegionEntity>)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insertAllRegionsStats(regionsStats: List<RegionStatsEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    abstract suspend fun insertAllSubRegions(subRegions: List<SubRegionEntity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insertAllSubRegionsStats(subRegionsStats: List<SubRegionStatsEntity>)
@@ -41,13 +47,17 @@ abstract class CovidTrackerDao {
         worldsStats: List<WorldStatsEntity>,
         countries: List<CountryEntity>,
         countriesStats: List<CountryStatsEntity>,
+        regions: List<RegionEntity>,
         regionsStats: List<RegionStatsEntity>,
+        subRegions: List<SubRegionEntity>,
         subRegionsStats: List<SubRegionStatsEntity>
     ) {
         insertAllWorldsStats(worldsStats)
         insertAllCountries(countries)
         insertAllCountriesStats(countriesStats)
+        insertAllRegions(regions)
         insertAllRegionsStats(regionsStats)
+        insertAllSubRegions(subRegions)
         insertAllSubRegionsStats(subRegionsStats)
     }
 }
@@ -55,7 +65,7 @@ abstract class CovidTrackerDao {
 @Dao
 abstract class WorldStatsDao {
 
-    @Query("SELECT * FROM world_stats WHERE date =:date")
+    @Query("SELECT * FROM world_stats WHERE date = :date")
     abstract fun getByDate(date: String): Flow<List<WorldStatsEntity>>
 
     @Query("SELECT * FROM world_stats ORDER BY date ASC")
@@ -65,9 +75,13 @@ abstract class WorldStatsDao {
 @Dao
 abstract class CountryStatsDao {
 
-    @Query("SELECT * FROM country WHERE name =:name")
+    @Query("SELECT * FROM country WHERE name = :name")
     abstract fun getByName(name: String): Flow<List<CountryEntity>>
 
+    @Query("SELECT * FROM country ORDER BY name ASC")
+    abstract fun getAll(): Flow<List<CountryEntity>>
+
+    @Transaction
     @Query("""
         SELECT * FROM country, country_stats 
         WHERE country.id = country_stats.id_country_fk
@@ -75,6 +89,7 @@ abstract class CountryStatsDao {
         ORDER BY country_stats.confirmed DESC""")
     abstract fun getCountriesAndStatsOrderByConfirmed(): Flow<List<CountryAndStatsPojo>>
 
+    @Transaction
     @Query("""
         SELECT * FROM country c, country_stats s
         WHERE c.id = s.id_country_fk AND s.confirmed > 2000 AND c.id IN (
@@ -90,6 +105,7 @@ abstract class CountryStatsDao {
         """)
     abstract fun getCountriesAndStatsWithMostConfirmed(): Flow<List<CountryAndOneStatsPojo>>
 
+    @Transaction
     @Query("""
         SELECT * FROM country c
         INNER JOIN country_stats s ON c.id = s.id_country_fk AND c.id IN (
@@ -106,6 +122,7 @@ abstract class CountryStatsDao {
         """)
     abstract fun getCountriesAndStatsWithMostDeaths(): Flow<List<CountryAndOneStatsPojo>>
 
+    @Transaction
     @Query("""
         SELECT * FROM country c, country_stats s
         WHERE c.id = s.id_country_fk AND s.recovered > 2000 AND c.id IN (
@@ -121,6 +138,7 @@ abstract class CountryStatsDao {
         """)
     abstract fun getCountriesAndStatsWithMostRecovered(): Flow<List<CountryAndOneStatsPojo>>
 
+    @Transaction
     @Query("""
         SELECT * FROM country c
         INNER JOIN country_stats s ON c.id = s.id_country_fk AND c.id IN (
