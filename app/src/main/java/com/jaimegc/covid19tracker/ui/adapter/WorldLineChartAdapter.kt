@@ -12,10 +12,10 @@ import com.jaimegc.covid19tracker.databinding.ItemLineChartWorldTotalBinding
 import com.jaimegc.covid19tracker.extensions.chart.configure
 import com.jaimegc.covid19tracker.extensions.chart.setValues
 import com.jaimegc.covid19tracker.ui.model.CountryListStatsChartUI
-import com.jaimegc.covid19tracker.ui.states.WorldStateCountriesStatsLineChartType
+import com.jaimegc.covid19tracker.ui.states.MenuItemViewType
 
 class WorldLineChartAdapter :
-    ListAdapter<Map<WorldStateCountriesStatsLineChartType, List<CountryListStatsChartUI>>,
+    ListAdapter<Map<MenuItemViewType, List<CountryListStatsChartUI>>,
     WorldLineChartAdapter.WorldTotalViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -28,21 +28,21 @@ class WorldLineChartAdapter :
     class WorldTotalViewHolder(
         private val binding: ItemLineChartWorldTotalBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(mapCountriesStatsChartUI: Map<WorldStateCountriesStatsLineChartType, List<CountryListStatsChartUI>>) {
+        fun bind(mapCountriesStatsChartUI: Map<MenuItemViewType, List<CountryListStatsChartUI>>) {
             val ctx = itemView.context
 
             mapCountriesStatsChartUI.keys.map { type ->
                 when (type) {
-                    is WorldStateCountriesStatsLineChartType.MostConfirmed ->
+                    is MenuItemViewType.LineChartMostConfirmed ->
                         configureLineChart(
                             ctx, binding.chartConfirmed, mapCountriesStatsChartUI.getValue(type), type, 2000f)
-                    is WorldStateCountriesStatsLineChartType.MostDeaths ->
+                    is MenuItemViewType.LineChartMostDeaths ->
                         configureLineChart(
                             ctx, binding.chartDeaths, mapCountriesStatsChartUI.getValue(type), type, 100f)
-                    is WorldStateCountriesStatsLineChartType.MostRecovered ->
+                    is MenuItemViewType.LineChartMostRecovered ->
                         configureLineChart(
                             ctx, binding.chartRecovered, mapCountriesStatsChartUI.getValue(type), type, 2000f)
-                    is WorldStateCountriesStatsLineChartType.MostOpenCases ->
+                    is MenuItemViewType.LineChartMostOpenCases ->
                         configureLineChart(
                             ctx, binding.chartOpenCases, mapCountriesStatsChartUI.getValue(type), type, 2000f)
                 }
@@ -53,7 +53,7 @@ class WorldLineChartAdapter :
             ctx: Context,
             chart: LineChart,
             listCountriesStatsChartUI: List<CountryListStatsChartUI>,
-            type: WorldStateCountriesStatsLineChartType,
+            viewType: MenuItemViewType,
             minAxisLeftValue: Float) {
 
             val countryStatsMaxDays = listCountriesStatsChartUI.maxBy { it.stats.size }
@@ -66,15 +66,16 @@ class WorldLineChartAdapter :
             listCountriesStatsChartUI.map { countryStats ->
                 val listCountryStats = mutableListOf<Float>()
                 countryStats.stats.map { stats ->
-                    when (type) {
-                        is WorldStateCountriesStatsLineChartType.MostConfirmed ->
+                    when (viewType) {
+                        is MenuItemViewType.LineChartMostConfirmed ->
                             listCountryStats.add(stats.confirmed)
-                        is WorldStateCountriesStatsLineChartType.MostDeaths ->
+                        is MenuItemViewType.LineChartMostDeaths ->
                             listCountryStats.add(stats.deaths)
-                        is WorldStateCountriesStatsLineChartType.MostRecovered ->
+                        is MenuItemViewType.LineChartMostRecovered ->
                             listCountryStats.add(stats.recovered)
-                        is WorldStateCountriesStatsLineChartType.MostOpenCases ->
+                        is MenuItemViewType.LineChartMostOpenCases ->
                             listCountryStats.add(stats.openCases)
+                        else -> Unit
                     }
                 }
                 countryStatsValues.add(listCountryStats)
@@ -88,16 +89,16 @@ class WorldLineChartAdapter :
 
     companion object {
         private val DIFF_CALLBACK =
-            object : DiffUtil.ItemCallback<Map<WorldStateCountriesStatsLineChartType, List<CountryListStatsChartUI>>>() {
+            object : DiffUtil.ItemCallback<Map<MenuItemViewType, List<CountryListStatsChartUI>>>() {
                 override fun areItemsTheSame(
-                    oldItem: Map<WorldStateCountriesStatsLineChartType, List<CountryListStatsChartUI>>,
-                    newItem: Map<WorldStateCountriesStatsLineChartType, List<CountryListStatsChartUI>>
+                    oldItem: Map<MenuItemViewType, List<CountryListStatsChartUI>>,
+                    newItem: Map<MenuItemViewType, List<CountryListStatsChartUI>>
                 ): Boolean =
                     oldItem.size == newItem.size
 
                 override fun areContentsTheSame(
-                    oldItem: Map<WorldStateCountriesStatsLineChartType, List<CountryListStatsChartUI>>,
-                    newItem: Map<WorldStateCountriesStatsLineChartType, List<CountryListStatsChartUI>>
+                    oldItem: Map<MenuItemViewType, List<CountryListStatsChartUI>>,
+                    newItem: Map<MenuItemViewType, List<CountryListStatsChartUI>>
                 ): Boolean =
                     oldItem == newItem
         }

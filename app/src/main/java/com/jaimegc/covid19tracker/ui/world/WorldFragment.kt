@@ -13,14 +13,18 @@ import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.databinding.FragmentWorldBinding
 import com.jaimegc.covid19tracker.extensions.*
 import com.jaimegc.covid19tracker.ui.adapter.*
-import com.jaimegc.covid19tracker.ui.states.ScreenState
-import com.jaimegc.covid19tracker.ui.states.BaseViewScreenState
-import com.jaimegc.covid19tracker.ui.states.CovidTrackerType
-import com.jaimegc.covid19tracker.ui.states.WorldStateScreen
+import com.jaimegc.covid19tracker.ui.states.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class WorldFragment : Fragment(R.layout.fragment_world),
     BaseViewScreenState<WorldViewModel, WorldStateScreen> {
+
+    companion object {
+        private const val MENU_ITEM_LIST = 0
+        private const val MENU_ITEM_BAR_CHART = 1
+        private const val MENU_ITEM_LINE_CHART = 2
+        private const val MENU_ITEM_PIE_CHART = 3
+    }
 
     override val viewModel: WorldViewModel by viewModel()
     private val worldAdapter = WorldAdapter()
@@ -51,43 +55,53 @@ class WorldFragment : Fragment(R.layout.fragment_world),
             }
         })
 
-        viewModel.getCovidTrackerLast(CovidTrackerType.Normal)
+        viewModel.getCovidTrackerLast(MenuItemViewType.List)
         setHasOptionsMenu(true)
     }
 
     override fun handleRenderState(renderState: WorldStateScreen) {
         when (renderState) {
             is WorldStateScreen.SuccessCovidTracker -> {
-                mergeAdapter.removeAllAdapters()
-                mergeAdapter.addAdapter(worldAdapter)
-                mergeAdapter.addAdapter(worldCountryAdapter)
-                worldAdapter.submitList(listOf(renderState.data.worldStats))
-                worldCountryAdapter.submitList(renderState.data.countriesStats)
+                if (menu.isCurrentItem(MENU_ITEM_LIST)) {
+                    mergeAdapter.removeAllAdapters()
+                    mergeAdapter.addAdapter(worldAdapter)
+                    mergeAdapter.addAdapter(worldCountryAdapter)
+                    worldAdapter.submitList(listOf(renderState.data.worldStats))
+                    worldCountryAdapter.submitList(renderState.data.countriesStats)
+                }
             }
             is WorldStateScreen.SuccessWorldStatsBarCharts -> {
-                mergeAdapter.addAdapter(0, worldBarChartAdapter)
-                if (mergeAdapter.containsAdapter(worldBarCountriesChartAdapter)) {
-                    binding.recyclerWorld.scrollToPosition(0)
+                if (menu.isCurrentItem(MENU_ITEM_BAR_CHART)) {
+                    mergeAdapter.addAdapter(0, worldBarChartAdapter)
+                    if (mergeAdapter.containsAdapter(worldBarCountriesChartAdapter)) {
+                        binding.recyclerWorld.scrollToPosition(0)
+                    }
+                    worldBarChartAdapter.submitList(listOf(renderState.data))
                 }
-                worldBarChartAdapter.submitList(listOf(renderState.data))
             }
             is WorldStateScreen.SuccessCountriesStatsBarCharts -> {
-                if (mergeAdapter.containsAdapter(worldBarChartAdapter)) {
-                    mergeAdapter.addAdapter(1, worldBarCountriesChartAdapter)
-                } else {
-                    mergeAdapter.addAdapter(0, worldBarCountriesChartAdapter)
+                if (menu.isCurrentItem(MENU_ITEM_BAR_CHART)) {
+                    if (mergeAdapter.containsAdapter(worldBarChartAdapter)) {
+                        mergeAdapter.addAdapter(1, worldBarCountriesChartAdapter)
+                    } else {
+                        mergeAdapter.addAdapter(0, worldBarCountriesChartAdapter)
+                    }
+                    worldBarCountriesChartAdapter.submitList(renderState.data)
                 }
-                worldBarCountriesChartAdapter.submitList(renderState.data)
             }
             is WorldStateScreen.SuccessCountriesStatsLineCharts -> {
-                mergeAdapter.addAdapter(worldLineChartAdapter)
-                worldLineChartAdapter.submitList(listOf(renderState.data))
+                if (menu.isCurrentItem(MENU_ITEM_LINE_CHART)) {
+                    mergeAdapter.addAdapter(worldLineChartAdapter)
+                    worldLineChartAdapter.submitList(listOf(renderState.data))
+                }
             }
             is WorldStateScreen.SuccessCountriesStatsPieCharts -> {
-                mergeAdapter.addAdapter(worldPieChartAdapter)
-                mergeAdapter.addAdapter(worldCountriesPieChartAdapter)
-                worldPieChartAdapter.submitList(listOf(renderState.data[0].worldStats))
-                worldCountriesPieChartAdapter.submitList(renderState.data)
+                if (menu.isCurrentItem(MENU_ITEM_PIE_CHART)) {
+                    mergeAdapter.addAdapter(worldPieChartAdapter)
+                    mergeAdapter.addAdapter(worldCountriesPieChartAdapter)
+                    worldPieChartAdapter.submitList(listOf(renderState.data[0].worldStats))
+                    worldCountriesPieChartAdapter.submitList(renderState.data)
+                }
             }
         }
     }
@@ -95,34 +109,34 @@ class WorldFragment : Fragment(R.layout.fragment_world),
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
         inflater.inflate(R.menu.menu_world, menu).also {
             this.menu = menu
-            menu.enableItem(0)
+            menu.enableItem(MENU_ITEM_LIST)
         }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.list_view -> {
-                menu.enableItem(0)
+                menu.enableItem(MENU_ITEM_LIST)
                 mergeAdapter.removeAllAdapters()
-                viewModel.getCovidTrackerLast(CovidTrackerType.Normal)
+                viewModel.getCovidTrackerLast(MenuItemViewType.List)
                 true
             }
             R.id.bar_chart_view -> {
-                menu.enableItem(1)
+                menu.enableItem(MENU_ITEM_BAR_CHART)
                 mergeAdapter.removeAllAdapters()
                 viewModel.getWorldAllStats()
                 viewModel.getCountriesStatsOrderByConfirmed()
                 true
             }
             R.id.line_chart_view -> {
-                menu.enableItem(2)
+                menu.enableItem(MENU_ITEM_LINE_CHART)
                 mergeAdapter.removeAllAdapters()
                 viewModel.getWorldMostStats()
                 true
             }
             R.id.pie_chart_view -> {
-                menu.enableItem(3)
+                menu.enableItem(MENU_ITEM_PIE_CHART)
                 mergeAdapter.removeAllAdapters()
-                viewModel.getCovidTrackerLast(CovidTrackerType.PieChart)
+                viewModel.getCovidTrackerLast(MenuItemViewType.PieChart)
                 true
             }
             else -> super.onOptionsItemSelected(item)

@@ -20,11 +20,11 @@ fun CovidTrackerDto.toDomain(date: String): CovidTracker =
         worldStats = total.toDomain(date, updatedAt)
     )
 
-private fun CovidTrackerDateDto.toDomain(date: String): List<CountryStats> =
+private fun CovidTrackerDateDto.toDomain(date: String): List<CountryOneStats> =
     countries.values.map { country -> country.toDomain(date) }
 
-private fun CovidTrackerDateCountryDto.toDomain(date: String): CountryStats =
-    CountryStats(
+private fun CovidTrackerDateCountryDto.toDomain(date: String): CountryOneStats =
+    CountryOneStats(
         country = Country(
             id = id,
             name = name,
@@ -78,8 +78,8 @@ fun WorldAndCountriesStatsPojo.toDomain(): CovidTracker =
         worldStats = worldStats!!.toDomain()
     )
 
-fun CountryAndStatsPojo.toDomain(): CountryListStats =
-    CountryListStats(
+fun CountryAndStatsPojo.toDomain(): CountryStats =
+    CountryStats(
         country = country!!.toDomain(),
         stats = stats.map { countryStats -> countryStats.toDomain() }
     )
@@ -94,11 +94,14 @@ fun List<CountryAndOneStatsPojo>.toPojoOrdered(): List<CountryAndStatsPojo> =
         listCountryAndStatsPojo
     }
 
-private fun CountryAndStatsDV.toDomain(): CountryStats =
-    CountryStats(
+private fun CountryAndStatsDV.toDomain(): CountryOneStats =
+    CountryOneStats(
         country = country!!.toDomain(),
         stats = countryStats!!.toDomain()
     )
+
+fun List<WorldStatsEntity>.toDomain(): ListWorldStats =
+    ListWorldStats(map { entitiy -> entitiy.toDomain() })
 
 fun WorldStatsEntity.toDomain(): WorldStats =
     WorldStats(
@@ -106,6 +109,9 @@ fun WorldStatsEntity.toDomain(): WorldStats =
         updatedAt = updatedAt,
         stats = stats.toDomain(date)
     )
+
+fun List<CountryAndStatsPojo>.toDomain(): ListCountryStats =
+    ListCountryStats(map { entitiy -> entitiy.toDomain() })
 
 fun CountryEntity.toDomain(): Country =
     Country(
@@ -184,7 +190,7 @@ private fun toSubRegionDomain(stats: CovidTrackerDateCountryDto, date: String): 
         )
     )
 
-fun CountryStats.toEntity(): CountryEntity =
+fun CountryOneStats.toEntity(): CountryEntity =
     CountryEntity(
         id = country.id,
         name = country.name,

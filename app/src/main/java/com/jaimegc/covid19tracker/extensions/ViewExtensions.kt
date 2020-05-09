@@ -100,8 +100,12 @@ fun Menu.enableItem(itemPos: Int) {
     for (index in 0 until size()) {
         if (index != itemPos) {
             getItem(index).icon.setTint(Color.BLACK)
+            getItem(index).isChecked = false
         } else {
             getItem(index).icon.setTint(Color.WHITE)
+            getItem(index).isChecked = true
         }
     }
 }
+
+fun Menu.isCurrentItem(itemPos: Int): Boolean = getItem(itemPos).isChecked

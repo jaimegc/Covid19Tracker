@@ -10,7 +10,7 @@ fun CovidTracker.toUI(): CovidTrackerUI =
         worldStats = worldStats.toUI()
     )
 
-private fun CountryStats.toUI():  CountryStatsUI =
+private fun CountryOneStats.toUI():  CountryStatsUI =
     CountryStatsUI(
         country = country.toUI(),
         stats = stats.toUI()
@@ -74,7 +74,7 @@ fun WorldStats.toListChartUI(): WorldStatsChartUI =
         )
     )
 
-fun CountryListStats.toListChartUI(): CountryListStatsChartUI =
+fun CountryStats.toListChartUI(): CountryListStatsChartUI =
     CountryListStatsChartUI(
         country = country.toUI(),
         stats = stats.map { statsCountry ->
@@ -93,7 +93,7 @@ fun CountryListStats.toListChartUI(): CountryListStatsChartUI =
         }
     )
 
-fun CountryStats.toChartUI(): CountryStatsChartUI =
+fun CountryOneStats.toChartUI(): CountryStatsChartUI =
     CountryStatsChartUI(
         country = country.toUI(),
         stats = StatsChartUI(

@@ -52,7 +52,7 @@ val repositoryModule = module {
 
 val viewModelModule = module {
     viewModel {
-        WorldViewModel(get(), get(), get(), get())
+        WorldViewModel(get(), get(), get())
     }
 
     viewModel {

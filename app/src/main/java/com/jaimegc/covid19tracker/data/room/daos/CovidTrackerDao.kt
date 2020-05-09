@@ -5,6 +5,7 @@ import com.jaimegc.covid19tracker.data.room.entities.*
 import com.jaimegc.covid19tracker.data.room.pojos.CountryAndOneStatsPojo
 import com.jaimegc.covid19tracker.data.room.pojos.CountryAndStatsPojo
 import com.jaimegc.covid19tracker.data.room.pojos.WorldAndCountriesStatsPojo
+import com.jaimegc.covid19tracker.data.room.views.RegionAndStatsDV
 import kotlinx.coroutines.flow.Flow
 
 
@@ -154,4 +155,24 @@ abstract class CountryStatsDao {
         ORDER BY c.id ASC, s.open_cases ASC
         """)
     abstract fun getCountriesAndStatsWithMostOpenCases(): Flow<List<CountryAndOneStatsPojo>>
+
+    @Transaction
+    @Query("""
+        SELECT * FROM country c
+        LEFT JOIN country_stats cs ON c.id = cs.id_country_fk
+        WHERE c.id = :idCountry AND cs.date = :date
+        """)
+    abstract fun getCountryAndStatsByIdDate(idCountry: String, date: String): Flow<List<CountryAndOneStatsPojo>>
+}
+
+@Dao
+abstract class RegionStatsDao {
+    @Transaction
+    @Query("""
+        SELECT * FROM region r
+        LEFT JOIN region_stats s ON r.id = s.id_region_fk 
+        WHERE r.id_country_fk = :idCountry AND s.date = :date
+        ORDER BY s.confirmed DESC
+        """)
+    abstract fun getRegionAndStatsByCountryAndDate(idCountry: String, date: String): Flow<List<RegionAndStatsDV>>
 }

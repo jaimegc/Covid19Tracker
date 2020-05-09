@@ -1,8 +1,12 @@
 package com.jaimegc.covid19tracker.domain.model
 
 data class CovidTracker(
-    val countriesStats: List<CountryStats>,
+    val countriesStats: List<CountryOneStats>,
     val worldStats: WorldStats
+)
+
+data class ListWorldStats(
+    val worldStats: List<WorldStats>
 )
 
 data class WorldStats(
@@ -11,13 +15,17 @@ data class WorldStats(
     val stats: Stats
 )
 
-data class CountryStats(
+data class CountryOneStats(
     val country: Country,
     val stats: Stats,
     val regionStats: List<RegionStats>? = null
 )
 
-data class CountryListStats(
+data class ListCountryStats(
+    val countriesStats: List<CountryStats>
+)
+
+data class CountryStats(
     val country: Country,
     val stats: List<Stats>
 )
@@ -68,5 +76,3 @@ data class Stats(
     val vsYesterdayOpenCases: Double,
     val vsYesterdayRecovered: Double
 )
-
-
