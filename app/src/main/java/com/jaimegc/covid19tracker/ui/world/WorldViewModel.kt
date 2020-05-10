@@ -11,7 +11,7 @@ import com.jaimegc.covid19tracker.ui.model.CountryListStatsChartUI
 import com.jaimegc.covid19tracker.ui.model.toListChartUI
 import com.jaimegc.covid19tracker.ui.model.toUI
 import com.jaimegc.covid19tracker.ui.states.*
-import com.jaimegc.covid19tracker.ui.viewmodel.BaseScreenStateViewModel
+import com.jaimegc.covid19tracker.ui.viewmodel.BaseScreenStateMenuViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -19,7 +19,7 @@ class WorldViewModel(
     private val getCovidTrackerLast: GetCovidTrackerLast,
     private val getWorldStats: GetWorldStats,
     private val getCountryStats: GetCountryStats
-) : BaseScreenStateViewModel<WorldStateScreen>() {
+) : BaseScreenStateMenuViewModel<WorldStateScreen>() {
 
     override val _screenState = MutableLiveData<ScreenState<WorldStateScreen>>()
     override val screenState: LiveData<ScreenState<WorldStateScreen>> = _screenState
@@ -102,7 +102,7 @@ class WorldViewModel(
             }
         }
 
-    private fun <T> handleState(
+    override fun <T> handleState(
         state: State<T>,
         viewType: MenuItemViewType
     ) {
@@ -120,11 +120,10 @@ class WorldViewModel(
                                         state.data.toListChartUI())))
                         }
                     }
-                    is ListWorldStats -> {
+                    is ListWorldStats ->
                         _screenState.postValue(ScreenState.Render(
                             WorldStateScreen.SuccessWorldStatsBarCharts(
                                 state.data.worldStats.map { worldStats -> worldStats.toListChartUI() })))
-                    }
                     is ListCountryStats -> {
                         when (viewType) {
                             is MenuItemViewType.BarChart -> {

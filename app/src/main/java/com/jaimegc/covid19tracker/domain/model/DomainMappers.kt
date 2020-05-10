@@ -84,15 +84,26 @@ fun CountryAndStatsPojo.toDomain(): CountryStats =
         stats = stats.map { countryStats -> countryStats.toDomain() }
     )
 
+fun List<CountryEntity>.toDomain(): ListCountry =
+    ListCountry(
+        map { entity -> entity.toDomain() }
+    )
+
 fun List<CountryAndOneStatsPojo>.toPojoOrdered(): List<CountryAndStatsPojo> =
     this.groupBy { it.country }.let { mapCountries ->
         val listCountryAndStatsPojo = mutableListOf<CountryAndStatsPojo>()
         mapCountries.map { countryStats ->
             listCountryAndStatsPojo.add(CountryAndStatsPojo(
-                countryStats.key, countryStats.value.map { stats -> stats.countryStats }))
+                countryStats.key, countryStats.value.map { stats -> stats.countryStats!! }))
         }
         listCountryAndStatsPojo
     }
+
+fun CountryAndOneStatsPojo.toDomain(): CountryOneStats =
+    CountryOneStats(
+        country = country!!.toDomain(),
+        stats = countryStats!!.toDomain()
+    )
 
 private fun CountryAndStatsDV.toDomain(): CountryOneStats =
     CountryOneStats(

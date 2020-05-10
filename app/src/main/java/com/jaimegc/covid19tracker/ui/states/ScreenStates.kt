@@ -28,6 +28,7 @@ sealed class MenuItemViewType {
     object PieChart : MenuItemViewType()
 }
 
-sealed class CountryStateScreen : BaseScreenState() {
-    class SuccessCountries(val data: List<CountryUI>) : CountryStateScreen()
+sealed class PlaceStateScreen : BaseScreenState() {
+    class SuccessSpinnerCountries(val data: List<CountryUI>) : PlaceStateScreen()
+    class SuccessPlaceStats(val data: PlaceStatsUI) : PlaceStateScreen()
 }

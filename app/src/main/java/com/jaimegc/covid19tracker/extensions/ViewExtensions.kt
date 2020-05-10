@@ -8,6 +8,8 @@ import android.view.Menu
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
+import android.widget.AdapterView
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.MergeAdapter
@@ -109,3 +111,13 @@ fun Menu.enableItem(itemPos: Int) {
 }
 
 fun Menu.isCurrentItem(itemPos: Int): Boolean = getItem(itemPos).isChecked
+
+fun Spinner.onItemSelected(itemSelectedPos: (Int) -> Unit) {
+    onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+            itemSelectedPos(pos)
+        }
+
+        override fun onNothingSelected(parent: AdapterView<*>?) = Unit
+    }
+}

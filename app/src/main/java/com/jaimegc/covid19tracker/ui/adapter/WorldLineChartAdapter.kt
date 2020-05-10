@@ -16,16 +16,16 @@ import com.jaimegc.covid19tracker.ui.states.MenuItemViewType
 
 class WorldLineChartAdapter :
     ListAdapter<Map<MenuItemViewType, List<CountryListStatsChartUI>>,
-    WorldLineChartAdapter.WorldTotalViewHolder>(DIFF_CALLBACK) {
+    WorldLineChartAdapter.WorldLineChartViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        WorldTotalViewHolder(ItemLineChartWorldTotalBinding.inflate(
+        WorldLineChartViewHolder(ItemLineChartWorldTotalBinding.inflate(
             LayoutInflater.from(parent.context), parent, false))
 
-    override fun onBindViewHolder(holder: WorldTotalViewHolder, position: Int) =
+    override fun onBindViewHolder(holder: WorldLineChartViewHolder, position: Int) =
         holder.bind(getItem(position))
 
-    class WorldTotalViewHolder(
+    class WorldLineChartViewHolder(
         private val binding: ItemLineChartWorldTotalBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(mapCountriesStatsChartUI: Map<MenuItemViewType, List<CountryListStatsChartUI>>) {

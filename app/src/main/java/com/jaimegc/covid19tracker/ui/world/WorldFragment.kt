@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.MergeAdapter
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.databinding.FragmentWorldBinding
+import com.jaimegc.covid19tracker.databinding.LoadingBinding
 import com.jaimegc.covid19tracker.extensions.*
 import com.jaimegc.covid19tracker.ui.adapter.*
 import com.jaimegc.covid19tracker.ui.states.*
@@ -18,13 +19,6 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class WorldFragment : Fragment(R.layout.fragment_world),
     BaseViewScreenState<WorldViewModel, WorldStateScreen> {
-
-    companion object {
-        private const val MENU_ITEM_LIST = 0
-        private const val MENU_ITEM_BAR_CHART = 1
-        private const val MENU_ITEM_LINE_CHART = 2
-        private const val MENU_ITEM_PIE_CHART = 3
-    }
 
     override val viewModel: WorldViewModel by viewModel()
     private val worldAdapter = WorldAdapter()
@@ -37,19 +31,22 @@ class WorldFragment : Fragment(R.layout.fragment_world),
     private val mergeAdapter = MergeAdapter()
 
     private lateinit var binding: FragmentWorldBinding
+    private lateinit var loadingBinding: LoadingBinding
     private lateinit var menu: Menu
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentWorldBinding.bind(view)
+        loadingBinding = LoadingBinding.bind(view)
 
         binding.recyclerWorld.adapter = mergeAdapter
 
         viewModel.screenState.observe(viewLifecycleOwner, Observer { screenState ->
             when (screenState) {
-                ScreenState.Loading -> if (binding.recyclerWorld.isEmpty()) binding.loading.show()
+                ScreenState.Loading ->
+                    if (binding.recyclerWorld.isEmpty()) loadingBinding.loading.show()
                 is ScreenState.Render<WorldStateScreen> -> {
-                    binding.loading.hide()
+                    loadingBinding.loading.hide()
                     handleRenderState(screenState.renderState)
                 }
             }
@@ -112,8 +109,8 @@ class WorldFragment : Fragment(R.layout.fragment_world),
             menu.enableItem(MENU_ITEM_LIST)
         }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+        when (item.itemId) {
             R.id.list_view -> {
                 menu.enableItem(MENU_ITEM_LIST)
                 mergeAdapter.removeAllAdapters()
@@ -141,5 +138,11 @@ class WorldFragment : Fragment(R.layout.fragment_world),
             }
             else -> super.onOptionsItemSelected(item)
         }
+
+    companion object {
+        private const val MENU_ITEM_LIST = 0
+        private const val MENU_ITEM_BAR_CHART = 1
+        private const val MENU_ITEM_LINE_CHART = 2
+        private const val MENU_ITEM_PIE_CHART = 3
     }
 }

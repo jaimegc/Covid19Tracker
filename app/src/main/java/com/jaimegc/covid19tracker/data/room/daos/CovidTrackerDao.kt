@@ -162,7 +162,7 @@ abstract class CountryStatsDao {
         LEFT JOIN country_stats cs ON c.id = cs.id_country_fk
         WHERE c.id = :idCountry AND cs.date = :date
         """)
-    abstract fun getCountryAndStatsByIdDate(idCountry: String, date: String): Flow<List<CountryAndOneStatsPojo>>
+    abstract fun getCountryAndStatsByIdDate(idCountry: String, date: String): Flow<CountryAndOneStatsPojo>
 }
 
 @Dao

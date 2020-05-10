@@ -1,6 +1,5 @@
 package com.jaimegc.covid19tracker.ui.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,6 @@ import com.jaimegc.covid19tracker.extensions.setEmojiCountry
 import com.jaimegc.covid19tracker.ui.model.CountryUI
 
 class CountrySpinnerAdapter(
-    private val context: Context,
     private val countries: List<CountryUI>
 ) : BaseAdapter() {
 
@@ -31,4 +29,6 @@ class CountrySpinnerAdapter(
     override fun getItemId(position: Int): Long = position.toLong()
 
     override fun getCount(): Int = countries.size
+
+    fun getCountryId(pos: Int): String = countries[pos].id
 }

@@ -122,3 +122,12 @@ fun Country.toUI(): CountryUI =
         nameEs = nameEs,
         code = code
     )
+
+fun CountryOneStats.toPlaceUI(): PlaceStatsUI =
+    PlaceStatsUI(
+        id = country.id,
+        name = country.name,
+        nameEs = country.nameEs,
+        code = country.code,
+        stats = stats.toUI()
+    )

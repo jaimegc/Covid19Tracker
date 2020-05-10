@@ -11,16 +11,16 @@ import com.jaimegc.covid19tracker.extensions.chart.configure
 import com.jaimegc.covid19tracker.extensions.chart.setValues
 import com.jaimegc.covid19tracker.ui.model.WorldStatsChartUI
 
-class WorldBarChartAdapter : ListAdapter<List<WorldStatsChartUI>, WorldBarChartAdapter.WorldTotalViewHolder>(DIFF_CALLBACK) {
+class WorldBarChartAdapter : ListAdapter<List<WorldStatsChartUI>, WorldBarChartAdapter.WorldBarChartViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        WorldTotalViewHolder(ItemBarChartWorldTotalBinding.inflate(
+        WorldBarChartViewHolder(ItemBarChartWorldTotalBinding.inflate(
             LayoutInflater.from(parent.context), parent, false))
 
-    override fun onBindViewHolder(holder: WorldTotalViewHolder, position: Int) =
+    override fun onBindViewHolder(holder: WorldBarChartViewHolder, position: Int) =
         holder.bind(getItem(position))
 
-    class WorldTotalViewHolder(
+    class WorldBarChartViewHolder(
         private val binding: ItemBarChartWorldTotalBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(listWorldStatsChartUI: List<WorldStatsChartUI>) {

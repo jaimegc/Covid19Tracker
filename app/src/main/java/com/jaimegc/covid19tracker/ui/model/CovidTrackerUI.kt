@@ -11,6 +11,14 @@ data class WorldStatsUI(
     val stats: StatsUI
 )
 
+data class PlaceStatsUI(
+    val id: String,
+    val name: String,
+    val nameEs: String,
+    val code: String = "",
+    val stats: StatsUI
+)
+
 data class CountryUI(
     val id: String,
     val name: String,

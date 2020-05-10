@@ -66,15 +66,15 @@ class LocalCovidTrackerDatasource(
                 Pair(countriesListStats.isNotEmpty(), countriesListStats.toDomain()) }
         }
 
-    suspend fun getCountries(): Flow<Either<DomainError, List<Country>>> =
+    suspend fun getCountries(): Flow<Either<DomainError, ListCountry>> =
         mapEntityValid(countryStatsDao.getAll()) { countries ->
-            Pair(countries.isNotEmpty(), countries.map { country -> country.toDomain() })
+            Pair(countries.isNotEmpty(), countries.toDomain())
         }
 
-    /*suspend fun getCountryAndStatsByIdDate(): Flow<Either<DomainError, List<Country>>> =
-        mapEntityValid(countryStatsDao.getCountryAndStatsByIdDate()) { countries ->
-            Pair(countries.isNotEmpty(), countries.map { country -> country.toDomain() })
-        }*/
+    suspend fun getCountryAndStatsByIdDate(idCountry: String, date: String): Flow<Either<DomainError, CountryOneStats>> =
+        mapEntityValid(countryStatsDao.getCountryAndStatsByIdDate(idCountry, date)) { country ->
+            Pair(country.isValid(), country.toDomain())
+        }
 
     suspend fun save(covidTracker: CovidTracker) = populateDatabase(listOf(covidTracker))
 

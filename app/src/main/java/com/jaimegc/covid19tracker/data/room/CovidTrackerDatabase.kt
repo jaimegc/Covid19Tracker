@@ -12,13 +12,14 @@ import com.jaimegc.covid19tracker.data.room.daos.CovidTrackerDao
 import com.jaimegc.covid19tracker.data.room.daos.WorldStatsDao
 import com.jaimegc.covid19tracker.data.room.entities.*
 import com.jaimegc.covid19tracker.data.room.views.CountryAndStatsDV
+import com.jaimegc.covid19tracker.data.room.views.RegionAndStatsDV
 import com.jaimegc.covid19tracker.worker.PopulateDatabaseWorker
 import java.io.File
 
 
 @Database(entities = [CountryEntity::class, WorldStatsEntity::class, CountryStatsEntity::class,
     RegionEntity::class, RegionStatsEntity::class, SubRegionEntity::class, SubRegionStatsEntity::class],
-    views = [CountryAndStatsDV::class],
+    views = [CountryAndStatsDV::class, RegionAndStatsDV::class],
     version = Covid19TrackerDatabase.version
 )
 abstract class Covid19TrackerDatabase : RoomDatabase() {

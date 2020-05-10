@@ -20,7 +20,7 @@ data class WorldAndCountriesStatsPojo(
 data class CountryAndStatsPojo(
     @Embedded
     val country: CountryEntity?,
-    @Relation(parentColumn = "id", entityColumn = "id_country_fk", entity = CountryStatsEntity::class)
+    @Relation(parentColumn = "id", entityColumn = "id_country_fk")
     val stats: List<CountryStatsEntity>
 )
 
@@ -28,5 +28,8 @@ class CountryAndOneStatsPojo(
     @Embedded
     val country: CountryEntity?,
     @Embedded
-    val countryStats: CountryStatsEntity
-)
+    val countryStats: CountryStatsEntity?
+) {
+    fun isValid(): Boolean =
+        country != null && countryStats != null
+}

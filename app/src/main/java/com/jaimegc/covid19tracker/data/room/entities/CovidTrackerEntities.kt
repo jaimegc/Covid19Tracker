@@ -75,9 +75,6 @@ data class CountryStatsEntity(
 
 @Entity(
     tableName = "region",
-    /**
-     *  @id_country_fk There could be two regions with the same id in different countries
-     */
     primaryKeys = ["id", "id_country_fk"],
     foreignKeys = [ForeignKey(
         entity = CountryEntity::class,
@@ -98,11 +95,11 @@ data class RegionEntity(
 
 @Entity(
     tableName = "region_stats",
-    primaryKeys = ["date", "id_region_fk", "id_country_fk"],
+    primaryKeys = ["date", "id_region_fk", "id_region_country_fk"],
     foreignKeys = [ForeignKey(
         entity = RegionEntity::class,
         parentColumns = arrayOf("id", "id_country_fk"),
-        childColumns = arrayOf("id_region_fk", "id_country_fk"),
+        childColumns = arrayOf("id_region_fk", "id_region_country_fk"),
         onDelete = ForeignKey.CASCADE
     )])
 data class RegionStatsEntity(
@@ -112,7 +109,7 @@ data class RegionStatsEntity(
     val stats: StatsEmbedded,
     @ColumnInfo(name = "id_region_fk")
     val idRegionFk: String,
-    @ColumnInfo(name = "id_country_fk")
+    @ColumnInfo(name = "id_region_country_fk")
     val idCountryFk: String
 )
 
