@@ -14,10 +14,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.databinding.ItemWorldTotalCountryBinding
 import com.jaimegc.covid19tracker.databinding.ItemWorldTotalCountryExpandedBinding
-import com.jaimegc.covid19tracker.extensions.rotateLeftAnimation
-import com.jaimegc.covid19tracker.extensions.rotateRightAnimation
-import com.jaimegc.covid19tracker.extensions.setEmojiCountry
-import com.jaimegc.covid19tracker.extensions.setTextSizeSp
+import com.jaimegc.covid19tracker.common.extensions.rotateLeftAnimation
+import com.jaimegc.covid19tracker.common.extensions.rotateRightAnimation
+import com.jaimegc.covid19tracker.common.extensions.setEmojiCountry
+import com.jaimegc.covid19tracker.common.extensions.setTextSizeSp
 import com.jaimegc.covid19tracker.ui.model.CountryStatsUI
 
 class WorldCountryAdapter : ListAdapter<CountryStatsUI, WorldCountryAdapter.WorldCountryViewHolder>(DIFF_CALLBACK) {

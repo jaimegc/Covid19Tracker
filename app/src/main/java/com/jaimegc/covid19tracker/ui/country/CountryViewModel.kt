@@ -1,11 +1,11 @@
 package com.jaimegc.covid19tracker.ui.country
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import com.jaimegc.covid19tracker.common.QueueLiveData
 import com.jaimegc.covid19tracker.domain.model.CountryOneStats
 import com.jaimegc.covid19tracker.domain.model.DomainError
 import com.jaimegc.covid19tracker.domain.model.ListCountry
+import com.jaimegc.covid19tracker.domain.model.ListRegion
 import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.domain.states.StateError
 import com.jaimegc.covid19tracker.domain.usecase.GetCountry
@@ -24,12 +24,22 @@ class CountryViewModel(
     private val getCountryStats: GetCountryStats
 ) : BaseScreenStateMenuViewModel<PlaceStateScreen>() {
 
-    override val _screenState = MutableLiveData<ScreenState<PlaceStateScreen>>()
+    override val _screenState = QueueLiveData<ScreenState<PlaceStateScreen>>()
     override val screenState: LiveData<ScreenState<PlaceStateScreen>> = _screenState
 
     fun getCountries() =
         viewModelScope.launch {
             getCountry.getCountries().collect { result ->
+                result.fold(
+                    { handleError(it) },
+                    { handleState(state = it) }
+                )
+            }
+        }
+
+    fun getRegionsByCountry(idCountry: String) =
+        viewModelScope.launch {
+            getCountry.getRegionsByCountry(idCountry).collect { result ->
                 result.fold(
                     { handleError(it) },
                     { handleState(state = it) }
@@ -47,7 +57,7 @@ class CountryViewModel(
             }
         }
 
-    override fun <T> handleState(
+    override suspend fun <T> handleState(
         state: State<T>,
         viewType: MenuItemViewType
     ) {
@@ -57,8 +67,11 @@ class CountryViewModel(
                     is ListCountry ->
                         _screenState.postValue(ScreenState.Render(PlaceStateScreen.SuccessSpinnerCountries(
                             state.data.countries.map { country -> country.toUI() })))
+                    is ListRegion ->
+                        _screenState.postValue(ScreenState.Render(PlaceStateScreen.SuccessSpinnerRegions(
+                            state.data.regions.map { region -> region.toPlaceUI() })))
                     is CountryOneStats ->
-                        _screenState.postValue(ScreenState.Render(PlaceStateScreen.SuccessPlaceStats(
+                        _screenState.postValue(ScreenState.Render(PlaceStateScreen.SuccessCountryStats(
                             state.data.toPlaceUI())))
                 }
             }

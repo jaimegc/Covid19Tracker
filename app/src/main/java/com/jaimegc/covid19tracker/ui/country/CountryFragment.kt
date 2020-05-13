@@ -12,9 +12,10 @@ import androidx.recyclerview.widget.MergeAdapter
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.databinding.FragmentCountryBinding
 import com.jaimegc.covid19tracker.databinding.LoadingBinding
-import com.jaimegc.covid19tracker.extensions.*
+import com.jaimegc.covid19tracker.common.extensions.*
 import com.jaimegc.covid19tracker.ui.adapter.CountrySpinnerAdapter
 import com.jaimegc.covid19tracker.ui.adapter.PlaceTotalAdapter
+import com.jaimegc.covid19tracker.ui.adapter.PlaceSpinnerAdapter
 import com.jaimegc.covid19tracker.ui.states.BaseViewScreenState
 import com.jaimegc.covid19tracker.ui.states.PlaceStateScreen
 import com.jaimegc.covid19tracker.ui.states.ScreenState
@@ -31,6 +32,7 @@ class CountryFragment : Fragment(R.layout.fragment_country),
     private lateinit var loadingBinding: LoadingBinding
     private lateinit var menu: Menu
     private lateinit var countrySpinnerAdapter: CountrySpinnerAdapter
+    private lateinit var regionSpinnerAdapter: PlaceSpinnerAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -43,8 +45,8 @@ class CountryFragment : Fragment(R.layout.fragment_country),
             when (screenState) {
                 ScreenState.Loading -> if (binding.recyclerPlace.isEmpty()) loadingBinding.loading.show()
                 is ScreenState.Render<PlaceStateScreen> -> {
-                    loadingBinding.loading.hide()
                     handleRenderState(screenState.renderState)
+                    loadingBinding.loading.hide()
                 }
             }
         })
@@ -60,14 +62,31 @@ class CountryFragment : Fragment(R.layout.fragment_country),
                 binding.countrySpinner.adapter = countrySpinnerAdapter
 
                 binding.countrySpinner.setSelection(
-                    renderState.data.indexOf(renderState.data.first { it.name == "Spain" })
-                )
+                    renderState.data.indexOf(renderState.data.first { it.id == "spain" }))
 
                 binding.countrySpinner.onItemSelected { pos ->
-                    viewModel.getCountryAndStatsByIdDate(countrySpinnerAdapter.getCountryId(pos))
+                    countrySpinnerAdapter.getCountryId(pos).let { countryId ->
+                        viewModel.getRegionsByCountry(countryId)
+                        viewModel.getCountryAndStatsByIdDate(countryId)
+                    }
                 }
             }
-            is PlaceStateScreen.SuccessPlaceStats -> {
+            is PlaceStateScreen.SuccessSpinnerRegions -> {
+                if (renderState.data.isNotEmpty()) {
+                    binding.regionSpinner.show()
+                    binding.icExpandRegion.show()
+                    regionSpinnerAdapter = PlaceSpinnerAdapter(requireContext(), renderState.data.toMutableList())
+                    binding.regionSpinner.adapter = regionSpinnerAdapter
+
+                    binding.regionSpinner.onItemSelected(ignoreFirst = true) { pos ->
+                        viewModel.getRegionsByCountry(regionSpinnerAdapter.getId(pos))
+                    }
+                } else {
+                    binding.regionSpinner.hide()
+                    binding.icExpandRegion.hide()
+                }
+            }
+            is PlaceStateScreen.SuccessCountryStats -> {
                 mergeAdapter.addAdapter(placeTotalAdapter)
                 placeTotalAdapter.submitList(listOf(renderState.data))
             }

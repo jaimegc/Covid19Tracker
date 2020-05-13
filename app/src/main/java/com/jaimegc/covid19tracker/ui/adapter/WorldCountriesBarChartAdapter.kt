@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.databinding.ItemBarChartCountryTotalBinding
-import com.jaimegc.covid19tracker.extensions.chart.configure
-import com.jaimegc.covid19tracker.extensions.chart.setValues
-import com.jaimegc.covid19tracker.extensions.setEmojiCountry
+import com.jaimegc.covid19tracker.common.extensions.chart.configure
+import com.jaimegc.covid19tracker.common.extensions.chart.setValues
+import com.jaimegc.covid19tracker.common.extensions.setEmojiCountry
 import com.jaimegc.covid19tracker.ui.model.CountryListStatsChartUI
 
 class WorldCountriesBarChartAdapter : ListAdapter<CountryListStatsChartUI, WorldCountriesBarChartAdapter.CountriesListStatsViewHolder>(DIFF_CALLBACK) {

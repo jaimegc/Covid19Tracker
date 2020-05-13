@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.jaimegc.covid19tracker.databinding.ItemCountrySpinnerBinding
-import com.jaimegc.covid19tracker.extensions.setEmojiCountry
+import com.jaimegc.covid19tracker.common.extensions.setEmojiCountry
 import com.jaimegc.covid19tracker.ui.model.CountryUI
 
 class CountrySpinnerAdapter(

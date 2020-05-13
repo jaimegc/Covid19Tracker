@@ -1,6 +1,7 @@
 package com.jaimegc.covid19tracker.ui.world
 
 import androidx.lifecycle.*
+import com.jaimegc.covid19tracker.common.QueueLiveData
 import com.jaimegc.covid19tracker.domain.model.*
 import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.domain.states.StateError
@@ -21,7 +22,7 @@ class WorldViewModel(
     private val getCountryStats: GetCountryStats
 ) : BaseScreenStateMenuViewModel<WorldStateScreen>() {
 
-    override val _screenState = MutableLiveData<ScreenState<WorldStateScreen>>()
+    override val _screenState = QueueLiveData<ScreenState<WorldStateScreen>>()
     override val screenState: LiveData<ScreenState<WorldStateScreen>> = _screenState
 
     private val mapWorldLineStats =
@@ -102,7 +103,7 @@ class WorldViewModel(
             }
         }
 
-    override fun <T> handleState(
+    override suspend fun <T> handleState(
         state: State<T>,
         viewType: MenuItemViewType
     ) {

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.MergeAdapter
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.databinding.FragmentWorldBinding
 import com.jaimegc.covid19tracker.databinding.LoadingBinding
-import com.jaimegc.covid19tracker.extensions.*
+import com.jaimegc.covid19tracker.common.extensions.*
 import com.jaimegc.covid19tracker.ui.adapter.*
 import com.jaimegc.covid19tracker.ui.states.*
 import org.koin.android.viewmodel.ext.android.viewModel

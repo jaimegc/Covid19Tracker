@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.charts.LineChart
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.databinding.ItemLineChartWorldTotalBinding
-import com.jaimegc.covid19tracker.extensions.chart.configure
-import com.jaimegc.covid19tracker.extensions.chart.setValues
+import com.jaimegc.covid19tracker.common.extensions.chart.configure
+import com.jaimegc.covid19tracker.common.extensions.chart.setValues
 import com.jaimegc.covid19tracker.ui.model.CountryListStatsChartUI
 import com.jaimegc.covid19tracker.ui.states.MenuItemViewType
 
