@@ -1,4 +1,4 @@
-package com.jaimegc.covid19tracker.extensions.chart
+package com.jaimegc.covid19tracker.common.extensions.chart
 
 import android.content.Context
 import android.graphics.Typeface
@@ -11,7 +11,7 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
-import com.jaimegc.covid19tracker.extensions.chart.formatter.ChartDayMonthFormatter
+import com.jaimegc.covid19tracker.common.extensions.chart.formatter.ChartDayMonthFormatter
 
 fun BarChart.configure(xAxisValues: List<String>, minAxisLeftValue: Float = 0f) {
     with(this) {

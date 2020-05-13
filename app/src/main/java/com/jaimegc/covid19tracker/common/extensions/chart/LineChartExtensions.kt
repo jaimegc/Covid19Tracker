@@ -1,4 +1,4 @@
-package com.jaimegc.covid19tracker.extensions.chart
+package com.jaimegc.covid19tracker.common.extensions.chart
 
 import android.content.Context
 import android.graphics.Color
@@ -11,7 +11,7 @@ import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import com.jaimegc.covid19tracker.extensions.chart.formatter.ChartDayMonthFormatter
+import com.jaimegc.covid19tracker.common.extensions.chart.formatter.ChartDayMonthFormatter
 
 fun LineChart.configure(xAxisValues: List<String>, minAxisLeftValue: Float = 0f) {
     with(this) {

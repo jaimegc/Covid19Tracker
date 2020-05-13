@@ -4,9 +4,7 @@ import arrow.core.Either
 import com.jaimegc.covid19tracker.data.api.client.CovidTrackerApiClient
 import com.jaimegc.covid19tracker.data.api.extensions.apiException
 import com.jaimegc.covid19tracker.data.api.extensions.mapResponse
-import com.jaimegc.covid19tracker.data.room.daos.CountryStatsDao
-import com.jaimegc.covid19tracker.data.room.daos.CovidTrackerDao
-import com.jaimegc.covid19tracker.data.room.daos.WorldStatsDao
+import com.jaimegc.covid19tracker.data.room.daos.*
 import com.jaimegc.covid19tracker.data.room.entities.*
 import com.jaimegc.covid19tracker.domain.model.toDomain
 import com.jaimegc.covid19tracker.domain.model.toPojoOrdered
@@ -27,7 +25,9 @@ class RemoteCovidTrackerDatasource(
 class LocalCovidTrackerDatasource(
     private val covidTrackerDao: CovidTrackerDao,
     private val worldStatsDao: WorldStatsDao,
-    private val countryStatsDao: CountryStatsDao
+    private val countryStatsDao: CountryStatsDao,
+    private val countryDao: CountryDao,
+    private val regionDao: RegionDao
 ) {
 
     suspend fun getCovidTrackerByDate(date: String): Flow<Either<DomainError, CovidTracker>> =
@@ -67,9 +67,12 @@ class LocalCovidTrackerDatasource(
         }
 
     suspend fun getCountries(): Flow<Either<DomainError, ListCountry>> =
-        mapEntityValid(countryStatsDao.getAll()) { countries ->
+        mapEntityValid(countryDao.getAll()) { countries ->
             Pair(countries.isNotEmpty(), countries.toDomain())
         }
+
+    suspend fun getRegionsByCountry(idCountry: String): Flow<Either<DomainError, ListRegion>> =
+        mapEntity(regionDao.getByCountry(idCountry)) { regions -> regions.toDomain() }
 
     suspend fun getCountryAndStatsByIdDate(idCountry: String, date: String): Flow<Either<DomainError, CountryOneStats>> =
         mapEntityValid(countryStatsDao.getCountryAndStatsByIdDate(idCountry, date)) { country ->

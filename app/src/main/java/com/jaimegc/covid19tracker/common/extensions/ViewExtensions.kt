@@ -1,4 +1,4 @@
-package com.jaimegc.covid19tracker.extensions
+package com.jaimegc.covid19tracker.common.extensions
 
 import android.content.Context
 import android.content.res.Resources
@@ -112,10 +112,10 @@ fun Menu.enableItem(itemPos: Int) {
 
 fun Menu.isCurrentItem(itemPos: Int): Boolean = getItem(itemPos).isChecked
 
-fun Spinner.onItemSelected(itemSelectedPos: (Int) -> Unit) {
+fun Spinner.onItemSelected(ignoreFirst: Boolean = false, itemSelectedPos: (Int) -> Unit) {
     onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
-            itemSelectedPos(pos)
+            if (ignoreFirst.not() || pos != 0) itemSelectedPos(pos)
         }
 
         override fun onNothingSelected(parent: AdapterView<*>?) = Unit

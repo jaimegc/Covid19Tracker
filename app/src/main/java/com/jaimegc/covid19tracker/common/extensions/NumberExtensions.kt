@@ -1,4 +1,4 @@
-package com.jaimegc.covid19tracker.extensions
+package com.jaimegc.covid19tracker.common.extensions
 
 import java.math.RoundingMode
 import java.text.DecimalFormat

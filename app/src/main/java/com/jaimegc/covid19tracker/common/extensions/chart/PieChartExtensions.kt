@@ -1,4 +1,4 @@
-package com.jaimegc.covid19tracker.extensions.chart
+package com.jaimegc.covid19tracker.common.extensions.chart
 
 import android.content.Context
 import android.graphics.Color
@@ -8,7 +8,7 @@ import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
-import com.jaimegc.covid19tracker.extensions.chart.formatter.PercentPieChartFormatter
+import com.jaimegc.covid19tracker.common.extensions.chart.formatter.PercentPieChartFormatter
 
 fun PieChart.configure() {
     with(this) {

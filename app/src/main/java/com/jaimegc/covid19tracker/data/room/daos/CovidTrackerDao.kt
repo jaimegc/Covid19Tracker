@@ -76,12 +76,6 @@ abstract class WorldStatsDao {
 @Dao
 abstract class CountryStatsDao {
 
-    @Query("SELECT * FROM country WHERE name = :name")
-    abstract fun getByName(name: String): Flow<List<CountryEntity>>
-
-    @Query("SELECT * FROM country ORDER BY name ASC")
-    abstract fun getAll(): Flow<List<CountryEntity>>
-
     @Transaction
     @Query("""
         SELECT * FROM country, country_stats 
@@ -163,6 +157,29 @@ abstract class CountryStatsDao {
         WHERE c.id = :idCountry AND cs.date = :date
         """)
     abstract fun getCountryAndStatsByIdDate(idCountry: String, date: String): Flow<CountryAndOneStatsPojo>
+}
+
+@Dao
+abstract class CountryDao {
+
+    @Query("SELECT * FROM country WHERE name = :name")
+    abstract fun getByName(name: String): Flow<List<CountryEntity>>
+
+    @Query("SELECT * FROM country ORDER BY name ASC")
+    abstract fun getAll(): Flow<List<CountryEntity>>
+}
+
+@Dao
+abstract class RegionDao {
+
+    @Query("SELECT * FROM region WHERE name = :name ORDER BY name ASC")
+    abstract fun getByName(name: String): Flow<List<RegionEntity>>
+
+    @Query("SELECT * FROM region ORDER BY name ASC")
+    abstract fun getAll(): Flow<List<RegionEntity>>
+
+    @Query("SELECT * FROM region WHERE id_country_fk = :idCountry ORDER BY name ASC")
+    abstract fun getByCountry(idCountry: String): Flow<List<RegionEntity>>
 }
 
 @Dao
