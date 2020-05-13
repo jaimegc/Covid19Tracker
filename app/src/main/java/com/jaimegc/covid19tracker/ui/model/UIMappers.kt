@@ -1,8 +1,8 @@
 package com.jaimegc.covid19tracker.ui.model
 
 import com.jaimegc.covid19tracker.domain.model.*
-import com.jaimegc.covid19tracker.extensions.formatDecimals
-import com.jaimegc.covid19tracker.extensions.formatValue
+import com.jaimegc.covid19tracker.common.extensions.formatDecimals
+import com.jaimegc.covid19tracker.common.extensions.formatValue
 
 fun CovidTracker.toUI(): CovidTrackerUI =
     CovidTrackerUI(
@@ -10,12 +10,9 @@ fun CovidTracker.toUI(): CovidTrackerUI =
         worldStats = worldStats.toUI()
     )
 
-private fun CountryStats.toUI():  CountryStatsUI =
+private fun CountryOneStats.toUI():  CountryStatsUI =
     CountryStatsUI(
-        id = id,
-        name = name,
-        nameEs = nameEs,
-        code = code,
+        country = country.toUI(),
         stats = stats.toUI()
     )
 
@@ -77,12 +74,9 @@ fun WorldStats.toListChartUI(): WorldStatsChartUI =
         )
     )
 
-fun CountryListStats.toListChartUI(): CountryListStatsChartUI =
+fun CountryStats.toListChartUI(): CountryListStatsChartUI =
     CountryListStatsChartUI(
-        id = id,
-        name = name,
-        nameEs = nameEs,
-        code = code,
+        country = country.toUI(),
         stats = stats.map { statsCountry ->
             StatsChartUI(
                 date = statsCountry.date,
@@ -99,12 +93,9 @@ fun CountryListStats.toListChartUI(): CountryListStatsChartUI =
         }
     )
 
-fun CountryStats.toChartUI(): CountryStatsChartUI =
+fun CountryOneStats.toChartUI(): CountryStatsChartUI =
     CountryStatsChartUI(
-        id = id,
-        name = name,
-        nameEs = nameEs,
-        code = code,
+        country = country.toUI(),
         stats = StatsChartUI(
             date = stats.date,
             source = stats.source,
@@ -123,3 +114,27 @@ fun CovidTracker.toListChartUI(): List<WorldCountryStatsUI> =
     countriesStats.map { country ->
         WorldCountryStatsUI(country.toChartUI(), worldStats.toListChartUI())
     }
+
+fun Country.toUI(): CountryUI =
+    CountryUI(
+        id = id,
+        name = name,
+        nameEs = nameEs,
+        code = code
+    )
+
+fun Region.toPlaceUI(): PlaceUI =
+    PlaceUI(
+        id = id,
+        name = name,
+        nameEs = nameEs
+    )
+
+fun CountryOneStats.toPlaceUI(): PlaceStatsUI =
+    PlaceStatsUI(
+        id = country.id,
+        name = country.name,
+        nameEs = country.nameEs,
+        code = country.code,
+        stats = stats.toUI()
+    )

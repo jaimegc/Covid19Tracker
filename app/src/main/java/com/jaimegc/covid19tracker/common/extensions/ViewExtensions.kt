@@ -1,4 +1,4 @@
-package com.jaimegc.covid19tracker.extensions
+package com.jaimegc.covid19tracker.common.extensions
 
 import android.content.Context
 import android.content.res.Resources
@@ -8,6 +8,8 @@ import android.view.Menu
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
+import android.widget.AdapterView
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.MergeAdapter
@@ -100,8 +102,22 @@ fun Menu.enableItem(itemPos: Int) {
     for (index in 0 until size()) {
         if (index != itemPos) {
             getItem(index).icon.setTint(Color.BLACK)
+            getItem(index).isChecked = false
         } else {
             getItem(index).icon.setTint(Color.WHITE)
+            getItem(index).isChecked = true
         }
+    }
+}
+
+fun Menu.isCurrentItem(itemPos: Int): Boolean = getItem(itemPos).isChecked
+
+fun Spinner.onItemSelected(ignoreFirst: Boolean = false, itemSelectedPos: (Int) -> Unit) {
+    onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+            if (ignoreFirst.not() || pos != 0) itemSelectedPos(pos)
+        }
+
+        override fun onNothingSelected(parent: AdapterView<*>?) = Unit
     }
 }

@@ -4,9 +4,7 @@ import arrow.core.Either
 import com.jaimegc.covid19tracker.data.api.client.CovidTrackerApiClient
 import com.jaimegc.covid19tracker.data.api.extensions.apiException
 import com.jaimegc.covid19tracker.data.api.extensions.mapResponse
-import com.jaimegc.covid19tracker.data.room.daos.CountryStatsDao
-import com.jaimegc.covid19tracker.data.room.daos.CovidTrackerDao
-import com.jaimegc.covid19tracker.data.room.daos.WorldStatsDao
+import com.jaimegc.covid19tracker.data.room.daos.*
 import com.jaimegc.covid19tracker.data.room.entities.*
 import com.jaimegc.covid19tracker.domain.model.toDomain
 import com.jaimegc.covid19tracker.domain.model.toPojoOrdered
@@ -27,89 +25,115 @@ class RemoteCovidTrackerDatasource(
 class LocalCovidTrackerDatasource(
     private val covidTrackerDao: CovidTrackerDao,
     private val worldStatsDao: WorldStatsDao,
-    private val countryStatsDao: CountryStatsDao
+    private val countryStatsDao: CountryStatsDao,
+    private val countryDao: CountryDao,
+    private val regionDao: RegionDao
 ) {
 
     suspend fun getCovidTrackerByDate(date: String): Flow<Either<DomainError, CovidTracker>> =
         mapEntityValid(covidTrackerDao.getWorldAndCountriesStatsByDate(date)) { covidTrackerPojo ->
             Pair(covidTrackerPojo.isValid(), covidTrackerPojo.toDomain()) }
 
-    suspend fun getWorldAllStats(): Flow<Either<DomainError, List<WorldStats>>> =
+    suspend fun getWorldAllStats(): Flow<Either<DomainError, ListWorldStats>> =
         mapEntityValid(worldStatsDao.getAll()) { worldEntities ->
-            Pair(worldEntities.isNotEmpty(), worldEntities.map { worldEntity -> worldEntity.toDomain() }) }
+            Pair(worldEntities.isNotEmpty(), worldEntities.toDomain()) }
 
-    suspend fun getCountriesStatsOrderByConfirmed(): Flow<Either<DomainError, List<CountryListStats>>> =
+    suspend fun getCountriesStatsOrderByConfirmed(): Flow<Either<DomainError, ListCountryStats>> =
         mapEntityValid(countryStatsDao.getCountriesAndStatsOrderByConfirmed()) { countriesListStats ->
-            Pair(countriesListStats.isNotEmpty(), countriesListStats.map { countryStats -> countryStats.toDomain() }) }
+            Pair(countriesListStats.isNotEmpty(), countriesListStats.toDomain()) }
 
-    suspend fun getCountriesAndStatsWithMostConfirmed(): Flow<Either<DomainError, List<CountryListStats>>> =
+    suspend fun getCountriesAndStatsWithMostConfirmed(): Flow<Either<DomainError, ListCountryStats>> =
         mapEntityValid(countryStatsDao.getCountriesAndStatsWithMostConfirmed()) { countriesListOneStats ->
             countriesListOneStats.toPojoOrdered().let { countriesListStats ->
-                Pair(countriesListStats.isNotEmpty(), countriesListStats.map { countryStats ->
-                    countryStats.toDomain() }) }
+                Pair(countriesListStats.isNotEmpty(), countriesListStats.toDomain()) }
             }
 
-    suspend fun getCountriesAndStatsWithMostDeaths(): Flow<Either<DomainError, List<CountryListStats>>> =
+    suspend fun getCountriesAndStatsWithMostDeaths(): Flow<Either<DomainError, ListCountryStats>> =
         mapEntityValid(countryStatsDao.getCountriesAndStatsWithMostDeaths()) { countriesListOneStats ->
             countriesListOneStats.toPojoOrdered().let { countriesListStats ->
-                Pair(countriesListStats.isNotEmpty(), countriesListStats.map { countryStats ->
-                    countryStats.toDomain() }) }
+                Pair(countriesListStats.isNotEmpty(), countriesListStats.toDomain()) }
         }
 
-    suspend fun getCountriesAndStatsWithMostRecovered(): Flow<Either<DomainError, List<CountryListStats>>> =
+    suspend fun getCountriesAndStatsWithMostRecovered(): Flow<Either<DomainError, ListCountryStats>> =
         mapEntityValid(countryStatsDao.getCountriesAndStatsWithMostRecovered()) { countriesListOneStats ->
             countriesListOneStats.toPojoOrdered().let { countriesListStats ->
-                Pair(countriesListStats.isNotEmpty(), countriesListStats.map { countryStats ->
-                    countryStats.toDomain() }) }
+                Pair(countriesListStats.isNotEmpty(), countriesListStats.toDomain()) }
         }
 
-    suspend fun getCountriesAndStatsWithMostOpenCases(): Flow<Either<DomainError, List<CountryListStats>>> =
+    suspend fun getCountriesAndStatsWithMostOpenCases(): Flow<Either<DomainError, ListCountryStats>> =
         mapEntityValid(countryStatsDao.getCountriesAndStatsWithMostOpenCases()) { countriesListOneStats ->
             countriesListOneStats.toPojoOrdered().let { countriesListStats ->
-                Pair(countriesListStats.isNotEmpty(), countriesListStats.map { countryStats ->
-                    countryStats.toDomain() }) }
+                Pair(countriesListStats.isNotEmpty(), countriesListStats.toDomain()) }
         }
 
-    suspend fun getCountriesStatsOrderByDeaths(): Flow<Either<DomainError, List<CountryStats>>> =
-        mapEntityValid(countryStatsDao.getCountriesAndStatsOrderByConfirmed()) { countriesStats ->
-            Pair(countriesStats.isNotEmpty(), countriesStats.map { countryStats -> countryStats.toDomainOnly() }) }
+    suspend fun getCountries(): Flow<Either<DomainError, ListCountry>> =
+        mapEntityValid(countryDao.getAll()) { countries ->
+            Pair(countries.isNotEmpty(), countries.toDomain())
+        }
+
+    suspend fun getRegionsByCountry(idCountry: String): Flow<Either<DomainError, ListRegion>> =
+        mapEntity(regionDao.getByCountry(idCountry)) { regions -> regions.toDomain() }
+
+    suspend fun getCountryAndStatsByIdDate(idCountry: String, date: String): Flow<Either<DomainError, CountryOneStats>> =
+        mapEntityValid(countryStatsDao.getCountryAndStatsByIdDate(idCountry, date)) { country ->
+            Pair(country.isValid(), country.toDomain())
+        }
 
     suspend fun save(covidTracker: CovidTracker) = populateDatabase(listOf(covidTracker))
 
     suspend fun populateDatabase(covidTrackers: List<CovidTracker>) {
         val maxDaysToSave = 7 // To avoid memory leaks
-        val worldStatsEntities = mutableListOf<WorldStatsEntity>()
+        val worldStats = mutableListOf<WorldStatsEntity>()
         val countryEntities = mutableListOf<CountryEntity>()
         val countryStatsEntities = mutableListOf<CountryStatsEntity>()
+        val regionEntities = mutableListOf<RegionEntity>()
         val regionStatsEntities = mutableListOf<RegionStatsEntity>()
+        val subRegionEntities = mutableListOf<SubRegionEntity>()
         val subRegionStatsEntities = mutableListOf<SubRegionStatsEntity>()
 
         covidTrackers.mapIndexed { index, covidTracker ->
-            worldStatsEntities.add(covidTracker.worldStats.toEntity())
+            worldStats.add(covidTracker.worldStats.toEntity())
             covidTracker.countriesStats.map { countryStats ->
-                if (index == 0) countryEntities.add(countryStats.toEntity())
-                countryStatsEntities.add(countryStats.stats.toEntity(countryStats.id))
+                if (index == 0) {
+                    countryEntities.add(countryStats.toEntity())
+                    countryStats.regionStats?.map { regionStats ->
+                        regionEntities.add(regionStats.region.toEntity(countryStats.country.id))
+                        regionStats.subRegionStats?.map { subRegionStats ->
+                            subRegionEntities.add(subRegionStats.subRegion.toEntity(
+                                regionStats.region.id, countryStats.country.id))
+                        }
+                    }
+                }
+                countryStatsEntities.add(countryStats.stats.toEntity(countryStats.country.id))
                 countryStats.regionStats?.map { regionStats ->
-                    regionStatsEntities.add(regionStats.toRegionEntity(countryStats.id))
+                    regionStatsEntities.add(regionStats.toEntity(
+                        regionStats.region.id, countryStats.country.id))
+
                     regionStats.subRegionStats?.map { subRegionStats ->
                         subRegionStatsEntities.add(
-                            subRegionStats.toSubRegionEntity(regionStats.id, countryStats.id))
+                            subRegionStats.toEntity(subRegionStats.subRegion.id, regionStats.region.id))
                     }
                 }
             }
 
             if (index.rem(maxDaysToSave) == 0 || index == covidTrackers.size - 1) {
                 covidTrackerDao.populateDatabase(
-                    worldsStats = worldStatsEntities,
+                    worldsStats = worldStats,
                     countries = countryEntities,
                     countriesStats = countryStatsEntities,
+                    regions = regionEntities,
                     regionsStats = regionStatsEntities,
-                    subRegionsStats = subRegionStatsEntities)
+                    subRegions = subRegionEntities,
+                    subRegionsStats = subRegionStatsEntities
+                )
 
-                worldStatsEntities.clear()
+                worldStats.clear()
                 countryEntities.clear()
                 countryStatsEntities.clear()
+                regionEntities.clear()
                 regionStatsEntities.clear()
+                subRegionEntities.clear()
+                subRegionStatsEntities.clear()
             }
         }
     }

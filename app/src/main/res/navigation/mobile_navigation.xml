@@ -15,7 +15,7 @@
         android:id="@+id/navigation_dashboard"
         android:name="com.jaimegc.covid19tracker.ui.country.CountryFragment"
         android:label="@string/title_country"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_country" />
 
     <fragment
         android:id="@+id/navigation_world"

@@ -33,4 +33,7 @@
     <string name="menu_world_bar_chart">World bar chart</string>
     <string name="menu_world_line_chart">World line chart</string>
     <string name="menu_world_pie_chart">World pie chart</string>
+
+    <!-- Country Tab -->
+    <string name="select_place">Select place</string>
 </resources>

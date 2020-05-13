@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.databinding.ItemPieChartCountryTotalBinding
-import com.jaimegc.covid19tracker.extensions.chart.configure
-import com.jaimegc.covid19tracker.extensions.chart.setValues
-import com.jaimegc.covid19tracker.extensions.percentage
-import com.jaimegc.covid19tracker.extensions.setEmojiCountry
+import com.jaimegc.covid19tracker.common.extensions.chart.configure
+import com.jaimegc.covid19tracker.common.extensions.chart.setValues
+import com.jaimegc.covid19tracker.common.extensions.percentage
+import com.jaimegc.covid19tracker.common.extensions.setEmojiCountry
 import com.jaimegc.covid19tracker.ui.model.WorldCountryStatsUI
 
 class WorldCountriesPieChartAdapter : ListAdapter<WorldCountryStatsUI, WorldCountriesPieChartAdapter.CountriesListStatsViewHolder>(DIFF_CALLBACK) {
@@ -53,16 +53,16 @@ class WorldCountriesPieChartAdapter : ListAdapter<WorldCountryStatsUI, WorldCoun
                 worldCountryStatsUI.countryStats.stats.openCases.percentage(
                     worldCountryStatsUI.worldStats.stats.openCases)
 
-            binding.textPlace.text = worldCountryStatsUI.countryStats.name
+            binding.textPlace.text = worldCountryStatsUI.countryStats.country.name
 
-            binding.icCountryEmoji.setEmojiCountry(worldCountryStatsUI.countryStats.code)
+            binding.icCountryEmoji.setEmojiCountry(worldCountryStatsUI.countryStats.country.code)
         }
     }
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<WorldCountryStatsUI>() {
             override fun areItemsTheSame(oldItem: WorldCountryStatsUI, newItem: WorldCountryStatsUI): Boolean =
-                oldItem.countryStats.id == newItem.countryStats.id
+                oldItem.countryStats.country.id == newItem.countryStats.country.id
 
             override fun areContentsTheSame(oldItem: WorldCountryStatsUI, newItem: WorldCountryStatsUI): Boolean =
                 oldItem == newItem

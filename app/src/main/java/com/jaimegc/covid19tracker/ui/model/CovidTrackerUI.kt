@@ -11,11 +11,29 @@ data class WorldStatsUI(
     val stats: StatsUI
 )
 
-data class CountryStatsUI(
+data class PlaceStatsUI(
     val id: String,
     val name: String,
     val nameEs: String,
-    val code: String,
+    val code: String = "",
+    val stats: StatsUI
+)
+
+data class CountryUI(
+    val id: String,
+    val name: String,
+    val nameEs: String,
+    val code: String
+)
+
+data class PlaceUI(
+    val id: String,
+    val name: String,
+    val nameEs: String
+)
+
+data class CountryStatsUI(
+    val country: CountryUI,
     val stats: StatsUI,
     var isExpanded: Boolean = false
 )
@@ -44,18 +62,12 @@ data class WorldStatsChartUI(
 )
 
 data class CountryListStatsChartUI(
-    val id: String,
-    val name: String,
-    val nameEs: String,
-    val code: String,
+    val country: CountryUI,
     val stats: List<StatsChartUI>
 )
 
 data class CountryStatsChartUI(
-    val id: String,
-    val name: String,
-    val nameEs: String,
-    val code: String,
+    val country: CountryUI,
     val stats: StatsChartUI
 )
 

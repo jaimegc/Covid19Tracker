@@ -1,4 +1,4 @@
-package com.jaimegc.covid19tracker.extensions
+package com.jaimegc.covid19tracker.common.extensions
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

@@ -7,24 +7,25 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import com.jaimegc.covid19tracker.data.room.daos.CountryStatsDao
-import com.jaimegc.covid19tracker.data.room.daos.CovidTrackerDao
-import com.jaimegc.covid19tracker.data.room.daos.WorldStatsDao
+import com.jaimegc.covid19tracker.data.room.daos.*
 import com.jaimegc.covid19tracker.data.room.entities.*
 import com.jaimegc.covid19tracker.data.room.views.CountryAndStatsDV
+import com.jaimegc.covid19tracker.data.room.views.RegionAndStatsDV
 import com.jaimegc.covid19tracker.worker.PopulateDatabaseWorker
 import java.io.File
 
 
 @Database(entities = [CountryEntity::class, WorldStatsEntity::class, CountryStatsEntity::class,
-    RegionStatsEntity::class, SubRegionStatsEntity::class],
-    views = [CountryAndStatsDV::class],
+    RegionEntity::class, RegionStatsEntity::class, SubRegionEntity::class, SubRegionStatsEntity::class],
+    views = [CountryAndStatsDV::class, RegionAndStatsDV::class],
     version = Covid19TrackerDatabase.version
 )
 abstract class Covid19TrackerDatabase : RoomDatabase() {
     abstract fun covidTrackerDao(): CovidTrackerDao
     abstract fun countryStatsDao(): CountryStatsDao
     abstract fun worldStatsDao(): WorldStatsDao
+    abstract fun countryDao(): CountryDao
+    abstract fun regionDao(): RegionDao
 
     companion object {
         const val version = 1
@@ -33,13 +34,13 @@ abstract class Covid19TrackerDatabase : RoomDatabase() {
         fun build(context: Context): Covid19TrackerDatabase =
             Room.databaseBuilder(context, Covid19TrackerDatabase::class.java, DATABASE_NAME)
                 //.createFromAsset("covid19-tracker-db")
-                .createFromFile(File("${context.filesDir}${File.separator}$DATABASE_NAME"))
+                //.createFromFile(File("${context.filesDir}${File.separator}$DATABASE_NAME"))
                 .addCallback(object : RoomDatabase.Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         super.onCreate(db)
                         // Populate database using a Worker
-                        //val request = OneTimeWorkRequestBuilder<PopulateDatabaseWorker>().build()
-                        //WorkManager.getInstance(context).enqueue(request)
+                        val request = OneTimeWorkRequestBuilder<PopulateDatabaseWorker>().build()
+                        WorkManager.getInstance(context).enqueue(request)
                     }
                 })
                 .fallbackToDestructiveMigration()

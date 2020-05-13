@@ -1,8 +1,7 @@
 package com.jaimegc.covid19tracker.ui.world
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import com.jaimegc.covid19tracker.common.QueueLiveData
 import com.jaimegc.covid19tracker.domain.model.*
 import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.domain.states.StateError
@@ -12,49 +11,47 @@ import com.jaimegc.covid19tracker.domain.usecase.GetWorldStats
 import com.jaimegc.covid19tracker.ui.model.CountryListStatsChartUI
 import com.jaimegc.covid19tracker.ui.model.toListChartUI
 import com.jaimegc.covid19tracker.ui.model.toUI
-import com.jaimegc.covid19tracker.ui.states.CovidTrackerType
-import com.jaimegc.covid19tracker.ui.viewmodel.BaseScreenStateViewModel
-import com.jaimegc.covid19tracker.ui.states.ScreenState
-import com.jaimegc.covid19tracker.ui.states.WorldStateCountriesStatsLineChartType
-import com.jaimegc.covid19tracker.ui.states.WorldStateScreen
-import kotlinx.coroutines.flow.collect
+import com.jaimegc.covid19tracker.ui.states.*
+import com.jaimegc.covid19tracker.ui.viewmodel.BaseScreenStateMenuViewModel
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class WorldViewModel(
     private val getCovidTrackerLast: GetCovidTrackerLast,
     private val getWorldStats: GetWorldStats,
     private val getCountryStats: GetCountryStats
-) : BaseScreenStateViewModel<WorldStateScreen>() {
+) : BaseScreenStateMenuViewModel<WorldStateScreen>() {
 
-    override val _screenState = MutableLiveData<ScreenState<WorldStateScreen>>()
+    override val _screenState = QueueLiveData<ScreenState<WorldStateScreen>>()
     override val screenState: LiveData<ScreenState<WorldStateScreen>> = _screenState
 
     private val mapWorldLineStats =
-        mutableMapOf<WorldStateCountriesStatsLineChartType, List<CountryListStatsChartUI>>()
+        mutableMapOf<MenuItemViewType, List<CountryListStatsChartUI>>()
 
-    private val lineChartTypeSize = WorldStateCountriesStatsLineChartType::class.nestedClasses.size
-
-    fun getCovidTrackerLast(type: CovidTrackerType) =
+    fun getCovidTrackerLast(viewType: MenuItemViewType) =
         viewModelScope.launch {
-            getCovidTrackerLast.getCovidTrackerByDate("2020-05-01").collect { result ->
-                result.fold(
-                    { handleError(it) },
-                    { handleScreenStateCovidTracker(it, type) }
-                )
+            getCovidTrackerLast.getCovidTrackerByDate("2020-05-06").collect { result ->
+                result.fold({ handleError(it) }, { handleState(state = it, viewType = viewType) })
             }
         }
 
     fun getWorldAllStats() =
         viewModelScope.launch {
             getWorldStats.getWorldAllStats().collect { result ->
-                result.fold(::handleError, ::handleScreenStateWorldStats)
+                result.fold(
+                    { handleError(it) },
+                    { handleState(state = it, viewType = MenuItemViewType.BarChart) }
+                )
             }
         }
 
     fun getCountriesStatsOrderByConfirmed() =
         viewModelScope.launch {
             getCountryStats.getCountriesStatsOrderByConfirmed().collect { result ->
-                result.fold(::handleError, ::handleScreenStateCountriesBarStats)
+                result.fold(
+                    { handleError(it) },
+                    { handleState(state = it, viewType = MenuItemViewType.BarChart) }
+                )
             }
         }
 
@@ -71,7 +68,7 @@ class WorldViewModel(
             getCountryStats.getCountriesAndStatsWithMostConfirmed().collect { result ->
                 result.fold(
                     { handleError(it) },
-                    { handleScreenStateCountriesLineStats(it, WorldStateCountriesStatsLineChartType.MostConfirmed) }
+                    { handleState(state = it, viewType = MenuItemViewType.LineChartMostConfirmed) }
                 )
             }
         }
@@ -81,7 +78,7 @@ class WorldViewModel(
             getCountryStats.getCountriesAndStatsWithMostDeaths().collect { result ->
                 result.fold(
                     { handleError(it) },
-                    { handleScreenStateCountriesLineStats(it, WorldStateCountriesStatsLineChartType.MostDeaths) }
+                    { handleState(state = it, viewType = MenuItemViewType.LineChartMostDeaths) }
                 )
             }
         }
@@ -91,7 +88,7 @@ class WorldViewModel(
             getCountryStats.getCountriesAndStatsWithMostRecovered().collect { result ->
                 result.fold(
                     { handleError(it) },
-                    { handleScreenStateCountriesLineStats(it, WorldStateCountriesStatsLineChartType.MostRecovered) }
+                    { handleState(state = it, viewType = MenuItemViewType.LineChartMostRecovered) }
                 )
             }
         }
@@ -101,53 +98,57 @@ class WorldViewModel(
             getCountryStats.getCountriesAndStatsWithMostOpenCases().collect { result ->
                 result.fold(
                     { handleError(it) },
-                    { handleScreenStateCountriesLineStats(it, WorldStateCountriesStatsLineChartType.MostOpenCases) }
+                    { handleState(state = it, viewType = MenuItemViewType.LineChartMostOpenCases) }
                 )
             }
         }
 
-    private fun handleScreenStateCovidTracker(state: State<CovidTracker>, type: CovidTrackerType) =
-        when (state) {
-            is State.Success ->
-                when (type) {
-                    is CovidTrackerType.Normal ->
-                        _screenState.postValue(ScreenState.Render(
-                            WorldStateScreen.SuccessCovidTracker(state.data.toUI())))
-                    is CovidTrackerType.PieChart ->
-                        _screenState.postValue(ScreenState.Render(
-                            WorldStateScreen.SuccessCountriesStatsPieCharts(state.data.toListChartUI())))
-                }
-            is State.Loading ->
-                _screenState.postValue(ScreenState.Loading)
-    }
-
-    private fun handleScreenStateWorldStats(state: State<List<WorldStats>>) =
-        when (state) {
-            is State.Success ->
-                _screenState.postValue(ScreenState.Render(WorldStateScreen.SuccessWorldStatsBarCharts(
-                    state.data.map { worldStats -> worldStats.toListChartUI() })))
-            is State.Loading ->
-                _screenState.postValue(ScreenState.Loading)
-        }
-
-    private fun handleScreenStateCountriesBarStats(state: State<List<CountryListStats>>) =
-        when (state) {
-            is State.Success ->
-                _screenState.postValue(ScreenState.Render(WorldStateScreen.SuccessCountriesStatsBarCharts(
-                    state.data.map { countryStats -> countryStats.toListChartUI() })))
-            is State.Loading ->
-                _screenState.postValue(ScreenState.Loading)
-        }
-
-    private fun handleScreenStateCountriesLineStats(
-        state: State<List<CountryListStats>>, lineChartType: WorldStateCountriesStatsLineChartType) {
+    override suspend fun <T> handleState(
+        state: State<T>,
+        viewType: MenuItemViewType
+    ) {
         when (state) {
             is State.Success -> {
-                mapWorldLineStats[lineChartType] = state.data.map { countryStats -> countryStats.toListChartUI() }
+                when (state.data) {
+                    is CovidTracker -> {
+                        when (viewType) {
+                            is MenuItemViewType.List ->
+                                _screenState.postValue(ScreenState.Render(
+                                    WorldStateScreen.SuccessCovidTracker(state.data.toUI())))
+                            is MenuItemViewType.PieChart ->
+                                _screenState.postValue(ScreenState.Render(
+                                    WorldStateScreen.SuccessCountriesStatsPieCharts(
+                                        state.data.toListChartUI())))
+                        }
+                    }
+                    is ListWorldStats ->
+                        _screenState.postValue(ScreenState.Render(
+                            WorldStateScreen.SuccessWorldStatsBarCharts(
+                                state.data.worldStats.map { worldStats -> worldStats.toListChartUI() })))
+                    is ListCountryStats -> {
+                        when (viewType) {
+                            is MenuItemViewType.BarChart -> {
+                                _screenState.postValue(ScreenState.Render(
+                                    WorldStateScreen.SuccessCountriesStatsBarCharts(
+                                        state.data.countriesStats.map { countryStats ->
+                                            countryStats.toListChartUI() }
+                                    )))
+                            }
+                            is MenuItemViewType.LineChartMostConfirmed,
+                               MenuItemViewType.LineChartMostDeaths,
+                               MenuItemViewType.LineChartMostOpenCases,
+                               MenuItemViewType.LineChartMostRecovered -> {
+                                   mapWorldLineStats[viewType] = state.data.countriesStats.map {
+                                           countryStats -> countryStats.toListChartUI()
+                                   }
 
-                if (mapWorldLineStats.size == lineChartTypeSize) {
-                    _screenState.postValue(ScreenState.Render(
-                        WorldStateScreen.SuccessCountriesStatsLineCharts(mapWorldLineStats)))
+                                   if (mapWorldLineStats.size == LINE_CHARTS_VIEW_TYPES) {
+                                       _screenState.postValue(ScreenState.Render(
+                                           WorldStateScreen.SuccessCountriesStatsLineCharts(mapWorldLineStats)))
+                                   }
+                            }
+                        }
+                    }
                 }
             }
             is State.Loading ->
@@ -157,5 +158,9 @@ class WorldViewModel(
 
     private fun handleError(state: StateError<DomainError>) {
 
+    }
+
+    companion object {
+        private const val LINE_CHARTS_VIEW_TYPES = 4
     }
 }

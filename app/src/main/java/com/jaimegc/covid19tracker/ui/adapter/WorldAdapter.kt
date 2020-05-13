@@ -6,20 +6,20 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.jaimegc.covid19tracker.R
-import com.jaimegc.covid19tracker.databinding.ItemWorldTotalBinding
+import com.jaimegc.covid19tracker.databinding.ItemTotalBinding
 import com.jaimegc.covid19tracker.ui.model.WorldStatsUI
 
 class WorldAdapter : ListAdapter<WorldStatsUI, WorldAdapter.WorldViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        WorldViewHolder(ItemWorldTotalBinding.inflate(
+        WorldViewHolder(ItemTotalBinding.inflate(
             LayoutInflater.from(parent.context), parent, false))
 
     override fun onBindViewHolder(holder: WorldViewHolder, position: Int) =
         holder.bind(getItem(position))
 
     class WorldViewHolder(
-        private val binding: ItemWorldTotalBinding
+        private val binding: ItemTotalBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(worldStatsUI: WorldStatsUI) {
             binding.textConfirmed.text = worldStatsUI.stats.confirmed

@@ -1,8 +1,12 @@
 package com.jaimegc.covid19tracker.domain.model
 
 data class CovidTracker(
-    val countriesStats: List<CountryStats>,
+    val countriesStats: List<CountryOneStats>,
     val worldStats: WorldStats
+)
+
+data class ListWorldStats(
+    val worldStats: List<WorldStats>
 )
 
 data class WorldStats(
@@ -11,30 +15,57 @@ data class WorldStats(
     val stats: Stats
 )
 
-data class CountryStats(
-    val id: String,
-    val name: String,
-    val nameEs: String,
-    val code: String,
+data class CountryOneStats(
+    val country: Country,
     val stats: Stats,
     val regionStats: List<RegionStats>? = null
 )
 
-data class CountryListStats(
-    val id: String,
-    val name: String,
-    val nameEs: String,
-    val code: String,
+data class ListCountryStats(
+    val countriesStats: List<CountryStats>
+)
+
+data class ListCountry(
+    val countries: List<Country>
+)
+
+data class ListRegion(
+    val regions: List<Region>
+)
+
+data class CountryStats(
+    val country: Country,
     val stats: List<Stats>
 )
 
-data class RegionStats(
+data class Country(
     val id: String,
     val name: String,
     val nameEs: String,
-    val date: String,
+    val code: String
+)
+
+data class Region(
+    val id: String,
+    val name: String,
+    val nameEs: String
+)
+
+data class SubRegion(
+    val id: String,
+    val name: String,
+    val nameEs: String
+)
+
+data class RegionStats(
+    val region: Region,
     val stats: Stats,
-    val subRegionStats: List<RegionStats>? = null
+    val subRegionStats: List<SubRegionStats>? = null
+)
+
+data class SubRegionStats(
+    val subRegion: SubRegion,
+    val stats: Stats
 )
 
 data class Stats(
@@ -53,5 +84,3 @@ data class Stats(
     val vsYesterdayOpenCases: Double,
     val vsYesterdayRecovered: Double
 )
-
-

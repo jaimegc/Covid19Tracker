@@ -14,10 +14,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.databinding.ItemWorldTotalCountryBinding
 import com.jaimegc.covid19tracker.databinding.ItemWorldTotalCountryExpandedBinding
-import com.jaimegc.covid19tracker.extensions.rotateLeftAnimation
-import com.jaimegc.covid19tracker.extensions.rotateRightAnimation
-import com.jaimegc.covid19tracker.extensions.setEmojiCountry
-import com.jaimegc.covid19tracker.extensions.setTextSizeSp
+import com.jaimegc.covid19tracker.common.extensions.rotateLeftAnimation
+import com.jaimegc.covid19tracker.common.extensions.rotateRightAnimation
+import com.jaimegc.covid19tracker.common.extensions.setEmojiCountry
+import com.jaimegc.covid19tracker.common.extensions.setTextSizeSp
 import com.jaimegc.covid19tracker.ui.model.CountryStatsUI
 
 class WorldCountryAdapter : ListAdapter<CountryStatsUI, WorldCountryAdapter.WorldCountryViewHolder>(DIFF_CALLBACK) {
@@ -40,7 +40,7 @@ class WorldCountryAdapter : ListAdapter<CountryStatsUI, WorldCountryAdapter.Worl
             with (binding) {
                 constraintSetCollapse.clone(itemView.context, R.layout.item_world_total_country)
                 constraintSetExpand.clone(itemView.context, R.layout.item_world_total_country_expanded)
-                textPlace.text = totalStatsUI.name
+                textPlace.text = totalStatsUI.country.name
                 textConfirmed.text = totalStatsUI.stats.confirmed
                 textOpenCases.text = totalStatsUI.stats.openCases
                 textRecovered.text = totalStatsUI.stats.recovered
@@ -55,7 +55,7 @@ class WorldCountryAdapter : ListAdapter<CountryStatsUI, WorldCountryAdapter.Worl
                 binding.textNewDeaths.text = itemView.context.getString(R.string.text_trending,
                     totalStatsUI.stats.newDeaths, (totalStatsUI.stats.vsYesterdayDeaths))
 
-                binding.icCountryEmoji.setEmojiCountry(totalStatsUI.code)
+                binding.icCountryEmoji.setEmojiCountry(totalStatsUI.country.code)
 
                 if (totalStatsUI.isExpanded.not()) {
                     layoutCard = layout
@@ -98,7 +98,7 @@ class WorldCountryAdapter : ListAdapter<CountryStatsUI, WorldCountryAdapter.Worl
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<CountryStatsUI>() {
             override fun areItemsTheSame(oldItem: CountryStatsUI, newItem: CountryStatsUI): Boolean =
-                oldItem.name == newItem.name && oldItem.isExpanded == newItem.isExpanded
+                oldItem.country.name == newItem.country.name && oldItem.isExpanded == newItem.isExpanded
 
             override fun areContentsTheSame(oldItem: CountryStatsUI, newItem: CountryStatsUI): Boolean =
                 oldItem == newItem
