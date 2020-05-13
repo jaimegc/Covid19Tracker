@@ -1,8 +1,8 @@
 package com.jaimegc.covid19tracker.ui.model
 
 import com.jaimegc.covid19tracker.domain.model.*
-import com.jaimegc.covid19tracker.extensions.formatDecimals
-import com.jaimegc.covid19tracker.extensions.formatValue
+import com.jaimegc.covid19tracker.common.extensions.formatDecimals
+import com.jaimegc.covid19tracker.common.extensions.formatValue
 
 fun CovidTracker.toUI(): CovidTrackerUI =
     CovidTrackerUI(
@@ -121,6 +121,13 @@ fun Country.toUI(): CountryUI =
         name = name,
         nameEs = nameEs,
         code = code
+    )
+
+fun Region.toPlaceUI(): PlaceUI =
+    PlaceUI(
+        id = id,
+        name = name,
+        nameEs = nameEs
     )
 
 fun CountryOneStats.toPlaceUI(): PlaceStatsUI =

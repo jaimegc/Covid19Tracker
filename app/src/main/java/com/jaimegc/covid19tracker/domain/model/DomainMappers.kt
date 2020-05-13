@@ -89,6 +89,11 @@ fun List<CountryEntity>.toDomain(): ListCountry =
         map { entity -> entity.toDomain() }
     )
 
+fun List<RegionEntity>.toDomain(): ListRegion =
+    ListRegion(
+        map { entity -> entity.toDomain() }
+    )
+
 fun List<CountryAndOneStatsPojo>.toPojoOrdered(): List<CountryAndStatsPojo> =
     this.groupBy { it.country }.let { mapCountries ->
         val listCountryAndStatsPojo = mutableListOf<CountryAndStatsPojo>()
@@ -130,6 +135,13 @@ fun CountryEntity.toDomain(): Country =
         name = name,
         nameEs = nameEs,
         code = code
+    )
+
+fun RegionEntity.toDomain(): Region =
+    Region(
+        id = id,
+        name = name,
+        nameEs = nameEs
     )
 
 fun StatsEmbedded.toDomain(date: String): Stats =
@@ -343,6 +355,13 @@ fun <T, R> mapEntityValid(parse: Flow<T?>, mapper: (T) -> Pair<Boolean, R>): Flo
                 }
             } ?: Either.left(DomainError.DatabaseEmptyData)
         }
+    } catch (exception: Exception) {
+        flow { Either.left(DomainError.DatabaseDomainError(exception.toString())) }
+    }
+
+fun <T, R> mapEntity(flow: Flow<T>, mapper: (T) -> R): Flow<Either<DomainError, R>> =
+    try {
+        flow.map { Either.right(mapper(it)) }
     } catch (exception: Exception) {
         flow { Either.left(DomainError.DatabaseDomainError(exception.toString())) }
     }

@@ -2,7 +2,7 @@ package com.jaimegc.covid19tracker.utils
 
 import android.content.Context
 import com.jaimegc.covid19tracker.data.room.Covid19TrackerDatabase
-import com.jaimegc.covid19tracker.extensions.Coroutines
+import com.jaimegc.covid19tracker.common.extensions.Coroutines
 import java.io.*
 import java.util.zip.ZipInputStream
 
