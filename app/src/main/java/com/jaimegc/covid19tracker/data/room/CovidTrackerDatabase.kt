@@ -7,9 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import com.jaimegc.covid19tracker.data.room.daos.CountryStatsDao
-import com.jaimegc.covid19tracker.data.room.daos.CovidTrackerDao
-import com.jaimegc.covid19tracker.data.room.daos.WorldStatsDao
+import com.jaimegc.covid19tracker.data.room.daos.*
 import com.jaimegc.covid19tracker.data.room.entities.*
 import com.jaimegc.covid19tracker.data.room.views.CountryAndStatsDV
 import com.jaimegc.covid19tracker.data.room.views.RegionAndStatsDV
@@ -26,6 +24,8 @@ abstract class Covid19TrackerDatabase : RoomDatabase() {
     abstract fun covidTrackerDao(): CovidTrackerDao
     abstract fun countryStatsDao(): CountryStatsDao
     abstract fun worldStatsDao(): WorldStatsDao
+    abstract fun countryDao(): CountryDao
+    abstract fun regionDao(): RegionDao
 
     companion object {
         const val version = 1

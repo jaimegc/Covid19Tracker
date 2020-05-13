@@ -22,7 +22,7 @@ class CovidTrackerRepository(
             override suspend fun fetchFromRemote() {
                 remote.getCovidTrackerByDate(date).fold(::Left) { covidTracker -> local.save(covidTracker) }
             }
-        }.asFlow()
+        }.asFlow(loading = true)
     }
 
     suspend fun getWorldAllStats(): Flow<Either<StateError<DomainError>, State<ListWorldStats>>> {
@@ -71,6 +71,13 @@ class CovidTrackerRepository(
         return object : BaseRepository<DomainError, ListCountry> {
             override suspend fun fetchFromLocal(): Flow<Either<DomainError, ListCountry>> =
                 local.getCountries()
+        }.asFlow(loading = true)
+    }
+
+    suspend fun getRegionsByCountry(idCountry: String): Flow<Either<StateError<DomainError>, State<ListRegion>>> {
+        return object : BaseRepository<DomainError, ListRegion> {
+            override suspend fun fetchFromLocal(): Flow<Either<DomainError, ListRegion>> =
+                local.getRegionsByCountry(idCountry)
         }.asFlow()
     }
 

@@ -4,13 +4,16 @@ import arrow.core.Either
 import com.jaimegc.covid19tracker.domain.model.DomainError
 import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.domain.states.StateError
-import com.jaimegc.covid19tracker.extensions.Coroutines
+import com.jaimegc.covid19tracker.common.extensions.Coroutines
 import kotlinx.coroutines.flow.*
 
 interface BaseRepository<E: DomainError, T> {
 
-    fun asFlow(policy: CachePolicy = CachePolicy.LocalOnly) = flow<Either<StateError<E>, State<T>>> {
-        emit(Either.right(State.Loading()))
+    fun asFlow(
+        policy: CachePolicy = CachePolicy.LocalOnly,
+        loading: Boolean = false
+    ) = flow<Either<StateError<E>, State<T>>> {
+        if (loading || policy == CachePolicy.LocalFirst) emit(Either.right(State.Loading()))
 
         val datasources = mutableListOf<Datasource>()
 
