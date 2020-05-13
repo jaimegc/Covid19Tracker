@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/ic_expand1"
+        android:id="@+id/ic_expand_country"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:src="@drawable/ic_expand_collapse"
@@ -31,15 +31,42 @@
         app:layout_constraintTop_toTopOf="@+id/country_spinner" />
 
     <Spinner
+        android:id="@+id/region_spinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/background_card_place"
+        android:minHeight="30dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/ic_expand_region"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_expand_collapse"
+        android:tint="@color/dark_grey"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/region_spinner"
+        app:layout_constraintEnd_toEndOf="@+id/region_spinner"
+        app:layout_constraintTop_toTopOf="@+id/region_spinner"
+        tools:visibility="visible" />
+
+    <Spinner
         android:id="@+id/country_region"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
-        android:visibility="gone"
         android:background="@drawable/background_card_place"
         android:minHeight="30dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -52,7 +79,7 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/country_spinner"
+        app:layout_constraintTop_toBottomOf="@+id/barrier"
         tools:listitem="@layout/item_total" />
 
     <include
@@ -72,5 +99,12 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="country_spinner,region_spinner"
+        app:barrierDirection="bottom" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
