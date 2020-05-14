@@ -39,6 +39,16 @@ class CovidTrackerRepository(
         }.asFlow()
     }
 
+    suspend fun getRegionsStatsOrderByConfirmed(
+        idCountry: String,
+        date: String
+    ): Flow<Either<StateError<DomainError>, State<ListRegionStats>>> {
+        return object : BaseRepository<DomainError, ListRegionStats> {
+            override suspend fun fetchFromLocal(): Flow<Either<DomainError, ListRegionStats>> =
+                local.getRegionsStatsOrderByConfirmed(idCountry, date)
+        }.asFlow()
+    }
+
     suspend fun getCountriesAndStatsWithMostConfirmed(): Flow<Either<StateError<DomainError>, State<ListCountryStats>>> {
         return object : BaseRepository<DomainError, ListCountryStats> {
             override suspend fun fetchFromLocal(): Flow<Either<DomainError, ListCountryStats>> =

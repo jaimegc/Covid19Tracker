@@ -14,25 +14,24 @@ import androidx.transition.TransitionManager
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.common.extensions.rotateLeftAnimation
 import com.jaimegc.covid19tracker.common.extensions.rotateRightAnimation
-import com.jaimegc.covid19tracker.common.extensions.setEmojiCountry
 import com.jaimegc.covid19tracker.common.extensions.setTextSizeSp
 import com.jaimegc.covid19tracker.databinding.ItemPlaceTotalBinding
 import com.jaimegc.covid19tracker.databinding.ItemPlaceTotalExpandedBinding
-import com.jaimegc.covid19tracker.ui.model.CountryStatsUI
+import com.jaimegc.covid19tracker.ui.model.PlaceStatsUI
 
-class WorldCountryAdapter : ListAdapter<CountryStatsUI, WorldCountryAdapter.WorldCountryViewHolder>(DIFF_CALLBACK) {
+class PlaceAdapter : ListAdapter<PlaceStatsUI, PlaceAdapter.PlaceStatsViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        WorldCountryViewHolder(ItemPlaceTotalBinding.inflate(
+        PlaceStatsViewHolder(ItemPlaceTotalBinding.inflate(
             LayoutInflater.from(parent.context), parent, false))
 
-    override fun onBindViewHolder(holderCountry: WorldCountryViewHolder, position: Int) =
+    override fun onBindViewHolder(holderCountry: PlaceStatsViewHolder, position: Int) =
         holderCountry.bind(getItem(position))
 
-    class WorldCountryViewHolder(
+    class PlaceStatsViewHolder(
         private val binding: ItemPlaceTotalBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(totalStatsUI: CountryStatsUI) {
+        fun bind(placeStatsUI: PlaceStatsUI) {
             val constraintSetCollapse = ConstraintSet()
             val constraintSetExpand = ConstraintSet()
             lateinit var layoutCard: ConstraintLayout
@@ -40,24 +39,23 @@ class WorldCountryAdapter : ListAdapter<CountryStatsUI, WorldCountryAdapter.Worl
             with (binding) {
                 constraintSetCollapse.clone(itemView.context, R.layout.item_place_total)
                 constraintSetExpand.clone(itemView.context, R.layout.item_place_total_expanded)
-                textPlace.text = totalStatsUI.country.name
-                textConfirmed.text = totalStatsUI.stats.confirmed
-                textOpenCases.text = totalStatsUI.stats.openCases
-                textRecovered.text = totalStatsUI.stats.recovered
-                textDeaths.text = totalStatsUI.stats.deaths
+                textPlace.text = placeStatsUI.name
+                textConfirmed.text = placeStatsUI.stats.confirmed
+                textOpenCases.text = placeStatsUI.stats.openCases
+                textRecovered.text = placeStatsUI.stats.recovered
+                textDeaths.text = placeStatsUI.stats.deaths
 
                 binding.textNewConfirmed.text = itemView.context.getString(R.string.text_trending,
-                    totalStatsUI.stats.newConfirmed, (totalStatsUI.stats.vsYesterdayConfirmed))
+                    placeStatsUI.stats.newConfirmed, (placeStatsUI.stats.vsYesterdayConfirmed))
                 binding.textNewOpenCases.text = itemView.context.getString(R.string.text_trending,
-                    totalStatsUI.stats.newOpenCases, (totalStatsUI.stats.vsYesterdayOpenCases))
+                    placeStatsUI.stats.newOpenCases, (placeStatsUI.stats.vsYesterdayOpenCases))
                 binding.textNewRecovered.text = itemView.context.getString(R.string.text_trending,
-                    totalStatsUI.stats.newRecovered, (totalStatsUI.stats.vsYesterdayRecovered))
+                    placeStatsUI.stats.newRecovered, (placeStatsUI.stats.vsYesterdayRecovered))
                 binding.textNewDeaths.text = itemView.context.getString(R.string.text_trending,
-                    totalStatsUI.stats.newDeaths, (totalStatsUI.stats.vsYesterdayDeaths))
+                    placeStatsUI.stats.newDeaths, (placeStatsUI.stats.vsYesterdayDeaths))
+                binding.icCountryEmoji.text = ""
 
-                binding.icCountryEmoji.setEmojiCountry(totalStatsUI.country.code)
-
-                if (totalStatsUI.isExpanded.not()) {
+                if (placeStatsUI.isExpanded.not()) {
                     layoutCard = layout
                     constraintSetCollapse.applyTo(layoutCard)
                     icVirus.setImageResource(R.drawable.ic_virus)
@@ -74,7 +72,7 @@ class WorldCountryAdapter : ListAdapter<CountryStatsUI, WorldCountryAdapter.Worl
                     changeBounds.interpolator = OvershootInterpolator()
                     TransitionManager.beginDelayedTransition(layoutCard, changeBounds)
 
-                    if (totalStatsUI.isExpanded.not()) {
+                    if (placeStatsUI.isExpanded.not()) {
                         icExpandCollapse.rotateLeftAnimation()
                         constraintSetExpand.applyTo(layoutCard)
                         applyTextSizes(textConfirmed, textOpenCases, textRecovered, textDeaths,
@@ -86,7 +84,7 @@ class WorldCountryAdapter : ListAdapter<CountryStatsUI, WorldCountryAdapter.Worl
                             size = TEXT_SIZE_COLLAPSED)
                     }
 
-                    totalStatsUI.isExpanded = totalStatsUI.isExpanded.not()
+                    placeStatsUI.isExpanded = placeStatsUI.isExpanded.not()
                 }
             }
         }
@@ -96,11 +94,11 @@ class WorldCountryAdapter : ListAdapter<CountryStatsUI, WorldCountryAdapter.Worl
     }
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<CountryStatsUI>() {
-            override fun areItemsTheSame(oldItem: CountryStatsUI, newItem: CountryStatsUI): Boolean =
-                oldItem.country.name == newItem.country.name && oldItem.isExpanded == newItem.isExpanded
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<PlaceStatsUI>() {
+            override fun areItemsTheSame(oldItem: PlaceStatsUI, newItem: PlaceStatsUI): Boolean =
+                oldItem.name == newItem.name && oldItem.isExpanded == newItem.isExpanded
 
-            override fun areContentsTheSame(oldItem: CountryStatsUI, newItem: CountryStatsUI): Boolean =
+            override fun areContentsTheSame(oldItem: PlaceStatsUI, newItem: PlaceStatsUI): Boolean =
                 oldItem == newItem
         }
 

@@ -27,7 +27,8 @@ class LocalCovidTrackerDatasource(
     private val worldStatsDao: WorldStatsDao,
     private val countryStatsDao: CountryStatsDao,
     private val countryDao: CountryDao,
-    private val regionDao: RegionDao
+    private val regionDao: RegionDao,
+    private val regionStatsDao: RegionStatsDao
 ) {
 
     suspend fun getCovidTrackerByDate(date: String): Flow<Either<DomainError, CovidTracker>> =
@@ -41,6 +42,13 @@ class LocalCovidTrackerDatasource(
     suspend fun getCountriesStatsOrderByConfirmed(): Flow<Either<DomainError, ListCountryStats>> =
         mapEntityValid(countryStatsDao.getCountriesAndStatsOrderByConfirmed()) { countriesListStats ->
             Pair(countriesListStats.isNotEmpty(), countriesListStats.toDomain()) }
+
+    suspend fun getRegionsStatsOrderByConfirmed(
+        idCountry: String,
+        date: String
+    ): Flow<Either<DomainError, ListRegionStats>> =
+        mapEntityValid(regionStatsDao.getRegionAndStatsByCountryAndDateOrderByConfirmed(idCountry, date)) {
+            regionsListStats ->Pair(regionsListStats.isNotEmpty(), regionsListStats.toDomain(date)) }
 
     suspend fun getCountriesAndStatsWithMostConfirmed(): Flow<Either<DomainError, ListCountryStats>> =
         mapEntityValid(countryStatsDao.getCountriesAndStatsWithMostConfirmed()) { countriesListOneStats ->

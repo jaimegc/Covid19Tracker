@@ -120,6 +120,10 @@ class WorldFragment : Fragment(R.layout.fragment_world),
             R.id.bar_chart_view -> {
                 menu.enableItem(MENU_ITEM_BAR_CHART)
                 mergeAdapter.removeAllAdapters()
+                /**
+                 *  Two different requests.
+                 *  In CountryFragment you can see it in one request.
+                 */
                 viewModel.getWorldAllStats()
                 viewModel.getCountriesStatsOrderByConfirmed()
                 true

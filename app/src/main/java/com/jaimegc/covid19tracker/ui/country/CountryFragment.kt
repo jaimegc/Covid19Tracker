@@ -14,6 +14,7 @@ import com.jaimegc.covid19tracker.databinding.FragmentCountryBinding
 import com.jaimegc.covid19tracker.databinding.LoadingBinding
 import com.jaimegc.covid19tracker.common.extensions.*
 import com.jaimegc.covid19tracker.ui.adapter.CountrySpinnerAdapter
+import com.jaimegc.covid19tracker.ui.adapter.PlaceAdapter
 import com.jaimegc.covid19tracker.ui.adapter.PlaceTotalAdapter
 import com.jaimegc.covid19tracker.ui.adapter.PlaceSpinnerAdapter
 import com.jaimegc.covid19tracker.ui.states.BaseViewScreenState
@@ -26,6 +27,7 @@ class CountryFragment : Fragment(R.layout.fragment_country),
 
     override val viewModel: CountryViewModel by viewModel()
     private val placeTotalAdapter = PlaceTotalAdapter()
+    private val placeAdapter = PlaceAdapter()
     private val mergeAdapter = MergeAdapter()
 
     private lateinit var binding: FragmentCountryBinding
@@ -68,6 +70,7 @@ class CountryFragment : Fragment(R.layout.fragment_country),
                     countrySpinnerAdapter.getCountryId(pos).let { countryId ->
                         viewModel.getRegionsByCountry(countryId)
                         viewModel.getCountryAndStatsByIdDate(countryId)
+                        viewModel.getRegionsStatsOrderByConfirmed(countryId)
                     }
                 }
             }
@@ -89,6 +92,10 @@ class CountryFragment : Fragment(R.layout.fragment_country),
             is PlaceStateScreen.SuccessCountryStats -> {
                 mergeAdapter.addAdapter(placeTotalAdapter)
                 placeTotalAdapter.submitList(listOf(renderState.data))
+            }
+            is PlaceStateScreen.SuccessRegionStats -> {
+                mergeAdapter.addAdapter(placeAdapter)
+                placeAdapter.submitList(renderState.data)
             }
         }
     }

@@ -138,3 +138,13 @@ fun CountryOneStats.toPlaceUI(): PlaceStatsUI =
         code = country.code,
         stats = stats.toUI()
     )
+
+fun ListRegionStats.toPlaceUI(): List<PlaceStatsUI> =
+    regionStats.map { regStats ->
+        PlaceStatsUI(
+            id = regStats.region.id,
+            name = regStats.region.name,
+            nameEs = regStats.region.nameEs,
+            stats = regStats.stats.toUI()
+        )
+    }

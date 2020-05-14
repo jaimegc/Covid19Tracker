@@ -2,14 +2,13 @@ package com.jaimegc.covid19tracker.ui.country
 
 import androidx.lifecycle.*
 import com.jaimegc.covid19tracker.common.QueueLiveData
-import com.jaimegc.covid19tracker.domain.model.CountryOneStats
-import com.jaimegc.covid19tracker.domain.model.DomainError
-import com.jaimegc.covid19tracker.domain.model.ListCountry
-import com.jaimegc.covid19tracker.domain.model.ListRegion
+import com.jaimegc.covid19tracker.domain.model.*
 import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.domain.states.StateError
 import com.jaimegc.covid19tracker.domain.usecase.GetCountry
 import com.jaimegc.covid19tracker.domain.usecase.GetCountryStats
+import com.jaimegc.covid19tracker.domain.usecase.GetRegion
+import com.jaimegc.covid19tracker.domain.usecase.GetRegionStats
 import com.jaimegc.covid19tracker.ui.model.toPlaceUI
 import com.jaimegc.covid19tracker.ui.model.toUI
 import com.jaimegc.covid19tracker.ui.states.PlaceStateScreen
@@ -21,7 +20,9 @@ import kotlinx.coroutines.launch
 
 class CountryViewModel(
     private val getCountry: GetCountry,
-    private val getCountryStats: GetCountryStats
+    private val getCountryStats: GetCountryStats,
+    private val getRegion: GetRegion,
+    private val getRegionStats: GetRegionStats
 ) : BaseScreenStateMenuViewModel<PlaceStateScreen>() {
 
     override val _screenState = QueueLiveData<ScreenState<PlaceStateScreen>>()
@@ -39,7 +40,7 @@ class CountryViewModel(
 
     fun getRegionsByCountry(idCountry: String) =
         viewModelScope.launch {
-            getCountry.getRegionsByCountry(idCountry).collect { result ->
+            getRegion.getRegionsByCountry(idCountry).collect { result ->
                 result.fold(
                     { handleError(it) },
                     { handleState(state = it) }
@@ -53,6 +54,16 @@ class CountryViewModel(
                 result.fold(
                     { handleError(it) },
                     { handleState(state = it) }
+                )
+            }
+        }
+
+    fun getRegionsStatsOrderByConfirmed(idCountry: String) =
+        viewModelScope.launch {
+            getRegionStats.getRegionsStatsOrderByConfirmed(idCountry, "2020-05-06").collect { result ->
+                result.fold(
+                    { handleError(it) },
+                    { handleState(state = it, viewType = MenuItemViewType.BarChart) }
                 )
             }
         }
@@ -72,6 +83,9 @@ class CountryViewModel(
                             state.data.regions.map { region -> region.toPlaceUI() })))
                     is CountryOneStats ->
                         _screenState.postValue(ScreenState.Render(PlaceStateScreen.SuccessCountryStats(
+                            state.data.toPlaceUI())))
+                    is ListRegionStats ->
+                        _screenState.postValue(ScreenState.Render(PlaceStateScreen.SuccessRegionStats(
                             state.data.toPlaceUI())))
                 }
             }

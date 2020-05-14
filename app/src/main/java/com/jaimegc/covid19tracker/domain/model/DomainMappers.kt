@@ -10,6 +10,7 @@ import com.jaimegc.covid19tracker.data.room.entities.*
 import com.jaimegc.covid19tracker.data.room.pojos.CountryAndOneStatsPojo
 import com.jaimegc.covid19tracker.data.room.pojos.CountryAndStatsPojo
 import com.jaimegc.covid19tracker.data.room.pojos.WorldAndCountriesStatsPojo
+import com.jaimegc.covid19tracker.data.room.views.RegionAndStatsDV
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -128,6 +129,27 @@ fun WorldStatsEntity.toDomain(): WorldStats =
 
 fun List<CountryAndStatsPojo>.toDomain(): ListCountryStats =
     ListCountryStats(map { entitiy -> entitiy.toDomain() })
+
+fun List<RegionAndStatsDV>.toDomain(date: String): ListRegionStats =
+    ListRegionStats(map { entitiy ->
+        RegionStats(
+            region = entitiy.region!!.toDomain(),
+            stats = entitiy.regionStats!!.toDomain(date)
+        )
+    })
+
+fun RegionStatsEntity.toDomain2(regionEntity: RegionEntity, date: String): RegionStats =
+    RegionStats(
+        region = Region(
+            id = regionEntity.id,
+            name = regionEntity.name,
+            nameEs = regionEntity.nameEs
+        ),
+        stats = stats.toDomain(date)
+    )
+
+fun RegionStatsEntity.toDomain(date: String): Stats =
+    stats.toDomain(date)
 
 fun CountryEntity.toDomain(): Country =
     Country(

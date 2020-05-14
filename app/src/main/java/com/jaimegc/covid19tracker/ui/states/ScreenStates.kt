@@ -32,4 +32,5 @@ sealed class PlaceStateScreen : BaseScreenState() {
     class SuccessSpinnerCountries(val data: List<CountryUI>) : PlaceStateScreen()
     class SuccessSpinnerRegions(val data: List<PlaceUI>) : PlaceStateScreen()
     class SuccessCountryStats(val data: PlaceStatsUI) : PlaceStateScreen()
+    class SuccessRegionStats(val data: List<PlaceStatsUI>) : PlaceStateScreen()
 }

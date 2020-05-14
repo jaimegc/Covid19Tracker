@@ -191,5 +191,8 @@ abstract class RegionStatsDao {
         WHERE r.id_country_fk = :idCountry AND s.date = :date
         ORDER BY s.confirmed DESC
         """)
-    abstract fun getRegionAndStatsByCountryAndDate(idCountry: String, date: String): Flow<List<RegionAndStatsDV>>
+    abstract fun getRegionAndStatsByCountryAndDateOrderByConfirmed(
+        idCountry: String,
+        date: String
+    ): Flow<List<RegionAndStatsDV>>
 }

@@ -18,4 +18,3 @@ object Coroutines {
     fun unconfined(work: suspend(() -> Unit)) =
         CoroutineScope(Dispatchers.Unconfined).launch { work() }
 }
-

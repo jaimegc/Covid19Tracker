@@ -55,6 +55,10 @@ class WorldViewModel(
             }
         }
 
+    /**
+     *  Waiting for all requests manually.
+     *  In CountryViewModel you can see it using combine.
+     */
     fun getWorldMostStats() {
         mapWorldLineStats.clear()
         getCountriesAndStatsWithMostConfirmed()
@@ -127,13 +131,11 @@ class WorldViewModel(
                                 state.data.worldStats.map { worldStats -> worldStats.toListChartUI() })))
                     is ListCountryStats -> {
                         when (viewType) {
-                            is MenuItemViewType.BarChart -> {
+                            is MenuItemViewType.BarChart ->
                                 _screenState.postValue(ScreenState.Render(
                                     WorldStateScreen.SuccessCountriesStatsBarCharts(
                                         state.data.countriesStats.map { countryStats ->
-                                            countryStats.toListChartUI() }
-                                    )))
-                            }
+                                            countryStats.toListChartUI() })))
                             is MenuItemViewType.LineChartMostConfirmed,
                                MenuItemViewType.LineChartMostDeaths,
                                MenuItemViewType.LineChartMostOpenCases,
