@@ -16,6 +16,7 @@ import com.jaimegc.covid19tracker.ui.states.MenuItemViewType
 import com.jaimegc.covid19tracker.ui.states.ScreenState
 import com.jaimegc.covid19tracker.ui.viewmodel.BaseScreenStateMenuViewModel
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 class CountryViewModel(
@@ -38,6 +39,25 @@ class CountryViewModel(
             }
         }
 
+    fun getCountriesAndRegionsStatsByConfirmed(idCountry: String) =
+        viewModelScope.launch {
+            val countryAndStatsByIdDate =
+                getCountryStats.getCountryAndStatsByIdDate(idCountry, "2020-05-06")
+            val regionsStatsOrderByConfirmed =
+                getRegionStats.getRegionsStatsOrderByConfirmed(idCountry, "2020-05-06")
+
+            countryAndStatsByIdDate.combine(regionsStatsOrderByConfirmed) { countries, regions ->
+                listOf(countries, regions)
+            }.collect { results ->
+                results.map { result ->
+                    result.fold(
+                        { handleError(it) },
+                        { handleState(state = it) }
+                    )
+                }
+            }
+        }
+
     fun getRegionsByCountry(idCountry: String) =
         viewModelScope.launch {
             getRegion.getRegionsByCountry(idCountry).collect { result ->
@@ -48,19 +68,26 @@ class CountryViewModel(
             }
         }
 
-    fun getCountryAndStatsByIdDate(idCountry: String) =
+    fun getBarChartStats(idCountry: String) =
         viewModelScope.launch {
-            getCountryStats.getCountryAndStatsByIdDate(idCountry, "2020-05-06").collect { result ->
-                result.fold(
-                    { handleError(it) },
-                    { handleState(state = it) }
-                )
+            val countryStats = getCountryStats.getCountryAllStats(idCountry)
+            val regionStats = getRegionStats.getRegionsAllStatsOrderByConfirmed(idCountry)
+
+            countryStats.combine(regionStats) { countries, regions ->
+                listOf(countries, regions)
+            }.collect { results ->
+                results.map { result ->
+                    result.fold(
+                        { handleError(it) },
+                        { handleState(state = it) }
+                    )
+                }
             }
         }
 
-    fun getRegionsStatsOrderByConfirmed(idCountry: String) =
+    fun getCountriesStatsOrderByConfirmed() =
         viewModelScope.launch {
-            getRegionStats.getRegionsStatsOrderByConfirmed(idCountry, "2020-05-06").collect { result ->
+            getCountryStats.getCountriesStatsOrderByConfirmed().collect { result ->
                 result.fold(
                     { handleError(it) },
                     { handleState(state = it, viewType = MenuItemViewType.BarChart) }
@@ -82,11 +109,18 @@ class CountryViewModel(
                         _screenState.postValue(ScreenState.Render(PlaceStateScreen.SuccessSpinnerRegions(
                             state.data.regions.map { region -> region.toPlaceUI() })))
                     is CountryOneStats ->
-                        _screenState.postValue(ScreenState.Render(PlaceStateScreen.SuccessCountryStats(
+                        _screenState.postValue(ScreenState.Render(PlaceStateScreen.SuccessCountryAndStats(
                             state.data.toPlaceUI())))
                     is ListRegionStats ->
                         _screenState.postValue(ScreenState.Render(PlaceStateScreen.SuccessRegionStats(
                             state.data.toPlaceUI())))
+                    is ListCountryStats ->
+                        _screenState.postValue(ScreenState.Render(
+                            PlaceStateScreen.SuccessPlaceTotalStatsBarChart(state.data.toPlaceUI())))
+                    is ListRegionAndStats -> {
+                        _screenState.postValue(ScreenState.Render(
+                            PlaceStateScreen.SuccessPlaceStatsBarChart(state.data.toPlaceUI())))
+                    }
                 }
             }
             is State.Loading ->

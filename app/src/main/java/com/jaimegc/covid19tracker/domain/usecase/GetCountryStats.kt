@@ -4,6 +4,7 @@ import arrow.core.Either
 import com.jaimegc.covid19tracker.data.repository.CovidTrackerRepository
 import com.jaimegc.covid19tracker.domain.model.CountryOneStats
 import com.jaimegc.covid19tracker.domain.model.DomainError
+import com.jaimegc.covid19tracker.domain.model.ListCountryAndStats
 import com.jaimegc.covid19tracker.domain.model.ListCountryStats
 import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.domain.states.StateError
@@ -13,24 +14,29 @@ class GetCountryStats(
     private val repository: CovidTrackerRepository
 ) {
 
-    suspend fun getCountriesStatsOrderByConfirmed(
+    suspend fun getCountryAllStats(
+        idCountry: String
     ): Flow<Either<StateError<DomainError>, State<ListCountryStats>>> =
+        repository.getCountryAllStats(idCountry)
+
+    suspend fun getCountriesStatsOrderByConfirmed(
+    ): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
         repository.getCountriesStatsOrderByConfirmed()
 
     suspend fun getCountriesAndStatsWithMostConfirmed(
-    ): Flow<Either<StateError<DomainError>, State<ListCountryStats>>> =
+    ): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
         repository.getCountriesAndStatsWithMostConfirmed()
 
     suspend fun getCountriesAndStatsWithMostDeaths(
-    ): Flow<Either<StateError<DomainError>, State<ListCountryStats>>> =
+    ): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
         repository.getCountriesAndStatsWithMostDeaths()
 
     suspend fun getCountriesAndStatsWithMostRecovered(
-    ): Flow<Either<StateError<DomainError>, State<ListCountryStats>>> =
+    ): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
         repository.getCountriesAndStatsWithMostRecovered()
 
     suspend fun getCountriesAndStatsWithMostOpenCases(
-    ): Flow<Either<StateError<DomainError>, State<ListCountryStats>>> =
+    ): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
         repository.getCountriesAndStatsWithMostOpenCases()
 
     suspend fun getCountryAndStatsByIdDate(

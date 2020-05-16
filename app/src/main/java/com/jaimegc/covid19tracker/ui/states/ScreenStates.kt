@@ -31,6 +31,8 @@ sealed class MenuItemViewType {
 sealed class PlaceStateScreen : BaseScreenState() {
     class SuccessSpinnerCountries(val data: List<CountryUI>) : PlaceStateScreen()
     class SuccessSpinnerRegions(val data: List<PlaceUI>) : PlaceStateScreen()
-    class SuccessCountryStats(val data: PlaceStatsUI) : PlaceStateScreen()
+    class SuccessCountryAndStats(val data: PlaceStatsUI) : PlaceStateScreen()
     class SuccessRegionStats(val data: List<PlaceStatsUI>) : PlaceStateScreen()
+    class SuccessPlaceTotalStatsBarChart(val data: List<StatsChartUI>) : PlaceStateScreen()
+    class SuccessPlaceStatsBarChart(val data: List<PlaceListStatsChartUI>) : PlaceStateScreen()
 }

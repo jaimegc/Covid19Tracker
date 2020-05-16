@@ -129,7 +129,7 @@ class WorldViewModel(
                         _screenState.postValue(ScreenState.Render(
                             WorldStateScreen.SuccessWorldStatsBarCharts(
                                 state.data.worldStats.map { worldStats -> worldStats.toListChartUI() })))
-                    is ListCountryStats -> {
+                    is ListCountryAndStats -> {
                         when (viewType) {
                             is MenuItemViewType.BarChart ->
                                 _screenState.postValue(ScreenState.Render(

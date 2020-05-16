@@ -32,9 +32,16 @@ class CovidTrackerRepository(
         }.asFlow()
     }
 
-    suspend fun getCountriesStatsOrderByConfirmed(): Flow<Either<StateError<DomainError>, State<ListCountryStats>>> {
+    suspend fun getCountryAllStats(idCountry: String): Flow<Either<StateError<DomainError>, State<ListCountryStats>>> {
         return object : BaseRepository<DomainError, ListCountryStats> {
             override suspend fun fetchFromLocal(): Flow<Either<DomainError, ListCountryStats>> =
+                local.getCountryAllStats(idCountry)
+        }.asFlow()
+    }
+
+    suspend fun getCountriesStatsOrderByConfirmed(): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> {
+        return object : BaseRepository<DomainError, ListCountryAndStats> {
+            override suspend fun fetchFromLocal(): Flow<Either<DomainError, ListCountryAndStats>> =
                 local.getCountriesStatsOrderByConfirmed()
         }.asFlow()
     }
@@ -49,30 +56,39 @@ class CovidTrackerRepository(
         }.asFlow()
     }
 
-    suspend fun getCountriesAndStatsWithMostConfirmed(): Flow<Either<StateError<DomainError>, State<ListCountryStats>>> {
-        return object : BaseRepository<DomainError, ListCountryStats> {
-            override suspend fun fetchFromLocal(): Flow<Either<DomainError, ListCountryStats>> =
+    suspend fun getRegionsAllStatsOrderByConfirmed(
+        idCountry: String
+    ): Flow<Either<StateError<DomainError>, State<ListRegionAndStats>>> {
+        return object : BaseRepository<DomainError, ListRegionAndStats> {
+            override suspend fun fetchFromLocal(): Flow<Either<DomainError, ListRegionAndStats>> =
+                local.getRegionsAllStatsOrderByConfirmed(idCountry)
+        }.asFlow()
+    }
+
+    suspend fun getCountriesAndStatsWithMostConfirmed(): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> {
+        return object : BaseRepository<DomainError, ListCountryAndStats> {
+            override suspend fun fetchFromLocal(): Flow<Either<DomainError, ListCountryAndStats>> =
                 local.getCountriesAndStatsWithMostConfirmed()
         }.asFlow()
     }
 
-    suspend fun getCountriesAndStatsWithMostDeaths(): Flow<Either<StateError<DomainError>, State<ListCountryStats>>> {
-        return object : BaseRepository<DomainError, ListCountryStats> {
-            override suspend fun fetchFromLocal(): Flow<Either<DomainError, ListCountryStats>> =
+    suspend fun getCountriesAndStatsWithMostDeaths(): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> {
+        return object : BaseRepository<DomainError, ListCountryAndStats> {
+            override suspend fun fetchFromLocal(): Flow<Either<DomainError, ListCountryAndStats>> =
                 local.getCountriesAndStatsWithMostDeaths()
         }.asFlow()
     }
 
-    suspend fun getCountriesAndStatsWithMostRecovered(): Flow<Either<StateError<DomainError>, State<ListCountryStats>>> {
-        return object : BaseRepository<DomainError, ListCountryStats> {
-            override suspend fun fetchFromLocal(): Flow<Either<DomainError, ListCountryStats>> =
+    suspend fun getCountriesAndStatsWithMostRecovered(): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> {
+        return object : BaseRepository<DomainError, ListCountryAndStats> {
+            override suspend fun fetchFromLocal(): Flow<Either<DomainError, ListCountryAndStats>> =
                 local.getCountriesAndStatsWithMostRecovered()
         }.asFlow()
     }
 
-    suspend fun getCountriesAndStatsWithMostOpenCases(): Flow<Either<StateError<DomainError>, State<ListCountryStats>>> {
-        return object : BaseRepository<DomainError, ListCountryStats> {
-            override suspend fun fetchFromLocal(): Flow<Either<DomainError, ListCountryStats>> =
+    suspend fun getCountriesAndStatsWithMostOpenCases(): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> {
+        return object : BaseRepository<DomainError, ListCountryAndStats> {
+            override suspend fun fetchFromLocal(): Flow<Either<DomainError, ListCountryAndStats>> =
                 local.getCountriesAndStatsWithMostOpenCases()
         }.asFlow()
     }

@@ -56,6 +56,20 @@ fun Stats.toUI(): StatsUI =
         vsYesterdayRecovered = (vsYesterdayRecovered * 100).formatDecimals()
     )
 
+fun Stats.toChartUI(): StatsChartUI =
+    StatsChartUI(
+        date = date,
+        source = source,
+        confirmed = confirmed.toFloat(),
+        deaths = deaths.toFloat(),
+        newConfirmed = newConfirmed.toFloat(),
+        newDeaths = newDeaths.toFloat(),
+        newOpenCases = newOpenCases.toFloat(),
+        newRecovered = newRecovered.toFloat(),
+        openCases = openCases.toFloat(),
+        recovered = recovered.toFloat()
+    )
+
 fun WorldStats.toListChartUI(): WorldStatsChartUI =
     WorldStatsChartUI(
         date = date,
@@ -74,7 +88,7 @@ fun WorldStats.toListChartUI(): WorldStatsChartUI =
         )
     )
 
-fun CountryStats.toListChartUI(): CountryListStatsChartUI =
+fun CountryAndStats.toListChartUI(): CountryListStatsChartUI =
     CountryListStatsChartUI(
         country = country.toUI(),
         stats = stats.map { statsCountry ->
@@ -146,5 +160,29 @@ fun ListRegionStats.toPlaceUI(): List<PlaceStatsUI> =
             name = regStats.region.name,
             nameEs = regStats.region.nameEs,
             stats = regStats.stats.toUI()
+        )
+    }
+
+fun ListCountryStats.toPlaceUI(): List<StatsChartUI> =
+    countriesStats.map { stats ->
+        StatsChartUI(
+            date = stats.date,
+            source = stats.source,
+            confirmed = stats.confirmed.toFloat(),
+            deaths = stats.deaths.toFloat(),
+            newConfirmed = stats.newConfirmed.toFloat(),
+            newDeaths = stats.newDeaths.toFloat(),
+            newOpenCases = stats.newOpenCases.toFloat(),
+            newRecovered = stats.newRecovered.toFloat(),
+            openCases = stats.openCases.toFloat(),
+            recovered = stats.recovered.toFloat()
+        )
+    }
+
+fun ListRegionAndStats.toPlaceUI(): List<PlaceListStatsChartUI> =
+    regionStats.map { stats ->
+        PlaceListStatsChartUI(
+            place = stats.region.toPlaceUI(),
+            stats = stats.stats.map { place -> place.toChartUI() }
         )
     }

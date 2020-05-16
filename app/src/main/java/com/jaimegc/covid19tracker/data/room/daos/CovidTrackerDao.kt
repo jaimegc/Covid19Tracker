@@ -4,6 +4,7 @@ import androidx.room.*
 import com.jaimegc.covid19tracker.data.room.entities.*
 import com.jaimegc.covid19tracker.data.room.pojos.CountryAndOneStatsPojo
 import com.jaimegc.covid19tracker.data.room.pojos.CountryAndStatsPojo
+import com.jaimegc.covid19tracker.data.room.pojos.RegionAndStatsPojo
 import com.jaimegc.covid19tracker.data.room.pojos.WorldAndCountriesStatsPojo
 import com.jaimegc.covid19tracker.data.room.views.RegionAndStatsDV
 import kotlinx.coroutines.flow.Flow
@@ -75,6 +76,12 @@ abstract class WorldStatsDao {
 
 @Dao
 abstract class CountryStatsDao {
+
+    @Query("SELECT * FROM country_stats ORDER BY date ASC")
+    abstract fun getAll(): Flow<List<CountryStatsEntity>>
+
+    @Query("SELECT * FROM country_stats WHERE id_country_fk = :idCountry ORDER BY date ASC")
+    abstract fun getById(idCountry: String): Flow<List<CountryStatsEntity>>
 
     @Transaction
     @Query("""
@@ -195,4 +202,16 @@ abstract class RegionStatsDao {
         idCountry: String,
         date: String
     ): Flow<List<RegionAndStatsDV>>
+
+    @Transaction
+    @Query("""
+        SELECT * FROM region r
+        LEFT JOIN region_stats s ON r.id = s.id_region_fk
+        WHERE r.id_country_fk = :idCountry
+        GROUP BY r.name
+        ORDER BY s.confirmed DESC
+        """)
+    abstract fun getRegionAndAllStatsByCountryAndDateOrderByConfirmed(
+        idCountry: String
+    ): Flow<List<RegionAndStatsPojo>>
 }

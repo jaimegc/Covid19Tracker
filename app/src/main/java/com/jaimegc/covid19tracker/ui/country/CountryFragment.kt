@@ -13,10 +13,7 @@ import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.databinding.FragmentCountryBinding
 import com.jaimegc.covid19tracker.databinding.LoadingBinding
 import com.jaimegc.covid19tracker.common.extensions.*
-import com.jaimegc.covid19tracker.ui.adapter.CountrySpinnerAdapter
-import com.jaimegc.covid19tracker.ui.adapter.PlaceAdapter
-import com.jaimegc.covid19tracker.ui.adapter.PlaceTotalAdapter
-import com.jaimegc.covid19tracker.ui.adapter.PlaceSpinnerAdapter
+import com.jaimegc.covid19tracker.ui.adapter.*
 import com.jaimegc.covid19tracker.ui.states.BaseViewScreenState
 import com.jaimegc.covid19tracker.ui.states.PlaceStateScreen
 import com.jaimegc.covid19tracker.ui.states.ScreenState
@@ -28,6 +25,8 @@ class CountryFragment : Fragment(R.layout.fragment_country),
     override val viewModel: CountryViewModel by viewModel()
     private val placeTotalAdapter = PlaceTotalAdapter()
     private val placeAdapter = PlaceAdapter()
+    private val placeTotalBarChartAdapter = PlaceTotalBarChartAdapter()
+    private val placeBarChartAdapter = PlaceBarChartAdapter()
     private val mergeAdapter = MergeAdapter()
 
     private lateinit var binding: FragmentCountryBinding
@@ -67,10 +66,9 @@ class CountryFragment : Fragment(R.layout.fragment_country),
                     renderState.data.indexOf(renderState.data.first { it.id == "spain" }))
 
                 binding.countrySpinner.onItemSelected { pos ->
-                    countrySpinnerAdapter.getCountryId(pos).let { countryId ->
-                        viewModel.getRegionsByCountry(countryId)
-                        viewModel.getCountryAndStatsByIdDate(countryId)
-                        viewModel.getRegionsStatsOrderByConfirmed(countryId)
+                    countrySpinnerAdapter.getCountryId(pos).let { idCountry ->
+                        viewModel.getRegionsByCountry(idCountry)
+                        viewModel.getCountriesAndRegionsStatsByConfirmed(idCountry)
                     }
                 }
             }
@@ -89,13 +87,21 @@ class CountryFragment : Fragment(R.layout.fragment_country),
                     binding.icExpandRegion.hide()
                 }
             }
-            is PlaceStateScreen.SuccessCountryStats -> {
+            is PlaceStateScreen.SuccessCountryAndStats -> {
                 mergeAdapter.addAdapter(placeTotalAdapter)
                 placeTotalAdapter.submitList(listOf(renderState.data))
             }
             is PlaceStateScreen.SuccessRegionStats -> {
                 mergeAdapter.addAdapter(placeAdapter)
                 placeAdapter.submitList(renderState.data)
+            }
+            is PlaceStateScreen.SuccessPlaceTotalStatsBarChart -> {
+                mergeAdapter.addAdapter(placeTotalBarChartAdapter)
+                placeTotalBarChartAdapter.submitList(listOf(renderState.data))
+            }
+            is PlaceStateScreen.SuccessPlaceStatsBarChart -> {
+                mergeAdapter.addAdapter(placeBarChartAdapter)
+                placeBarChartAdapter.submitList(renderState.data)
             }
         }
     }
@@ -110,16 +116,19 @@ class CountryFragment : Fragment(R.layout.fragment_country),
         if (::countrySpinnerAdapter.isInitialized) {
             when (item.itemId) {
                 R.id.list_view -> {
+                    mergeAdapter.removeAllAdapters()
                     menu.enableItem(MENU_ITEM_LIST)
-                    viewModel.getCountryAndStatsByIdDate(countrySpinnerAdapter.getCountryId(
+                    viewModel.getCountriesAndRegionsStatsByConfirmed(countrySpinnerAdapter.getCountryId(
                         binding.countrySpinner.selectedItemId.toInt()
                     ))
-                    mergeAdapter.removeAllAdapters()
                     true
                 }
                 R.id.bar_chart_view -> {
                     menu.enableItem(MENU_ITEM_BAR_CHART)
                     mergeAdapter.removeAllAdapters()
+                    viewModel.getBarChartStats(countrySpinnerAdapter.getCountryId(
+                        binding.countrySpinner.selectedItemId.toInt()
+                    ))
                     true
                 }
                 R.id.line_chart_view -> {

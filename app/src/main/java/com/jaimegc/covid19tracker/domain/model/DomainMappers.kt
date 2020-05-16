@@ -9,6 +9,7 @@ import com.jaimegc.covid19tracker.data.room.views.CountryAndStatsDV
 import com.jaimegc.covid19tracker.data.room.entities.*
 import com.jaimegc.covid19tracker.data.room.pojos.CountryAndOneStatsPojo
 import com.jaimegc.covid19tracker.data.room.pojos.CountryAndStatsPojo
+import com.jaimegc.covid19tracker.data.room.pojos.RegionAndStatsPojo
 import com.jaimegc.covid19tracker.data.room.pojos.WorldAndCountriesStatsPojo
 import com.jaimegc.covid19tracker.data.room.views.RegionAndStatsDV
 import kotlinx.coroutines.flow.Flow
@@ -79,8 +80,8 @@ fun WorldAndCountriesStatsPojo.toDomain(): CovidTracker =
         worldStats = worldStats!!.toDomain()
     )
 
-fun CountryAndStatsPojo.toDomain(): CountryStats =
-    CountryStats(
+fun CountryAndStatsPojo.toDomain(): CountryAndStats =
+    CountryAndStats(
         country = country!!.toDomain(),
         stats = stats.map { countryStats -> countryStats.toDomain() }
     )
@@ -127,7 +128,10 @@ fun WorldStatsEntity.toDomain(): WorldStats =
         stats = stats.toDomain(date)
     )
 
-fun List<CountryAndStatsPojo>.toDomain(): ListCountryStats =
+fun List<CountryAndStatsPojo>.toDomain(): ListCountryAndStats =
+    ListCountryAndStats(map { entitiy -> entitiy.toDomain() })
+
+fun List<CountryStatsEntity>.toDomain(): ListCountryStats =
     ListCountryStats(map { entitiy -> entitiy.toDomain() })
 
 fun List<RegionAndStatsDV>.toDomain(date: String): ListRegionStats =
@@ -138,15 +142,24 @@ fun List<RegionAndStatsDV>.toDomain(date: String): ListRegionStats =
         )
     })
 
-fun RegionStatsEntity.toDomain2(regionEntity: RegionEntity, date: String): RegionStats =
-    RegionStats(
-        region = Region(
-            id = regionEntity.id,
-            name = regionEntity.name,
-            nameEs = regionEntity.nameEs
-        ),
-        stats = stats.toDomain(date)
-    )
+fun List<RegionAndStatsDV>.toDomain(): ListRegionStats =
+    ListRegionStats(map { entitiy ->
+        RegionStats(
+            region = entitiy.region!!.toDomain(),
+            stats = entitiy.regionStats!!.toDomain(entitiy.regionStats.date)
+        )
+    })
+
+fun List<RegionAndStatsPojo>.toRegionDomain(): ListRegionAndStats =
+    ListRegionAndStats(map { entitiy ->
+        RegionAndStats(
+            region = entitiy.region!!.toDomain(),
+            stats = entitiy.stats.toDomain()
+        )
+    })
+
+fun List<RegionStatsEntity>.toDomain(): List<Stats> =
+    map { entity -> entity.toDomain(entity.date) }
 
 fun RegionStatsEntity.toDomain(date: String): Stats =
     stats.toDomain(date)

@@ -72,6 +72,11 @@ data class CountryStatsChartUI(
     val stats: StatsChartUI
 )
 
+data class PlaceListStatsChartUI(
+    val place: PlaceUI,
+    val stats: List<StatsChartUI>
+)
+
 data class StatsChartUI(
     val date: String,
     val source: String,
