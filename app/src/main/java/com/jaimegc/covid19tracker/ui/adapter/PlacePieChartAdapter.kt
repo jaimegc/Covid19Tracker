@@ -9,21 +9,21 @@ import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.common.extensions.chart.configure
 import com.jaimegc.covid19tracker.common.extensions.chart.setValues
 import com.jaimegc.covid19tracker.databinding.ItemPieChartTotalBinding
-import com.jaimegc.covid19tracker.ui.model.WorldStatsChartUI
+import com.jaimegc.covid19tracker.ui.model.StatsChartUI
 
-class WorldPieChartAdapter : ListAdapter<WorldStatsChartUI, WorldPieChartAdapter.WorldPieChartViewHolder>(DIFF_CALLBACK) {
+class PlacePieChartAdapter : ListAdapter<StatsChartUI, PlacePieChartAdapter.PlacePieChartViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        WorldPieChartViewHolder(ItemPieChartTotalBinding.inflate(
+        PlacePieChartViewHolder(ItemPieChartTotalBinding.inflate(
             LayoutInflater.from(parent.context), parent, false))
 
-    override fun onBindViewHolder(holder: WorldPieChartViewHolder, position: Int) =
+    override fun onBindViewHolder(holder: PlacePieChartViewHolder, position: Int) =
         holder.bind(getItem(position))
 
-    class WorldPieChartViewHolder(
+    class PlacePieChartViewHolder(
         private val binding: ItemPieChartTotalBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(worldStatsChartUI: WorldStatsChartUI) {
+        fun bind(statsChartUI: StatsChartUI) {
             val ctx = itemView.context
             val chartTotal = binding.chartTotal
 
@@ -31,20 +31,20 @@ class WorldPieChartAdapter : ListAdapter<WorldStatsChartUI, WorldPieChartAdapter
 
             chartTotal.setValues(
                 ctx,
-                listOf(worldStatsChartUI.stats.confirmed,
-                    worldStatsChartUI.stats.deaths, worldStatsChartUI.stats.recovered,
-                    worldStatsChartUI.stats.openCases),
+                listOf(statsChartUI.confirmed,
+                    statsChartUI.deaths, statsChartUI.recovered,
+                    statsChartUI.openCases),
                 listOf(R.string.confirmed, R.string.deaths, R.string.recovered, R.string.open_cases),
                 listOf(R.color.dark_red, R.color.dark_grey, R.color.dark_green, R.color.dark_blue))
         }
     }
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<WorldStatsChartUI>() {
-            override fun areItemsTheSame(oldItem: WorldStatsChartUI, newItem: WorldStatsChartUI): Boolean =
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<StatsChartUI>() {
+            override fun areItemsTheSame(oldItem: StatsChartUI, newItem: StatsChartUI): Boolean =
                 oldItem.date == newItem.date
 
-            override fun areContentsTheSame(oldItem: WorldStatsChartUI, newItem: WorldStatsChartUI): Boolean =
+            override fun areContentsTheSame(oldItem: StatsChartUI, newItem: StatsChartUI): Boolean =
                 oldItem == newItem
         }
     }

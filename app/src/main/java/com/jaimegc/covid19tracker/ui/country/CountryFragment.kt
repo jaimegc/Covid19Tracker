@@ -15,6 +15,7 @@ import com.jaimegc.covid19tracker.databinding.LoadingBinding
 import com.jaimegc.covid19tracker.common.extensions.*
 import com.jaimegc.covid19tracker.ui.adapter.*
 import com.jaimegc.covid19tracker.ui.states.BaseViewScreenState
+import com.jaimegc.covid19tracker.ui.states.MenuItemViewType
 import com.jaimegc.covid19tracker.ui.states.PlaceStateScreen
 import com.jaimegc.covid19tracker.ui.states.ScreenState
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -27,6 +28,7 @@ class CountryFragment : Fragment(R.layout.fragment_country),
     private val placeAdapter = PlaceAdapter()
     private val placeTotalBarChartAdapter = PlaceTotalBarChartAdapter()
     private val placeBarChartAdapter = PlaceBarChartAdapter()
+    private val placePieChartAdapter = PlacePieChartAdapter()
     private val mergeAdapter = MergeAdapter()
 
     private lateinit var binding: FragmentCountryBinding
@@ -68,7 +70,7 @@ class CountryFragment : Fragment(R.layout.fragment_country),
                 binding.countrySpinner.onItemSelected { pos ->
                     countrySpinnerAdapter.getCountryId(pos).let { idCountry ->
                         viewModel.getRegionsByCountry(idCountry)
-                        viewModel.getCountriesAndRegionsStatsByConfirmed(idCountry)
+                        viewModel.getCountriesAndRegionsStatsByConfirmed(idCountry, MenuItemViewType.List)
                     }
                 }
             }
@@ -103,6 +105,10 @@ class CountryFragment : Fragment(R.layout.fragment_country),
                 mergeAdapter.addAdapter(placeBarChartAdapter)
                 placeBarChartAdapter.submitList(renderState.data)
             }
+            is PlaceStateScreen.SuccessCountryAndStatsPieChart -> {
+                mergeAdapter.addAdapter(placePieChartAdapter)
+                placePieChartAdapter.submitList(listOf(renderState.data))
+            }
         }
     }
 
@@ -119,8 +125,7 @@ class CountryFragment : Fragment(R.layout.fragment_country),
                     mergeAdapter.removeAllAdapters()
                     menu.enableItem(MENU_ITEM_LIST)
                     viewModel.getCountriesAndRegionsStatsByConfirmed(countrySpinnerAdapter.getCountryId(
-                        binding.countrySpinner.selectedItemId.toInt()
-                    ))
+                        binding.countrySpinner.selectedItemId.toInt()), MenuItemViewType.List)
                     true
                 }
                 R.id.bar_chart_view -> {
@@ -139,6 +144,8 @@ class CountryFragment : Fragment(R.layout.fragment_country),
                 R.id.pie_chart_view -> {
                     menu.enableItem(MENU_ITEM_PIE_CHART)
                     mergeAdapter.removeAllAdapters()
+                    viewModel.getCountriesAndRegionsStatsByConfirmed2(countrySpinnerAdapter.getCountryId(
+                        binding.countrySpinner.selectedItemId.toInt()), MenuItemViewType.PieChart)
                     true
                 }
                 else -> super.onOptionsItemSelected(item)
