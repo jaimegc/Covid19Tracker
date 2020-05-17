@@ -112,7 +112,7 @@ class WorldFragment : Fragment(R.layout.fragment_world),
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
         when (item.itemId) {
             R.id.list_view -> {
-                if (menu.isCurrentItemChecked(MENU_ITEM_BAR_CHART).not()) {
+                if (menu.isCurrentItemChecked(MENU_ITEM_LIST).not()) {
                     menu.enableItem(MENU_ITEM_LIST)
                     mergeAdapter.removeAllAdapters()
                     viewModel.getCovidTrackerLast(MenuItemViewType.List)
