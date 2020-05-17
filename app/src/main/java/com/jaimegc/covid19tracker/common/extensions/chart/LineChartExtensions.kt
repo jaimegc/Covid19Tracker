@@ -35,7 +35,7 @@ fun LineChart.configure(xAxisValues: List<String>, minAxisLeftValue: Float = 0f)
 
         with(this.legend) {
             form = Legend.LegendForm.SQUARE
-            textSize = 12f
+            textSize = 10f
             verticalAlignment = Legend.LegendVerticalAlignment.TOP
             horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
         }
