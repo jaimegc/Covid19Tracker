@@ -8,22 +8,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.common.extensions.chart.configure
 import com.jaimegc.covid19tracker.common.extensions.chart.setValues
-import com.jaimegc.covid19tracker.databinding.ItemPieChartTotalBinding
-import com.jaimegc.covid19tracker.ui.model.StatsChartUI
+import com.jaimegc.covid19tracker.common.extensions.percentage
+import com.jaimegc.covid19tracker.databinding.ItemPieChartPlaceTotalBinding
+import com.jaimegc.covid19tracker.ui.model.PlaceStatsChartUI
 
-class PlacePieChartAdapter : ListAdapter<StatsChartUI, PlacePieChartAdapter.PlacePieChartViewHolder>(DIFF_CALLBACK) {
+class PlacePieChartAdapter : ListAdapter<PlaceStatsChartUI, PlacePieChartAdapter.PlaceListStatsViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        PlacePieChartViewHolder(ItemPieChartTotalBinding.inflate(
+        PlaceListStatsViewHolder(ItemPieChartPlaceTotalBinding.inflate(
             LayoutInflater.from(parent.context), parent, false))
 
-    override fun onBindViewHolder(holder: PlacePieChartViewHolder, position: Int) =
+    override fun onBindViewHolder(holder: PlaceListStatsViewHolder, position: Int) =
         holder.bind(getItem(position))
 
-    class PlacePieChartViewHolder(
-        private val binding: ItemPieChartTotalBinding
+    class PlaceListStatsViewHolder(
+        private val binding: ItemPieChartPlaceTotalBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(statsChartUI: StatsChartUI) {
+        fun bind(placeStatsChart: PlaceStatsChartUI) {
             val ctx = itemView.context
             val chartTotal = binding.chartTotal
 
@@ -31,20 +32,34 @@ class PlacePieChartAdapter : ListAdapter<StatsChartUI, PlacePieChartAdapter.Plac
 
             chartTotal.setValues(
                 ctx,
-                listOf(statsChartUI.confirmed,
-                    statsChartUI.deaths, statsChartUI.recovered,
-                    statsChartUI.openCases),
+                listOf(placeStatsChart.stats.confirmed,
+                    placeStatsChart.stats.deaths,
+                    placeStatsChart.stats.recovered,
+                    placeStatsChart.stats.openCases),
                 listOf(R.string.confirmed, R.string.deaths, R.string.recovered, R.string.open_cases),
                 listOf(R.color.dark_red, R.color.dark_grey, R.color.dark_green, R.color.dark_blue))
+
+            placeStatsChart.statsParent?.let { statsParent ->
+                binding.percentageConfirmed.text =
+                    placeStatsChart.stats.confirmed.percentage(statsParent.confirmed)
+                binding.percentageDeaths.text =
+                    placeStatsChart.stats.deaths.percentage(statsParent.deaths)
+                binding.percentageRecovered.text =
+                    placeStatsChart.stats.recovered.percentage(statsParent.recovered)
+                binding.percentageOpenCases.text =
+                    placeStatsChart.stats.openCases.percentage(statsParent.openCases)
+            }
+
+            binding.textPlace.text = placeStatsChart.place.name
         }
     }
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<StatsChartUI>() {
-            override fun areItemsTheSame(oldItem: StatsChartUI, newItem: StatsChartUI): Boolean =
-                oldItem.date == newItem.date
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<PlaceStatsChartUI>() {
+            override fun areItemsTheSame(oldItem: PlaceStatsChartUI, newItem: PlaceStatsChartUI): Boolean =
+                oldItem.place.id == newItem.place.id
 
-            override fun areContentsTheSame(oldItem: StatsChartUI, newItem: StatsChartUI): Boolean =
+            override fun areContentsTheSame(oldItem: PlaceStatsChartUI, newItem: PlaceStatsChartUI): Boolean =
                 oldItem == newItem
         }
     }

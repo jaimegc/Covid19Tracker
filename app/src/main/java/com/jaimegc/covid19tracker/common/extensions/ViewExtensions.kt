@@ -110,7 +110,19 @@ fun Menu.enableItem(itemPos: Int) {
     }
 }
 
-fun Menu.isCurrentItem(itemPos: Int): Boolean = getItem(itemPos).isChecked
+fun Menu.isCurrentItemChecked(itemPos: Int): Boolean = getItem(itemPos).isChecked
+
+fun Menu.isCurrentItemChecked(): Int {
+    var currentItem = 0
+    for (index in 0 until size()) {
+        if (getItem(index).isChecked) {
+            currentItem = index
+            break
+        }
+    }
+
+    return currentItem
+}
 
 fun Spinner.onItemSelected(ignoreFirst: Boolean = false, itemSelectedPos: (Int) -> Unit) {
     onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

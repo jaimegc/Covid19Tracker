@@ -77,6 +77,13 @@ data class PlaceListStatsChartUI(
     val stats: List<StatsChartUI>
 )
 
+data class PlaceStatsChartUI(
+    val place: PlaceUI,
+    val stats: StatsChartUI
+) {
+    var statsParent: StatsChartUI? = null
+}
+
 data class StatsChartUI(
     val date: String,
     val source: String,

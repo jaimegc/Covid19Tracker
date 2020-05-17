@@ -10,6 +10,7 @@ import com.jaimegc.covid19tracker.domain.usecase.GetCountryStats
 import com.jaimegc.covid19tracker.domain.usecase.GetRegion
 import com.jaimegc.covid19tracker.domain.usecase.GetRegionStats
 import com.jaimegc.covid19tracker.ui.model.toChartUI
+import com.jaimegc.covid19tracker.ui.model.toPlaceChartUI
 import com.jaimegc.covid19tracker.ui.model.toPlaceUI
 import com.jaimegc.covid19tracker.ui.model.toUI
 import com.jaimegc.covid19tracker.ui.states.PlaceStateScreen
@@ -40,7 +41,13 @@ class CountryViewModel(
             }
         }
 
-    fun getCountriesAndRegionsStatsByConfirmed(idCountry: String, viewType: MenuItemViewType) =
+    fun getListChartStats(idCountry: String) =
+        lineOrPieChartStats(idCountry, MenuItemViewType.List)
+
+    fun getPieChartStats(idCountry: String) =
+        lineOrPieChartStats(idCountry, MenuItemViewType.PieChart)
+
+    private fun lineOrPieChartStats(idCountry: String, viewType: MenuItemViewType) =
         viewModelScope.launch {
             val countryAndStatsByIdDate =
                 getCountryStats.getCountryAndStatsByIdDate(idCountry, "2020-05-06")
@@ -56,16 +63,6 @@ class CountryViewModel(
                         { handleState(state = it, viewType = viewType) }
                     )
                 }
-            }
-        }
-
-    fun getCountriesAndRegionsStatsByConfirmed2(idCountry: String, viewType: MenuItemViewType) =
-        viewModelScope.launch {
-            getCountryStats.getCountryAndStatsByIdDate(idCountry, "2020-05-06").collect { result ->
-                result.fold(
-                    { handleError(it) },
-                    { handleState(state = it, viewType = viewType) }
-                )
             }
         }
 
@@ -96,16 +93,6 @@ class CountryViewModel(
             }
         }
 
-    fun getCountriesStatsOrderByConfirmed() =
-        viewModelScope.launch {
-            getCountryStats.getCountriesStatsOrderByConfirmed().collect { result ->
-                result.fold(
-                    { handleError(it) },
-                    { handleState(state = it, viewType = MenuItemViewType.BarChart) }
-                )
-            }
-        }
-
     override suspend fun <T> handleState(
         state: State<T>,
         viewType: MenuItemViewType
@@ -129,8 +116,15 @@ class CountryViewModel(
                                     PlaceStateScreen.SuccessCountryAndStatsPieChart(state.data.stats.toChartUI())))
                         }
                     is ListRegionStats ->
-                        _screenState.postValue(ScreenState.Render(
-                            PlaceStateScreen.SuccessRegionStats(state.data.toPlaceUI())))
+                        when (viewType) {
+                            is MenuItemViewType.List ->
+                                _screenState.postValue(ScreenState.Render(
+                                    PlaceStateScreen.SuccessRegionStats(state.data.toPlaceUI())))
+                            is MenuItemViewType.PieChart ->
+                                _screenState.postValue(ScreenState.Render(
+                                    PlaceStateScreen.SuccessRegionAndStatsPieChart(state.data.toPlaceChartUI())))
+                        }
+
                     is ListCountryStats ->
                         _screenState.postValue(ScreenState.Render(
                             PlaceStateScreen.SuccessPlaceTotalStatsBarChart(state.data.toPlaceUI())))

@@ -163,6 +163,18 @@ fun ListRegionStats.toPlaceUI(): List<PlaceStatsUI> =
         )
     }
 
+fun ListRegionStats.toPlaceChartUI(): List<PlaceStatsChartUI> =
+    regionStats.map { regStats ->
+        PlaceStatsChartUI(
+            place = PlaceUI(
+                id = regStats.region.id,
+                name = regStats.region.name,
+                nameEs = regStats.region.nameEs
+            ),
+            stats = regStats.stats.toChartUI()
+        )
+    }
+
 fun ListCountryStats.toPlaceUI(): List<StatsChartUI> =
     countriesStats.map { stats ->
         StatsChartUI(
