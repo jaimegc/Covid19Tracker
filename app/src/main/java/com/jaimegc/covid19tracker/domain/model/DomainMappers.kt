@@ -7,10 +7,7 @@ import com.jaimegc.covid19tracker.data.api.model.CovidTrackerDto
 import com.jaimegc.covid19tracker.data.api.model.CovidTrackerTotalDto
 import com.jaimegc.covid19tracker.data.room.views.CountryAndStatsDV
 import com.jaimegc.covid19tracker.data.room.entities.*
-import com.jaimegc.covid19tracker.data.room.pojos.CountryAndOneStatsPojo
-import com.jaimegc.covid19tracker.data.room.pojos.CountryAndStatsPojo
-import com.jaimegc.covid19tracker.data.room.pojos.RegionAndStatsPojo
-import com.jaimegc.covid19tracker.data.room.pojos.WorldAndCountriesStatsPojo
+import com.jaimegc.covid19tracker.data.room.pojos.*
 import com.jaimegc.covid19tracker.data.room.views.RegionAndStatsDV
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -86,6 +83,12 @@ fun CountryAndStatsPojo.toDomain(): CountryAndStats =
         stats = stats.map { countryStats -> countryStats.toDomain() }
     )
 
+fun RegionAndStatsPojo.toDomain(): RegionAndStats =
+    RegionAndStats(
+        region = region!!.toDomain(),
+        stats = stats.map { regionStats -> regionStats.toDomain(regionStats.date) }
+    )
+
 fun List<CountryEntity>.toDomain(): ListCountry =
     ListCountry(
         map { entity -> entity.toDomain() }
@@ -96,7 +99,7 @@ fun List<RegionEntity>.toDomain(): ListRegion =
         map { entity -> entity.toDomain() }
     )
 
-fun List<CountryAndOneStatsPojo>.toPojoOrdered(): List<CountryAndStatsPojo> =
+fun List<CountryAndOneStatsPojo>.toPojoCountriesOrdered(): List<CountryAndStatsPojo> =
     this.groupBy { it.country }.let { mapCountries ->
         val listCountryAndStatsPojo = mutableListOf<CountryAndStatsPojo>()
         mapCountries.map { countryStats ->
@@ -104,6 +107,16 @@ fun List<CountryAndOneStatsPojo>.toPojoOrdered(): List<CountryAndStatsPojo> =
                 countryStats.key, countryStats.value.map { stats -> stats.countryStats!! }))
         }
         listCountryAndStatsPojo
+    }
+
+fun List<RegionAndOneStatsPojo>.toPojoRegionsOrdered(): List<RegionAndStatsPojo> =
+    this.groupBy { it.region }.let { mapRegions ->
+        val listRegionAndStatsPojo = mutableListOf<RegionAndStatsPojo>()
+        mapRegions.map { countryStats ->
+            listRegionAndStatsPojo.add(RegionAndStatsPojo(
+                countryStats.key, countryStats.value.map { stats -> stats.regionStats!! }))
+        }
+        listRegionAndStatsPojo
     }
 
 fun CountryAndOneStatsPojo.toDomain(): CountryOneStats =
@@ -130,6 +143,9 @@ fun WorldStatsEntity.toDomain(): WorldStats =
 
 fun List<CountryAndStatsPojo>.toDomain(): ListCountryAndStats =
     ListCountryAndStats(map { entitiy -> entitiy.toDomain() })
+
+fun List<RegionAndStatsPojo>.toDomain(): ListRegionAndStats =
+    ListRegionAndStats(map { entitiy -> entitiy.toDomain() })
 
 fun List<CountryStatsEntity>.toDomain(): ListCountryStats =
     ListCountryStats(map { entitiy -> entitiy.toDomain() })

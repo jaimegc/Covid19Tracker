@@ -38,3 +38,13 @@ data class RegionAndStatsPojo(
     @Relation(parentColumn = "id", entityColumn = "id_region_fk")
     val stats: List<RegionStatsEntity>
 )
+
+class RegionAndOneStatsPojo(
+    @Embedded
+    val region: RegionEntity?,
+    @Embedded
+    val regionStats: RegionStatsEntity?
+) {
+    fun isValid(): Boolean =
+        region != null && regionStats != null
+}

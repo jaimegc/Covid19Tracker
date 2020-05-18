@@ -14,7 +14,9 @@ class CovidTrackerRepository(
     private val remote: RemoteCovidTrackerDatasource
 ) {
 
-    suspend fun getCovidTrackerByDate(date: String): Flow<Either<StateError<DomainError>, State<CovidTracker>>> {
+    suspend fun getCovidTrackerByDate(
+        date: String
+    ): Flow<Either<StateError<DomainError>, State<CovidTracker>>> {
         return object : BaseRepository<DomainError, CovidTracker> {
             override suspend fun fetchFromLocal(): Flow<Either<DomainError, CovidTracker>> =
                 local.getCovidTrackerByDate(date)
@@ -32,14 +34,17 @@ class CovidTrackerRepository(
         }.asFlow()
     }
 
-    suspend fun getCountryAllStats(idCountry: String): Flow<Either<StateError<DomainError>, State<ListCountryStats>>> {
+    suspend fun getCountryAllStats(
+        idCountry: String
+    ): Flow<Either<StateError<DomainError>, State<ListCountryStats>>> {
         return object : BaseRepository<DomainError, ListCountryStats> {
             override suspend fun fetchFromLocal(): Flow<Either<DomainError, ListCountryStats>> =
                 local.getCountryAllStats(idCountry)
         }.asFlow()
     }
 
-    suspend fun getCountriesStatsOrderByConfirmed(): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> {
+    suspend fun getCountriesStatsOrderByConfirmed(
+    ): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> {
         return object : BaseRepository<DomainError, ListCountryAndStats> {
             override suspend fun fetchFromLocal(): Flow<Either<DomainError, ListCountryAndStats>> =
                 local.getCountriesStatsOrderByConfirmed()
@@ -65,31 +70,71 @@ class CovidTrackerRepository(
         }.asFlow()
     }
 
-    suspend fun getCountriesAndStatsWithMostConfirmed(): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> {
+    suspend fun getCountriesAndStatsWithMostConfirmed(
+    ): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> {
         return object : BaseRepository<DomainError, ListCountryAndStats> {
             override suspend fun fetchFromLocal(): Flow<Either<DomainError, ListCountryAndStats>> =
                 local.getCountriesAndStatsWithMostConfirmed()
         }.asFlow()
     }
 
-    suspend fun getCountriesAndStatsWithMostDeaths(): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> {
+    suspend fun getRegionsAndStatsWithMostConfirmed(
+        idCountry: String
+    ): Flow<Either<StateError<DomainError>, State<ListRegionAndStats>>> {
+        return object : BaseRepository<DomainError, ListRegionAndStats> {
+            override suspend fun fetchFromLocal(): Flow<Either<DomainError, ListRegionAndStats>> =
+                local.getRegionsAndStatsWithMostConfirmed(idCountry)
+        }.asFlow()
+    }
+
+    suspend fun getCountriesAndStatsWithMostDeaths(
+    ): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> {
         return object : BaseRepository<DomainError, ListCountryAndStats> {
             override suspend fun fetchFromLocal(): Flow<Either<DomainError, ListCountryAndStats>> =
                 local.getCountriesAndStatsWithMostDeaths()
         }.asFlow()
     }
 
-    suspend fun getCountriesAndStatsWithMostRecovered(): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> {
+    suspend fun getRegionsAndStatsWithMostDeaths(
+        idCountry: String
+    ): Flow<Either<StateError<DomainError>, State<ListRegionAndStats>>> {
+        return object : BaseRepository<DomainError, ListRegionAndStats> {
+            override suspend fun fetchFromLocal(): Flow<Either<DomainError, ListRegionAndStats>> =
+                local.getRegionsAndStatsWithMostDeaths(idCountry)
+        }.asFlow()
+    }
+
+    suspend fun getCountriesAndStatsWithMostRecovered()
+            : Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> {
         return object : BaseRepository<DomainError, ListCountryAndStats> {
             override suspend fun fetchFromLocal(): Flow<Either<DomainError, ListCountryAndStats>> =
                 local.getCountriesAndStatsWithMostRecovered()
         }.asFlow()
     }
 
-    suspend fun getCountriesAndStatsWithMostOpenCases(): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> {
+    suspend fun getRegionsAndStatsWithMostRecovered(
+        idCountry: String
+    ): Flow<Either<StateError<DomainError>, State<ListRegionAndStats>>> {
+        return object : BaseRepository<DomainError, ListRegionAndStats> {
+            override suspend fun fetchFromLocal(): Flow<Either<DomainError, ListRegionAndStats>> =
+                local.getRegionsAndStatsWithMostRecovered(idCountry)
+        }.asFlow()
+    }
+
+    suspend fun getCountriesAndStatsWithMostOpenCases(
+    ): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> {
         return object : BaseRepository<DomainError, ListCountryAndStats> {
             override suspend fun fetchFromLocal(): Flow<Either<DomainError, ListCountryAndStats>> =
                 local.getCountriesAndStatsWithMostOpenCases()
+        }.asFlow()
+    }
+
+    suspend fun getRegionsAndStatsWithMostOpenCases(
+        idCountry: String
+    ): Flow<Either<StateError<DomainError>, State<ListRegionAndStats>>> {
+        return object : BaseRepository<DomainError, ListRegionAndStats> {
+            override suspend fun fetchFromLocal(): Flow<Either<DomainError, ListRegionAndStats>> =
+                local.getRegionsAndStatsWithMostOpenCases(idCountry)
         }.asFlow()
     }
 
@@ -100,14 +145,19 @@ class CovidTrackerRepository(
         }.asFlow(loading = true)
     }
 
-    suspend fun getRegionsByCountry(idCountry: String): Flow<Either<StateError<DomainError>, State<ListRegion>>> {
+    suspend fun getRegionsByCountry(
+        idCountry: String
+    ): Flow<Either<StateError<DomainError>, State<ListRegion>>> {
         return object : BaseRepository<DomainError, ListRegion> {
             override suspend fun fetchFromLocal(): Flow<Either<DomainError, ListRegion>> =
                 local.getRegionsByCountry(idCountry)
         }.asFlow()
     }
 
-    suspend fun getCountryAndStatsByIdDate(idCountry: String, date: String): Flow<Either<StateError<DomainError>, State<CountryOneStats>>> {
+    suspend fun getCountryAndStatsByIdDate(
+        idCountry: String,
+        date: String
+    ): Flow<Either<StateError<DomainError>, State<CountryOneStats>>> {
         return object : BaseRepository<DomainError, CountryOneStats> {
             override suspend fun fetchFromLocal(): Flow<Either<DomainError, CountryOneStats>> =
                 local.getCountryAndStatsByIdDate(idCountry, date)

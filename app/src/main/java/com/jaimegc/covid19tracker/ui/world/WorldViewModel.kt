@@ -141,7 +141,7 @@ class WorldViewModel(
                                MenuItemViewType.LineChartMostOpenCases,
                                MenuItemViewType.LineChartMostRecovered -> {
                                    mapWorldLineStats[viewType] = state.data.countriesStats.map {
-                                           countryStats -> countryStats.toListChartUI()
+                                        countryStats -> countryStats.toListChartUI()
                                    }
 
                                    if (mapWorldLineStats.size == LINE_CHARTS_VIEW_TYPES) {

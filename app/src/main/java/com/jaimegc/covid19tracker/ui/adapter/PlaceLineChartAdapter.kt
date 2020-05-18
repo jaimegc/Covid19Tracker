@@ -11,40 +11,40 @@ import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.common.extensions.chart.configure
 import com.jaimegc.covid19tracker.common.extensions.chart.setValues
 import com.jaimegc.covid19tracker.databinding.ItemLineChartTotalBinding
-import com.jaimegc.covid19tracker.ui.model.CountryListStatsChartUI
+import com.jaimegc.covid19tracker.ui.model.PlaceListStatsChartUI
 import com.jaimegc.covid19tracker.ui.states.MenuItemViewType
 
-class WorldLineChartAdapter :
-    ListAdapter<Map<MenuItemViewType, List<CountryListStatsChartUI>>,
-    WorldLineChartAdapter.WorldLineChartViewHolder>(DIFF_CALLBACK) {
+class PlaceLineChartAdapter :
+    ListAdapter<Map<MenuItemViewType, List<PlaceListStatsChartUI>>,
+    PlaceLineChartAdapter.PlaceLineChartViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        WorldLineChartViewHolder(ItemLineChartTotalBinding.inflate(
+        PlaceLineChartViewHolder(ItemLineChartTotalBinding.inflate(
             LayoutInflater.from(parent.context), parent, false))
 
-    override fun onBindViewHolder(holder: WorldLineChartViewHolder, position: Int) =
+    override fun onBindViewHolder(holder: PlaceLineChartViewHolder, position: Int) =
         holder.bind(getItem(position))
 
-    class WorldLineChartViewHolder(
+    class PlaceLineChartViewHolder(
         private val binding: ItemLineChartTotalBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(mapCountriesStatsChartUI: Map<MenuItemViewType, List<CountryListStatsChartUI>>) {
+        fun bind(mapPlacesStatsChartUI: Map<MenuItemViewType, List<PlaceListStatsChartUI>>) {
             val ctx = itemView.context
 
-            mapCountriesStatsChartUI.keys.map { type ->
+            mapPlacesStatsChartUI.keys.map { type ->
                 when (type) {
                     is MenuItemViewType.LineChartMostConfirmed ->
                         configureLineChart(
-                            ctx, binding.chartConfirmed, mapCountriesStatsChartUI.getValue(type), type, 2000f)
+                            ctx, binding.chartConfirmed, mapPlacesStatsChartUI.getValue(type), type)
                     is MenuItemViewType.LineChartMostDeaths ->
                         configureLineChart(
-                            ctx, binding.chartDeaths, mapCountriesStatsChartUI.getValue(type), type, 100f)
+                            ctx, binding.chartDeaths, mapPlacesStatsChartUI.getValue(type), type)
                     is MenuItemViewType.LineChartMostRecovered ->
                         configureLineChart(
-                            ctx, binding.chartRecovered, mapCountriesStatsChartUI.getValue(type), type, 2000f)
+                            ctx, binding.chartRecovered, mapPlacesStatsChartUI.getValue(type), type)
                     is MenuItemViewType.LineChartMostOpenCases ->
                         configureLineChart(
-                            ctx, binding.chartOpenCases, mapCountriesStatsChartUI.getValue(type), type, 2000f)
+                            ctx, binding.chartOpenCases, mapPlacesStatsChartUI.getValue(type), type)
                 }
             }
         }
@@ -52,9 +52,9 @@ class WorldLineChartAdapter :
         private fun configureLineChart(
             ctx: Context,
             chart: LineChart,
-            listCountriesStatsChartUI: List<CountryListStatsChartUI>,
+            listCountriesStatsChartUI: List<PlaceListStatsChartUI>,
             viewType: MenuItemViewType,
-            minAxisLeftValue: Float) {
+            minAxisLeftValue: Float = 0f) {
 
             val countryStatsMaxDays = listCountriesStatsChartUI.maxBy { it.stats.size }
             chart.configure(
@@ -83,22 +83,22 @@ class WorldLineChartAdapter :
 
             chart.setValues(ctx, countryStatsValues, listOf(
                 R.color.dark_purple, R.color.dark_blue, R.color.dark_green, R.color.dark_orange, R.color.dark_red),
-                listCountriesStatsChartUI.map { it.country.name }, countryStatsMaxDays.stats.size, chart.legend)
+                listCountriesStatsChartUI.map { it.place.name }, countryStatsMaxDays.stats.size, chart.legend)
         }
     }
 
     companion object {
         private val DIFF_CALLBACK =
-            object : DiffUtil.ItemCallback<Map<MenuItemViewType, List<CountryListStatsChartUI>>>() {
+            object : DiffUtil.ItemCallback<Map<MenuItemViewType, List<PlaceListStatsChartUI>>>() {
                 override fun areItemsTheSame(
-                    oldItem: Map<MenuItemViewType, List<CountryListStatsChartUI>>,
-                    newItem: Map<MenuItemViewType, List<CountryListStatsChartUI>>
+                    oldItem: Map<MenuItemViewType, List<PlaceListStatsChartUI>>,
+                    newItem: Map<MenuItemViewType, List<PlaceListStatsChartUI>>
                 ): Boolean =
                     oldItem.size == newItem.size
 
                 override fun areContentsTheSame(
-                    oldItem: Map<MenuItemViewType, List<CountryListStatsChartUI>>,
-                    newItem: Map<MenuItemViewType, List<CountryListStatsChartUI>>
+                    oldItem: Map<MenuItemViewType, List<PlaceListStatsChartUI>>,
+                    newItem: Map<MenuItemViewType, List<PlaceListStatsChartUI>>
                 ): Boolean =
                     oldItem == newItem
         }

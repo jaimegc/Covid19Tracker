@@ -125,7 +125,7 @@ class WorldFragment : Fragment(R.layout.fragment_world),
                     mergeAdapter.removeAllAdapters()
                     /**
                      *  Two different requests.
-                     *  In CountryFragment you can see it in one request.
+                     *  In CountryFragment & CountryViewModel you can see it in one request.
                      */
                     viewModel.getWorldAllStats()
                     viewModel.getCountriesStatsOrderByConfirmed()

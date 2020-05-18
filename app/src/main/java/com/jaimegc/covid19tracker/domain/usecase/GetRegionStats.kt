@@ -22,25 +22,23 @@ class GetRegionStats(
     ): Flow<Either<StateError<DomainError>, State<ListRegionAndStats>>> =
         repository.getRegionsAllStatsOrderByConfirmed(idCountry)
 
-    suspend fun getCountriesAndStatsWithMostConfirmed(
-    ): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
-        repository.getCountriesAndStatsWithMostConfirmed()
+    suspend fun getRegionsAndStatsWithMostConfirmed(
+        idCountry: String
+    ): Flow<Either<StateError<DomainError>, State<ListRegionAndStats>>> =
+        repository.getRegionsAndStatsWithMostConfirmed(idCountry)
 
-    suspend fun getCountriesAndStatsWithMostDeaths(
-    ): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
-        repository.getCountriesAndStatsWithMostDeaths()
+    suspend fun getRegionsAndStatsWithMostDeaths(
+        idCountry: String
+    ): Flow<Either<StateError<DomainError>, State<ListRegionAndStats>>> =
+        repository.getRegionsAndStatsWithMostDeaths(idCountry)
 
-    suspend fun getCountriesAndStatsWithMostRecovered(
-    ): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
-        repository.getCountriesAndStatsWithMostRecovered()
+    suspend fun getRegionsAndStatsWithMostRecovered(
+        idCountry: String
+    ): Flow<Either<StateError<DomainError>, State<ListRegionAndStats>>> =
+        repository.getRegionsAndStatsWithMostRecovered(idCountry)
 
-    suspend fun getCountriesAndStatsWithMostOpenCases(
-    ): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
-        repository.getCountriesAndStatsWithMostOpenCases()
-
-    suspend fun getCountryAndStatsByIdDate(
-        idCountry: String,
-        date: String
-    ): Flow<Either<StateError<DomainError>, State<CountryOneStats>>> =
-        repository.getCountryAndStatsByIdDate(idCountry, date)
+    suspend fun getRegionsAndStatsWithMostOpenCases(
+        idCountry: String
+    ): Flow<Either<StateError<DomainError>, State<ListRegionAndStats>>> =
+        repository.getRegionsAndStatsWithMostOpenCases(idCountry)
 }
