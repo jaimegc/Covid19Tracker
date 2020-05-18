@@ -53,8 +53,6 @@ fun LineChart.setValues(
     val valuesLineChart = mutableListOf<List<Entry>>()
     optimizeLegendTextSize(legendValues, legend)
 
-    println("RUINA SUMA: ${legendValues.sumBy { it.length }}")
-
     listValues.map { values ->
         val valuesDiff = sizeMaxListValues - values.size
         val listEntries = mutableListOf<Entry>()
