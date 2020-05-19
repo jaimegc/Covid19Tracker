@@ -2,9 +2,7 @@ package com.jaimegc.covid19tracker.data.room.daos
 
 import androidx.room.*
 import com.jaimegc.covid19tracker.data.room.entities.*
-import com.jaimegc.covid19tracker.data.room.pojos.CountryAndOneStatsPojo
-import com.jaimegc.covid19tracker.data.room.pojos.CountryAndStatsPojo
-import com.jaimegc.covid19tracker.data.room.pojos.WorldAndCountriesStatsPojo
+import com.jaimegc.covid19tracker.data.room.pojos.*
 import com.jaimegc.covid19tracker.data.room.views.RegionAndStatsDV
 import kotlinx.coroutines.flow.Flow
 
@@ -75,6 +73,12 @@ abstract class WorldStatsDao {
 
 @Dao
 abstract class CountryStatsDao {
+
+    @Query("SELECT * FROM country_stats ORDER BY date ASC")
+    abstract fun getAll(): Flow<List<CountryStatsEntity>>
+
+    @Query("SELECT * FROM country_stats WHERE id_country_fk = :idCountry ORDER BY date ASC")
+    abstract fun getById(idCountry: String): Flow<List<CountryStatsEntity>>
 
     @Transaction
     @Query("""
@@ -191,5 +195,84 @@ abstract class RegionStatsDao {
         WHERE r.id_country_fk = :idCountry AND s.date = :date
         ORDER BY s.confirmed DESC
         """)
-    abstract fun getRegionAndStatsByCountryAndDate(idCountry: String, date: String): Flow<List<RegionAndStatsDV>>
+    abstract fun getRegionAndStatsByCountryAndDateOrderByConfirmed(
+        idCountry: String,
+        date: String
+    ): Flow<List<RegionAndStatsDV>>
+
+    @Transaction
+    @Query("""
+        SELECT * FROM region r
+        LEFT JOIN region_stats s ON r.id = s.id_region_fk
+        WHERE r.id_country_fk = :idCountry
+        GROUP BY r.name
+        ORDER BY s.confirmed DESC
+        """)
+    abstract fun getRegionAndAllStatsByCountryAndDateOrderByConfirmed(
+        idCountry: String
+    ): Flow<List<RegionAndStatsPojo>>
+
+    @Transaction
+    @Query("""
+        SELECT * FROM region r, region_stats s
+        WHERE r.id = s.id_region_fk AND r.id_country_fk = :idCountry AND s.id_region_country_fk = :idCountry AND r.id IN (
+            SELECT id FROM region 
+                INNER JOIN (
+                    SELECT id_region_fk, MAX(confirmed) AS maxConfirmed FROM region_stats 
+                    GROUP BY id_region_fk
+                ) statsMaxConfirmed
+                ON region.id = statsMaxConfirmed.id_region_fk AND region.id_country_fk = :idCountry
+                ORDER BY statsMaxConfirmed.maxConfirmed DESC LIMIT 5
+            )
+        ORDER BY r.id ASC, s.confirmed ASC
+        """)
+    abstract fun getRegionsAndStatsWithMostConfirmed(idCountry: String): Flow<List<RegionAndOneStatsPojo>>
+
+    @Transaction
+    @Query("""
+        SELECT * FROM region r, region_stats s
+        WHERE r.id = s.id_region_fk AND r.id_country_fk = :idCountry AND s.id_region_country_fk = :idCountry AND r.id IN (
+            SELECT id FROM region 
+                INNER JOIN (
+                    SELECT id_region_fk, MAX(deaths) AS maxDeaths FROM region_stats 
+                    GROUP BY id_region_fk
+                ) statsMaxDeaths
+                ON region.id = statsMaxDeaths.id_region_fk AND region.id_country_fk = :idCountry
+                ORDER BY statsMaxDeaths.maxDeaths DESC LIMIT 5
+            )
+        ORDER BY r.id ASC, s.deaths ASC
+        """)
+    abstract fun getRegionsAndStatsWithMostDeaths(idCountry: String): Flow<List<RegionAndOneStatsPojo>>
+
+    @Transaction
+    @Query("""
+        SELECT * FROM region r, region_stats s
+        WHERE r.id = s.id_region_fk AND r.id_country_fk = :idCountry AND s.id_region_country_fk = :idCountry AND r.id IN (
+            SELECT id FROM region 
+                INNER JOIN (
+                    SELECT id_region_fk, MAX(recovered) AS maxRecovered FROM region_stats 
+                    GROUP BY id_region_fk
+                ) statsMaxRecovered
+                ON region.id = statsMaxRecovered.id_region_fk AND region.id_country_fk = :idCountry
+                ORDER BY statsMaxRecovered.maxRecovered DESC LIMIT 5
+            )
+        ORDER BY r.id ASC, s.recovered ASC
+        """)
+    abstract fun getRegionsAndStatsWithMostRecovered(idCountry: String): Flow<List<RegionAndOneStatsPojo>>
+
+    @Transaction
+    @Query("""
+        SELECT * FROM region r, region_stats s
+        WHERE r.id = s.id_region_fk AND r.id_country_fk = :idCountry AND s.id_region_country_fk = :idCountry AND r.id IN (
+            SELECT id FROM region 
+                INNER JOIN (
+                    SELECT id_region_fk, MAX(open_cases) AS maxOpenCases FROM region_stats 
+                    GROUP BY id_region_fk
+                ) statsMaxOpenCases
+                ON region.id = statsMaxOpenCases.id_region_fk AND region.id_country_fk = :idCountry
+                ORDER BY statsMaxOpenCases.maxOpenCases DESC LIMIT 5
+            )
+        ORDER BY r.id ASC, s.open_cases ASC
+        """)
+    abstract fun getRegionsAndStatsWithMostOpenCases(idCountry: String): Flow<List<RegionAndOneStatsPojo>>
 }

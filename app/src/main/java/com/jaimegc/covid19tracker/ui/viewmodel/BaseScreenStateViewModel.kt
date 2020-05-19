@@ -7,6 +7,10 @@ import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.ui.states.BaseScreenState
 import com.jaimegc.covid19tracker.ui.states.MenuItemViewType
 import com.jaimegc.covid19tracker.ui.states.ScreenState
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 abstract class BaseScreenStateViewModel<T : BaseScreenState> : ViewModel() {
     abstract val _screenState: QueueLiveData<ScreenState<T>>
@@ -18,4 +22,20 @@ abstract class BaseScreenStateMenuViewModel<T : BaseScreenState> : BaseScreenSta
         state: State<T>,
         viewType: MenuItemViewType = MenuItemViewType.List
     )
+
+    /**
+     *  https://stackoverflow.com/questions/61185082/combine-multiple-kotlin-flows-in-a-list-without-waiting-for-a-first-value
+     */
+    inline fun <reified T> combineFlows(vararg flows: Flow<T>): Flow<List<T>> = channelFlow {
+        val array = Array(flows.size) { false to (null as T?) }
+
+        flows.forEachIndexed { index, flow ->
+            launch {
+                flow.collect { emittedElement ->
+                    array[index] = true to emittedElement!!
+                    send(array.filter { it.first }.map { it.second!! })
+                }
+            }
+        }
+    }
 }

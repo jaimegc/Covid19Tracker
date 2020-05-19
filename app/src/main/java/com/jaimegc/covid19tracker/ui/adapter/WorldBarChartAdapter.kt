@@ -6,22 +6,22 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.jaimegc.covid19tracker.R
-import com.jaimegc.covid19tracker.databinding.ItemBarChartWorldTotalBinding
 import com.jaimegc.covid19tracker.common.extensions.chart.configure
 import com.jaimegc.covid19tracker.common.extensions.chart.setValues
+import com.jaimegc.covid19tracker.databinding.ItemBarChartTotalBinding
 import com.jaimegc.covid19tracker.ui.model.WorldStatsChartUI
 
 class WorldBarChartAdapter : ListAdapter<List<WorldStatsChartUI>, WorldBarChartAdapter.WorldBarChartViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        WorldBarChartViewHolder(ItemBarChartWorldTotalBinding.inflate(
+        WorldBarChartViewHolder(ItemBarChartTotalBinding.inflate(
             LayoutInflater.from(parent.context), parent, false))
 
     override fun onBindViewHolder(holder: WorldBarChartViewHolder, position: Int) =
         holder.bind(getItem(position))
 
     class WorldBarChartViewHolder(
-        private val binding: ItemBarChartWorldTotalBinding
+        private val binding: ItemBarChartTotalBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(listWorldStatsChartUI: List<WorldStatsChartUI>) {
             val ctx = itemView.context

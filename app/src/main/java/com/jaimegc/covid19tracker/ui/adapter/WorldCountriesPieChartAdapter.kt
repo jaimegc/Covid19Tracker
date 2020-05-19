@@ -6,24 +6,24 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.jaimegc.covid19tracker.R
-import com.jaimegc.covid19tracker.databinding.ItemPieChartCountryTotalBinding
 import com.jaimegc.covid19tracker.common.extensions.chart.configure
 import com.jaimegc.covid19tracker.common.extensions.chart.setValues
 import com.jaimegc.covid19tracker.common.extensions.percentage
 import com.jaimegc.covid19tracker.common.extensions.setEmojiCountry
+import com.jaimegc.covid19tracker.databinding.ItemPieChartPlaceTotalBinding
 import com.jaimegc.covid19tracker.ui.model.WorldCountryStatsUI
 
 class WorldCountriesPieChartAdapter : ListAdapter<WorldCountryStatsUI, WorldCountriesPieChartAdapter.CountriesListStatsViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        CountriesListStatsViewHolder(ItemPieChartCountryTotalBinding.inflate(
+        CountriesListStatsViewHolder(ItemPieChartPlaceTotalBinding.inflate(
             LayoutInflater.from(parent.context), parent, false))
 
     override fun onBindViewHolder(holder: CountriesListStatsViewHolder, position: Int) =
         holder.bind(getItem(position))
 
     class CountriesListStatsViewHolder(
-        private val binding: ItemPieChartCountryTotalBinding
+        private val binding: ItemPieChartPlaceTotalBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(worldCountryStatsUI: WorldCountryStatsUI) {
             val ctx = itemView.context

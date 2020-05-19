@@ -16,7 +16,8 @@ data class PlaceStatsUI(
     val name: String,
     val nameEs: String,
     val code: String = "",
-    val stats: StatsUI
+    val stats: StatsUI,
+    var isExpanded: Boolean = false
 )
 
 data class CountryUI(
@@ -70,6 +71,18 @@ data class CountryStatsChartUI(
     val country: CountryUI,
     val stats: StatsChartUI
 )
+
+data class PlaceListStatsChartUI(
+    val place: PlaceUI,
+    val stats: List<StatsChartUI>
+)
+
+data class PlaceStatsChartUI(
+    val place: PlaceUI,
+    val stats: StatsChartUI
+) {
+    var statsParent: StatsChartUI? = null
+}
 
 data class StatsChartUI(
     val date: String,

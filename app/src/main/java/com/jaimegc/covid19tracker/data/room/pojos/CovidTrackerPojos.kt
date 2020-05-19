@@ -2,10 +2,8 @@ package com.jaimegc.covid19tracker.data.room.pojos
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import com.jaimegc.covid19tracker.data.room.entities.CountryEntity
-import com.jaimegc.covid19tracker.data.room.entities.CountryStatsEntity
+import com.jaimegc.covid19tracker.data.room.entities.*
 import com.jaimegc.covid19tracker.data.room.views.CountryAndStatsDV
-import com.jaimegc.covid19tracker.data.room.entities.WorldStatsEntity
 
 data class WorldAndCountriesStatsPojo(
     @Embedded
@@ -32,4 +30,21 @@ class CountryAndOneStatsPojo(
 ) {
     fun isValid(): Boolean =
         country != null && countryStats != null
+}
+
+data class RegionAndStatsPojo(
+    @Embedded
+    val region: RegionEntity?,
+    @Relation(parentColumn = "id", entityColumn = "id_region_fk")
+    val stats: List<RegionStatsEntity>
+)
+
+class RegionAndOneStatsPojo(
+    @Embedded
+    val region: RegionEntity?,
+    @Embedded
+    val regionStats: RegionStatsEntity?
+) {
+    fun isValid(): Boolean =
+        region != null && regionStats != null
 }

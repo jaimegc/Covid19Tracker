@@ -2,30 +2,33 @@ package com.jaimegc.covid19tracker.ui.country
 
 import androidx.lifecycle.*
 import com.jaimegc.covid19tracker.common.QueueLiveData
-import com.jaimegc.covid19tracker.domain.model.CountryOneStats
-import com.jaimegc.covid19tracker.domain.model.DomainError
-import com.jaimegc.covid19tracker.domain.model.ListCountry
-import com.jaimegc.covid19tracker.domain.model.ListRegion
+import com.jaimegc.covid19tracker.domain.model.*
 import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.domain.states.StateError
 import com.jaimegc.covid19tracker.domain.usecase.GetCountry
 import com.jaimegc.covid19tracker.domain.usecase.GetCountryStats
-import com.jaimegc.covid19tracker.ui.model.toPlaceUI
-import com.jaimegc.covid19tracker.ui.model.toUI
+import com.jaimegc.covid19tracker.domain.usecase.GetRegion
+import com.jaimegc.covid19tracker.domain.usecase.GetRegionStats
+import com.jaimegc.covid19tracker.ui.model.*
 import com.jaimegc.covid19tracker.ui.states.PlaceStateScreen
 import com.jaimegc.covid19tracker.ui.states.MenuItemViewType
 import com.jaimegc.covid19tracker.ui.states.ScreenState
 import com.jaimegc.covid19tracker.ui.viewmodel.BaseScreenStateMenuViewModel
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class CountryViewModel(
     private val getCountry: GetCountry,
-    private val getCountryStats: GetCountryStats
+    private val getCountryStats: GetCountryStats,
+    private val getRegion: GetRegion,
+    private val getRegionStats: GetRegionStats
 ) : BaseScreenStateMenuViewModel<PlaceStateScreen>() {
 
     override val _screenState = QueueLiveData<ScreenState<PlaceStateScreen>>()
     override val screenState: LiveData<ScreenState<PlaceStateScreen>> = _screenState
+
+    private val mapRegionsLineStats =
+        mutableMapOf<MenuItemViewType, List<PlaceListStatsChartUI>>()
 
     fun getCountries() =
         viewModelScope.launch {
@@ -37,9 +40,34 @@ class CountryViewModel(
             }
         }
 
+    fun getListChartStats(idCountry: String) =
+        lineOrPieChartStats(idCountry, MenuItemViewType.List)
+
+    fun getPieChartStats(idCountry: String) =
+        lineOrPieChartStats(idCountry, MenuItemViewType.PieChart)
+
+    private fun lineOrPieChartStats(idCountry: String, viewType: MenuItemViewType) =
+        viewModelScope.launch {
+            val countryAndStatsByIdDate =
+                getCountryStats.getCountryAndStatsByIdDate(idCountry, "2020-05-06")
+            val regionsStatsOrderByConfirmed =
+                getRegionStats.getRegionsStatsOrderByConfirmed(idCountry, "2020-05-06")
+
+            countryAndStatsByIdDate.combine(regionsStatsOrderByConfirmed) { countries, regions ->
+                listOf(countries, regions)
+            }.collect { results ->
+                results.map { result ->
+                    result.fold(
+                        { handleError(it) },
+                        { handleState(state = it, viewType = viewType) }
+                    )
+                }
+            }
+        }
+
     fun getRegionsByCountry(idCountry: String) =
         viewModelScope.launch {
-            getCountry.getRegionsByCountry(idCountry).collect { result ->
+            getRegion.getRegionsByCountry(idCountry).collect { result ->
                 result.fold(
                     { handleError(it) },
                     { handleState(state = it) }
@@ -47,13 +75,47 @@ class CountryViewModel(
             }
         }
 
-    fun getCountryAndStatsByIdDate(idCountry: String) =
+    fun getBarChartStats(idCountry: String) =
         viewModelScope.launch {
-            getCountryStats.getCountryAndStatsByIdDate(idCountry, "2020-05-06").collect { result ->
-                result.fold(
-                    { handleError(it) },
-                    { handleState(state = it) }
-                )
+            val countryStats = getCountryStats.getCountryAllStats(idCountry)
+            val regionStats = getRegionStats.getRegionsAllStatsOrderByConfirmed(idCountry)
+
+            countryStats.combine(regionStats) { countries, regions ->
+                listOf(countries, regions)
+            }.collect { results ->
+                results.map { result ->
+                    result.fold(
+                        { handleError(it) },
+                        { handleState(state = it) }
+                    )
+                }
+            }
+        }
+
+    fun getLineChartStats(idCountry: String) =
+        viewModelScope.launch {
+            mapRegionsLineStats.clear()
+            val regionsMostConfirmed = getRegionStats.getRegionsAndStatsWithMostConfirmed(idCountry)
+            val regionsMostDeaths = getRegionStats.getRegionsAndStatsWithMostDeaths(idCountry)
+            val regionsMostRecovered = getRegionStats.getRegionsAndStatsWithMostRecovered(idCountry)
+            val regionsMostOpenCases = getRegionStats.getRegionsAndStatsWithMostOpenCases(idCountry)
+
+            combineFlows(regionsMostConfirmed, regionsMostDeaths, regionsMostRecovered,
+                regionsMostOpenCases).collect { results ->
+                    results.mapIndexed { index, result ->
+                        val viewType =
+                            when (index) {
+                                1 -> MenuItemViewType.LineChartMostConfirmed
+                                2 -> MenuItemViewType.LineChartMostDeaths
+                                3 -> MenuItemViewType.LineChartMostRecovered
+                                else -> MenuItemViewType.LineChartMostOpenCases
+                            }
+
+                        result.fold(
+                            { handleError(it) },
+                            { handleState(state = it, viewType = viewType) }
+                        )
+                    }
             }
         }
 
@@ -71,8 +133,44 @@ class CountryViewModel(
                         _screenState.postValue(ScreenState.Render(PlaceStateScreen.SuccessSpinnerRegions(
                             state.data.regions.map { region -> region.toPlaceUI() })))
                     is CountryOneStats ->
-                        _screenState.postValue(ScreenState.Render(PlaceStateScreen.SuccessCountryStats(
-                            state.data.toPlaceUI())))
+                        when (viewType) {
+                            is MenuItemViewType.List ->
+                                _screenState.postValue(ScreenState.Render(
+                                    PlaceStateScreen.SuccessCountryAndStats(state.data.toPlaceUI())))
+                            is MenuItemViewType.PieChart ->
+                                _screenState.postValue(ScreenState.Render(
+                                    PlaceStateScreen.SuccessCountryAndStatsPieChart(state.data.stats.toChartUI())))
+                        }
+                    is ListRegionStats ->
+                        when (viewType) {
+                            is MenuItemViewType.List ->
+                                _screenState.postValue(ScreenState.Render(
+                                    PlaceStateScreen.SuccessRegionStats(state.data.toPlaceUI())))
+                            is MenuItemViewType.PieChart ->
+                                _screenState.postValue(ScreenState.Render(
+                                    PlaceStateScreen.SuccessRegionAndStatsPieChart(state.data.toPlaceChartUI())))
+                        }
+                    is ListCountryStats ->
+                        _screenState.postValue(ScreenState.Render(
+                            PlaceStateScreen.SuccessPlaceTotalStatsBarChart(state.data.toPlaceUI())))
+                    is ListRegionAndStats -> {
+                        when (viewType) {
+                            is MenuItemViewType.BarChart ->
+                                _screenState.postValue(ScreenState.Render(
+                                    PlaceStateScreen.SuccessPlaceStatsBarChart(state.data.toPlaceUI())))
+                            is MenuItemViewType.LineChartMostConfirmed,
+                               MenuItemViewType.LineChartMostDeaths,
+                               MenuItemViewType.LineChartMostOpenCases,
+                               MenuItemViewType.LineChartMostRecovered -> {
+                                   mapRegionsLineStats[viewType] = state.data.toPlaceUI()
+
+                                   if (viewType == MenuItemViewType.LineChartMostRecovered) {
+                                       _screenState.postValue(ScreenState.Render(
+                                           PlaceStateScreen.SuccessRegionsStatsLineCharts(mapRegionsLineStats)))
+                                   }
+                            }
+                        }
+                    }
                 }
             }
             is State.Loading ->

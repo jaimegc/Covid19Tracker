@@ -59,7 +59,7 @@ class WorldFragment : Fragment(R.layout.fragment_world),
     override fun handleRenderState(renderState: WorldStateScreen) {
         when (renderState) {
             is WorldStateScreen.SuccessCovidTracker -> {
-                if (menu.isCurrentItem(MENU_ITEM_LIST)) {
+                if (menu.isCurrentItemChecked(MENU_ITEM_LIST)) {
                     mergeAdapter.removeAllAdapters()
                     mergeAdapter.addAdapter(worldAdapter)
                     mergeAdapter.addAdapter(worldCountryAdapter)
@@ -68,7 +68,7 @@ class WorldFragment : Fragment(R.layout.fragment_world),
                 }
             }
             is WorldStateScreen.SuccessWorldStatsBarCharts -> {
-                if (menu.isCurrentItem(MENU_ITEM_BAR_CHART)) {
+                if (menu.isCurrentItemChecked(MENU_ITEM_BAR_CHART)) {
                     mergeAdapter.addAdapter(0, worldBarChartAdapter)
                     if (mergeAdapter.containsAdapter(worldBarCountriesChartAdapter)) {
                         binding.recyclerWorld.scrollToPosition(0)
@@ -77,7 +77,7 @@ class WorldFragment : Fragment(R.layout.fragment_world),
                 }
             }
             is WorldStateScreen.SuccessCountriesStatsBarCharts -> {
-                if (menu.isCurrentItem(MENU_ITEM_BAR_CHART)) {
+                if (menu.isCurrentItemChecked(MENU_ITEM_BAR_CHART)) {
                     if (mergeAdapter.containsAdapter(worldBarChartAdapter)) {
                         mergeAdapter.addAdapter(1, worldBarCountriesChartAdapter)
                     } else {
@@ -87,13 +87,13 @@ class WorldFragment : Fragment(R.layout.fragment_world),
                 }
             }
             is WorldStateScreen.SuccessCountriesStatsLineCharts -> {
-                if (menu.isCurrentItem(MENU_ITEM_LINE_CHART)) {
+                if (menu.isCurrentItemChecked(MENU_ITEM_LINE_CHART)) {
                     mergeAdapter.addAdapter(worldLineChartAdapter)
                     worldLineChartAdapter.submitList(listOf(renderState.data))
                 }
             }
             is WorldStateScreen.SuccessCountriesStatsPieCharts -> {
-                if (menu.isCurrentItem(MENU_ITEM_PIE_CHART)) {
+                if (menu.isCurrentItemChecked(MENU_ITEM_PIE_CHART)) {
                     mergeAdapter.addAdapter(worldPieChartAdapter)
                     mergeAdapter.addAdapter(worldCountriesPieChartAdapter)
                     worldPieChartAdapter.submitList(listOf(renderState.data[0].worldStats))
@@ -112,28 +112,40 @@ class WorldFragment : Fragment(R.layout.fragment_world),
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
         when (item.itemId) {
             R.id.list_view -> {
-                menu.enableItem(MENU_ITEM_LIST)
-                mergeAdapter.removeAllAdapters()
-                viewModel.getCovidTrackerLast(MenuItemViewType.List)
+                if (menu.isCurrentItemChecked(MENU_ITEM_LIST).not()) {
+                    menu.enableItem(MENU_ITEM_LIST)
+                    mergeAdapter.removeAllAdapters()
+                    viewModel.getCovidTrackerLast(MenuItemViewType.List)
+                }
                 true
             }
             R.id.bar_chart_view -> {
-                menu.enableItem(MENU_ITEM_BAR_CHART)
-                mergeAdapter.removeAllAdapters()
-                viewModel.getWorldAllStats()
-                viewModel.getCountriesStatsOrderByConfirmed()
+                if (menu.isCurrentItemChecked(MENU_ITEM_BAR_CHART).not()) {
+                    menu.enableItem(MENU_ITEM_BAR_CHART)
+                    mergeAdapter.removeAllAdapters()
+                    /**
+                     *  Two different requests.
+                     *  In CountryFragment & CountryViewModel you can see it in one request.
+                     */
+                    viewModel.getWorldAllStats()
+                    viewModel.getCountriesStatsOrderByConfirmed()
+                }
                 true
             }
             R.id.line_chart_view -> {
-                menu.enableItem(MENU_ITEM_LINE_CHART)
-                mergeAdapter.removeAllAdapters()
-                viewModel.getWorldMostStats()
+                if (menu.isCurrentItemChecked(MENU_ITEM_LINE_CHART).not()) {
+                    menu.enableItem(MENU_ITEM_LINE_CHART)
+                    mergeAdapter.removeAllAdapters()
+                    viewModel.getWorldMostStats()
+                }
                 true
             }
             R.id.pie_chart_view -> {
-                menu.enableItem(MENU_ITEM_PIE_CHART)
-                mergeAdapter.removeAllAdapters()
-                viewModel.getCovidTrackerLast(MenuItemViewType.PieChart)
+                if (menu.isCurrentItemChecked(MENU_ITEM_PIE_CHART).not()) {
+                    menu.enableItem(MENU_ITEM_PIE_CHART)
+                    mergeAdapter.removeAllAdapters()
+                    viewModel.getCovidTrackerLast(MenuItemViewType.PieChart)
+                }
                 true
             }
             else -> super.onOptionsItemSelected(item)

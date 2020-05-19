@@ -35,7 +35,7 @@ fun LineChart.configure(xAxisValues: List<String>, minAxisLeftValue: Float = 0f)
 
         with(this.legend) {
             form = Legend.LegendForm.SQUARE
-            textSize = 12f
+            textSize = 10f
             verticalAlignment = Legend.LegendVerticalAlignment.TOP
             horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
         }
@@ -47,9 +47,11 @@ fun LineChart.setValues(
     listValues: List<List<Float>>,
     legendColorRes: List<Int>,
     legendValues: List<String>,
-    sizeMaxListValues: Int
+    sizeMaxListValues: Int,
+    legend: Legend
 ) {
     val valuesLineChart = mutableListOf<List<Entry>>()
+    optimizeLegendTextSize(legendValues, legend)
 
     listValues.map { values ->
         val valuesDiff = sizeMaxListValues - values.size
@@ -80,4 +82,15 @@ fun LineChart.setValues(
     lineData.isHighlightEnabled = false
 
     data = lineData
+}
+
+private fun optimizeLegendTextSize(legendValues: List<String>, legend: Legend) {
+    when (legendValues.sumBy { it.length }) {
+        in 0..40 -> legend.textSize = 10f
+        in 41..45 -> legend.textSize = 9f
+        in 46..50 -> legend.textSize = 8f
+        in 51..60 -> legend.textSize = 7.5f
+        else -> legend.textSize = 7f
+    }
+
 }
