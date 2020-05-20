@@ -86,7 +86,7 @@ class CountryViewModel(
                 results.map { result ->
                     result.fold(
                         { handleError(it) },
-                        { handleState(state = it) }
+                        { handleState(state = it, viewType = MenuItemViewType.BarChart) }
                     )
                 }
             }
