@@ -8,7 +8,11 @@ class ChartDayMonthFormatter(
     private val listDates: List<String>
 ) : ValueFormatter() {
     override fun getFormattedValue(value: Float): String =
-        listDates[value.toInt()].substring(5, listDates[value.toInt()].length)
+        try {
+            listDates[value.toInt()].substring(5, listDates[value.toInt()].length)
+        } catch(e: Exception) {
+            ""
+        }
 }
 
 class PercentPieChartFormatter : ValueFormatter() {
