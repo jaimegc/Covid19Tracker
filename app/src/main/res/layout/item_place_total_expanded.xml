@@ -26,10 +26,11 @@
     <TextView
         android:id="@+id/text_place"
         style="@style/TextPlaceName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         app:layout_constraintBottom_toBottomOf="@+id/ic_country_emoji"
+        app:layout_constraintEnd_toStartOf="@+id/ic_expand_collapse"
         app:layout_constraintStart_toEndOf="@+id/ic_country_emoji"
         app:layout_constraintTop_toTopOf="@+id/ic_country_emoji"
         tools:text="Spain" />
