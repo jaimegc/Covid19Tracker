@@ -41,4 +41,11 @@ class GetRegionStats(
         idCountry: String
     ): Flow<Either<StateError<DomainError>, State<ListRegionAndStats>>> =
         repository.getRegionsAndStatsWithMostOpenCases(idCountry)
+
+    suspend fun getRegionAndStatsByDate(
+        idCountry: String,
+        idRegion: String,
+        date: String
+    ): Flow<Either<StateError<DomainError>, State<RegionOneStats>>> =
+        repository.getRegionAndStatsByDate(idCountry, idRegion, date)
 }

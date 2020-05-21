@@ -27,6 +27,7 @@ abstract class Covid19TrackerDatabase : RoomDatabase() {
     abstract fun countryDao(): CountryDao
     abstract fun regionDao(): RegionDao
     abstract fun regionStatsDao(): RegionStatsDao
+    abstract fun subRegionStatsDao(): SubRegionStatsDao
 
     companion object {
         const val version = 1

@@ -39,9 +39,9 @@ class GetCountryStats(
     ): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
         repository.getCountriesAndStatsWithMostOpenCases()
 
-    suspend fun getCountryAndStatsByIdDate(
+    suspend fun getCountryAndStatsByDate(
         idCountry: String,
         date: String
     ): Flow<Either<StateError<DomainError>, State<CountryOneStats>>> =
-        repository.getCountryAndStatsByIdDate(idCountry, date)
+        repository.getCountryAndStatsByDate(idCountry, date)
 }

@@ -61,6 +61,17 @@ class CovidTrackerRepository(
         }.asFlow()
     }
 
+    suspend fun getSubRegionsStatsOrderByConfirmed(
+        idCountry: String,
+        idRegion: String,
+        date: String
+    ): Flow<Either<StateError<DomainError>, State<ListSubRegionStats>>> {
+        return object : BaseRepository<DomainError, ListSubRegionStats> {
+            override suspend fun fetchFromLocal(): Flow<Either<DomainError, ListSubRegionStats>> =
+                local.getSubRegionsStatsOrderByConfirmed(idCountry, idRegion, date)
+        }.asFlow()
+    }
+
     suspend fun getRegionsAllStatsOrderByConfirmed(
         idCountry: String
     ): Flow<Either<StateError<DomainError>, State<ListRegionAndStats>>> {
@@ -154,13 +165,24 @@ class CovidTrackerRepository(
         }.asFlow()
     }
 
-    suspend fun getCountryAndStatsByIdDate(
+    suspend fun getCountryAndStatsByDate(
         idCountry: String,
         date: String
     ): Flow<Either<StateError<DomainError>, State<CountryOneStats>>> {
         return object : BaseRepository<DomainError, CountryOneStats> {
             override suspend fun fetchFromLocal(): Flow<Either<DomainError, CountryOneStats>> =
-                local.getCountryAndStatsByIdDate(idCountry, date)
+                local.getCountryAndStatsByDate(idCountry, date)
+        }.asFlow()
+    }
+
+    suspend fun getRegionAndStatsByDate(
+        idCountry: String,
+        idRegion: String,
+        date: String
+    ): Flow<Either<StateError<DomainError>, State<RegionOneStats>>> {
+        return object : BaseRepository<DomainError, RegionOneStats> {
+            override suspend fun fetchFromLocal(): Flow<Either<DomainError, RegionOneStats>> =
+                local.getRegionAndStatsByDate(idCountry, idRegion, date)
         }.asFlow()
     }
 }

@@ -137,11 +137,11 @@ data class SubRegionEntity(
 
 @Entity(
     tableName = "sub_region_stats",
-    primaryKeys = ["date", "id_sub_region_fk", "id_region_fk"],
+    primaryKeys = ["date", "id_sub_region_fk", "id_sub_region_region_fk"],
     foreignKeys = [ForeignKey(
         entity = SubRegionEntity::class,
         parentColumns = arrayOf("id", "id_region_fk"),
-        childColumns = arrayOf("id_sub_region_fk", "id_region_fk"),
+        childColumns = arrayOf("id_sub_region_fk", "id_sub_region_region_fk"),
         onDelete = ForeignKey.CASCADE
     )])
 data class SubRegionStatsEntity(
@@ -151,6 +151,6 @@ data class SubRegionStatsEntity(
     val stats: StatsEmbedded,
     @ColumnInfo(name = "id_sub_region_fk")
     val idSubRegionFk: String,
-    @ColumnInfo(name = "id_region_fk")
+    @ColumnInfo(name = "id_sub_region_region_fk")
     val idRegionFk: String
 )

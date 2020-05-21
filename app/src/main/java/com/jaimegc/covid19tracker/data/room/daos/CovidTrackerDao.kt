@@ -4,6 +4,7 @@ import androidx.room.*
 import com.jaimegc.covid19tracker.data.room.entities.*
 import com.jaimegc.covid19tracker.data.room.pojos.*
 import com.jaimegc.covid19tracker.data.room.views.RegionAndStatsDV
+import com.jaimegc.covid19tracker.data.room.views.SubRegionAndStatsDV
 import kotlinx.coroutines.flow.Flow
 
 
@@ -160,7 +161,7 @@ abstract class CountryStatsDao {
         LEFT JOIN country_stats cs ON c.id = cs.id_country_fk
         WHERE c.id = :idCountry AND cs.date = :date
         """)
-    abstract fun getCountryAndStatsByIdDate(idCountry: String, date: String): Flow<CountryAndOneStatsPojo>
+    abstract fun getCountryAndStatsByDate(idCountry: String, date: String): Flow<CountryAndOneStatsPojo>
 }
 
 @Dao
@@ -188,6 +189,14 @@ abstract class RegionDao {
 
 @Dao
 abstract class RegionStatsDao {
+    @Transaction
+    @Query("""
+        SELECT * FROM region r
+        LEFT JOIN region_stats s ON r.id = s.id_region_fk
+        WHERE r.id = :idRegion AND r.id_country_fk = :idCountry AND s.date = :date
+        """)
+    abstract fun getRegionAndStatsByDate(idCountry: String, idRegion: String, date: String): Flow<RegionAndOneStatsPojo>
+
     @Transaction
     @Query("""
         SELECT * FROM region r
@@ -275,4 +284,20 @@ abstract class RegionStatsDao {
         ORDER BY r.id ASC, s.open_cases ASC
         """)
     abstract fun getRegionsAndStatsWithMostOpenCases(idCountry: String): Flow<List<RegionAndOneStatsPojo>>
+}
+
+@Dao
+abstract class SubRegionStatsDao {
+    @Transaction
+    @Query("""
+        SELECT * FROM sub_region r
+        LEFT JOIN sub_region_stats s ON r.id = s.id_sub_region_fk AND r.id_region_fk = s.id_sub_region_region_fk
+        WHERE r.id_region_fk = :idRegion AND r.id_country_fk = :idCountry AND s.date = :date
+        ORDER BY s.confirmed DESC
+        """)
+    abstract fun getSubRegionAndStatsByCountryAndDateOrderByConfirmed(
+        idCountry: String,
+        idRegion: String,
+        date: String
+    ): Flow<List<SubRegionAndStatsDV>>
 }

@@ -73,17 +73,7 @@ class CountryFragment : Fragment(R.layout.fragment_country),
                 binding.countrySpinner.onItemSelected { pos ->
                     countrySpinnerAdapter.getCountryId(pos).let { idCountry ->
                         viewModel.getRegionsByCountry(idCountry)
-                        mergeAdapter.removeAllAdapters()
-
-                        when (menu.isCurrentItemChecked()) {
-                            MENU_ITEM_LIST ->
-                                viewModel.getListChartStats(idCountry)
-                            MENU_ITEM_BAR_CHART ->
-                                viewModel.getBarChartStats(idCountry)
-                            MENU_ITEM_LINE_CHART ->
-                                viewModel.getLineChartStats(idCountry)
-                            else -> viewModel.getPieChartStats(idCountry)
-                        }
+                        selectMenu(idCountry)
                     }
                 }
             }
@@ -96,18 +86,19 @@ class CountryFragment : Fragment(R.layout.fragment_country),
                     binding.regionSpinner.adapter = regionSpinnerAdapter
 
                     binding.regionSpinner.onItemSelected(ignoreFirst = true) { pos ->
-                        viewModel.getRegionsByCountry(regionSpinnerAdapter.getId(pos))
+                        selectMenu(countrySpinnerAdapter.getCurrentCountryId(),
+                            regionSpinnerAdapter.getId(pos))
                     }
                 } else {
                     binding.regionSpinner.hide()
                     binding.icExpandRegion.hide()
                 }
             }
-            is PlaceStateScreen.SuccessCountryAndStats -> {
+            is PlaceStateScreen.SuccessPlaceAndStats -> {
                 mergeAdapter.addAdapter(placeTotalAdapter)
                 placeTotalAdapter.submitList(listOf(renderState.data))
             }
-            is PlaceStateScreen.SuccessRegionStats -> {
+            is PlaceStateScreen.SuccessPlaceStats -> {
                 mergeAdapter.addAdapter(placeAdapter)
                 placeAdapter.submitList(renderState.data)
             }
@@ -191,6 +182,20 @@ class CountryFragment : Fragment(R.layout.fragment_country),
         countrySpinnerAdapter.getCountryId(
             binding.countrySpinner.selectedItemId.toInt()
         )
+
+    private fun selectMenu(idCountry: String, idRegion: String = "") {
+        mergeAdapter.removeAllAdapters()
+
+        when (menu.isCurrentItemChecked()) {
+            MENU_ITEM_LIST ->
+                viewModel.getListChartStats(idCountry, idRegion)
+            MENU_ITEM_BAR_CHART ->
+                viewModel.getBarChartStats(idCountry, idRegion)
+            MENU_ITEM_LINE_CHART ->
+                viewModel.getLineChartStats(idCountry, idRegion)
+            else -> viewModel.getPieChartStats(idCountry, idRegion)
+        }
+    }
 
     companion object {
         private const val MENU_ITEM_LIST = 0

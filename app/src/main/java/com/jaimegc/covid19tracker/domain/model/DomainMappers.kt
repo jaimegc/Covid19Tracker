@@ -9,6 +9,7 @@ import com.jaimegc.covid19tracker.data.room.views.CountryAndStatsDV
 import com.jaimegc.covid19tracker.data.room.entities.*
 import com.jaimegc.covid19tracker.data.room.pojos.*
 import com.jaimegc.covid19tracker.data.room.views.RegionAndStatsDV
+import com.jaimegc.covid19tracker.data.room.views.SubRegionAndStatsDV
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -125,6 +126,12 @@ fun CountryAndOneStatsPojo.toDomain(): CountryOneStats =
         stats = countryStats!!.toDomain()
     )
 
+fun RegionAndOneStatsPojo.toDomain(): RegionOneStats =
+    RegionOneStats(
+        region = region!!.toDomain(),
+        stats = regionStats!!.toDomain(regionStats.date)
+    )
+
 private fun CountryAndStatsDV.toDomain(): CountryOneStats =
     CountryOneStats(
         country = country!!.toDomain(),
@@ -158,6 +165,14 @@ fun List<RegionAndStatsDV>.toDomain(date: String): ListRegionStats =
         )
     })
 
+fun List<SubRegionAndStatsDV>.toDomain(date: String): ListSubRegionStats =
+    ListSubRegionStats(map { entitiy ->
+        SubRegionStats(
+            subRegion = entitiy.subRegion!!.toDomain(),
+            stats = entitiy.subRegionStats!!.toDomain(date)
+        )
+    })
+
 fun List<RegionAndStatsDV>.toDomain(): ListRegionStats =
     ListRegionStats(map { entitiy ->
         RegionStats(
@@ -180,6 +195,9 @@ fun List<RegionStatsEntity>.toDomain(): List<Stats> =
 fun RegionStatsEntity.toDomain(date: String): Stats =
     stats.toDomain(date)
 
+fun SubRegionStatsEntity.toDomain(date: String): Stats =
+    stats.toDomain(date)
+
 fun CountryEntity.toDomain(): Country =
     Country(
         id = id,
@@ -190,6 +208,13 @@ fun CountryEntity.toDomain(): Country =
 
 fun RegionEntity.toDomain(): Region =
     Region(
+        id = id,
+        name = name,
+        nameEs = nameEs
+    )
+
+fun SubRegionEntity.toDomain(): SubRegion =
+    SubRegion(
         id = id,
         name = name,
         nameEs = nameEs

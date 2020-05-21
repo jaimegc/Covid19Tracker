@@ -153,6 +153,14 @@ fun CountryOneStats.toPlaceUI(): PlaceStatsUI =
         stats = stats.toUI()
     )
 
+fun RegionOneStats.toPlaceUI(): PlaceStatsUI =
+    PlaceStatsUI(
+        id = region.id,
+        name = region.name,
+        nameEs = region.nameEs,
+        stats = stats.toUI()
+    )
+
 fun ListRegionStats.toPlaceUI(): List<PlaceStatsUI> =
     regionStats.map { regStats ->
         PlaceStatsUI(
@@ -160,6 +168,16 @@ fun ListRegionStats.toPlaceUI(): List<PlaceStatsUI> =
             name = regStats.region.name,
             nameEs = regStats.region.nameEs,
             stats = regStats.stats.toUI()
+        )
+    }
+
+fun ListSubRegionStats.toPlaceUI(): List<PlaceStatsUI> =
+    subRegionStats.map { subRegStats ->
+        PlaceStatsUI(
+            id = subRegStats.subRegion.id,
+            name = subRegStats.subRegion.name,
+            nameEs = subRegStats.subRegion.nameEs,
+            stats = subRegStats.stats.toUI()
         )
     }
 
@@ -172,6 +190,18 @@ fun ListRegionStats.toPlaceChartUI(): List<PlaceStatsChartUI> =
                 nameEs = regStats.region.nameEs
             ),
             stats = regStats.stats.toChartUI()
+        )
+    }
+
+fun ListSubRegionStats.toPlaceChartUI(): List<PlaceStatsChartUI> =
+    subRegionStats.map { subRegStats ->
+        PlaceStatsChartUI(
+            place = PlaceUI(
+                id = subRegStats.subRegion.id,
+                name = subRegStats.subRegion.name,
+                nameEs = subRegStats.subRegion.nameEs
+            ),
+            stats = subRegStats.stats.toChartUI()
         )
     }
 

@@ -5,10 +5,7 @@ import com.jaimegc.covid19tracker.common.QueueLiveData
 import com.jaimegc.covid19tracker.domain.model.*
 import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.domain.states.StateError
-import com.jaimegc.covid19tracker.domain.usecase.GetCountry
-import com.jaimegc.covid19tracker.domain.usecase.GetCountryStats
-import com.jaimegc.covid19tracker.domain.usecase.GetRegion
-import com.jaimegc.covid19tracker.domain.usecase.GetRegionStats
+import com.jaimegc.covid19tracker.domain.usecase.*
 import com.jaimegc.covid19tracker.ui.model.*
 import com.jaimegc.covid19tracker.ui.states.PlaceStateScreen
 import com.jaimegc.covid19tracker.ui.states.MenuItemViewType
@@ -21,7 +18,8 @@ class CountryViewModel(
     private val getCountry: GetCountry,
     private val getCountryStats: GetCountryStats,
     private val getRegion: GetRegion,
-    private val getRegionStats: GetRegionStats
+    private val getRegionStats: GetRegionStats,
+    private val getSubRegionStats: GetSubRegionStats
 ) : BaseScreenStateMenuViewModel<PlaceStateScreen>() {
 
     override val _screenState = QueueLiveData<ScreenState<PlaceStateScreen>>()
@@ -40,27 +38,47 @@ class CountryViewModel(
             }
         }
 
-    fun getListChartStats(idCountry: String) =
-        lineOrPieChartStats(idCountry, MenuItemViewType.List)
+    fun getListChartStats(idCountry: String, idRegion: String = "") =
+        listOrPieChartStats(idCountry, idRegion, MenuItemViewType.List)
 
-    fun getPieChartStats(idCountry: String) =
-        lineOrPieChartStats(idCountry, MenuItemViewType.PieChart)
+    fun getPieChartStats(idCountry: String, idRegion: String = "") =
+        listOrPieChartStats(idCountry, idRegion, MenuItemViewType.PieChart)
 
-    private fun lineOrPieChartStats(idCountry: String, viewType: MenuItemViewType) =
+    private fun listOrPieChartStats(idCountry: String, idRegion: String, viewType: MenuItemViewType) =
         viewModelScope.launch {
-            val countryAndStatsByIdDate =
-                getCountryStats.getCountryAndStatsByIdDate(idCountry, "2020-05-06")
-            val regionsStatsOrderByConfirmed =
-                getRegionStats.getRegionsStatsOrderByConfirmed(idCountry, "2020-05-06")
+            val date = "2020-05-20"
 
-            countryAndStatsByIdDate.combine(regionsStatsOrderByConfirmed) { countries, regions ->
-                listOf(countries, regions)
-            }.collect { results ->
-                results.map { result ->
-                    result.fold(
-                        { handleError(it) },
-                        { handleState(state = it, viewType = viewType) }
-                    )
+            if (idRegion.isEmpty()) {
+                val countryAndStatsByDate =
+                    getCountryStats.getCountryAndStatsByDate(idCountry, date)
+                val regionsStatsOrderByConfirmed =
+                    getRegionStats.getRegionsStatsOrderByConfirmed(idCountry, date)
+
+                countryAndStatsByDate.combine(regionsStatsOrderByConfirmed) { countries, regions ->
+                    listOf(countries, regions)
+                }.collect { results ->
+                    results.map { result ->
+                        result.fold(
+                            { handleError(it) },
+                            { handleState(state = it, viewType = viewType) }
+                        )
+                    }
+                }
+            } else {
+                val regionAndStatsByDate =
+                    getRegionStats.getRegionAndStatsByDate(idCountry, idRegion, date)
+                val subRegionsStatsOrderByConfirmed =
+                    getSubRegionStats.getSubRegionsStatsOrderByConfirmed(idCountry, idRegion, date)
+
+                regionAndStatsByDate.combine(subRegionsStatsOrderByConfirmed) { regions, subRegions ->
+                    listOf(regions, subRegions)
+                }.collect { results ->
+                    results.map { result ->
+                        result.fold(
+                            { handleError(it) },
+                            { handleState(state = it, viewType = viewType) }
+                        )
+                    }
                 }
             }
         }
@@ -75,7 +93,7 @@ class CountryViewModel(
             }
         }
 
-    fun getBarChartStats(idCountry: String) =
+    fun getBarChartStats(idCountry: String, idRegion: String = "") =
         viewModelScope.launch {
             val countryStats = getCountryStats.getCountryAllStats(idCountry)
             val regionStats = getRegionStats.getRegionsAllStatsOrderByConfirmed(idCountry)
@@ -92,7 +110,7 @@ class CountryViewModel(
             }
         }
 
-    fun getLineChartStats(idCountry: String) =
+    fun getLineChartStats(idCountry: String, idRegion: String = "") =
         viewModelScope.launch {
             mapRegionsLineStats.clear()
             val regionsMostConfirmed = getRegionStats.getRegionsAndStatsWithMostConfirmed(idCountry)
@@ -136,7 +154,16 @@ class CountryViewModel(
                         when (viewType) {
                             is MenuItemViewType.List ->
                                 _screenState.postValue(ScreenState.Render(
-                                    PlaceStateScreen.SuccessCountryAndStats(state.data.toPlaceUI())))
+                                    PlaceStateScreen.SuccessPlaceAndStats(state.data.toPlaceUI())))
+                            is MenuItemViewType.PieChart ->
+                                _screenState.postValue(ScreenState.Render(
+                                    PlaceStateScreen.SuccessCountryAndStatsPieChart(state.data.stats.toChartUI())))
+                        }
+                    is RegionOneStats ->
+                        when (viewType) {
+                            is MenuItemViewType.List ->
+                                _screenState.postValue(ScreenState.Render(
+                                    PlaceStateScreen.SuccessPlaceAndStats(state.data.toPlaceUI())))
                             is MenuItemViewType.PieChart ->
                                 _screenState.postValue(ScreenState.Render(
                                     PlaceStateScreen.SuccessCountryAndStatsPieChart(state.data.stats.toChartUI())))
@@ -145,7 +172,16 @@ class CountryViewModel(
                         when (viewType) {
                             is MenuItemViewType.List ->
                                 _screenState.postValue(ScreenState.Render(
-                                    PlaceStateScreen.SuccessRegionStats(state.data.toPlaceUI())))
+                                    PlaceStateScreen.SuccessPlaceStats(state.data.toPlaceUI())))
+                            is MenuItemViewType.PieChart ->
+                                _screenState.postValue(ScreenState.Render(
+                                    PlaceStateScreen.SuccessRegionAndStatsPieChart(state.data.toPlaceChartUI())))
+                        }
+                    is ListSubRegionStats ->
+                        when (viewType) {
+                            is MenuItemViewType.List ->
+                                _screenState.postValue(ScreenState.Render(
+                                    PlaceStateScreen.SuccessPlaceStats(state.data.toPlaceUI())))
                             is MenuItemViewType.PieChart ->
                                 _screenState.postValue(ScreenState.Render(
                                     PlaceStateScreen.SuccessRegionAndStatsPieChart(state.data.toPlaceChartUI())))

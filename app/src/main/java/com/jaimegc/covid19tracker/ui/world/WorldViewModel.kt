@@ -30,7 +30,7 @@ class WorldViewModel(
 
     fun getCovidTrackerLast(viewType: MenuItemViewType) =
         viewModelScope.launch {
-            getCovidTrackerLast.getCovidTrackerByDate("2020-05-06").collect { result ->
+            getCovidTrackerLast.getCovidTrackerByDate("2020-05-20").collect { result ->
                 result.fold({ handleError(it) }, { handleState(state = it, viewType = viewType) })
             }
         }

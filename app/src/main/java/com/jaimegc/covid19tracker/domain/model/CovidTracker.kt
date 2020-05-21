@@ -21,6 +21,11 @@ data class CountryOneStats(
     val regionStats: List<RegionStats>? = null
 )
 
+data class RegionOneStats(
+    val region: Region,
+    val stats: Stats
+)
+
 data class ListCountryAndStats(
     val countriesStats: List<CountryAndStats>
 )
@@ -31,6 +36,10 @@ data class ListCountryStats(
 
 data class ListRegionStats(
     val regionStats: List<RegionStats>
+)
+
+data class ListSubRegionStats(
+    val subRegionStats: List<SubRegionStats>
 )
 
 data class ListRegionAndStats(
