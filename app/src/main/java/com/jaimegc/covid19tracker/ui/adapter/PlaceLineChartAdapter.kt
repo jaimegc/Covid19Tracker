@@ -12,7 +12,7 @@ import com.jaimegc.covid19tracker.common.extensions.chart.configure
 import com.jaimegc.covid19tracker.common.extensions.chart.setValues
 import com.jaimegc.covid19tracker.databinding.ItemLineChartTotalBinding
 import com.jaimegc.covid19tracker.ui.model.PlaceListStatsChartUI
-import com.jaimegc.covid19tracker.ui.states.MenuItemViewType
+import com.jaimegc.covid19tracker.ui.base.states.MenuItemViewType
 
 class PlaceLineChartAdapter :
     ListAdapter<Map<MenuItemViewType, List<PlaceListStatsChartUI>>,

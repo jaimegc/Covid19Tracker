@@ -7,10 +7,10 @@ import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.domain.states.StateError
 import com.jaimegc.covid19tracker.domain.usecase.*
 import com.jaimegc.covid19tracker.ui.model.*
-import com.jaimegc.covid19tracker.ui.states.PlaceStateScreen
-import com.jaimegc.covid19tracker.ui.states.MenuItemViewType
-import com.jaimegc.covid19tracker.ui.states.ScreenState
-import com.jaimegc.covid19tracker.ui.viewmodel.BaseScreenStateMenuViewModel
+import com.jaimegc.covid19tracker.ui.base.states.PlaceStateScreen
+import com.jaimegc.covid19tracker.ui.base.states.MenuItemViewType
+import com.jaimegc.covid19tracker.ui.base.states.ScreenState
+import com.jaimegc.covid19tracker.ui.base.BaseScreenStateMenuViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 

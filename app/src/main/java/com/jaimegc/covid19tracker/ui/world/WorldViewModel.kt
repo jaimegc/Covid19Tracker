@@ -11,8 +11,8 @@ import com.jaimegc.covid19tracker.domain.usecase.GetWorldStats
 import com.jaimegc.covid19tracker.ui.model.CountryListStatsChartUI
 import com.jaimegc.covid19tracker.ui.model.toListChartUI
 import com.jaimegc.covid19tracker.ui.model.toUI
-import com.jaimegc.covid19tracker.ui.states.*
-import com.jaimegc.covid19tracker.ui.viewmodel.BaseScreenStateMenuViewModel
+import com.jaimegc.covid19tracker.ui.base.states.*
+import com.jaimegc.covid19tracker.ui.base.BaseScreenStateMenuViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 

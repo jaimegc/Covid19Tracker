@@ -14,7 +14,7 @@ import com.jaimegc.covid19tracker.databinding.LoadingBinding
 import com.jaimegc.covid19tracker.common.extensions.*
 import com.jaimegc.covid19tracker.ui.adapter.*
 import com.jaimegc.covid19tracker.ui.base.BaseFragment
-import com.jaimegc.covid19tracker.ui.states.*
+import com.jaimegc.covid19tracker.ui.base.states.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fragment_world) {

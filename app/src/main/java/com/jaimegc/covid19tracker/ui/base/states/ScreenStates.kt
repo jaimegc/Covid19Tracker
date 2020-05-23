@@ -1,4 +1,4 @@
-package com.jaimegc.covid19tracker.ui.states
+package com.jaimegc.covid19tracker.ui.base.states
 
 import com.jaimegc.covid19tracker.ui.model.*
 

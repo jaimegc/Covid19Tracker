@@ -16,8 +16,8 @@ import com.jaimegc.covid19tracker.data.preference.CountryPreferences
 import com.jaimegc.covid19tracker.ui.adapter.*
 import com.jaimegc.covid19tracker.ui.base.BaseFragment
 import com.jaimegc.covid19tracker.ui.model.StatsChartUI
-import com.jaimegc.covid19tracker.ui.states.PlaceStateScreen
-import com.jaimegc.covid19tracker.ui.states.ScreenState
+import com.jaimegc.covid19tracker.ui.base.states.PlaceStateScreen
+import com.jaimegc.covid19tracker.ui.base.states.ScreenState
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.get
 
