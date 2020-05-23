@@ -35,5 +35,5 @@
     <string name="menu_world_pie_chart">World pie chart</string>
 
     <!-- Country Tab -->
-    <string name="select_place">Select place</string>
+    <string name="select_all_places">All</string>
 </resources>
