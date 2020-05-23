@@ -35,5 +35,9 @@ class CountrySpinnerAdapter(
 
     fun getCountryId(pos: Int): String = countries[pos].id
 
+    fun saveCurrentPosition(pos: Int) {
+        currentPosition = pos
+    }
+
     fun getCurrentCountryId(): String = countries[currentPosition].id
 }

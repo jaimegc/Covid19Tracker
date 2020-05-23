@@ -37,8 +37,10 @@ class CountryFragment : Fragment(R.layout.fragment_country),
     private lateinit var loadingBinding: LoadingBinding
     private lateinit var menu: Menu
     private lateinit var countrySpinnerAdapter: CountrySpinnerAdapter
-    private lateinit var regionSpinnerAdapter: PlaceSpinnerAdapter
+    private lateinit var placeSpinnerAdapter: PlaceSpinnerAdapter
     private lateinit var statsParent: StatsChartUI
+
+    private var countryJustSelected = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -68,10 +70,12 @@ class CountryFragment : Fragment(R.layout.fragment_country),
                 binding.countrySpinner.adapter = countrySpinnerAdapter
 
                 binding.countrySpinner.setSelection(
-                    renderState.data.indexOf(renderState.data.first { it.id == "spain" }))
+                    renderState.data.indexOf(renderState.data.first { it.id == "uganda" }))
 
                 binding.countrySpinner.onItemSelected { pos ->
                     countrySpinnerAdapter.getCountryId(pos).let { idCountry ->
+                        countryJustSelected = true
+                        countrySpinnerAdapter.saveCurrentPosition(pos)
                         viewModel.getRegionsByCountry(idCountry)
                         selectMenu(idCountry)
                     }
@@ -81,13 +85,17 @@ class CountryFragment : Fragment(R.layout.fragment_country),
                 if (renderState.data.isNotEmpty()) {
                     binding.regionSpinner.show()
                     binding.icExpandRegion.show()
-                    regionSpinnerAdapter =
+                    placeSpinnerAdapter =
                         PlaceSpinnerAdapter(requireContext(), renderState.data.toMutableList())
-                    binding.regionSpinner.adapter = regionSpinnerAdapter
+                    binding.regionSpinner.adapter = placeSpinnerAdapter
 
-                    binding.regionSpinner.onItemSelected(ignoreFirst = true) { pos ->
-                        selectMenu(countrySpinnerAdapter.getCurrentCountryId(),
-                            regionSpinnerAdapter.getId(pos))
+                    binding.regionSpinner.onItemSelected(ignoreFirst = false) { pos ->
+                        if (countryJustSelected.not()) {
+                            placeSpinnerAdapter.saveCurrentPosition(pos)
+                            selectMenu(countrySpinnerAdapter.getCurrentCountryId(),
+                                placeSpinnerAdapter.getId(pos))
+                        }
+                        countryJustSelected = false
                     }
                 } else {
                     binding.regionSpinner.hide()
@@ -144,31 +152,28 @@ class CountryFragment : Fragment(R.layout.fragment_country),
                     if (menu.isCurrentItemChecked(MENU_ITEM_LIST).not()) {
                         mergeAdapter.removeAllAdapters()
                         menu.enableItem(MENU_ITEM_LIST)
-                        viewModel.getListChartStats(getSelectedCountry())
+                        selectMenu(getSelectedCountry(), getSelectedPlace())
                     }
                     true
                 }
                 R.id.bar_chart_view -> {
                     if (menu.isCurrentItemChecked(MENU_ITEM_BAR_CHART).not()) {
                         menu.enableItem(MENU_ITEM_BAR_CHART)
-                        mergeAdapter.removeAllAdapters()
-                        viewModel.getBarChartStats(getSelectedCountry())
+                        selectMenu(getSelectedCountry(), getSelectedPlace())
                     }
                     true
                 }
                 R.id.line_chart_view -> {
                     if (menu.isCurrentItemChecked(MENU_ITEM_LINE_CHART).not()) {
                         menu.enableItem(MENU_ITEM_LINE_CHART)
-                        mergeAdapter.removeAllAdapters()
-                        viewModel.getLineChartStats(getSelectedCountry())
+                        selectMenu(getSelectedCountry(), getSelectedPlace())
                     }
                     true
                 }
                 R.id.pie_chart_view -> {
                     if (menu.isCurrentItemChecked(MENU_ITEM_PIE_CHART).not()) {
                         menu.enableItem(MENU_ITEM_PIE_CHART)
-                        mergeAdapter.removeAllAdapters()
-                        viewModel.getPieChartStats(getSelectedCountry())
+                        selectMenu(getSelectedCountry(), getSelectedPlace())
                     }
                     true
                 }
@@ -182,6 +187,13 @@ class CountryFragment : Fragment(R.layout.fragment_country),
         countrySpinnerAdapter.getCountryId(
             binding.countrySpinner.selectedItemId.toInt()
         )
+
+    private fun getSelectedPlace(): String =
+        if (binding.regionSpinner.isVisible() && ::placeSpinnerAdapter.isInitialized) {
+            placeSpinnerAdapter.getCurrentPlaceId()
+        } else {
+            ""
+        }
 
     private fun selectMenu(idCountry: String, idRegion: String = "") {
         mergeAdapter.removeAllAdapters()

@@ -13,14 +13,15 @@ import com.jaimegc.covid19tracker.ui.model.PlaceUI
 
 class PlaceSpinnerAdapter(
     private val context: Context,
-    places: MutableList<PlaceUI>
+    placesSpinner: MutableList<PlaceUI>
 ) : BaseAdapter() {
 
-    private val placesSpinner: List<PlaceUI>
+    private val places: List<PlaceUI>
+    private var currentPosition = 0
 
     init {
-        places.add(0, addSelectPlace(context))
-        placesSpinner = places
+        placesSpinner.add(0, addSelectPlace(context))
+        places = placesSpinner
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
@@ -35,19 +36,25 @@ class PlaceSpinnerAdapter(
             binding.placeName.setTextColor(context, R.color.select_place)
         }
 
-        binding.placeName.text = placesSpinner[position].name
+        binding.placeName.text = places[position].name
 
         return binding.root
     }
 
-    override fun getItem(position: Int): PlaceUI = placesSpinner[position]
+    override fun getItem(position: Int): PlaceUI = places[position]
 
     override fun getItemId(position: Int): Long = position.toLong()
 
-    override fun getCount(): Int = placesSpinner.size
+    override fun getCount(): Int = places.size
 
-    fun getId(pos: Int): String = placesSpinner[pos].id
+    fun getId(pos: Int): String = places[pos].id
+
+    fun saveCurrentPosition(pos: Int) {
+        currentPosition = pos
+    }
+
+    fun getCurrentPlaceId(): String = places[currentPosition].id
 
     private fun addSelectPlace(context: Context): PlaceUI =
-        PlaceUI(id = "", name = context.getString(R.string.select_place), nameEs = "")
+        PlaceUI(id = "", name = context.getString(R.string.select_all_places), nameEs = "")
 }
