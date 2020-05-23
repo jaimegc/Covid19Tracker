@@ -2,7 +2,6 @@
     <string name="app_name">Covid19Tracker</string>
 
     <!-- Navigation Menu -->
-    <string name="title_home">Home</string>
     <string name="title_country">Country</string>
     <string name="title_world">World</string>
 
@@ -33,6 +32,10 @@
     <string name="menu_world_bar_chart">World bar chart</string>
     <string name="menu_world_line_chart">World line chart</string>
     <string name="menu_world_pie_chart">World pie chart</string>
+    <string name="menu_country_list">Country list</string>
+    <string name="menu_country_bar_chart">Country bar chart</string>
+    <string name="menu_country_line_chart">Country line chart</string>
+    <string name="menu_country_pie_chart">Country pie chart</string>
 
     <!-- Country Tab -->
     <string name="select_all_places">All</string>
