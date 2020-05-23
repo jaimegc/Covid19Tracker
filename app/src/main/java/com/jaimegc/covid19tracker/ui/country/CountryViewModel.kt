@@ -25,7 +25,7 @@ class CountryViewModel(
     override val _screenState = QueueLiveData<ScreenState<PlaceStateScreen>>()
     override val screenState: LiveData<ScreenState<PlaceStateScreen>> = _screenState
 
-    private val mapRegionsLineStats =
+    private val mapPlacesLineStats =
         mutableMapOf<MenuItemViewType, List<PlaceListStatsChartUI>>()
 
     fun getCountries() =
@@ -129,14 +129,17 @@ class CountryViewModel(
 
     fun getLineChartStats(idCountry: String, idRegion: String = "") =
         viewModelScope.launch {
-            mapRegionsLineStats.clear()
-            val regionsMostConfirmed = getRegionStats.getRegionsAndStatsWithMostConfirmed(idCountry)
-            val regionsMostDeaths = getRegionStats.getRegionsAndStatsWithMostDeaths(idCountry)
-            val regionsMostRecovered = getRegionStats.getRegionsAndStatsWithMostRecovered(idCountry)
-            val regionsMostOpenCases = getRegionStats.getRegionsAndStatsWithMostOpenCases(idCountry)
 
-            combineFlows(regionsMostConfirmed, regionsMostDeaths, regionsMostRecovered,
-                regionsMostOpenCases).collect { results ->
+            mapPlacesLineStats.clear()
+
+            if (idRegion.isEmpty()) {
+                val regionsMostConfirmed = getRegionStats.getRegionsAndStatsWithMostConfirmed(idCountry)
+                val regionsMostDeaths = getRegionStats.getRegionsAndStatsWithMostDeaths(idCountry)
+                val regionsMostRecovered = getRegionStats.getRegionsAndStatsWithMostRecovered(idCountry)
+                val regionsMostOpenCases = getRegionStats.getRegionsAndStatsWithMostOpenCases(idCountry)
+
+                combineFlows(regionsMostConfirmed, regionsMostDeaths, regionsMostRecovered,
+                    regionsMostOpenCases).collect { results ->
                     results.mapIndexed { index, result ->
                         val viewType =
                             when (index) {
@@ -151,6 +154,34 @@ class CountryViewModel(
                             { handleState(state = it, viewType = viewType) }
                         )
                     }
+                }
+            } else {
+                val subRegionsMostConfirmed =
+                    getSubRegionStats.getSubRegionsAndStatsWithMostConfirmed(idCountry, idRegion)
+                val subRegionsMostDeaths =
+                    getSubRegionStats.getSubRegionsAndStatsWithMostDeaths(idCountry, idRegion)
+                val subRegionsMostRecovered =
+                    getSubRegionStats.getSubRegionsAndStatsWithMostRecovered(idCountry, idRegion)
+                val subRegionsMostOpenCases =
+                    getSubRegionStats.getSubRegionsAndStatsWithMostOpenCases(idCountry, idRegion)
+
+                combineFlows(subRegionsMostConfirmed, subRegionsMostDeaths, subRegionsMostRecovered,
+                    subRegionsMostOpenCases).collect { results ->
+                    results.mapIndexed { index, result ->
+                        val viewType =
+                            when (index) {
+                                1 -> MenuItemViewType.LineChartMostConfirmed
+                                2 -> MenuItemViewType.LineChartMostDeaths
+                                3 -> MenuItemViewType.LineChartMostRecovered
+                                else -> MenuItemViewType.LineChartMostOpenCases
+                            }
+
+                        result.fold(
+                            { handleError(it) },
+                            { handleState(state = it, viewType = viewType) }
+                        )
+                    }
+                }
             }
         }
 
@@ -218,11 +249,11 @@ class CountryViewModel(
                                MenuItemViewType.LineChartMostDeaths,
                                MenuItemViewType.LineChartMostOpenCases,
                                MenuItemViewType.LineChartMostRecovered -> {
-                                   mapRegionsLineStats[viewType] = state.data.toPlaceUI()
+                                   mapPlacesLineStats[viewType] = state.data.toPlaceUI()
 
                                    if (viewType == MenuItemViewType.LineChartMostRecovered) {
                                        _screenState.postValue(ScreenState.Render(
-                                           PlaceStateScreen.SuccessRegionsStatsLineCharts(mapRegionsLineStats)))
+                                           PlaceStateScreen.SuccessRegionsStatsLineCharts(mapPlacesLineStats)))
                                    }
                             }
                         }
@@ -232,6 +263,17 @@ class CountryViewModel(
                             is MenuItemViewType.BarChart ->
                                 _screenState.postValue(ScreenState.Render(
                                     PlaceStateScreen.SuccessPlaceStatsBarChart(state.data.toPlaceUI())))
+                            is MenuItemViewType.LineChartMostConfirmed,
+                               MenuItemViewType.LineChartMostDeaths,
+                               MenuItemViewType.LineChartMostOpenCases,
+                               MenuItemViewType.LineChartMostRecovered -> {
+                                   mapPlacesLineStats[viewType] = state.data.toPlaceUI()
+
+                                   if (viewType == MenuItemViewType.LineChartMostRecovered) {
+                                       _screenState.postValue(ScreenState.Render(
+                                           PlaceStateScreen.SuccessRegionsStatsLineCharts(mapPlacesLineStats)))
+                                }
+                            }
                         }
                     }
                 }

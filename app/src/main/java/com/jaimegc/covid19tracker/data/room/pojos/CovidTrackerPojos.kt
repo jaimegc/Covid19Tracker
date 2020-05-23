@@ -39,6 +39,13 @@ data class RegionAndStatsPojo(
     val stats: List<RegionStatsEntity>
 )
 
+data class SubRegionAndStatsPojo(
+    @Embedded
+    val subRegion: SubRegionEntity?,
+    @Relation(parentColumn = "id", entityColumn = "id_sub_region_fk")
+    val stats: List<SubRegionStatsEntity>
+)
+
 class RegionAndOneStatsPojo(
     @Embedded
     val region: RegionEntity?,
@@ -49,9 +56,12 @@ class RegionAndOneStatsPojo(
         region != null && regionStats != null
 }
 
-data class SubRegionAndStatsPojo(
+class SubRegionAndOneStatsPojo(
     @Embedded
     val subRegion: SubRegionEntity?,
-    @Relation(parentColumn = "id", entityColumn = "id_sub_region_fk")
-    val stats: List<SubRegionStatsEntity>
-)
+    @Embedded
+    val subRegionStats: SubRegionStatsEntity?
+) {
+    fun isValid(): Boolean =
+        subRegion != null && subRegionStats != null
+}

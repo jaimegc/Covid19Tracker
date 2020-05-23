@@ -90,6 +90,12 @@ fun RegionAndStatsPojo.toDomain(): RegionAndStats =
         stats = stats.map { regionStats -> regionStats.toDomain(regionStats.date) }
     )
 
+fun SubRegionAndStatsPojo.toDomain(): SubRegionAndStats =
+    SubRegionAndStats(
+        subRegion = subRegion!!.toDomain(),
+        stats = stats.map { regionStats -> regionStats.toDomain(regionStats.date) }
+    )
+
 fun List<CountryEntity>.toDomain(): ListCountry =
     ListCountry(
         map { entity -> entity.toDomain() }
@@ -118,6 +124,16 @@ fun List<RegionAndOneStatsPojo>.toPojoRegionsOrdered(): List<RegionAndStatsPojo>
                 countryStats.key, countryStats.value.map { stats -> stats.regionStats!! }))
         }
         listRegionAndStatsPojo
+    }
+
+fun List<SubRegionAndOneStatsPojo>.toPojoSubRegionsOrdered(): List<SubRegionAndStatsPojo> =
+    this.groupBy { it.subRegion }.let { mapSubRegions ->
+        val listSubRegionAndStatsPojo = mutableListOf<SubRegionAndStatsPojo>()
+        mapSubRegions.map { countryStats ->
+            listSubRegionAndStatsPojo.add(SubRegionAndStatsPojo(
+                countryStats.key, countryStats.value.map { stats -> stats.subRegionStats!! }))
+        }
+        listSubRegionAndStatsPojo
     }
 
 fun CountryAndOneStatsPojo.toDomain(): CountryOneStats =
@@ -153,6 +169,9 @@ fun List<CountryAndStatsPojo>.toDomain(): ListCountryAndStats =
 
 fun List<RegionAndStatsPojo>.toDomain(): ListRegionAndStats =
     ListRegionAndStats(map { entitiy -> entitiy.toDomain() })
+
+fun List<SubRegionAndStatsPojo>.toDomain(): ListSubRegionAndStats =
+    ListSubRegionAndStats(map { entitiy -> entitiy.toDomain() })
 
 fun List<CountryStatsEntity>.toStatsDomain(): ListCountryOnlyStats =
     ListCountryOnlyStats(map { entitiy -> entitiy.toDomain() })
