@@ -6,24 +6,26 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.core.view.isEmpty
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.MergeAdapter
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.databinding.FragmentCountryBinding
 import com.jaimegc.covid19tracker.databinding.LoadingBinding
 import com.jaimegc.covid19tracker.common.extensions.*
+import com.jaimegc.covid19tracker.data.preference.CountryPreferences
 import com.jaimegc.covid19tracker.ui.adapter.*
+import com.jaimegc.covid19tracker.ui.base.BaseFragment
 import com.jaimegc.covid19tracker.ui.model.StatsChartUI
-import com.jaimegc.covid19tracker.ui.states.BaseViewScreenState
 import com.jaimegc.covid19tracker.ui.states.PlaceStateScreen
 import com.jaimegc.covid19tracker.ui.states.ScreenState
 import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.core.get
 
-class CountryFragment : Fragment(R.layout.fragment_country),
-    BaseViewScreenState<CountryViewModel, PlaceStateScreen> {
+class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layout.fragment_country) {
 
     override val viewModel: CountryViewModel by viewModel()
+
+    private val countryPreferences: CountryPreferences = get()
     private val placeTotalAdapter = PlaceTotalAdapter()
     private val placeAdapter = PlaceAdapter()
     private val placeTotalBarChartAdapter = PlaceTotalBarChartAdapter()
@@ -70,10 +72,13 @@ class CountryFragment : Fragment(R.layout.fragment_country),
                 binding.countrySpinner.adapter = countrySpinnerAdapter
 
                 binding.countrySpinner.setSelection(
-                    renderState.data.indexOf(renderState.data.first { it.id == "uganda" }))
+                    renderState.data.indexOf(renderState.data.first { country ->
+                        country.id == countryPreferences.getId() })
+                    )
 
                 binding.countrySpinner.onItemSelected { pos ->
                     countrySpinnerAdapter.getCountryId(pos).let { idCountry ->
+                        countryPreferences.save(idCountry)
                         countryJustSelected = true
                         countrySpinnerAdapter.saveCurrentPosition(pos)
                         viewModel.getRegionsByCountry(idCountry)

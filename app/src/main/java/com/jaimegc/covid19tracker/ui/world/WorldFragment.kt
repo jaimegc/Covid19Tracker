@@ -6,7 +6,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.core.view.isEmpty
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.MergeAdapter
 import com.jaimegc.covid19tracker.R
@@ -14,13 +13,14 @@ import com.jaimegc.covid19tracker.databinding.FragmentWorldBinding
 import com.jaimegc.covid19tracker.databinding.LoadingBinding
 import com.jaimegc.covid19tracker.common.extensions.*
 import com.jaimegc.covid19tracker.ui.adapter.*
+import com.jaimegc.covid19tracker.ui.base.BaseFragment
 import com.jaimegc.covid19tracker.ui.states.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class WorldFragment : Fragment(R.layout.fragment_world),
-    BaseViewScreenState<WorldViewModel, WorldStateScreen> {
+class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fragment_world) {
 
     override val viewModel: WorldViewModel by viewModel()
+
     private val worldAdapter = WorldAdapter()
     private val worldCountryAdapter = WorldCountryAdapter()
     private val worldBarChartAdapter = WorldBarChartAdapter()
