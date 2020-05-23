@@ -154,8 +154,11 @@ fun List<CountryAndStatsPojo>.toDomain(): ListCountryAndStats =
 fun List<RegionAndStatsPojo>.toDomain(): ListRegionAndStats =
     ListRegionAndStats(map { entitiy -> entitiy.toDomain() })
 
-fun List<CountryStatsEntity>.toDomain(): ListCountryStats =
-    ListCountryStats(map { entitiy -> entitiy.toDomain() })
+fun List<CountryStatsEntity>.toStatsDomain(): ListCountryOnlyStats =
+    ListCountryOnlyStats(map { entitiy -> entitiy.toDomain() })
+
+fun List<RegionStatsEntity>.toStatsDomain(): ListRegionOnlyStats =
+    ListRegionOnlyStats(map { entitiy -> entitiy.toDomain(entitiy.date) })
 
 fun List<RegionAndStatsDV>.toDomain(date: String): ListRegionStats =
     ListRegionStats(map { entitiy ->
@@ -181,15 +184,26 @@ fun List<RegionAndStatsDV>.toDomain(): ListRegionStats =
         )
     })
 
-fun List<RegionAndStatsPojo>.toRegionDomain(): ListRegionAndStats =
+fun List<RegionAndStatsPojo>.toPojoRegionDomain(): ListRegionAndStats =
     ListRegionAndStats(map { entitiy ->
         RegionAndStats(
             region = entitiy.region!!.toDomain(),
-            stats = entitiy.stats.toDomain()
+            stats = entitiy.stats.toRegionDomain()
         )
     })
 
-fun List<RegionStatsEntity>.toDomain(): List<Stats> =
+fun List<SubRegionAndStatsPojo>.toPojoSubRegionDomain(): ListSubRegionAndStats =
+    ListSubRegionAndStats(map { entitiy ->
+        SubRegionAndStats(
+            subRegion = entitiy.subRegion!!.toDomain(),
+            stats = entitiy.stats.toSubRegionDomain()
+        )
+    })
+
+fun List<RegionStatsEntity>.toRegionDomain(): List<Stats> =
+    map { entity -> entity.toDomain(entity.date) }
+
+fun List<SubRegionStatsEntity>.toSubRegionDomain(): List<Stats> =
     map { entity -> entity.toDomain(entity.date) }
 
 fun RegionStatsEntity.toDomain(date: String): Stats =

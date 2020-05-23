@@ -189,6 +189,12 @@ abstract class RegionDao {
 
 @Dao
 abstract class RegionStatsDao {
+    @Query("""
+        SELECT * FROM region_stats 
+        WHERE id_region_fk = :idRegion AND id_region_country_fk = :idCountry
+        ORDER BY date ASC""")
+    abstract fun getById(idCountry: String, idRegion: String): Flow<List<RegionStatsEntity>>
+
     @Transaction
     @Query("""
         SELECT * FROM region r
@@ -300,4 +306,17 @@ abstract class SubRegionStatsDao {
         idRegion: String,
         date: String
     ): Flow<List<SubRegionAndStatsDV>>
+
+    @Transaction
+    @Query("""
+        SELECT * FROM sub_region r
+        LEFT JOIN sub_region_stats s ON r.id = s.id_sub_region_fk
+        WHERE r.id_region_fk = :idRegion AND r.id_country_fk = :idCountry
+        GROUP BY r.name
+        ORDER BY s.confirmed DESC
+        """)
+    abstract fun getSubRegionAndAllStatsByCountryAndDateOrderByConfirmed(
+        idCountry: String,
+        idRegion: String
+    ): Flow<List<SubRegionAndStatsPojo>>
 }

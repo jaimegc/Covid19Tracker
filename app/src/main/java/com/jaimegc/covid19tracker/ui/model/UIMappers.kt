@@ -144,6 +144,13 @@ fun Region.toPlaceUI(): PlaceUI =
         nameEs = nameEs
     )
 
+fun SubRegion.toPlaceUI(): PlaceUI =
+    PlaceUI(
+        id = id,
+        name = name,
+        nameEs = nameEs
+    )
+
 fun CountryOneStats.toPlaceUI(): PlaceStatsUI =
     PlaceStatsUI(
         id = country.id,
@@ -205,8 +212,24 @@ fun ListSubRegionStats.toPlaceChartUI(): List<PlaceStatsChartUI> =
         )
     }
 
-fun ListCountryStats.toPlaceUI(): List<StatsChartUI> =
+fun ListCountryOnlyStats.toPlaceUI(): List<StatsChartUI> =
     countriesStats.map { stats ->
+        StatsChartUI(
+            date = stats.date,
+            source = stats.source,
+            confirmed = stats.confirmed.toFloat(),
+            deaths = stats.deaths.toFloat(),
+            newConfirmed = stats.newConfirmed.toFloat(),
+            newDeaths = stats.newDeaths.toFloat(),
+            newOpenCases = stats.newOpenCases.toFloat(),
+            newRecovered = stats.newRecovered.toFloat(),
+            openCases = stats.openCases.toFloat(),
+            recovered = stats.recovered.toFloat()
+        )
+    }
+
+fun ListRegionOnlyStats.toPlaceUI(): List<StatsChartUI> =
+    regionStats.map { stats ->
         StatsChartUI(
             date = stats.date,
             source = stats.source,
@@ -225,6 +248,14 @@ fun ListRegionAndStats.toPlaceUI(): List<PlaceListStatsChartUI> =
     regionStats.map { stats ->
         PlaceListStatsChartUI(
             place = stats.region.toPlaceUI(),
+            stats = stats.stats.map { place -> place.toChartUI() }
+        )
+    }
+
+fun ListSubRegionAndStats.toPlaceUI(): List<PlaceListStatsChartUI> =
+    subRegionStats.map { stats ->
+        PlaceListStatsChartUI(
+            place = stats.subRegion.toPlaceUI(),
             stats = stats.stats.map { place -> place.toChartUI() }
         )
     }

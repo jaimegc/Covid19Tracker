@@ -17,4 +17,10 @@ class GetSubRegionStats(
         date: String
     ): Flow<Either<StateError<DomainError>, State<ListSubRegionStats>>> =
         repository.getSubRegionsStatsOrderByConfirmed(idCountry, idRegion, date)
+
+    suspend fun getSubRegionsAllStatsOrderByConfirmed(
+        idCountry: String,
+        idRegion: String
+    ): Flow<Either<StateError<DomainError>, State<ListSubRegionAndStats>>> =
+        repository.getSubRegionsAllStatsOrderByConfirmed(idCountry, idRegion)
 }

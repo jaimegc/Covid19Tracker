@@ -95,17 +95,34 @@ class CountryViewModel(
 
     fun getBarChartStats(idCountry: String, idRegion: String = "") =
         viewModelScope.launch {
-            val countryStats = getCountryStats.getCountryAllStats(idCountry)
-            val regionStats = getRegionStats.getRegionsAllStatsOrderByConfirmed(idCountry)
 
-            countryStats.combine(regionStats) { countries, regions ->
-                listOf(countries, regions)
-            }.collect { results ->
-                results.map { result ->
-                    result.fold(
-                        { handleError(it) },
-                        { handleState(state = it, viewType = MenuItemViewType.BarChart) }
-                    )
+            if (idRegion.isEmpty()) {
+                val countryStats = getCountryStats.getCountryAllStats(idCountry)
+                val regionStats = getRegionStats.getRegionsAllStatsOrderByConfirmed(idCountry)
+
+                countryStats.combine(regionStats) { countries, regions ->
+                    listOf(countries, regions)
+                }.collect { results ->
+                    results.map { result ->
+                        result.fold(
+                            { handleError(it) },
+                            { handleState(state = it, viewType = MenuItemViewType.BarChart) }
+                        )
+                    }
+                }
+            } else {
+                val regionStats = getRegionStats.getRegionAllStats(idCountry, idRegion)
+                val subRegionStats = getSubRegionStats.getSubRegionsAllStatsOrderByConfirmed(idCountry, idRegion)
+
+                regionStats.combine(subRegionStats) { regions, subRegions ->
+                    listOf(regions, subRegions)
+                }.collect { results ->
+                    results.map { result ->
+                        result.fold(
+                            { handleError(it) },
+                            { handleState(state = it, viewType = MenuItemViewType.BarChart) }
+                        )
+                    }
                 }
             }
         }
@@ -186,7 +203,10 @@ class CountryViewModel(
                                 _screenState.postValue(ScreenState.Render(
                                     PlaceStateScreen.SuccessRegionAndStatsPieChart(state.data.toPlaceChartUI())))
                         }
-                    is ListCountryStats ->
+                    is ListCountryOnlyStats ->
+                        _screenState.postValue(ScreenState.Render(
+                            PlaceStateScreen.SuccessPlaceTotalStatsBarChart(state.data.toPlaceUI())))
+                    is ListRegionOnlyStats ->
                         _screenState.postValue(ScreenState.Render(
                             PlaceStateScreen.SuccessPlaceTotalStatsBarChart(state.data.toPlaceUI())))
                     is ListRegionAndStats -> {
@@ -205,6 +225,13 @@ class CountryViewModel(
                                            PlaceStateScreen.SuccessRegionsStatsLineCharts(mapRegionsLineStats)))
                                    }
                             }
+                        }
+                    }
+                    is ListSubRegionAndStats -> {
+                        when (viewType) {
+                            is MenuItemViewType.BarChart ->
+                                _screenState.postValue(ScreenState.Render(
+                                    PlaceStateScreen.SuccessPlaceStatsBarChart(state.data.toPlaceUI())))
                         }
                     }
                 }
