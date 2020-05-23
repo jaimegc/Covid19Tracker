@@ -323,16 +323,17 @@ abstract class SubRegionStatsDao {
     @Transaction
     @Query("""
         SELECT * FROM sub_region r, sub_region_stats s
-        WHERE r.id = s.id_sub_region_fk AND r.id_country_fk = :idCountry AND s.id_sub_region_region_fk = :idRegion AND r.id IN (
-            SELECT id FROM sub_region 
-                INNER JOIN (
-                    SELECT id_sub_region_fk, MAX(confirmed) AS maxConfirmed FROM sub_region_stats 
-                    GROUP BY id_sub_region_fk
-                ) statsMaxConfirmed
-                ON sub_region.id = statsMaxConfirmed.id_sub_region_fk AND sub_region.id_country_fk = :idCountry 
-                    AND sub_region.id_region_fk = :idRegion
-                ORDER BY statsMaxConfirmed.maxConfirmed DESC LIMIT 5
-            )
+        WHERE r.id = s.id_sub_region_fk AND r.id_region_fk = s.id_sub_region_region_fk 
+            AND r.id_country_fk = :idCountry AND s.id_sub_region_region_fk = :idRegion AND r.id IN (
+                SELECT id FROM sub_region 
+                    INNER JOIN (
+                        SELECT id_sub_region_fk, MAX(confirmed) AS maxConfirmed FROM sub_region_stats 
+                        GROUP BY id_sub_region_fk
+                    ) statsMaxConfirmed
+                    ON sub_region.id = statsMaxConfirmed.id_sub_region_fk AND sub_region.id_country_fk = :idCountry 
+                        AND sub_region.id_region_fk = :idRegion
+                    ORDER BY statsMaxConfirmed.maxConfirmed DESC LIMIT 5
+                )
         ORDER BY r.id ASC, s.confirmed ASC
         """)
     abstract fun getSubRegionsAndStatsWithMostConfirmed(
@@ -343,16 +344,17 @@ abstract class SubRegionStatsDao {
     @Transaction
     @Query("""
         SELECT * FROM sub_region r, sub_region_stats s
-        WHERE r.id = s.id_sub_region_fk AND r.id_country_fk = :idCountry AND s.id_sub_region_region_fk = :idRegion AND r.id IN (
-            SELECT id FROM sub_region 
-                INNER JOIN (
-                    SELECT id_sub_region_fk, MAX(deaths) AS maxDeaths FROM sub_region_stats 
-                    GROUP BY id_sub_region_fk
-                ) statsMaxDeaths
-                ON sub_region.id = statsMaxDeaths.id_sub_region_fk AND sub_region.id_country_fk = :idCountry 
-                    AND sub_region.id_region_fk = :idRegion
-                ORDER BY statsMaxDeaths.maxDeaths DESC LIMIT 5
-            )
+        WHERE r.id = s.id_sub_region_fk AND r.id_region_fk = s.id_sub_region_region_fk 
+            AND r.id_country_fk = :idCountry AND s.id_sub_region_region_fk = :idRegion AND r.id IN (
+                SELECT id FROM sub_region 
+                    INNER JOIN (
+                        SELECT id_sub_region_fk, MAX(deaths) AS maxDeaths FROM sub_region_stats 
+                        GROUP BY id_sub_region_fk
+                    ) statsMaxDeaths
+                    ON sub_region.id = statsMaxDeaths.id_sub_region_fk AND sub_region.id_country_fk = :idCountry 
+                        AND sub_region.id_region_fk = :idRegion
+                    ORDER BY statsMaxDeaths.maxDeaths DESC LIMIT 5
+                )
         ORDER BY r.id ASC, s.deaths ASC
         """)
     abstract fun getSubRegionsAndStatsWithMostDeaths(
@@ -363,16 +365,17 @@ abstract class SubRegionStatsDao {
     @Transaction
     @Query("""
         SELECT * FROM sub_region r, sub_region_stats s
-        WHERE r.id = s.id_sub_region_fk AND r.id_country_fk = :idCountry AND s.id_sub_region_region_fk = :idRegion AND r.id IN (
-            SELECT id FROM sub_region 
-                INNER JOIN (
-                    SELECT id_sub_region_fk, MAX(recovered) AS maxRecovered FROM sub_region_stats 
-                    GROUP BY id_sub_region_fk
-                ) statsMaxRecovered
-                ON sub_region.id = statsMaxRecovered.id_sub_region_fk AND sub_region.id_country_fk = :idCountry 
-                    AND sub_region.id_region_fk = :idRegion
-                ORDER BY statsMaxRecovered.maxRecovered DESC LIMIT 5
-            )
+        WHERE r.id = s.id_sub_region_fk AND r.id_region_fk = s.id_sub_region_region_fk 
+            AND r.id_country_fk = :idCountry AND s.id_sub_region_region_fk = :idRegion AND r.id IN (
+                SELECT id FROM sub_region 
+                    INNER JOIN (
+                        SELECT id_sub_region_fk, MAX(recovered) AS maxRecovered FROM sub_region_stats 
+                        GROUP BY id_sub_region_fk
+                    ) statsMaxRecovered
+                    ON sub_region.id = statsMaxRecovered.id_sub_region_fk AND sub_region.id_country_fk = :idCountry 
+                        AND sub_region.id_region_fk = :idRegion
+                    ORDER BY statsMaxRecovered.maxRecovered DESC LIMIT 5
+                )
         ORDER BY r.id ASC, s.recovered ASC
         """)
     abstract fun getSubRegionsAndStatsWithMostRecovered(idCountry: String,
@@ -382,16 +385,17 @@ abstract class SubRegionStatsDao {
     @Transaction
     @Query("""
         SELECT * FROM sub_region r, sub_region_stats s
-        WHERE r.id = s.id_sub_region_fk AND r.id_country_fk = :idCountry AND s.id_sub_region_region_fk = :idRegion AND r.id IN (
-            SELECT id FROM sub_region 
-                INNER JOIN (
-                    SELECT id_sub_region_fk, MAX(open_cases) AS maxOpenCases FROM sub_region_stats 
-                    GROUP BY id_sub_region_fk
-                ) statsMaxOpenCases
-                ON sub_region.id = statsMaxOpenCases.id_sub_region_fk AND sub_region.id_country_fk = :idCountry 
-                    AND sub_region.id_region_fk = :idRegion
-                ORDER BY statsMaxOpenCases.maxOpenCases DESC LIMIT 5
-            )
+        WHERE r.id = s.id_sub_region_fk AND r.id_region_fk = s.id_sub_region_region_fk 
+            AND r.id_country_fk = :idCountry AND s.id_sub_region_region_fk = :idRegion AND r.id IN (
+                SELECT id FROM sub_region 
+                    INNER JOIN (
+                        SELECT id_sub_region_fk, MAX(open_cases) AS maxOpenCases FROM sub_region_stats 
+                        GROUP BY id_sub_region_fk
+                    ) statsMaxOpenCases
+                    ON sub_region.id = statsMaxOpenCases.id_sub_region_fk AND sub_region.id_country_fk = :idCountry 
+                        AND sub_region.id_region_fk = :idRegion
+                    ORDER BY statsMaxOpenCases.maxOpenCases DESC LIMIT 5
+                )
         ORDER BY r.id ASC, s.open_cases ASC
         """)
     abstract fun getSubRegionsAndStatsWithMostOpenCases(

@@ -119,9 +119,9 @@ fun List<CountryAndOneStatsPojo>.toPojoCountriesOrdered(): List<CountryAndStatsP
 fun List<RegionAndOneStatsPojo>.toPojoRegionsOrdered(): List<RegionAndStatsPojo> =
     this.groupBy { it.region }.let { mapRegions ->
         val listRegionAndStatsPojo = mutableListOf<RegionAndStatsPojo>()
-        mapRegions.map { countryStats ->
+        mapRegions.map { regionStats ->
             listRegionAndStatsPojo.add(RegionAndStatsPojo(
-                countryStats.key, countryStats.value.map { stats -> stats.regionStats!! }))
+                regionStats.key, regionStats.value.map { stats -> stats.regionStats!! }))
         }
         listRegionAndStatsPojo
     }
@@ -129,9 +129,9 @@ fun List<RegionAndOneStatsPojo>.toPojoRegionsOrdered(): List<RegionAndStatsPojo>
 fun List<SubRegionAndOneStatsPojo>.toPojoSubRegionsOrdered(): List<SubRegionAndStatsPojo> =
     this.groupBy { it.subRegion }.let { mapSubRegions ->
         val listSubRegionAndStatsPojo = mutableListOf<SubRegionAndStatsPojo>()
-        mapSubRegions.map { countryStats ->
+        mapSubRegions.map { subRegionStats ->
             listSubRegionAndStatsPojo.add(SubRegionAndStatsPojo(
-                countryStats.key, countryStats.value.map { stats -> stats.subRegionStats!! }))
+                subRegionStats.key, subRegionStats.value.map { stats -> stats.subRegionStats!! }))
         }
         listSubRegionAndStatsPojo
     }
