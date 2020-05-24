@@ -217,5 +217,4 @@ enum class CountryCode(val countryName: String, val slug: String, val code: Stri
                 it.slug.toLowerCase() == countryId.toLowerCase()
             } ?: Unknown
     }
-
 }

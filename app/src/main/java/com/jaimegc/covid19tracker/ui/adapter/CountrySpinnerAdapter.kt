@@ -12,6 +12,8 @@ class CountrySpinnerAdapter(
     private val countries: List<CountryUI>
 ) : BaseAdapter() {
 
+    private var currentPosition = 0
+
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view = convertView ?: ItemCountrySpinnerBinding.inflate(
             LayoutInflater.from(parent?.context), parent, false).root
@@ -20,6 +22,7 @@ class CountrySpinnerAdapter(
 
         binding.countryName.text = countries[position].name
         binding.icCountryEmoji.setEmojiCountry(countries[position].code)
+        currentPosition = position
 
         return binding.root
     }
@@ -31,4 +34,10 @@ class CountrySpinnerAdapter(
     override fun getCount(): Int = countries.size
 
     fun getCountryId(pos: Int): String = countries[pos].id
+
+    fun saveCurrentPosition(pos: Int) {
+        currentPosition = pos
+    }
+
+    fun getCurrentCountryId(): String = countries[currentPosition].id
 }

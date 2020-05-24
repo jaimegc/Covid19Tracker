@@ -27,6 +27,7 @@ abstract class Covid19TrackerDatabase : RoomDatabase() {
     abstract fun countryDao(): CountryDao
     abstract fun regionDao(): RegionDao
     abstract fun regionStatsDao(): RegionStatsDao
+    abstract fun subRegionStatsDao(): SubRegionStatsDao
 
     companion object {
         const val version = 1
@@ -35,13 +36,13 @@ abstract class Covid19TrackerDatabase : RoomDatabase() {
         fun build(context: Context): Covid19TrackerDatabase =
             Room.databaseBuilder(context, Covid19TrackerDatabase::class.java, DATABASE_NAME)
                 //.createFromAsset("covid19-tracker-db")
-                //.createFromFile(File("${context.filesDir}${File.separator}$DATABASE_NAME"))
+                .createFromFile(File("${context.filesDir}${File.separator}$DATABASE_NAME"))
                 .addCallback(object : RoomDatabase.Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         super.onCreate(db)
                         // Populate database using a Worker
-                        val request = OneTimeWorkRequestBuilder<PopulateDatabaseWorker>().build()
-                        WorkManager.getInstance(context).enqueue(request)
+                        //val request = OneTimeWorkRequestBuilder<PopulateDatabaseWorker>().build()
+                        //WorkManager.getInstance(context).enqueue(request)
                     }
                 })
                 .fallbackToDestructiveMigration()

@@ -16,7 +16,7 @@ ext {
     android_plugin               = '3.3.0'
     carto_sdk                    = '4.2.2@aar'
     circle_imageview             = '3.0.0'
-    constraintlayout             = '2.0.0-beta4'
+    constraintlayout             = '2.0.0-beta5'
     coroutines                   = '1.2.1'
     design                       = '1.1.0'
     emoji                        = '5.1.1'
@@ -42,7 +42,7 @@ ext {
     okhttp                       = '3.14.0'
     permissions                  = '3.7'
     picasso                      = '2.71828'
-    recyclerview                 = '1.2.0-alpha02'
+    recyclerview                 = '1.2.0-alpha03'
     retrofit                     = '2.6.0'
     rounded_imageview            = '2.3.0'
     room                         = '2.2.5'
@@ -59,7 +59,7 @@ ext {
             android_plugin                : '3.3.0',
             carto_sdk                     : '4.2.2@aar',
             circle_imageview              : '3.0.0',
-            constraintlayout              : '2.0.0-beta4',
+            constraintlayout              : '2.0.0-beta5',
             coroutines                    : '1.2.1',
             design                        : '1.1.0',
             emoji                         : '5.1.0',
@@ -85,7 +85,7 @@ ext {
             okhttp                        : '3.14.0',
             permissions                   : '3.7',
             picasso                       : '2.71828',
-            recyclerview                  : '1.2.0-alpha02',
+            recyclerview                  : '1.2.0-alpha03',
             retrofit                      : '2.6.0',
             rounded_imageview             : '2.3.0',
             room                          : '2.2.5',
@@ -116,6 +116,8 @@ ext {
             mp_chart                      : [group: 'com.github.PhilJay', name: 'MPAndroidChart', version: versions.mp_chart],
             navigation_fragment           : [group: 'androidx.navigation:', name: 'navigation-fragment', version: versions.navigation],
             navigation_fragment_ktx       : [group: 'androidx.navigation:', name: 'navigation-fragment-ktx', version: versions.navigation],
+            navigation_runtime            : [group: 'androidx.navigation:', name: 'navigation-runtime', version: versions.navigation],
+            navigation_runtime_ktx        : [group: 'androidx.navigation:', name: 'navigation-runtime-ktx', version: versions.navigation],
             navigation_ui                 : [group: 'androidx.navigation:', name: 'navigation-ui', version: versions.navigation],
             navigation_ui_ktx             : [group: 'androidx.navigation:', name: 'navigation-ui-ktx', version: versions.navigation],
             firebase_crashlytics          : [group: 'com.google.firebase:firebase-crashlytics', name: 'crashlytics', version: versions.firebase_crashlytics],

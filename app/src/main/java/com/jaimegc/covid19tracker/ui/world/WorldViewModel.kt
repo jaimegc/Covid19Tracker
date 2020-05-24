@@ -11,8 +11,8 @@ import com.jaimegc.covid19tracker.domain.usecase.GetWorldStats
 import com.jaimegc.covid19tracker.ui.model.CountryListStatsChartUI
 import com.jaimegc.covid19tracker.ui.model.toListChartUI
 import com.jaimegc.covid19tracker.ui.model.toUI
-import com.jaimegc.covid19tracker.ui.states.*
-import com.jaimegc.covid19tracker.ui.viewmodel.BaseScreenStateMenuViewModel
+import com.jaimegc.covid19tracker.ui.base.states.*
+import com.jaimegc.covid19tracker.ui.base.BaseScreenStateMenuViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -30,7 +30,7 @@ class WorldViewModel(
 
     fun getCovidTrackerLast(viewType: MenuItemViewType) =
         viewModelScope.launch {
-            getCovidTrackerLast.getCovidTrackerByDate("2020-05-06").collect { result ->
+            getCovidTrackerLast.getCovidTrackerByDate("2020-05-23").collect { result ->
                 result.fold({ handleError(it) }, { handleState(state = it, viewType = viewType) })
             }
         }

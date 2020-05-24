@@ -5,7 +5,7 @@ import com.jaimegc.covid19tracker.data.repository.CovidTrackerRepository
 import com.jaimegc.covid19tracker.domain.model.CountryOneStats
 import com.jaimegc.covid19tracker.domain.model.DomainError
 import com.jaimegc.covid19tracker.domain.model.ListCountryAndStats
-import com.jaimegc.covid19tracker.domain.model.ListCountryStats
+import com.jaimegc.covid19tracker.domain.model.ListCountryOnlyStats
 import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.domain.states.StateError
 import kotlinx.coroutines.flow.Flow
@@ -16,7 +16,7 @@ class GetCountryStats(
 
     suspend fun getCountryAllStats(
         idCountry: String
-    ): Flow<Either<StateError<DomainError>, State<ListCountryStats>>> =
+    ): Flow<Either<StateError<DomainError>, State<ListCountryOnlyStats>>> =
         repository.getCountryAllStats(idCountry)
 
     suspend fun getCountriesStatsOrderByConfirmed(
@@ -39,9 +39,9 @@ class GetCountryStats(
     ): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
         repository.getCountriesAndStatsWithMostOpenCases()
 
-    suspend fun getCountryAndStatsByIdDate(
+    suspend fun getCountryAndStatsByDate(
         idCountry: String,
         date: String
     ): Flow<Either<StateError<DomainError>, State<CountryOneStats>>> =
-        repository.getCountryAndStatsByIdDate(idCountry, date)
+        repository.getCountryAndStatsByDate(idCountry, date)
 }

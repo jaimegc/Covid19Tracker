@@ -5,6 +5,7 @@ import com.jaimegc.covid19tracker.data.api.client.CovidTrackerApiClient
 import com.jaimegc.covid19tracker.data.api.config.ServerApiCovidTrackerConfigBuilder
 import com.jaimegc.covid19tracker.data.datasource.LocalCovidTrackerDatasource
 import com.jaimegc.covid19tracker.data.datasource.RemoteCovidTrackerDatasource
+import com.jaimegc.covid19tracker.data.preference.CountryPreferences
 import com.jaimegc.covid19tracker.data.repository.CovidTrackerRepository
 import com.jaimegc.covid19tracker.data.room.Covid19TrackerDatabase
 import com.jaimegc.covid19tracker.domain.usecase.*
@@ -47,6 +48,10 @@ val useCaseModule = module {
     single {
         GetRegionStats(get())
     }
+
+    single {
+        GetSubRegionStats(get())
+    }
 }
 
 val repositoryModule = module {
@@ -61,7 +66,7 @@ val viewModelModule = module {
     }
 
     viewModel {
-        CountryViewModel(get(), get(), get(), get())
+        CountryViewModel(get(), get(), get(), get(), get())
     }
 
     single {
@@ -105,6 +110,11 @@ val daoModule = module {
         val database: Covid19TrackerDatabase = get()
         database.regionStatsDao()
     }
+
+    single {
+        val database: Covid19TrackerDatabase = get()
+        database.subRegionStatsDao()
+    }
 }
 
 val datasourceModule = module {
@@ -113,6 +123,12 @@ val datasourceModule = module {
     }
 
     single {
-        LocalCovidTrackerDatasource(get(), get(), get(), get(), get(), get())
+        LocalCovidTrackerDatasource(get(), get(), get(), get(), get(), get(), get())
+    }
+}
+
+val preferenceModule = module {
+    single {
+        CountryPreferences(get())
     }
 }

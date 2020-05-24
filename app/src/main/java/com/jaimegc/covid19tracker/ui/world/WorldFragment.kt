@@ -6,7 +6,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.core.view.isEmpty
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.MergeAdapter
 import com.jaimegc.covid19tracker.R
@@ -14,13 +13,14 @@ import com.jaimegc.covid19tracker.databinding.FragmentWorldBinding
 import com.jaimegc.covid19tracker.databinding.LoadingBinding
 import com.jaimegc.covid19tracker.common.extensions.*
 import com.jaimegc.covid19tracker.ui.adapter.*
-import com.jaimegc.covid19tracker.ui.states.*
+import com.jaimegc.covid19tracker.ui.base.BaseFragment
+import com.jaimegc.covid19tracker.ui.base.states.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class WorldFragment : Fragment(R.layout.fragment_world),
-    BaseViewScreenState<WorldViewModel, WorldStateScreen> {
+class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fragment_world) {
 
     override val viewModel: WorldViewModel by viewModel()
+
     private val worldAdapter = WorldAdapter()
     private val worldCountryAdapter = WorldCountryAdapter()
     private val worldBarChartAdapter = WorldBarChartAdapter()
@@ -33,6 +33,8 @@ class WorldFragment : Fragment(R.layout.fragment_world),
     private lateinit var binding: FragmentWorldBinding
     private lateinit var loadingBinding: LoadingBinding
     private lateinit var menu: Menu
+
+    private var currentMenuItem = MENU_ITEM_LIST
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -106,7 +108,7 @@ class WorldFragment : Fragment(R.layout.fragment_world),
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
         inflater.inflate(R.menu.menu_world, menu).also {
             this.menu = menu
-            menu.enableItem(MENU_ITEM_LIST)
+            menu.enableItem(currentMenuItem)
         }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
@@ -114,6 +116,7 @@ class WorldFragment : Fragment(R.layout.fragment_world),
             R.id.list_view -> {
                 if (menu.isCurrentItemChecked(MENU_ITEM_LIST).not()) {
                     menu.enableItem(MENU_ITEM_LIST)
+                    currentMenuItem = MENU_ITEM_LIST
                     mergeAdapter.removeAllAdapters()
                     viewModel.getCovidTrackerLast(MenuItemViewType.List)
                 }
@@ -122,6 +125,7 @@ class WorldFragment : Fragment(R.layout.fragment_world),
             R.id.bar_chart_view -> {
                 if (menu.isCurrentItemChecked(MENU_ITEM_BAR_CHART).not()) {
                     menu.enableItem(MENU_ITEM_BAR_CHART)
+                    currentMenuItem = MENU_ITEM_BAR_CHART
                     mergeAdapter.removeAllAdapters()
                     /**
                      *  Two different requests.
@@ -135,6 +139,7 @@ class WorldFragment : Fragment(R.layout.fragment_world),
             R.id.line_chart_view -> {
                 if (menu.isCurrentItemChecked(MENU_ITEM_LINE_CHART).not()) {
                     menu.enableItem(MENU_ITEM_LINE_CHART)
+                    currentMenuItem = MENU_ITEM_LINE_CHART
                     mergeAdapter.removeAllAdapters()
                     viewModel.getWorldMostStats()
                 }
@@ -143,6 +148,7 @@ class WorldFragment : Fragment(R.layout.fragment_world),
             R.id.pie_chart_view -> {
                 if (menu.isCurrentItemChecked(MENU_ITEM_PIE_CHART).not()) {
                     menu.enableItem(MENU_ITEM_PIE_CHART)
+                    currentMenuItem = MENU_ITEM_PIE_CHART
                     mergeAdapter.removeAllAdapters()
                     viewModel.getCovidTrackerLast(MenuItemViewType.PieChart)
                 }

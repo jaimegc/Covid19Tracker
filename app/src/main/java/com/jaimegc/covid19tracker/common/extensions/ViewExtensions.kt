@@ -36,6 +36,9 @@ fun View.show() {
     visibility = View.VISIBLE
 }
 
+fun View.isVisible(): Boolean =
+    visibility == View.VISIBLE
+
 fun View.rotateLeftAnimation(duration: Long = 250) =
     this.rotateAnimation(duration, 0f, 180f)
 

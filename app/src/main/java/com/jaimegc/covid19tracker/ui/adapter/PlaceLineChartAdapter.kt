@@ -12,7 +12,7 @@ import com.jaimegc.covid19tracker.common.extensions.chart.configure
 import com.jaimegc.covid19tracker.common.extensions.chart.setValues
 import com.jaimegc.covid19tracker.databinding.ItemLineChartTotalBinding
 import com.jaimegc.covid19tracker.ui.model.PlaceListStatsChartUI
-import com.jaimegc.covid19tracker.ui.states.MenuItemViewType
+import com.jaimegc.covid19tracker.ui.base.states.MenuItemViewType
 
 class PlaceLineChartAdapter :
     ListAdapter<Map<MenuItemViewType, List<PlaceListStatsChartUI>>,
@@ -52,38 +52,38 @@ class PlaceLineChartAdapter :
         private fun configureLineChart(
             ctx: Context,
             chart: LineChart,
-            listCountriesStatsChartUI: List<PlaceListStatsChartUI>,
+            listPlacesStatsChartUI: List<PlaceListStatsChartUI>,
             viewType: MenuItemViewType,
             minAxisLeftValue: Float = 0f) {
 
-            val countryStatsMaxDays = listCountriesStatsChartUI.maxBy { it.stats.size }
+            val placeStatsMaxDays = listPlacesStatsChartUI.maxBy { it.stats.size }
             chart.configure(
-                countryStatsMaxDays!!.stats.sortedBy { it.date }.map { it.date }, minAxisLeftValue
+                placeStatsMaxDays!!.stats.sortedBy { it.date }.map { it.date }, minAxisLeftValue
             )
 
-            val countryStatsValues = mutableListOf<List<Float>>()
+            val placeStatsValues = mutableListOf<List<Float>>()
 
-            listCountriesStatsChartUI.map { countryStats ->
-                val listCountryStats = mutableListOf<Float>()
-                countryStats.stats.map { stats ->
+            listPlacesStatsChartUI.map { placeStats ->
+                val listPlaceStats = mutableListOf<Float>()
+                placeStats.stats.map { stats ->
                     when (viewType) {
                         is MenuItemViewType.LineChartMostConfirmed ->
-                            listCountryStats.add(stats.confirmed)
+                            listPlaceStats.add(stats.confirmed)
                         is MenuItemViewType.LineChartMostDeaths ->
-                            listCountryStats.add(stats.deaths)
+                            listPlaceStats.add(stats.deaths)
                         is MenuItemViewType.LineChartMostRecovered ->
-                            listCountryStats.add(stats.recovered)
+                            listPlaceStats.add(stats.recovered)
                         is MenuItemViewType.LineChartMostOpenCases ->
-                            listCountryStats.add(stats.openCases)
+                            listPlaceStats.add(stats.openCases)
                         else -> Unit
                     }
                 }
-                countryStatsValues.add(listCountryStats)
+                placeStatsValues.add(listPlaceStats)
             }
 
-            chart.setValues(ctx, countryStatsValues, listOf(
+            chart.setValues(ctx, placeStatsValues, listOf(
                 R.color.dark_purple, R.color.dark_blue, R.color.dark_green, R.color.dark_orange, R.color.dark_red),
-                listCountriesStatsChartUI.map { it.place.name }, countryStatsMaxDays.stats.size, chart.legend)
+                listPlacesStatsChartUI.map { it.place.name }, placeStatsMaxDays.stats.size, chart.legend)
         }
     }
 
