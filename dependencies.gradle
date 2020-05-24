@@ -16,7 +16,7 @@ ext {
     android_plugin               = '3.3.0'
     carto_sdk                    = '4.2.2@aar'
     circle_imageview             = '3.0.0'
-    constraintlayout             = '2.0.0-beta6'
+    constraintlayout             = '2.0.0-beta5'
     coroutines                   = '1.2.1'
     design                       = '1.1.0'
     emoji                        = '5.1.1'
@@ -59,7 +59,7 @@ ext {
             android_plugin                : '3.3.0',
             carto_sdk                     : '4.2.2@aar',
             circle_imageview              : '3.0.0',
-            constraintlayout              : '2.0.0-beta6',
+            constraintlayout              : '2.0.0-beta5',
             coroutines                    : '1.2.1',
             design                        : '1.1.0',
             emoji                         : '5.1.0',
