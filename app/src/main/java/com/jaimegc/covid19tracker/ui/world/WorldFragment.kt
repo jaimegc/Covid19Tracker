@@ -34,6 +34,8 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
     private lateinit var loadingBinding: LoadingBinding
     private lateinit var menu: Menu
 
+    private var currentMenuItem = MENU_ITEM_LIST
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentWorldBinding.bind(view)
@@ -106,7 +108,7 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
         inflater.inflate(R.menu.menu_world, menu).also {
             this.menu = menu
-            menu.enableItem(MENU_ITEM_LIST)
+            menu.enableItem(currentMenuItem)
         }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
@@ -114,6 +116,7 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
             R.id.list_view -> {
                 if (menu.isCurrentItemChecked(MENU_ITEM_LIST).not()) {
                     menu.enableItem(MENU_ITEM_LIST)
+                    currentMenuItem = MENU_ITEM_LIST
                     mergeAdapter.removeAllAdapters()
                     viewModel.getCovidTrackerLast(MenuItemViewType.List)
                 }
@@ -122,6 +125,7 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
             R.id.bar_chart_view -> {
                 if (menu.isCurrentItemChecked(MENU_ITEM_BAR_CHART).not()) {
                     menu.enableItem(MENU_ITEM_BAR_CHART)
+                    currentMenuItem = MENU_ITEM_BAR_CHART
                     mergeAdapter.removeAllAdapters()
                     /**
                      *  Two different requests.
@@ -135,6 +139,7 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
             R.id.line_chart_view -> {
                 if (menu.isCurrentItemChecked(MENU_ITEM_LINE_CHART).not()) {
                     menu.enableItem(MENU_ITEM_LINE_CHART)
+                    currentMenuItem = MENU_ITEM_LINE_CHART
                     mergeAdapter.removeAllAdapters()
                     viewModel.getWorldMostStats()
                 }
@@ -143,6 +148,7 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
             R.id.pie_chart_view -> {
                 if (menu.isCurrentItemChecked(MENU_ITEM_PIE_CHART).not()) {
                     menu.enableItem(MENU_ITEM_PIE_CHART)
+                    currentMenuItem = MENU_ITEM_PIE_CHART
                     mergeAdapter.removeAllAdapters()
                     viewModel.getCovidTrackerLast(MenuItemViewType.PieChart)
                 }

@@ -1,10 +1,7 @@
 package com.jaimegc.covid19tracker.ui.country
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import androidx.core.view.isEmpty
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.MergeAdapter
@@ -43,6 +40,7 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
     private lateinit var statsParent: StatsChartUI
 
     private var countryJustSelected = false
+    private var currentMenuItem = MENU_ITEM_LIST
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -145,9 +143,9 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
-        inflater.inflate(R.menu.menu_country, menu).also {
+        inflater.inflate(R.menu.menu_world, menu).also {
             this.menu = menu
-            menu.enableItem(MENU_ITEM_LIST)
+            menu.enableItem(currentMenuItem)
         }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
@@ -202,8 +200,9 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
 
     private fun selectMenu(idCountry: String, idRegion: String = "") {
         mergeAdapter.removeAllAdapters()
+        currentMenuItem = menu.isCurrentItemChecked()
 
-        when (menu.isCurrentItemChecked()) {
+        when (currentMenuItem) {
             MENU_ITEM_LIST ->
                 viewModel.getListChartStats(idCountry, idRegion)
             MENU_ITEM_BAR_CHART ->
