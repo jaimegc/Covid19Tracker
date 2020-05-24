@@ -11,6 +11,8 @@ import androidx.navigation.fragment.FragmentNavigator
 import com.jaimegc.covid19tracker.R
 
 /**
+ *  This class is to keep state in fragment navigator. Show & Hide fragments instead of attach / detach
+ *  Also, we manually handle title and back pressed
  *  Adapted from
  *  https://github.com/STAR-ZERO/navigation-keep-fragment-sample/
  */
@@ -21,13 +23,25 @@ class KeepStateNavigator(
     private val containerId: Int
 ) : FragmentNavigator(context, manager, containerId) {
 
+    private lateinit var destination: Destination
+    private var onBackPressed = false
+
     override fun navigate(
         destination: Destination,
         args: Bundle?,
         navOptions: NavOptions?,
         navigatorExtras: Navigator.Extras?
     ): NavDestination? {
-        val tag = destination.id.toString()
+        this.destination = destination
+
+        val tag =
+            if (onBackPressed) {
+                onBackPressed = false
+                R.id.navigation_country.toString()
+            } else {
+                destination.id.toString()
+            }
+
         val transaction = manager.beginTransaction()
 
         var initialNavigate = false
@@ -49,7 +63,7 @@ class KeepStateNavigator(
 
         transaction.setPrimaryNavigationFragment(fragment)
         transaction.setReorderingAllowed(true)
-        transaction.commitNow()
+        transaction.commit()
 
         (context as Activity).let { activity ->
             when (destination.id) {
@@ -65,5 +79,10 @@ class KeepStateNavigator(
         } else {
             null
         }
+    }
+
+    fun onBackPressed() {
+        onBackPressed = true
+        navigate(destination, null, null, null)
     }
 }
