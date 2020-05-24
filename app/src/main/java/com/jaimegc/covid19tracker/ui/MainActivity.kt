@@ -2,7 +2,6 @@ package com.jaimegc.covid19tracker.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.get
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.plusAssign
@@ -38,11 +37,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (binding.navView.menu.getItem(0).isChecked) {
+        if (binding.navView.selectedItemId == R.id.navigation_country) {
             super.onBackPressed()
         } else {
-            binding.navView.menu.get(0).isChecked = true
-            navigator.onBackPressed()
+            binding.navView.selectedItemId = R.id.navigation_country
         }
     }
 }
