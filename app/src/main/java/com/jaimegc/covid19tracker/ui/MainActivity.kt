@@ -7,12 +7,17 @@ import androidx.navigation.findNavController
 import androidx.navigation.plusAssign
 import androidx.navigation.ui.setupWithNavController
 import com.jaimegc.covid19tracker.R
+import com.jaimegc.covid19tracker.common.extensions.Coroutines
+import com.jaimegc.covid19tracker.common.extensions.hide
 import com.jaimegc.covid19tracker.databinding.ActivityMainBinding
+import com.jaimegc.covid19tracker.databinding.LoadingDatabaseBinding
 import com.jaimegc.covid19tracker.ui.base.KeepStateNavigator
+import com.jaimegc.covid19tracker.utils.FileUtils
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var loadingBinding: LoadingDatabaseBinding
     private lateinit var navigator: KeepStateNavigator
     private lateinit var navController: NavController
 
@@ -20,7 +25,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initializeBottomNavigationBar()
+        loadingBinding = LoadingDatabaseBinding.bind(binding.root)
+
+        Coroutines.ioMain({ FileUtils(this).initDatabase() }) {
+            initializeBottomNavigationBar()
+        }
     }
 
     private fun initializeBottomNavigationBar() {
@@ -31,9 +40,8 @@ class MainActivity : AppCompatActivity() {
         navController.navigatorProvider += navigator
         navController.setGraph(R.navigation.mobile_navigation)
 
-        navigator.popBackStack()
-
         binding.navView.setupWithNavController(navController)
+        loadingBinding.loadingDatabase.hide()
     }
 
     override fun onBackPressed() {

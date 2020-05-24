@@ -17,4 +17,10 @@ object Coroutines {
 
     fun unconfined(work: suspend(() -> Unit)) =
         CoroutineScope(Dispatchers.Unconfined).launch { work() }
+
+    fun ioMain(workIO: suspend(() -> Unit), workMain: () -> Unit) =
+        CoroutineScope(Dispatchers.IO).launch {
+            workIO()
+            CoroutineScope(Dispatchers.Main).launch { workMain() }
+        }
 }
