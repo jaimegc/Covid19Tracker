@@ -6,6 +6,7 @@ sealed class BaseScreenState
 
 sealed class ScreenState<out T : BaseScreenState> {
     object Loading : ScreenState<Nothing>()
+    object EmptyData : ScreenState<Nothing>()
     class Render<out T : BaseScreenState>(val renderState: T) : ScreenState<T>()
 }
 
