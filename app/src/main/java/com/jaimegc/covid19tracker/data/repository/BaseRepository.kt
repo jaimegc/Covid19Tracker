@@ -10,16 +10,17 @@ import kotlinx.coroutines.flow.*
 interface BaseRepository<E: DomainError, T> {
 
     fun asFlow(
-        policy: CachePolicy = CachePolicy.LocalOnly,
-        loading: Boolean = false
+        policy: CachePolicy = CachePolicy.LocalOnly
     ) = flow<Either<StateError<E>, State<T>>> {
-        if (loading || policy == CachePolicy.LocalFirst) emit(Either.right(State.Loading()))
+        emit(Either.right(State.Loading()))
 
         val datasources = mutableListOf<Datasource>()
 
         when (policy) {
-            CachePolicy.LocalOnly -> datasources.add(Datasource.Local)
-            CachePolicy.LocalFirst -> datasources.addAll(listOf(Datasource.Network, Datasource.Local))
+            CachePolicy.LocalOnly ->
+                datasources.add(Datasource.Local)
+            CachePolicy.LocalFirst ->
+                datasources.addAll(listOf(Datasource.Network, Datasource.Local))
         }
 
         datasources.map { ds ->
@@ -29,7 +30,12 @@ interface BaseRepository<E: DomainError, T> {
                 is Datasource.Local ->
                     fetchFromLocal().collect { value ->
                         value.fold({ error ->
-                            emit(Either.left(StateError.Error(error)))
+                            when (error) {
+                                is DomainError.DatabaseEmptyData ->
+                                    emit(Either.right(State.EmptyData()))
+                                else ->
+                                    emit(Either.left(StateError.Error(error)))
+                            }
                         }, { success ->
                             emit(Either.right(State.Success(success)))
                         })

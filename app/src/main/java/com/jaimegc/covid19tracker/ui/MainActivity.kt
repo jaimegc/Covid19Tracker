@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         navController.setGraph(R.navigation.mobile_navigation)
 
         binding.navView.setupWithNavController(navController)
-        loadingBinding.loadingDatabase.hide()
+        loadingBinding.loadingDatabaseLayout.hide()
     }
 
     override fun onBackPressed() {

@@ -34,6 +34,13 @@
         <item name="android:maxLines">1</item>
     </style>
 
+    <style name="TextEmptyData">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Body1</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
     <style name="SpinnerTextCountryName">
         <item name="android:layout_gravity">center</item>
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Subtitle1</item>

@@ -15,6 +15,7 @@
     <string name="default_notification_channel_name">Covid19 Tracker</string>
     <string name="text_trending">[%1$s] (%2$s%%)</string>
     <string name="text_daily_change">DAILY CHANGE</string>
+    <string name="loading_database">Loading database</string>
 
     <!-- Graphs -->
     <string name="total_confirmed">Total confirmed</string>
@@ -26,6 +27,7 @@
     <string name="total_new_recovered">Daily recovered</string>
     <string name="total_new_open_cases">Daily open cases</string>
     <string name="percentage_total">Percentage of total:</string>
+    <string name="no_chart_data_available">No chart data available for this place</string>
 
     <!-- Menu -->
     <string name="menu_world_list">World list</string>
