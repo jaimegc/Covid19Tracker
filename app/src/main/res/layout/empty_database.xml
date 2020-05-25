@@ -2,19 +2,20 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/loading_database_layout"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/empty_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/loading_database"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:id="@+id/empty_database"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:lottie_autoPlay="true"
-        app:lottie_fileName="loading_database.json"
+        app:lottie_fileName="empty_database.json"
         app:lottie_loop="true"
         app:lottie_speed="2" />
 
@@ -27,8 +28,8 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:gravity="center"
-        android:text="@string/loading_database"
+        android:text="@string/no_chart_data_available"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loading_database" />
+        app:layout_constraintTop_toBottomOf="@+id/empty_database" />
 </androidx.constraintlayout.widget.ConstraintLayout>

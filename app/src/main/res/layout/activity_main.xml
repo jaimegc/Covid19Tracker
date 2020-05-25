@@ -29,7 +29,7 @@
         app:menu="@menu/bottom_nav_menu" />
 
     <include
-        android:id="@+id/include_loading_database"
+        android:id="@+id/loading_database_layout"
         layout="@layout/loading_database"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
