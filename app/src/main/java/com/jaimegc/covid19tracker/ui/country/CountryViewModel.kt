@@ -280,6 +280,8 @@ class CountryViewModel(
             }
             is State.Loading ->
                 _screenState.postValue(ScreenState.Loading)
+            is State.EmptyData ->
+                _screenState.postValue(ScreenState.EmptyData)
         }
     }
 

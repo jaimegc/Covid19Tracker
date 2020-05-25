@@ -111,8 +111,10 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
             menu.enableItem(currentMenuItem)
         }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean =
-        when (item.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        loadingBinding.loading.hide()
+
+        return when (item.itemId) {
             R.id.list_view -> {
                 if (menu.isCurrentItemChecked(MENU_ITEM_LIST).not()) {
                     menu.enableItem(MENU_ITEM_LIST)
@@ -156,6 +158,7 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
 
     companion object {
         private const val MENU_ITEM_LIST = 0

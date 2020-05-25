@@ -10,6 +10,7 @@ import com.jaimegc.covid19tracker.databinding.FragmentCountryBinding
 import com.jaimegc.covid19tracker.databinding.LoadingBinding
 import com.jaimegc.covid19tracker.common.extensions.*
 import com.jaimegc.covid19tracker.data.preference.CountryPreferences
+import com.jaimegc.covid19tracker.databinding.EmptyDatabaseBinding
 import com.jaimegc.covid19tracker.ui.adapter.*
 import com.jaimegc.covid19tracker.ui.base.BaseFragment
 import com.jaimegc.covid19tracker.ui.model.StatsChartUI
@@ -34,6 +35,7 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
 
     private lateinit var binding: FragmentCountryBinding
     private lateinit var loadingBinding: LoadingBinding
+    private lateinit var emptyDatabaseBinding: EmptyDatabaseBinding
     private lateinit var menu: Menu
     private lateinit var countrySpinnerAdapter: CountrySpinnerAdapter
     private lateinit var placeSpinnerAdapter: PlaceSpinnerAdapter
@@ -46,12 +48,22 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCountryBinding.bind(view)
         loadingBinding = LoadingBinding.bind(view)
+        emptyDatabaseBinding = EmptyDatabaseBinding.bind(view)
 
+        emptyDatabaseBinding.emptyLayout.hide()
         binding.recyclerPlace.adapter = mergeAdapter
 
         viewModel.screenState.observe(viewLifecycleOwner, Observer { screenState ->
             when (screenState) {
-                ScreenState.Loading -> if (binding.recyclerPlace.isEmpty()) loadingBinding.loading.show()
+                ScreenState.Loading ->
+                    if (binding.recyclerPlace.isEmpty()) {
+                        emptyDatabaseBinding.emptyLayout.hide()
+                        loadingBinding.loading.show()
+                    }
+                ScreenState.EmptyData ->
+                    if (currentMenuItem == MENU_ITEM_LINE_CHART) {
+                        emptyDatabaseBinding.emptyLayout.show()
+                    }
                 is ScreenState.Render<PlaceStateScreen> -> {
                     handleRenderState(screenState.renderState)
                     loadingBinding.loading.hide()
@@ -200,6 +212,8 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
 
     private fun selectMenu(idCountry: String, idRegion: String = "") {
         mergeAdapter.removeAllAdapters()
+        emptyDatabaseBinding.emptyLayout.hide()
+        loadingBinding.loading.hide()
         currentMenuItem = menu.isCurrentItemChecked()
 
         when (currentMenuItem) {
