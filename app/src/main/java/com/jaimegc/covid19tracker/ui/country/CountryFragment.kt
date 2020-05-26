@@ -56,7 +56,7 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
         viewModel.screenState.observe(viewLifecycleOwner, Observer { screenState ->
             when (screenState) {
                 ScreenState.Loading ->
-                    if (binding.recyclerPlace.isEmpty()) {
+                    if (mergeAdapter.adapters.isEmpty()) {
                         emptyDatabaseBinding.emptyLayout.hide()
                         loadingBinding.loading.show()
                     }

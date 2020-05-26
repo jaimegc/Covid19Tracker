@@ -30,7 +30,7 @@ class FileUtils(private val context: Context) {
 
     private suspend fun saveFile(file: File, bufferedInputStream: BufferedInputStream) {
         var length = 0
-        val buffer = ByteArray(4096)
+        val buffer = ByteArray(2048)
         val fileOutputStream = FileOutputStream(file)
         val bufferedOutputStream = BufferedOutputStream(fileOutputStream, 2048)
 

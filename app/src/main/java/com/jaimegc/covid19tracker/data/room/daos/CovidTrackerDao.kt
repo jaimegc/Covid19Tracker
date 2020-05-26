@@ -12,8 +12,8 @@ import kotlinx.coroutines.flow.Flow
 abstract class CovidTrackerDao {
 
     @Transaction
-    @Query("SELECT * FROM world_stats WHERE date = :date")
-    abstract fun getWorldAndCountriesStatsByDate(date: String): Flow<WorldAndCountriesStatsPojo>
+    @Query("SELECT * FROM world_stats WHERE date_timestamp = :dateTimestamp")
+    abstract fun getWorldAndCountriesStatsByDate(dateTimestamp: Long): Flow<WorldAndCountriesStatsPojo>
 
     @Query("SELECT * FROM world_stats")
     abstract suspend fun getWorld(): WorldStatsEntity
@@ -65,20 +65,20 @@ abstract class CovidTrackerDao {
 @Dao
 abstract class WorldStatsDao {
 
-    @Query("SELECT * FROM world_stats WHERE date = :date")
-    abstract fun getByDate(date: String): Flow<List<WorldStatsEntity>>
+    @Query("SELECT * FROM world_stats WHERE date_timestamp = :dateTimestamp")
+    abstract fun getByDate(dateTimestamp: Long): Flow<List<WorldStatsEntity>>
 
-    @Query("SELECT * FROM world_stats ORDER BY date ASC")
+    @Query("SELECT * FROM world_stats ORDER BY date_timestamp ASC")
     abstract fun getAll(): Flow<List<WorldStatsEntity>>
 }
 
 @Dao
 abstract class CountryStatsDao {
 
-    @Query("SELECT * FROM country_stats ORDER BY date ASC")
+    @Query("SELECT * FROM country_stats ORDER BY date_timestamp ASC")
     abstract fun getAll(): Flow<List<CountryStatsEntity>>
 
-    @Query("SELECT * FROM country_stats WHERE id_country_fk = :idCountry ORDER BY date ASC")
+    @Query("SELECT * FROM country_stats WHERE id_country_fk = :idCountry ORDER BY date_timestamp ASC")
     abstract fun getById(idCountry: String): Flow<List<CountryStatsEntity>>
 
     @Transaction
@@ -94,7 +94,7 @@ abstract class CountryStatsDao {
         SELECT * FROM country c, country_stats s
         WHERE c.id = s.id_country_fk AND s.confirmed > 2000 AND c.id IN (
             SELECT id FROM country 
-                INNER JOIN (
+                LEFT JOIN (
                     SELECT id_country_fk, MAX(confirmed) AS maxConfirmed FROM country_stats 
                     GROUP BY id_country_fk
                 ) statsMaxConfirmed
@@ -108,9 +108,9 @@ abstract class CountryStatsDao {
     @Transaction
     @Query("""
         SELECT * FROM country c
-        INNER JOIN country_stats s ON c.id = s.id_country_fk AND c.id IN (
+        LEFT JOIN country_stats s ON c.id = s.id_country_fk AND c.id IN (
             SELECT id FROM country 
-                INNER JOIN (
+                LEFT JOIN (
                     SELECT id_country_fk, MAX(deaths) AS maxDeaths FROM country_stats 
                     GROUP BY id_country_fk
                 ) statsMaxDeaths
@@ -127,7 +127,7 @@ abstract class CountryStatsDao {
         SELECT * FROM country c, country_stats s
         WHERE c.id = s.id_country_fk AND s.recovered > 2000 AND c.id IN (
             SELECT id FROM country 
-                INNER JOIN (
+                LEFT JOIN (
                     SELECT id_country_fk, MAX(recovered) AS maxRecovered FROM country_stats 
                     GROUP BY id_country_fk
                 ) statsMaxRecovered
@@ -141,9 +141,9 @@ abstract class CountryStatsDao {
     @Transaction
     @Query("""
         SELECT * FROM country c
-        INNER JOIN country_stats s ON c.id = s.id_country_fk AND c.id IN (
+        LEFT JOIN country_stats s ON c.id = s.id_country_fk AND c.id IN (
             SELECT id FROM country 
-                INNER JOIN (
+                LEFT JOIN (
                     SELECT id_country_fk, MAX(open_cases) AS maxOpenCases FROM country_stats 
                     GROUP BY id_country_fk
                 ) statsMaxOpenCases
@@ -159,16 +159,13 @@ abstract class CountryStatsDao {
     @Query("""
         SELECT * FROM country c
         LEFT JOIN country_stats cs ON c.id = cs.id_country_fk
-        WHERE c.id = :idCountry AND cs.date = :date
+        WHERE c.id = :idCountry AND cs.date_timestamp = :dateTimestamp
         """)
-    abstract fun getCountryAndStatsByDate(idCountry: String, date: String): Flow<CountryAndOneStatsPojo>
+    abstract fun getCountryAndStatsByDate(idCountry: String, dateTimestamp: Long): Flow<CountryAndOneStatsPojo>
 }
 
 @Dao
 abstract class CountryDao {
-
-    @Query("SELECT * FROM country WHERE name = :name")
-    abstract fun getByName(name: String): Flow<List<CountryEntity>>
 
     @Query("SELECT * FROM country ORDER BY name ASC")
     abstract fun getAll(): Flow<List<CountryEntity>>
@@ -176,9 +173,6 @@ abstract class CountryDao {
 
 @Dao
 abstract class RegionDao {
-
-    @Query("SELECT * FROM region WHERE name = :name ORDER BY name ASC")
-    abstract fun getByName(name: String): Flow<List<RegionEntity>>
 
     @Query("SELECT * FROM region ORDER BY name ASC")
     abstract fun getAll(): Flow<List<RegionEntity>>
@@ -192,27 +186,27 @@ abstract class RegionStatsDao {
     @Query("""
         SELECT * FROM region_stats 
         WHERE id_region_fk = :idRegion AND id_region_country_fk = :idCountry
-        ORDER BY date ASC""")
+        ORDER BY date_timestamp ASC""")
     abstract fun getById(idCountry: String, idRegion: String): Flow<List<RegionStatsEntity>>
 
     @Transaction
     @Query("""
         SELECT * FROM region r
         LEFT JOIN region_stats s ON r.id = s.id_region_fk
-        WHERE r.id = :idRegion AND r.id_country_fk = :idCountry AND s.date = :date
+        WHERE r.id = :idRegion AND r.id_country_fk = :idCountry AND s.date_timestamp = :dateTimestamp
         """)
-    abstract fun getRegionAndStatsByDate(idCountry: String, idRegion: String, date: String): Flow<RegionAndOneStatsPojo>
+    abstract fun getRegionAndStatsByDate(idCountry: String, idRegion: String, dateTimestamp: Long): Flow<RegionAndOneStatsPojo>
 
     @Transaction
     @Query("""
         SELECT * FROM region r
         LEFT JOIN region_stats s ON r.id = s.id_region_fk 
-        WHERE r.id_country_fk = :idCountry AND s.date = :date
+        WHERE r.id_country_fk = :idCountry AND s.date_timestamp = :dateTimestamp
         ORDER BY s.confirmed DESC
         """)
     abstract fun getRegionAndStatsByCountryAndDateOrderByConfirmed(
         idCountry: String,
-        date: String
+        dateTimestamp: Long
     ): Flow<List<RegionAndStatsDV>>
 
     @Transaction
@@ -232,7 +226,7 @@ abstract class RegionStatsDao {
         SELECT * FROM region r, region_stats s
         WHERE r.id = s.id_region_fk AND r.id_country_fk = :idCountry AND s.id_region_country_fk = :idCountry AND r.id IN (
             SELECT id FROM region 
-                INNER JOIN (
+                LEFT JOIN (
                     SELECT id_region_fk, MAX(confirmed) AS maxConfirmed FROM region_stats 
                     GROUP BY id_region_fk
                 ) statsMaxConfirmed
@@ -248,7 +242,7 @@ abstract class RegionStatsDao {
         SELECT * FROM region r, region_stats s
         WHERE r.id = s.id_region_fk AND r.id_country_fk = :idCountry AND s.id_region_country_fk = :idCountry AND r.id IN (
             SELECT id FROM region 
-                INNER JOIN (
+                LEFT JOIN (
                     SELECT id_region_fk, MAX(deaths) AS maxDeaths FROM region_stats 
                     GROUP BY id_region_fk
                 ) statsMaxDeaths
@@ -264,7 +258,7 @@ abstract class RegionStatsDao {
         SELECT * FROM region r, region_stats s
         WHERE r.id = s.id_region_fk AND r.id_country_fk = :idCountry AND s.id_region_country_fk = :idCountry AND r.id IN (
             SELECT id FROM region 
-                INNER JOIN (
+                LEFT JOIN (
                     SELECT id_region_fk, MAX(recovered) AS maxRecovered FROM region_stats 
                     GROUP BY id_region_fk
                 ) statsMaxRecovered
@@ -280,7 +274,7 @@ abstract class RegionStatsDao {
         SELECT * FROM region r, region_stats s
         WHERE r.id = s.id_region_fk AND r.id_country_fk = :idCountry AND s.id_region_country_fk = :idCountry AND r.id IN (
             SELECT id FROM region 
-                INNER JOIN (
+                LEFT JOIN (
                     SELECT id_region_fk, MAX(open_cases) AS maxOpenCases FROM region_stats 
                     GROUP BY id_region_fk
                 ) statsMaxOpenCases
@@ -298,13 +292,13 @@ abstract class SubRegionStatsDao {
     @Query("""
         SELECT * FROM sub_region r
         LEFT JOIN sub_region_stats s ON r.id = s.id_sub_region_fk AND r.id_region_fk = s.id_sub_region_region_fk
-        WHERE r.id_region_fk = :idRegion AND r.id_country_fk = :idCountry AND s.date = :date
+        WHERE r.id_region_fk = :idRegion AND r.id_country_fk = :idCountry AND s.date_timestamp = :dateTimestamp
         ORDER BY s.confirmed DESC
         """)
     abstract fun getSubRegionAndStatsByCountryAndDateOrderByConfirmed(
         idCountry: String,
         idRegion: String,
-        date: String
+        dateTimestamp: Long
     ): Flow<List<SubRegionAndStatsDV>>
 
     @Transaction
@@ -326,7 +320,7 @@ abstract class SubRegionStatsDao {
         WHERE r.id = s.id_sub_region_fk AND r.id_region_fk = s.id_sub_region_region_fk 
             AND r.id_country_fk = :idCountry AND s.id_sub_region_region_fk = :idRegion AND r.id IN (
                 SELECT id FROM sub_region 
-                    INNER JOIN (
+                    LEFT JOIN (
                         SELECT id_sub_region_fk, MAX(confirmed) AS maxConfirmed FROM sub_region_stats 
                         GROUP BY id_sub_region_fk
                     ) statsMaxConfirmed
@@ -347,7 +341,7 @@ abstract class SubRegionStatsDao {
         WHERE r.id = s.id_sub_region_fk AND r.id_region_fk = s.id_sub_region_region_fk 
             AND r.id_country_fk = :idCountry AND s.id_sub_region_region_fk = :idRegion AND r.id IN (
                 SELECT id FROM sub_region 
-                    INNER JOIN (
+                    LEFT JOIN (
                         SELECT id_sub_region_fk, MAX(deaths) AS maxDeaths FROM sub_region_stats 
                         GROUP BY id_sub_region_fk
                     ) statsMaxDeaths
@@ -368,7 +362,7 @@ abstract class SubRegionStatsDao {
         WHERE r.id = s.id_sub_region_fk AND r.id_region_fk = s.id_sub_region_region_fk 
             AND r.id_country_fk = :idCountry AND s.id_sub_region_region_fk = :idRegion AND r.id IN (
                 SELECT id FROM sub_region 
-                    INNER JOIN (
+                    LEFT JOIN (
                         SELECT id_sub_region_fk, MAX(recovered) AS maxRecovered FROM sub_region_stats 
                         GROUP BY id_sub_region_fk
                     ) statsMaxRecovered
@@ -388,7 +382,7 @@ abstract class SubRegionStatsDao {
         WHERE r.id = s.id_sub_region_fk AND r.id_region_fk = s.id_sub_region_region_fk 
             AND r.id_country_fk = :idCountry AND s.id_sub_region_region_fk = :idRegion AND r.id IN (
                 SELECT id FROM sub_region 
-                    INNER JOIN (
+                    LEFT JOIN (
                         SELECT id_sub_region_fk, MAX(open_cases) AS maxOpenCases FROM sub_region_stats 
                         GROUP BY id_sub_region_fk
                     ) statsMaxOpenCases
