@@ -5,6 +5,8 @@ import androidx.room.*
 @Entity(tableName = "world_stats")
 data class WorldStatsEntity(
     @PrimaryKey
+    @ColumnInfo(name = "date_timestamp")
+    val dateTimestamp: Long,
     @ColumnInfo(name = "date")
     val date: String,
     @ColumnInfo(name = "updated_at")
@@ -42,7 +44,9 @@ data class StatsEmbedded(
     val vsYesterdayRecovered: Double
 )
 
-@Entity(tableName = "country")
+@Entity(
+    tableName = "country",
+    indices = [(Index(value = ["name"]))])
 data class CountryEntity(
     @PrimaryKey
     @ColumnInfo(name = "id")
@@ -57,7 +61,8 @@ data class CountryEntity(
 
 @Entity(
     tableName = "country_stats",
-    primaryKeys = ["date", "id_country_fk"],
+    indices = [(Index(value = ["confirmed", "deaths", "open_cases", "recovered"]))],
+    primaryKeys = ["date_timestamp", "id_country_fk"],
     foreignKeys = [ForeignKey(
         entity = CountryEntity::class,
         parentColumns = arrayOf("id"),
@@ -65,6 +70,8 @@ data class CountryEntity(
         onDelete = ForeignKey.CASCADE
     )])
 data class CountryStatsEntity(
+    @ColumnInfo(name = "date_timestamp")
+    val dateTimestamp: Long,
     @ColumnInfo(name = "date")
     val date: String,
     @Embedded
@@ -75,6 +82,7 @@ data class CountryStatsEntity(
 
 @Entity(
     tableName = "region",
+    indices = [(Index(value = ["name"]))],
     primaryKeys = ["id", "id_country_fk"],
     foreignKeys = [ForeignKey(
         entity = CountryEntity::class,
@@ -95,7 +103,8 @@ data class RegionEntity(
 
 @Entity(
     tableName = "region_stats",
-    primaryKeys = ["date", "id_region_fk", "id_region_country_fk"],
+    indices = [(Index(value = ["confirmed", "deaths", "open_cases", "recovered"]))],
+    primaryKeys = ["date_timestamp", "id_region_fk", "id_region_country_fk"],
     foreignKeys = [ForeignKey(
         entity = RegionEntity::class,
         parentColumns = arrayOf("id", "id_country_fk"),
@@ -103,6 +112,8 @@ data class RegionEntity(
         onDelete = ForeignKey.CASCADE
     )])
 data class RegionStatsEntity(
+    @ColumnInfo(name = "date_timestamp")
+    val dateTimestamp: Long,
     @ColumnInfo(name = "date")
     val date: String,
     @Embedded
@@ -115,6 +126,7 @@ data class RegionStatsEntity(
 
 @Entity(
     tableName = "sub_region",
+    indices = [(Index(value = ["name"]))],
     primaryKeys = ["id", "id_region_fk"],
     foreignKeys = [ForeignKey(
         entity = RegionEntity::class,
@@ -137,7 +149,8 @@ data class SubRegionEntity(
 
 @Entity(
     tableName = "sub_region_stats",
-    primaryKeys = ["date", "id_sub_region_fk", "id_sub_region_region_fk"],
+    indices = [(Index(value = ["confirmed", "deaths", "open_cases", "recovered"]))],
+    primaryKeys = ["date_timestamp", "id_sub_region_fk", "id_sub_region_region_fk"],
     foreignKeys = [ForeignKey(
         entity = SubRegionEntity::class,
         parentColumns = arrayOf("id", "id_region_fk"),
@@ -145,6 +158,8 @@ data class SubRegionEntity(
         onDelete = ForeignKey.CASCADE
     )])
 data class SubRegionStatsEntity(
+    @ColumnInfo(name = "date_timestamp")
+    val dateTimestamp: Long,
     @ColumnInfo(name = "date")
     val date: String,
     @Embedded

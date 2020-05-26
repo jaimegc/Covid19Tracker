@@ -2,8 +2,11 @@ package com.jaimegc.covid19tracker.ui.base
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import arrow.core.Either
 import com.jaimegc.covid19tracker.common.QueueLiveData
+import com.jaimegc.covid19tracker.domain.model.DomainError
 import com.jaimegc.covid19tracker.domain.states.State
+import com.jaimegc.covid19tracker.domain.states.StateError
 import com.jaimegc.covid19tracker.ui.base.states.BaseScreenState
 import com.jaimegc.covid19tracker.ui.base.states.MenuItemViewType
 import com.jaimegc.covid19tracker.ui.base.states.ScreenState
@@ -24,16 +27,47 @@ abstract class BaseScreenStateMenuViewModel<T : BaseScreenState> : BaseScreenSta
     )
 
     /**
+     *  Adapted from
      *  https://stackoverflow.com/questions/61185082/combine-multiple-kotlin-flows-in-a-list-without-waiting-for-a-first-value
      */
-    inline fun <reified T> combineFlows(vararg flows: Flow<T>): Flow<List<T>> = channelFlow {
-        val array = Array(flows.size) { false to (null as T?) }
+    fun <T, E: DomainError> combineFlows(
+        vararg flows: Flow<Either<StateError<E>, State<T>>>
+    ): Flow<List<Either<StateError<E>, State<T>>>> = channelFlow {
+        val flowsSize = flows.size
+        val array = Array(flowsSize) { false to (null as Either<StateError<E>, State<T>>?) }
 
         flows.forEachIndexed { index, flow ->
             launch {
                 flow.collect { emittedElement ->
-                    array[index] = true to emittedElement!!
-                    send(array.filter { it.first }.map { it.second!! })
+                    array[index] = true to emittedElement
+
+                    array.firstOrNull() { it.first.not() } ?: run {
+                        var loading = 0
+                        var success = 0
+                        var empty = 0
+                        var errors = 0
+
+                        array.map { pair ->
+
+                            pair.second!!.fold (
+                                {
+                                    errors++
+                                },
+                                { state ->
+                                    when (state) {
+                                        is State.Loading -> loading++
+                                        is State.Success -> success++
+                                        is State.EmptyData -> empty++
+                                    }
+                                }
+                            )
+                        }
+
+                        if (loading + errors == flowsSize || success + errors == flowsSize ||
+                            empty  + errors == flowsSize) {
+                            send(array.filter { it.first }.map { it.second!! })
+                        }
+                    }
                 }
             }
         }

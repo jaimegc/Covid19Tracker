@@ -6,6 +6,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import com.jaimegc.covid19tracker.common.extensions.DATE_FORMATTER
 import com.jaimegc.covid19tracker.data.api.client.CovidTrackerApiClient
 import com.jaimegc.covid19tracker.data.api.model.CovidTrackerDto
 import com.jaimegc.covid19tracker.data.datasource.LocalCovidTrackerDatasource
@@ -32,10 +33,10 @@ class PopulateDatabaseWorker(
         private const val FOLDER_DOWNLOAD = "/data"
         private const val JSON_FILE_EXTENSION = ".json"
         private val START_DATE = Triple(2020, 1, 23)
-        private val END_DATE = Triple(2020, 5, 23)
+        private val END_DATE = Triple(2020, 5, 24)
+        // Please, use it responsibly
         private val START_DATE_SERVER = Triple(2020, 3, 10)
         private val END_DATE_SERVER = Triple(2020, 3, 15)
-        private const val DATE_FORMATTER = "YYYY-MM-dd"
         private const val DOWNLOAD_JSONS_FROM_SERVER = false
     }
 

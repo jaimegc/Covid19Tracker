@@ -10,6 +10,7 @@ data class ListWorldStats(
 )
 
 data class WorldStats(
+    val dateTimestamp: Long,
     val date: String,
     val updatedAt: String,
     val stats: Stats
@@ -108,6 +109,7 @@ data class SubRegionStats(
 )
 
 data class Stats(
+    val dateTimestamp: Long,
     val date: String,
     val source: String,
     val confirmed: Long,

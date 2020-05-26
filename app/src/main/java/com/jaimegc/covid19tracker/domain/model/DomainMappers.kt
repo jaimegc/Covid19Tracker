@@ -1,6 +1,7 @@
 package com.jaimegc.covid19tracker.domain.model
 
 import arrow.core.Either
+import com.jaimegc.covid19tracker.common.extensions.dateToMilliseconds
 import com.jaimegc.covid19tracker.data.api.model.CovidTrackerDateCountryDto
 import com.jaimegc.covid19tracker.data.api.model.CovidTrackerDateDto
 import com.jaimegc.covid19tracker.data.api.model.CovidTrackerDto
@@ -32,6 +33,7 @@ private fun CovidTrackerDateCountryDto.toDomain(date: String): CountryOneStats =
             code = CountryCode(id).code
         ),
         stats = Stats(
+            dateTimestamp = date.dateToMilliseconds(),
             date = date,
             source = source ?: "",
             confirmed = todayConfirmed,
@@ -52,9 +54,11 @@ private fun CovidTrackerDateCountryDto.toDomain(date: String): CountryOneStats =
 
 fun CovidTrackerTotalDto.toDomain(date: String, updatedAt: String): WorldStats =
     WorldStats(
+        dateTimestamp = date.dateToMilliseconds(),
         date = date,
         updatedAt = updatedAt,
         stats = Stats(
+            dateTimestamp = date.dateToMilliseconds(),
             date = date,
             source = source ?: "",
             confirmed = todayConfirmed,
@@ -159,6 +163,7 @@ fun List<WorldStatsEntity>.toDomain(): ListWorldStats =
 
 fun WorldStatsEntity.toDomain(): WorldStats =
     WorldStats(
+        dateTimestamp = date.dateToMilliseconds(),
         date = date,
         updatedAt = updatedAt,
         stats = stats.toDomain(date)
@@ -255,6 +260,7 @@ fun SubRegionEntity.toDomain(): SubRegion =
 
 fun StatsEmbedded.toDomain(date: String): Stats =
     Stats(
+        dateTimestamp = date.dateToMilliseconds(),
         date = date,
         source = source,
         confirmed = confirmed,
@@ -279,6 +285,7 @@ private fun toRegionDomain(stats: CovidTrackerDateCountryDto, date: String): Reg
             nameEs = stats.nameEs
         ),
         stats = Stats(
+            dateTimestamp = date.dateToMilliseconds(),
             date = date,
             source = stats.source ?: "",
             confirmed = stats.todayConfirmed,
@@ -305,6 +312,7 @@ private fun toSubRegionDomain(stats: CovidTrackerDateCountryDto, date: String): 
             nameEs = stats.nameEs
         ),
         stats = Stats(
+            dateTimestamp = date.dateToMilliseconds(),
             date = date,
             source = stats.source ?: "",
             confirmed = stats.todayConfirmed,
@@ -332,6 +340,7 @@ fun CountryOneStats.toEntity(): CountryEntity =
 
 fun WorldStats.toEntity(): WorldStatsEntity =
     WorldStatsEntity(
+        dateTimestamp = dateTimestamp,
         date = date,
         updatedAt = updatedAt,
         stats = stats.toEmbedded()
@@ -356,6 +365,7 @@ fun Stats.toEmbedded(): StatsEmbedded =
 
 fun Stats.toEntity(idCountryFk: String): CountryStatsEntity =
     CountryStatsEntity(
+        dateTimestamp = dateTimestamp,
         date = date,
         stats = StatsEmbedded(
             source = source,
@@ -377,6 +387,7 @@ fun Stats.toEntity(idCountryFk: String): CountryStatsEntity =
 
 fun CountryStatsEntity.toDomain(): Stats =
     Stats(
+        dateTimestamp = date.dateToMilliseconds(),
         date = date,
         source = stats.source,
         confirmed = stats.confirmed,
@@ -412,6 +423,7 @@ fun SubRegion.toEntity(idRegionFk: String, idCountryFk: String): SubRegionEntity
 
 fun RegionStats.toEntity(idRegionFk: String, idCountryFk: String): RegionStatsEntity =
     RegionStatsEntity(
+        dateTimestamp = stats.dateTimestamp,
         date = stats.date,
         stats = StatsEmbedded(
             source = stats.source,
@@ -434,6 +446,7 @@ fun RegionStats.toEntity(idRegionFk: String, idCountryFk: String): RegionStatsEn
 
 fun SubRegionStats.toEntity(idSubRegionFk: String, idRegionFk: String): SubRegionStatsEntity =
     SubRegionStatsEntity(
+        dateTimestamp = stats.dateTimestamp,
         date = stats.date,
         stats = StatsEmbedded(
             source = stats.source,
