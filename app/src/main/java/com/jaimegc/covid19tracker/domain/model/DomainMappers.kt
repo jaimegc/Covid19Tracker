@@ -130,7 +130,7 @@ fun List<RegionAndOneStatsPojo>.toPojoRegionsOrdered(): List<RegionAndStatsPojo>
         listRegionAndStatsPojo
     }
 
-fun List<SubRegionAndOneStatsPojo>.toPojoSubRegionsOrdered(ola: String = ""): List<SubRegionAndStatsPojo> =
+fun List<SubRegionAndOneStatsPojo>.toPojoSubRegionsOrdered(): List<SubRegionAndStatsPojo> =
     this.groupBy { it.subRegion }.let { mapSubRegions ->
         val listSubRegionAndStatsPojo = mutableListOf<SubRegionAndStatsPojo>()
         mapSubRegions.map { subRegionStats ->
