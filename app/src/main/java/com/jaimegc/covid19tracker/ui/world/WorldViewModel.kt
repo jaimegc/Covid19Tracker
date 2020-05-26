@@ -13,6 +13,7 @@ import com.jaimegc.covid19tracker.ui.model.toListChartUI
 import com.jaimegc.covid19tracker.ui.model.toUI
 import com.jaimegc.covid19tracker.ui.base.states.*
 import com.jaimegc.covid19tracker.ui.base.BaseScreenStateMenuViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -28,15 +29,26 @@ class WorldViewModel(
     private val mapWorldLineStats =
         mutableMapOf<MenuItemViewType, List<CountryListStatsChartUI>>()
 
-    fun getCovidTrackerLast(viewType: MenuItemViewType) =
-        viewModelScope.launch {
-            getCovidTrackerLast.getCovidTrackerByDate("2020-05-23").collect { result ->
+    private var jobAll: Job? = null
+    private var jobWorldAll: Job? = null
+    private var jobCountriesConfirmed: Job? = null
+    private var jobMostConfirmed: Job? = null
+    private var jobMostDeaths: Job? = null
+    private var jobMostOpenCases: Job? = null
+    private var jobMostRecovered: Job? = null
+
+    fun getCovidTrackerLast(viewType: MenuItemViewType) {
+        cancelAll()
+        jobAll = viewModelScope.launch {
+            getCovidTrackerLast.getCovidTrackerByDate("2020-05-24").collect { result ->
                 result.fold({ handleError(it) }, { handleState(state = it, viewType = viewType) })
             }
         }
+    }
 
-    fun getWorldAllStats() =
-        viewModelScope.launch {
+    fun getWorldAllStats() {
+        cancelAll()
+        jobWorldAll = viewModelScope.launch {
             getWorldStats.getWorldAllStats().collect { result ->
                 result.fold(
                     { handleError(it) },
@@ -44,9 +56,10 @@ class WorldViewModel(
                 )
             }
         }
+    }
 
-    fun getCountriesStatsOrderByConfirmed() =
-        viewModelScope.launch {
+    fun getCountriesStatsOrderByConfirmed() {
+        jobCountriesConfirmed = viewModelScope.launch {
             getCountryStats.getCountriesStatsOrderByConfirmed().collect { result ->
                 result.fold(
                     { handleError(it) },
@@ -54,12 +67,14 @@ class WorldViewModel(
                 )
             }
         }
+    }
 
     /**
      *  Waiting for all requests manually.
      *  In CountryViewModel you can see it using combine.
      */
     fun getWorldMostStats() {
+        cancelAll()
         mapWorldLineStats.clear()
         getCountriesAndStatsWithMostConfirmed()
         getCountriesAndStatsWithMostDeaths()
@@ -67,8 +82,8 @@ class WorldViewModel(
         getCountriesAndStatsWithMostOpenCases()
     }
 
-    private fun getCountriesAndStatsWithMostConfirmed() =
-        viewModelScope.launch {
+    private fun getCountriesAndStatsWithMostConfirmed() {
+        jobMostConfirmed = viewModelScope.launch {
             getCountryStats.getCountriesAndStatsWithMostConfirmed().collect { result ->
                 result.fold(
                     { handleError(it) },
@@ -76,9 +91,10 @@ class WorldViewModel(
                 )
             }
         }
+    }
 
-    private fun getCountriesAndStatsWithMostDeaths() =
-        viewModelScope.launch {
+    private fun getCountriesAndStatsWithMostDeaths() {
+        jobMostDeaths = viewModelScope.launch {
             getCountryStats.getCountriesAndStatsWithMostDeaths().collect { result ->
                 result.fold(
                     { handleError(it) },
@@ -86,9 +102,10 @@ class WorldViewModel(
                 )
             }
         }
+    }
 
-    private fun getCountriesAndStatsWithMostRecovered() =
-        viewModelScope.launch {
+    private fun getCountriesAndStatsWithMostRecovered() {
+        jobMostRecovered = viewModelScope.launch {
             getCountryStats.getCountriesAndStatsWithMostRecovered().collect { result ->
                 result.fold(
                     { handleError(it) },
@@ -96,9 +113,10 @@ class WorldViewModel(
                 )
             }
         }
+    }
 
-    private fun getCountriesAndStatsWithMostOpenCases() =
-        viewModelScope.launch {
+    private fun getCountriesAndStatsWithMostOpenCases() {
+        jobMostOpenCases = viewModelScope.launch {
             getCountryStats.getCountriesAndStatsWithMostOpenCases().collect { result ->
                 result.fold(
                     { handleError(it) },
@@ -106,6 +124,7 @@ class WorldViewModel(
                 )
             }
         }
+    }
 
     override suspend fun <T> handleState(
         state: State<T>,
@@ -160,6 +179,16 @@ class WorldViewModel(
 
     private fun handleError(state: StateError<DomainError>) {
 
+    }
+    
+    private fun cancelAll() {
+        jobAll?.cancel()
+        jobWorldAll?.cancel()
+        jobCountriesConfirmed?.cancel()
+        jobMostConfirmed?.cancel()
+        jobMostDeaths?.cancel()
+        jobMostOpenCases?.cancel()
+        jobMostRecovered?.cancel()
     }
 
     companion object {
