@@ -116,7 +116,7 @@ class LocalCovidTrackerDatasource(
         idRegion: String
     ): Flow<Either<DomainError, ListSubRegionAndStats>> =
         mapEntityValid(subRegionStatsDao.getSubRegionsAndStatsWithMostConfirmed(idCountry, idRegion)) {
-            subRegionsListOneStats -> subRegionsListOneStats.toPojoSubRegionsOrdered("confirmed").let {
+            subRegionsListOneStats -> subRegionsListOneStats.toPojoSubRegionsOrdered().let {
                 subRegionsListStats -> Pair(subRegionsListStats.isNotEmpty(), subRegionsListStats.toDomain()) }
         }
 
@@ -139,7 +139,7 @@ class LocalCovidTrackerDatasource(
         idRegion: String
     ): Flow<Either<DomainError, ListSubRegionAndStats>> =
         mapEntityValid(subRegionStatsDao.getSubRegionsAndStatsWithMostDeaths(idCountry, idRegion)) {
-            subRegionsListOneStats -> subRegionsListOneStats.toPojoSubRegionsOrdered("deaths").let {
+            subRegionsListOneStats -> subRegionsListOneStats.toPojoSubRegionsOrdered().let {
                 subRegionsListStats -> Pair(subRegionsListStats.isNotEmpty(), subRegionsListStats.toDomain())
             }
         }
@@ -163,7 +163,7 @@ class LocalCovidTrackerDatasource(
         idRegion: String
     ): Flow<Either<DomainError, ListSubRegionAndStats>> =
         mapEntityValid(subRegionStatsDao.getSubRegionsAndStatsWithMostRecovered(idCountry, idRegion)) {
-            subRegionsListOneStats -> subRegionsListOneStats.toPojoSubRegionsOrdered("recovered").let {
+            subRegionsListOneStats -> subRegionsListOneStats.toPojoSubRegionsOrdered().let {
                 subRegionsListStats -> Pair(subRegionsListStats.isNotEmpty(), subRegionsListStats.toDomain())
             }
         }
@@ -187,7 +187,7 @@ class LocalCovidTrackerDatasource(
         idRegion: String
     ): Flow<Either<DomainError, ListSubRegionAndStats>> =
         mapEntityValid(subRegionStatsDao.getSubRegionsAndStatsWithMostOpenCases(idCountry, idRegion)) {
-            subRegionsListOneStats -> subRegionsListOneStats.toPojoSubRegionsOrdered("open cases").let {
+            subRegionsListOneStats -> subRegionsListOneStats.toPojoSubRegionsOrdered().let {
                 subRegionsListStats -> Pair(subRegionsListStats.isNotEmpty(), subRegionsListStats.toDomain())
             }
         }
