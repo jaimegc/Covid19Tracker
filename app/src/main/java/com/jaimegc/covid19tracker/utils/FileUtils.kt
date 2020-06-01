@@ -7,7 +7,7 @@ import java.util.zip.ZipInputStream
 
 class FileUtils(private val context: Context) {
 
-    suspend fun initDatabase() {
+   suspend fun initDatabase() {
         try {
             if (context.getDatabasePath(Covid19TrackerDatabase.DATABASE_NAME).exists().not()) {
                 val bis = BufferedInputStream(context.assets.open(

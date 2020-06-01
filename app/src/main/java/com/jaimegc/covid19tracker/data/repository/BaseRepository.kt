@@ -45,7 +45,7 @@ interface BaseRepository<E: DomainError, T> {
         }
     }
 
-    suspend fun fetchFromLocal(): Flow<Either<DomainError, T>>
+    fun fetchFromLocal(): Flow<Either<DomainError, T>>
 
     suspend fun fetchFromRemote() = Unit
 

@@ -94,5 +94,4 @@ private fun optimizeLegendTextSize(legendValues: List<String>, legend: Legend) {
         in 70..80 -> legend.textSize = 6f
         else -> legend.textSize = 5f
     }
-
 }

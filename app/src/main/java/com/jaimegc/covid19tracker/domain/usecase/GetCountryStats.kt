@@ -14,32 +14,32 @@ class GetCountryStats(
     private val repository: CovidTrackerRepository
 ) {
 
-    suspend fun getCountryAllStats(
+    fun getCountryAllStats(
         idCountry: String
     ): Flow<Either<StateError<DomainError>, State<ListCountryOnlyStats>>> =
         repository.getCountryAllStats(idCountry)
 
-    suspend fun getCountriesStatsOrderByConfirmed(
+    fun getCountriesStatsOrderByConfirmed(
     ): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
         repository.getCountriesStatsOrderByConfirmed()
 
-    suspend fun getCountriesAndStatsWithMostConfirmed(
+    fun getCountriesAndStatsWithMostConfirmed(
     ): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
         repository.getCountriesAndStatsWithMostConfirmed()
 
-    suspend fun getCountriesAndStatsWithMostDeaths(
+    fun getCountriesAndStatsWithMostDeaths(
     ): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
         repository.getCountriesAndStatsWithMostDeaths()
 
-    suspend fun getCountriesAndStatsWithMostRecovered(
+    fun getCountriesAndStatsWithMostRecovered(
     ): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
         repository.getCountriesAndStatsWithMostRecovered()
 
-    suspend fun getCountriesAndStatsWithMostOpenCases(
+    fun getCountriesAndStatsWithMostOpenCases(
     ): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
         repository.getCountriesAndStatsWithMostOpenCases()
 
-    suspend fun getCountryAndStatsByDate(
+    fun getCountryAndStatsByDate(
         idCountry: String,
         date: String
     ): Flow<Either<StateError<DomainError>, State<CountryOneStats>>> =
