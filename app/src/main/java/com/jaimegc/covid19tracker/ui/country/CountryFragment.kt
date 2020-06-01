@@ -2,7 +2,6 @@ package com.jaimegc.covid19tracker.ui.country
 
 import android.os.Bundle
 import android.view.*
-import androidx.core.view.isEmpty
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.MergeAdapter
 import com.jaimegc.covid19tracker.R
@@ -147,9 +146,10 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
                 }
                 placePieChartAdapter.submitList(renderState.data)
             }
-            is PlaceStateScreen.SuccessRegionsStatsLineCharts -> {
+            is PlaceStateScreen.SuccessPlaceStatsLineCharts -> {
                 mergeAdapter.addAdapter(placeLineChartAdapter)
                 placeLineChartAdapter.submitList(listOf(renderState.data))
+                placeLineChartAdapter.notifyDataSetChanged()
             }
         }
     }
