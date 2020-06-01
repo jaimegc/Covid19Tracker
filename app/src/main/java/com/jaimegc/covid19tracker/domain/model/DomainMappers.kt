@@ -481,6 +481,20 @@ fun <T, R> mapEntityValid(parse: Flow<T?>, mapper: (T) -> Pair<Boolean, R>): Flo
         flow { Either.left(DomainError.DatabaseDomainError(exception.toString())) }
     }
 
+fun <T, S, R> mapEntityMenuValid(parse: Flow<T?>, mapper: (T) -> Pair<Boolean, Pair<S, R>>): Flow<Either<DomainError, Pair<S, R>>> =
+    try {
+        parse.map {
+            it?.let {
+                when (mapper(it).first) {
+                    true -> Either.right(mapper(it).second)
+                    else -> Either.left(DomainError.DatabaseEmptyData)
+                }
+            } ?: Either.left(DomainError.DatabaseEmptyData)
+        }
+    } catch (exception: Exception) {
+        flow { Either.left(DomainError.DatabaseDomainError(exception.toString())) }
+    }
+
 fun <T, R> mapEntity(flow: Flow<T>, mapper: (T) -> R): Flow<Either<DomainError, R>> =
     try {
         flow.map { Either.right(mapper(it)) }
