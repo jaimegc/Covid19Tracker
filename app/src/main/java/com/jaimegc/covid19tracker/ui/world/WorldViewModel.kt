@@ -29,7 +29,7 @@ class WorldViewModel(
     private val mapWorldLineStats =
         mutableMapOf<MenuItemViewType, List<CountryListStatsChartUI>>()
 
-    private var jobAll: Job? = null
+    private var jobWorldAndContries: Job? = null
     private var jobWorldAll: Job? = null
     private var jobCountriesConfirmed: Job? = null
     private var jobMostConfirmed: Job? = null
@@ -37,17 +37,28 @@ class WorldViewModel(
     private var jobMostOpenCases: Job? = null
     private var jobMostRecovered: Job? = null
 
-    fun getCovidTrackerLast(viewType: MenuItemViewType) {
+    fun getListChartStats() =
+        listOrPieChartStats(MenuItemViewType.List)
+
+    fun getPieChartStats() =
+        listOrPieChartStats(MenuItemViewType.PieChart)
+
+    private fun listOrPieChartStats(viewType: MenuItemViewType) {
         cancelAll()
-        jobAll = viewModelScope.launch {
+        jobWorldAndContries = viewModelScope.launch {
             getCovidTrackerLast.getCovidTrackerByDate("2020-05-24").collect { result ->
                 result.fold({ handleError(it) }, { handleState(state = it, viewType = viewType) })
             }
         }
     }
 
-    fun getWorldAllStats() {
+    fun getBarChartStats() {
         cancelAll()
+        getWorldAllStats()
+        getCountriesStatsOrderByConfirmed()
+    }
+
+    private fun getWorldAllStats() {
         jobWorldAll = viewModelScope.launch {
             getWorldStats.getWorldAllStats().collect { result ->
                 result.fold(
@@ -58,7 +69,7 @@ class WorldViewModel(
         }
     }
 
-    fun getCountriesStatsOrderByConfirmed() {
+    private fun getCountriesStatsOrderByConfirmed() {
         jobCountriesConfirmed = viewModelScope.launch {
             getCountryStats.getCountriesStatsOrderByConfirmed().collect { result ->
                 result.fold(
@@ -71,9 +82,9 @@ class WorldViewModel(
 
     /**
      *  Waiting for all requests manually.
-     *  In CountryViewModel you can see it using combine.
+     *  In CountryViewModel you can see it using zip / combine / flatMapMerge.
      */
-    fun getWorldMostStats() {
+    fun getLineChartStats() {
         cancelAll()
         mapWorldLineStats.clear()
         getCountriesAndStatsWithMostConfirmed()
@@ -162,11 +173,8 @@ class WorldViewModel(
                                    mapWorldLineStats[viewType] = state.data.countriesStats.map {
                                         countryStats -> countryStats.toListChartUI()
                                    }
-
-                                   if (mapWorldLineStats.size == LINE_CHARTS_VIEW_TYPES) {
-                                       _screenState.postValue(ScreenState.Render(
-                                           WorldStateScreen.SuccessCountriesStatsLineCharts(mapWorldLineStats)))
-                                   }
+                                _screenState.postValue(ScreenState.Render(
+                                    WorldStateScreen.SuccessCountriesStatsLineCharts(mapWorldLineStats)))
                             }
                         }
                     }
@@ -178,20 +186,16 @@ class WorldViewModel(
     }
 
     private fun handleError(state: StateError<DomainError>) {
-
+        // Not implemented
     }
     
     private fun cancelAll() {
-        jobAll?.cancel()
+        jobWorldAndContries?.cancel()
         jobWorldAll?.cancel()
         jobCountriesConfirmed?.cancel()
         jobMostConfirmed?.cancel()
         jobMostDeaths?.cancel()
         jobMostOpenCases?.cancel()
         jobMostRecovered?.cancel()
-    }
-
-    companion object {
-        private const val LINE_CHARTS_VIEW_TYPES = 4
     }
 }
