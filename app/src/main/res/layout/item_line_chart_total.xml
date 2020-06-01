@@ -22,6 +22,11 @@
             android:id="@+id/chart_confirmed"
             android:layout_width="match_parent"
             android:layout_height="223dp" />
+
+        <ProgressBar
+            android:id="@+id/loading_confirmed"
+            style="@style/LoadingLineChart"
+            android:indeterminateTint="@color/dark_red" />
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
@@ -38,6 +43,11 @@
             android:id="@+id/chart_deaths"
             android:layout_width="match_parent"
             android:layout_height="223dp" />
+
+        <ProgressBar
+            android:id="@+id/loading_deaths"
+            style="@style/LoadingLineChart"
+            android:indeterminateTint="@color/dark_grey" />
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
@@ -54,6 +64,11 @@
             android:id="@+id/chart_recovered"
             android:layout_width="match_parent"
             android:layout_height="223dp" />
+
+        <ProgressBar
+            android:id="@+id/loading_recovered"
+            style="@style/LoadingLineChart"
+            android:indeterminateTint="@color/dark_green" />
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
@@ -70,6 +85,11 @@
             android:id="@+id/chart_open_cases"
             android:layout_width="match_parent"
             android:layout_height="223dp" />
+
+        <ProgressBar
+            android:id="@+id/loading_open_cases"
+            style="@style/LoadingLineChart"
+            android:indeterminateTint="@color/dark_blue" />
     </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

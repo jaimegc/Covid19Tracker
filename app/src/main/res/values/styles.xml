@@ -18,6 +18,7 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="android:maxLines">1</item>
     </style>
+
     <style name="TextTitleBlack">
         <item name="android:layout_gravity">center</item>
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6</item>
@@ -100,14 +101,10 @@
         <item name="android:maxLines">1</item>
     </style>
 
-    <style name="LayoutStyle">
-        <item name="android:orientation">vertical</item>
-        <item name="android:padding">@dimen/dimen_16</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:layout_margin">4dp</item>
-    </style>
-
-    <style name="TextCountDelta">
-        <item name="android:textSize">12sp</item>
+    <style name="LoadingLineChart">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_marginBottom">6dp</item>
     </style>
 </resources>
