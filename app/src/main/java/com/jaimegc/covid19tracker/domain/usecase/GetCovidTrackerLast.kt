@@ -13,7 +13,7 @@ class GetCovidTrackerLast(
 ) {
 
     fun getCovidTrackerByDate(
-        date: String
+        date: String = ""
     ): Flow<Either<StateError<DomainError>, State<CovidTracker>>> =
         repository.getCovidTrackerByDate(date)
 }

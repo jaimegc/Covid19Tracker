@@ -46,7 +46,8 @@ class WorldViewModel(
     private fun listOrPieChartStats(viewType: MenuItemViewType) {
         cancelAll()
         jobWorldAndContries = viewModelScope.launch {
-            getCovidTrackerLast.getCovidTrackerByDate("2020-05-24").collect { result ->
+            val date = "" // Empty to get the last date or use yyyy-MM-dd
+            getCovidTrackerLast.getCovidTrackerByDate(date).collect { result ->
                 result.fold({ handleError(it) }, { handleState(state = it, viewType = viewType) })
             }
         }

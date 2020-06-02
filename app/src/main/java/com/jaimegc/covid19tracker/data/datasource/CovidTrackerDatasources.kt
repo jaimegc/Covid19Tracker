@@ -39,8 +39,15 @@ class LocalCovidTrackerDatasource(
 ) {
 
     fun getCovidTrackerByDate(date: String): Flow<Either<DomainError, CovidTracker>> =
-        mapEntityValid(covidTrackerDao.getWorldAndCountriesStatsByDate(date.dateToMilliseconds())) {
-            covidTrackerPojo -> Pair(covidTrackerPojo.isValid(), covidTrackerPojo.toDomain())
+        when (date.isEmpty()) {
+            true ->
+                mapEntityValid(covidTrackerDao.getWorldAndCountriesStatsByLastDate()) {
+                    covidTrackerPojo -> Pair(covidTrackerPojo.isValid(), covidTrackerPojo.toDomain())
+                }
+            else ->
+                mapEntityValid(covidTrackerDao.getWorldAndCountriesStatsByDate(date.dateToMilliseconds())) {
+                    covidTrackerPojo -> Pair(covidTrackerPojo.isValid(), covidTrackerPojo.toDomain())
+                }
         }
 
     fun getWorldAllStats(): Flow<Either<DomainError, ListWorldStats>> =
@@ -70,19 +77,36 @@ class LocalCovidTrackerDatasource(
         idCountry: String,
         date: String
     ): Flow<Either<DomainError, ListRegionStats>> =
-        mapEntityValid(regionStatsDao.getRegionAndStatsByCountryAndDateOrderByConfirmed(
-            idCountry, date.dateToMilliseconds())) { regionsListStats ->
-            Pair(regionsListStats.isNotEmpty(), regionsListStats.toDomain(date))
+        when (date.isEmpty()) {
+            true ->
+                mapEntityValid(regionStatsDao.getRegionAndStatsByCountryAndLastDateOrderByConfirmed(
+                    idCountry)) { regionsListStats -> Pair(regionsListStats.isNotEmpty(),
+                        regionsListStats.toDomain())
+                }
+            else ->
+                mapEntityValid(regionStatsDao.getRegionAndStatsByCountryAndDateOrderByConfirmed(
+                    idCountry, date.dateToMilliseconds())) { regionsListStats ->
+                        Pair(regionsListStats.isNotEmpty(), regionsListStats.toDomain())
+                }
         }
+
 
     fun getSubRegionsStatsOrderByConfirmed(
         idCountry: String,
         idRegion: String,
         date: String
     ): Flow<Either<DomainError, ListSubRegionStats>> =
-        mapEntityValid(subRegionStatsDao.getSubRegionAndStatsByCountryAndDateOrderByConfirmed(
-            idCountry, idRegion, date.dateToMilliseconds())) { regionsListStats ->
-                Pair(regionsListStats.isNotEmpty(), regionsListStats.toDomain(date))
+        when (date.isEmpty()) {
+            true ->
+                mapEntityValid(subRegionStatsDao.getSubRegionAndStatsByCountryAndLastDateOrderByConfirmed(
+                    idCountry, idRegion)) { regionsListStats -> Pair(regionsListStats.isNotEmpty(),
+                        regionsListStats.toDomain())
+                }
+            else ->
+                mapEntityValid(subRegionStatsDao.getSubRegionAndStatsByCountryAndDateOrderByConfirmed(
+                    idCountry, idRegion, date.dateToMilliseconds())) { regionsListStats ->
+                        Pair(regionsListStats.isNotEmpty(), regionsListStats.toDomain())
+                }
         }
 
     fun getRegionsAllStatsOrderByConfirmed(
@@ -222,8 +246,15 @@ class LocalCovidTrackerDatasource(
         idCountry: String,
         date: String
     ): Flow<Either<DomainError, CountryOneStats>> =
-        mapEntityValid(countryStatsDao.getCountryAndStatsByDate(idCountry, date.dateToMilliseconds())) {
-            country -> Pair(country.isValid(), country.toDomain())
+        when (date.isEmpty()) {
+            true ->
+                mapEntityValid(countryStatsDao.getCountryAndStatsByLastDate(idCountry)) {
+                    country -> Pair(country.isValid(), country.toDomain())
+                }
+            false ->
+                mapEntityValid(countryStatsDao.getCountryAndStatsByDate(idCountry, date.dateToMilliseconds())) {
+                    country -> Pair(country.isValid(), country.toDomain())
+                }
         }
 
     fun getRegionAndStatsByDate(
@@ -231,8 +262,15 @@ class LocalCovidTrackerDatasource(
         idRegion: String,
         date: String
     ): Flow<Either<DomainError, RegionOneStats>> =
-        mapEntityValid(regionStatsDao.getRegionAndStatsByDate(idCountry, idRegion, date.dateToMilliseconds())) {
-            region -> Pair(region.isValid(), region.toDomain())
+        when (date.isEmpty()) {
+            true ->
+                mapEntityValid(regionStatsDao.getRegionAndStatsByLastDate(idCountry, idRegion)) {
+                    region -> Pair(region.isValid(), region.toDomain())
+                }
+            false ->
+                mapEntityValid(regionStatsDao.getRegionAndStatsByDate(idCountry, idRegion, date.dateToMilliseconds())) {
+                    region -> Pair(region.isValid(), region.toDomain())
+                }
         }
 
     suspend fun save(covidTracker: CovidTracker) = populateDatabase(listOf(covidTracker))
