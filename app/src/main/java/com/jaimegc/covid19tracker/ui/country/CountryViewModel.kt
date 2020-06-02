@@ -29,7 +29,12 @@ class CountryViewModel(
     private val mapPlacesLineStats =
         mutableMapOf<MenuItemViewType, List<PlaceListStatsChartUI>>()
 
-    fun getCountries() =
+    private var jobListOrPieChart: Job? = null
+    private var jobBarChart: Job? = null
+    private var jobLineChart: Job? = null
+
+    fun getCountries() {
+        cancelAllCharts()
         viewModelScope.launch {
             getCountry.getCountries().collect { result ->
                 result.fold(
@@ -38,15 +43,29 @@ class CountryViewModel(
                 )
             }
         }
+    }
 
-    fun getListChartStats(idCountry: String, idRegion: String = "") =
+    fun getRegionsByCountry(idCountry: String) {
+        cancelAllCharts()
+        viewModelScope.launch {
+            getRegion.getRegionsByCountry(idCountry).collect { result ->
+                result.fold(
+                    { handleError(it) },
+                    { handleState(state = it) }
+                )
+            }
+        }
+    }
+
+    fun getListStats(idCountry: String, idRegion: String = "") =
         listOrPieChartStats(idCountry, idRegion, MenuItemViewType.List)
 
     fun getPieChartStats(idCountry: String, idRegion: String = "") =
         listOrPieChartStats(idCountry, idRegion, MenuItemViewType.PieChart)
 
-    private fun listOrPieChartStats(idCountry: String, idRegion: String, viewType: MenuItemViewType) =
-        viewModelScope.launch {
+    private fun listOrPieChartStats(idCountry: String, idRegion: String, viewType: MenuItemViewType) {
+        cancelAllCharts()
+        jobListOrPieChart = viewModelScope.launch {
             val date = "2020-05-24"
 
             if (idRegion.isEmpty()) {
@@ -85,19 +104,11 @@ class CountryViewModel(
                 }
             }
         }
+    }
 
-    fun getRegionsByCountry(idCountry: String) =
-        viewModelScope.launch {
-            getRegion.getRegionsByCountry(idCountry).collect { result ->
-                result.fold(
-                    { handleError(it) },
-                    { handleState(state = it) }
-                )
-            }
-        }
-
-    fun getBarChartStats(idCountry: String, idRegion: String = "") =
-        viewModelScope.launch {
+    fun getBarChartStats(idCountry: String, idRegion: String = "") {
+        cancelAllCharts()
+        jobBarChart = viewModelScope.launch {
             if (idRegion.isEmpty()) {
                 val countryStats = getCountryStats.getCountryAllStats(idCountry)
                 val regionStats = getRegionStats.getRegionsAllStatsOrderByConfirmed(idCountry)
@@ -130,9 +141,11 @@ class CountryViewModel(
                 }
             }
         }
+    }
 
-    fun getLineChartStats(idCountry: String, idRegion: String = "") =
-        viewModelScope.launch {
+    fun getLineChartStats(idCountry: String, idRegion: String = "") {
+        cancelAllCharts()
+        jobLineChart = viewModelScope.launch {
             mapPlacesLineStats.clear()
 
             val allRequests = mutableListOf<Flow<Either<StateError<DomainError>, State<*>>>>()
@@ -143,10 +156,30 @@ class CountryViewModel(
                 allRequests.add(getRegionStats.getRegionsAndStatsWithMostRecovered(idCountry))
                 allRequests.add(getRegionStats.getRegionsAndStatsWithMostOpenCases(idCountry))
             } else {
-                allRequests.add(getSubRegionStats.getSubRegionsAndStatsWithMostConfirmed(idCountry, idRegion))
-                allRequests.add(getSubRegionStats.getSubRegionsAndStatsWithMostDeaths(idCountry, idRegion))
-                allRequests.add(getSubRegionStats.getSubRegionsAndStatsWithMostRecovered(idCountry, idRegion))
-                allRequests.add(getSubRegionStats.getSubRegionsAndStatsWithMostOpenCases(idCountry, idRegion))
+                allRequests.add(
+                    getSubRegionStats.getSubRegionsAndStatsWithMostConfirmed(
+                        idCountry,
+                        idRegion
+                    )
+                )
+                allRequests.add(
+                    getSubRegionStats.getSubRegionsAndStatsWithMostDeaths(
+                        idCountry,
+                        idRegion
+                    )
+                )
+                allRequests.add(
+                    getSubRegionStats.getSubRegionsAndStatsWithMostRecovered(
+                        idCountry,
+                        idRegion
+                    )
+                )
+                allRequests.add(
+                    getSubRegionStats.getSubRegionsAndStatsWithMostOpenCases(
+                        idCountry,
+                        idRegion
+                    )
+                )
             }
 
             // flatMapMerge to not wait for all values. Requests are a bit heavy
@@ -159,6 +192,7 @@ class CountryViewModel(
                     )
                 }
         }
+    }
 
     override suspend fun <T> handleState(
         state: State<T>,
@@ -253,5 +287,11 @@ class CountryViewModel(
 
     private fun handleError(state: StateError<DomainError>) {
         // Not implemented
+    }
+
+    private fun cancelAllCharts() {
+        jobListOrPieChart?.cancel()
+        jobBarChart?.cancel()
+        jobLineChart?.cancel()
     }
 }

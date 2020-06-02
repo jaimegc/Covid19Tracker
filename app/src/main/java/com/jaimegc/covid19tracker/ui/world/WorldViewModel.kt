@@ -81,7 +81,7 @@ class WorldViewModel(
     }
 
     /**
-     *  Waiting for all requests manually.
+     *  Using four methods.
      *  In CountryViewModel you can see it using zip / combine / flatMapMerge.
      */
     fun getLineChartStats() {
