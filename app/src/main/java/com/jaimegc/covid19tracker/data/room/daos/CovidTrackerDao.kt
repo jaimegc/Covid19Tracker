@@ -15,12 +15,6 @@ abstract class CovidTrackerDao {
     @Query("SELECT * FROM world_stats WHERE date_timestamp = :dateTimestamp")
     abstract fun getWorldAndCountriesStatsByDate(dateTimestamp: Long): Flow<WorldAndCountriesStatsPojo>
 
-    @Query("SELECT * FROM world_stats")
-    abstract suspend fun getWorld(): WorldStatsEntity
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insertWorldStats(worldStats: WorldStatsEntity)
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insertAllWorldsStats(worldsStats: List<WorldStatsEntity>)
 

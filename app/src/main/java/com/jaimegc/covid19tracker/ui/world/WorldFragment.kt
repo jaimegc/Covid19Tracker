@@ -5,7 +5,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.core.view.isEmpty
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.MergeAdapter
 import com.jaimegc.covid19tracker.R
@@ -54,7 +53,7 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
             }
         })
 
-        viewModel.getCovidTrackerLast(MenuItemViewType.List)
+        viewModel.getListChartStats()
         setHasOptionsMenu(true)
     }
 
@@ -92,6 +91,7 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
                 if (menu.isCurrentItemChecked(MENU_ITEM_LINE_CHART)) {
                     mergeAdapter.addAdapter(worldLineChartAdapter)
                     worldLineChartAdapter.submitList(listOf(renderState.data))
+                    worldLineChartAdapter.notifyDataSetChanged()
                 }
             }
             is WorldStateScreen.SuccessCountriesStatsPieCharts -> {
@@ -118,7 +118,7 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
                     menu.enableItem(MENU_ITEM_LIST)
                     currentMenuItem = MENU_ITEM_LIST
                     mergeAdapter.removeAllAdapters()
-                    viewModel.getCovidTrackerLast(MenuItemViewType.List)
+                    viewModel.getListChartStats()
                 }
                 true
             }
@@ -127,12 +127,7 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
                     menu.enableItem(MENU_ITEM_BAR_CHART)
                     currentMenuItem = MENU_ITEM_BAR_CHART
                     mergeAdapter.removeAllAdapters()
-                    /**
-                     *  Two different requests.
-                     *  In CountryFragment & CountryViewModel you can see it in one request.
-                     */
-                    viewModel.getWorldAllStats()
-                    viewModel.getCountriesStatsOrderByConfirmed()
+                    viewModel.getBarChartStats()
                 }
                 true
             }
@@ -141,7 +136,7 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
                     menu.enableItem(MENU_ITEM_LINE_CHART)
                     currentMenuItem = MENU_ITEM_LINE_CHART
                     mergeAdapter.removeAllAdapters()
-                    viewModel.getWorldMostStats()
+                    viewModel.getLineChartStats()
                 }
                 true
             }
@@ -150,7 +145,7 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
                     menu.enableItem(MENU_ITEM_PIE_CHART)
                     currentMenuItem = MENU_ITEM_PIE_CHART
                     mergeAdapter.removeAllAdapters()
-                    viewModel.getCovidTrackerLast(MenuItemViewType.PieChart)
+                    viewModel.getPieChartStats()
                 }
                 true
             }

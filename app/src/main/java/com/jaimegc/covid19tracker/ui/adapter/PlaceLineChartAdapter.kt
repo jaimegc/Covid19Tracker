@@ -10,6 +10,7 @@ import com.github.mikephil.charting.charts.LineChart
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.common.extensions.chart.configure
 import com.jaimegc.covid19tracker.common.extensions.chart.setValues
+import com.jaimegc.covid19tracker.common.extensions.hide
 import com.jaimegc.covid19tracker.databinding.ItemLineChartTotalBinding
 import com.jaimegc.covid19tracker.ui.model.PlaceListStatsChartUI
 import com.jaimegc.covid19tracker.ui.base.states.MenuItemViewType
@@ -35,18 +36,35 @@ class PlaceLineChartAdapter :
                 when (type) {
                     is MenuItemViewType.LineChartMostConfirmed ->
                         configureLineChart(
-                            ctx, binding.chartConfirmed, mapPlacesStatsChartUI.getValue(type), type)
+                            ctx, binding.chartConfirmed, mapPlacesStatsChartUI.getValue(type), type).also {
+                            binding.loadingConfirmed.hide()
+                        }
                     is MenuItemViewType.LineChartMostDeaths ->
                         configureLineChart(
-                            ctx, binding.chartDeaths, mapPlacesStatsChartUI.getValue(type), type)
+                            ctx, binding.chartDeaths, mapPlacesStatsChartUI.getValue(type), type).also {
+                            binding.loadingDeaths.hide()
+                        }
                     is MenuItemViewType.LineChartMostRecovered ->
                         configureLineChart(
-                            ctx, binding.chartRecovered, mapPlacesStatsChartUI.getValue(type), type)
+                            ctx, binding.chartRecovered, mapPlacesStatsChartUI.getValue(type), type).also {
+                            binding.loadingRecovered.hide()
+                        }
                     is MenuItemViewType.LineChartMostOpenCases ->
                         configureLineChart(
-                            ctx, binding.chartOpenCases, mapPlacesStatsChartUI.getValue(type), type)
+                            ctx, binding.chartOpenCases, mapPlacesStatsChartUI.getValue(type), type).also {
+                            binding.loadingOpenCases.hide()
+                        }
                 }
             }
+
+            clearNoDataText()
+        }
+
+        private fun clearNoDataText() {
+            binding.chartConfirmed.setNoDataText("")
+            binding.chartDeaths.setNoDataText("")
+            binding.chartRecovered.setNoDataText("")
+            binding.chartOpenCases.setNoDataText("")
         }
 
         private fun configureLineChart(

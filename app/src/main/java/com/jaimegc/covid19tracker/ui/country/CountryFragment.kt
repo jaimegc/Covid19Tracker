@@ -2,7 +2,6 @@ package com.jaimegc.covid19tracker.ui.country
 
 import android.os.Bundle
 import android.view.*
-import androidx.core.view.isEmpty
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.MergeAdapter
 import com.jaimegc.covid19tracker.R
@@ -118,38 +117,60 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
                 }
             }
             is PlaceStateScreen.SuccessPlaceAndStats -> {
-                mergeAdapter.addAdapter(placeTotalAdapter)
-                placeTotalAdapter.submitList(listOf(renderState.data))
+                if (menu.isCurrentItemChecked(MENU_ITEM_LIST)) {
+                    mergeAdapter.addAdapter(placeTotalAdapter)
+                    placeTotalAdapter.submitList(listOf(renderState.data))
+                }
             }
             is PlaceStateScreen.SuccessPlaceStats -> {
-                mergeAdapter.addAdapter(placeAdapter)
-                placeAdapter.submitList(renderState.data)
+                if (menu.isCurrentItemChecked(MENU_ITEM_LIST)) {
+                    mergeAdapter.addAdapter(placeAdapter)
+                    placeAdapter.submitList(renderState.data)
+                }
             }
             is PlaceStateScreen.SuccessPlaceTotalStatsBarChart -> {
-                mergeAdapter.addAdapter(placeTotalBarChartAdapter)
-                placeTotalBarChartAdapter.submitList(listOf(renderState.data))
+                if (menu.isCurrentItemChecked(MENU_ITEM_BAR_CHART)) {
+                    mergeAdapter.addAdapter(0, placeTotalBarChartAdapter)
+                    if (mergeAdapter.containsAdapter(placeBarChartAdapter)) {
+                        binding.recyclerPlace.scrollToPosition(0)
+                    }
+                    placeTotalBarChartAdapter.submitList(listOf(renderState.data))
+                }
             }
             is PlaceStateScreen.SuccessPlaceStatsBarChart -> {
-                mergeAdapter.addAdapter(placeBarChartAdapter)
-                placeBarChartAdapter.submitList(renderState.data)
+                if (menu.isCurrentItemChecked(MENU_ITEM_BAR_CHART)) {
+                    if (mergeAdapter.containsAdapter(placeTotalBarChartAdapter)) {
+                        mergeAdapter.addAdapter(1, placeBarChartAdapter)
+                    } else {
+                        mergeAdapter.addAdapter(0, placeBarChartAdapter)
+                    }
+                    placeBarChartAdapter.submitList(renderState.data)
+                }
             }
             is PlaceStateScreen.SuccessCountryAndStatsPieChart -> {
-                statsParent = renderState.data
-                mergeAdapter.addAdapter(placeTotalPieChartAdapter)
-                placeTotalPieChartAdapter.submitList(listOf(statsParent))
+                if (menu.isCurrentItemChecked(MENU_ITEM_PIE_CHART)) {
+                    statsParent = renderState.data
+                    mergeAdapter.addAdapter(placeTotalPieChartAdapter)
+                    placeTotalPieChartAdapter.submitList(listOf(statsParent))
+                }
             }
             is PlaceStateScreen.SuccessRegionAndStatsPieChart -> {
-                mergeAdapter.addAdapter(placePieChartAdapter)
-                if (placeTotalPieChartAdapter.currentList.isNotEmpty()) {
-                    renderState.data.map { placeStats ->
-                        placeStats.statsParent = statsParent
+                if (menu.isCurrentItemChecked(MENU_ITEM_PIE_CHART)) {
+                    mergeAdapter.addAdapter(placePieChartAdapter)
+                    if (placeTotalPieChartAdapter.currentList.isNotEmpty()) {
+                        renderState.data.map { placeStats ->
+                            placeStats.statsParent = statsParent
+                        }
                     }
+                    placePieChartAdapter.submitList(renderState.data)
                 }
-                placePieChartAdapter.submitList(renderState.data)
             }
-            is PlaceStateScreen.SuccessRegionsStatsLineCharts -> {
-                mergeAdapter.addAdapter(placeLineChartAdapter)
-                placeLineChartAdapter.submitList(listOf(renderState.data))
+            is PlaceStateScreen.SuccessPlaceStatsLineCharts -> {
+                if (menu.isCurrentItemChecked(MENU_ITEM_LINE_CHART)) {
+                    mergeAdapter.addAdapter(placeLineChartAdapter)
+                    placeLineChartAdapter.submitList(listOf(renderState.data))
+                    placeLineChartAdapter.notifyDataSetChanged()
+                }
             }
         }
     }
@@ -218,7 +239,7 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
 
         when (currentMenuItem) {
             MENU_ITEM_LIST ->
-                viewModel.getListChartStats(idCountry, idRegion)
+                viewModel.getListStats(idCountry, idRegion)
             MENU_ITEM_BAR_CHART ->
                 viewModel.getBarChartStats(idCountry, idRegion)
             MENU_ITEM_LINE_CHART ->

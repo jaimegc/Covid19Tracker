@@ -1,6 +1,7 @@
 package com.jaimegc.covid19tracker.ui.country
 
 import androidx.lifecycle.*
+import arrow.core.Either
 import com.jaimegc.covid19tracker.common.QueueLiveData
 import com.jaimegc.covid19tracker.domain.model.*
 import com.jaimegc.covid19tracker.domain.states.State
@@ -11,8 +12,8 @@ import com.jaimegc.covid19tracker.ui.base.states.PlaceStateScreen
 import com.jaimegc.covid19tracker.ui.base.states.MenuItemViewType
 import com.jaimegc.covid19tracker.ui.base.states.ScreenState
 import com.jaimegc.covid19tracker.ui.base.BaseScreenStateMenuViewModel
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 
 class CountryViewModel(
     private val getCountry: GetCountry,
@@ -28,7 +29,12 @@ class CountryViewModel(
     private val mapPlacesLineStats =
         mutableMapOf<MenuItemViewType, List<PlaceListStatsChartUI>>()
 
-    fun getCountries() =
+    private var jobListOrPieChart: Job? = null
+    private var jobBarChart: Job? = null
+    private var jobLineChart: Job? = null
+
+    fun getCountries() {
+        cancelAllCharts()
         viewModelScope.launch {
             getCountry.getCountries().collect { result ->
                 result.fold(
@@ -37,15 +43,29 @@ class CountryViewModel(
                 )
             }
         }
+    }
 
-    fun getListChartStats(idCountry: String, idRegion: String = "") =
+    fun getRegionsByCountry(idCountry: String) {
+        cancelAllCharts()
+        viewModelScope.launch {
+            getRegion.getRegionsByCountry(idCountry).collect { result ->
+                result.fold(
+                    { handleError(it) },
+                    { handleState(state = it) }
+                )
+            }
+        }
+    }
+
+    fun getListStats(idCountry: String, idRegion: String = "") =
         listOrPieChartStats(idCountry, idRegion, MenuItemViewType.List)
 
     fun getPieChartStats(idCountry: String, idRegion: String = "") =
         listOrPieChartStats(idCountry, idRegion, MenuItemViewType.PieChart)
 
-    private fun listOrPieChartStats(idCountry: String, idRegion: String, viewType: MenuItemViewType) =
-        viewModelScope.launch {
+    private fun listOrPieChartStats(idCountry: String, idRegion: String, viewType: MenuItemViewType) {
+        cancelAllCharts()
+        jobListOrPieChart = viewModelScope.launch {
             val date = "2020-05-24"
 
             if (idRegion.isEmpty()) {
@@ -54,7 +74,8 @@ class CountryViewModel(
                 val regionsStatsOrderByConfirmed =
                     getRegionStats.getRegionsStatsOrderByConfirmed(idCountry, date)
 
-                countryAndStatsByDate.combine(regionsStatsOrderByConfirmed) { countries, regions ->
+                // Zip to wait for all values
+                countryAndStatsByDate.zip(regionsStatsOrderByConfirmed) { countries, regions ->
                     listOf(countries, regions)
                 }.collect { results ->
                     results.map { result ->
@@ -70,7 +91,8 @@ class CountryViewModel(
                 val subRegionsStatsOrderByConfirmed =
                     getSubRegionStats.getSubRegionsStatsOrderByConfirmed(idCountry, idRegion, date)
 
-                regionAndStatsByDate.combine(subRegionsStatsOrderByConfirmed) { regions, subRegions ->
+                // Zip to wait for all values
+                regionAndStatsByDate.zip(subRegionsStatsOrderByConfirmed) { regions, subRegions ->
                     listOf(regions, subRegions)
                 }.collect { results ->
                     results.map { result ->
@@ -82,24 +104,16 @@ class CountryViewModel(
                 }
             }
         }
+    }
 
-    fun getRegionsByCountry(idCountry: String) =
-        viewModelScope.launch {
-            getRegion.getRegionsByCountry(idCountry).collect { result ->
-                result.fold(
-                    { handleError(it) },
-                    { handleState(state = it) }
-                )
-            }
-        }
-
-    fun getBarChartStats(idCountry: String, idRegion: String = "") =
-        viewModelScope.launch {
-
+    fun getBarChartStats(idCountry: String, idRegion: String = "") {
+        cancelAllCharts()
+        jobBarChart = viewModelScope.launch {
             if (idRegion.isEmpty()) {
                 val countryStats = getCountryStats.getCountryAllStats(idCountry)
                 val regionStats = getRegionStats.getRegionsAllStatsOrderByConfirmed(idCountry)
 
+                // Combine to not wait for all values. Requests are a bit heavy
                 countryStats.combine(regionStats) { countries, regions ->
                     listOf(countries, regions)
                 }.collect { results ->
@@ -114,6 +128,7 @@ class CountryViewModel(
                 val regionStats = getRegionStats.getRegionAllStats(idCountry, idRegion)
                 val subRegionStats = getSubRegionStats.getSubRegionsAllStatsOrderByConfirmed(idCountry, idRegion)
 
+                // Combine to not wait for all values. Requests are a bit heavy
                 regionStats.combine(subRegionStats) { regions, subRegions ->
                     listOf(regions, subRegions)
                 }.collect { results ->
@@ -126,63 +141,58 @@ class CountryViewModel(
                 }
             }
         }
+    }
 
-    fun getLineChartStats(idCountry: String, idRegion: String = "") =
-        viewModelScope.launch {
+    fun getLineChartStats(idCountry: String, idRegion: String = "") {
+        cancelAllCharts()
+        jobLineChart = viewModelScope.launch {
             mapPlacesLineStats.clear()
 
+            val allRequests = mutableListOf<Flow<Either<StateError<DomainError>, State<*>>>>()
+
             if (idRegion.isEmpty()) {
-                val regionsMostConfirmed = getRegionStats.getRegionsAndStatsWithMostConfirmed(idCountry)
-                val regionsMostDeaths = getRegionStats.getRegionsAndStatsWithMostDeaths(idCountry)
-                val regionsMostRecovered = getRegionStats.getRegionsAndStatsWithMostRecovered(idCountry)
-                val regionsMostOpenCases = getRegionStats.getRegionsAndStatsWithMostOpenCases(idCountry)
-
-                combineFlows(regionsMostConfirmed, regionsMostDeaths, regionsMostRecovered,
-                    regionsMostOpenCases).collect { results ->
-                    results.mapIndexed { index, result ->
-                        val viewType =
-                            when (index) {
-                                1 -> MenuItemViewType.LineChartMostConfirmed
-                                2 -> MenuItemViewType.LineChartMostDeaths
-                                3 -> MenuItemViewType.LineChartMostRecovered
-                                else -> MenuItemViewType.LineChartMostOpenCases
-                            }
-
-                        result.fold(
-                            { handleError(it) },
-                            { handleState(state = it, viewType = viewType) }
-                        )
-                    }
-                }
+                allRequests.add(getRegionStats.getRegionsAndStatsWithMostConfirmed(idCountry))
+                allRequests.add(getRegionStats.getRegionsAndStatsWithMostDeaths(idCountry))
+                allRequests.add(getRegionStats.getRegionsAndStatsWithMostRecovered(idCountry))
+                allRequests.add(getRegionStats.getRegionsAndStatsWithMostOpenCases(idCountry))
             } else {
-                val subRegionsMostConfirmed =
-                    getSubRegionStats.getSubRegionsAndStatsWithMostConfirmed(idCountry, idRegion)
-                val subRegionsMostDeaths =
-                    getSubRegionStats.getSubRegionsAndStatsWithMostDeaths(idCountry, idRegion)
-                val subRegionsMostRecovered =
-                    getSubRegionStats.getSubRegionsAndStatsWithMostRecovered(idCountry, idRegion)
-                val subRegionsMostOpenCases =
-                    getSubRegionStats.getSubRegionsAndStatsWithMostOpenCases(idCountry, idRegion)
-
-                combineFlows(subRegionsMostConfirmed, subRegionsMostDeaths, subRegionsMostRecovered,
-                    subRegionsMostOpenCases).collect { results ->
-                    results.mapIndexed { index, result ->
-                        val viewType =
-                            when (index) {
-                                1 -> MenuItemViewType.LineChartMostConfirmed
-                                2 -> MenuItemViewType.LineChartMostDeaths
-                                3 -> MenuItemViewType.LineChartMostRecovered
-                                else -> MenuItemViewType.LineChartMostOpenCases
-                            }
-
-                        result.fold(
-                            { handleError(it) },
-                            { handleState(state = it, viewType = viewType) }
-                        )
-                    }
-                }
+                allRequests.add(
+                    getSubRegionStats.getSubRegionsAndStatsWithMostConfirmed(
+                        idCountry,
+                        idRegion
+                    )
+                )
+                allRequests.add(
+                    getSubRegionStats.getSubRegionsAndStatsWithMostDeaths(
+                        idCountry,
+                        idRegion
+                    )
+                )
+                allRequests.add(
+                    getSubRegionStats.getSubRegionsAndStatsWithMostRecovered(
+                        idCountry,
+                        idRegion
+                    )
+                )
+                allRequests.add(
+                    getSubRegionStats.getSubRegionsAndStatsWithMostOpenCases(
+                        idCountry,
+                        idRegion
+                    )
+                )
             }
+
+            // flatMapMerge to not wait for all values. Requests are a bit heavy
+            (allRequests.indices).asFlow()
+                .flatMapMerge { allRequests[it] }
+                .collect { result ->
+                    result.fold(
+                        { handleError(it) },
+                        { handleState(state = it) }
+                    )
+                }
         }
+    }
 
     override suspend fun <T> handleState(
         state: State<T>,
@@ -239,41 +249,32 @@ class CountryViewModel(
                     is ListRegionOnlyStats ->
                         _screenState.postValue(ScreenState.Render(
                             PlaceStateScreen.SuccessPlaceTotalStatsBarChart(state.data.toPlaceUI())))
-                    is ListRegionAndStats -> {
+                    is ListRegionAndStats ->
                         when (viewType) {
                             is MenuItemViewType.BarChart ->
                                 _screenState.postValue(ScreenState.Render(
                                     PlaceStateScreen.SuccessPlaceStatsBarChart(state.data.toPlaceUI())))
-                            is MenuItemViewType.LineChartMostConfirmed,
-                               MenuItemViewType.LineChartMostDeaths,
-                               MenuItemViewType.LineChartMostOpenCases,
-                               MenuItemViewType.LineChartMostRecovered -> {
-                                   mapPlacesLineStats[viewType] = state.data.toPlaceUI()
-
-                                   if (viewType == MenuItemViewType.LineChartMostRecovered) {
-                                       _screenState.postValue(ScreenState.Render(
-                                           PlaceStateScreen.SuccessRegionsStatsLineCharts(mapPlacesLineStats)))
-                                   }
-                            }
                         }
-                    }
-                    is ListSubRegionAndStats -> {
+                    is ListSubRegionAndStats ->
                         when (viewType) {
                             is MenuItemViewType.BarChart ->
                                 _screenState.postValue(ScreenState.Render(
                                     PlaceStateScreen.SuccessPlaceStatsBarChart(state.data.toPlaceUI())))
-                            is MenuItemViewType.LineChartMostConfirmed,
-                               MenuItemViewType.LineChartMostDeaths,
-                               MenuItemViewType.LineChartMostOpenCases,
-                               MenuItemViewType.LineChartMostRecovered -> {
-                                   mapPlacesLineStats[viewType] = state.data.toPlaceUI()
-
-                                   if (viewType == MenuItemViewType.LineChartMostRecovered) {
-                                       _screenState.postValue(ScreenState.Render(
-                                           PlaceStateScreen.SuccessRegionsStatsLineCharts(mapPlacesLineStats)))
-                                }
-                            }
                         }
+                    is Pair<*, *> -> {
+                        val menuViewType = state.data.first as MenuItemViewType
+
+                        when (state.data.second) {
+                            is ListRegionAndStats ->
+                                mapPlacesLineStats[menuViewType] =
+                                    (state.data.second as ListRegionAndStats).toPlaceUI()
+                            is ListSubRegionAndStats ->
+                                mapPlacesLineStats[menuViewType] =
+                                    (state.data.second as ListSubRegionAndStats).toPlaceUI()
+                        }
+
+                        _screenState.postValue(ScreenState.Render(
+                            PlaceStateScreen.SuccessPlaceStatsLineCharts(mapPlacesLineStats)))
                     }
                 }
             }
@@ -285,6 +286,12 @@ class CountryViewModel(
     }
 
     private fun handleError(state: StateError<DomainError>) {
+        // Not implemented
+    }
 
+    private fun cancelAllCharts() {
+        jobListOrPieChart?.cancel()
+        jobBarChart?.cancel()
+        jobLineChart?.cancel()
     }
 }

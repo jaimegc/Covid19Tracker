@@ -5,44 +5,45 @@ import com.jaimegc.covid19tracker.data.repository.CovidTrackerRepository
 import com.jaimegc.covid19tracker.domain.model.*
 import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.domain.states.StateError
+import com.jaimegc.covid19tracker.ui.base.states.MenuItemViewType
 import kotlinx.coroutines.flow.Flow
 
 class GetSubRegionStats(
     private val repository: CovidTrackerRepository
 ) {
 
-    suspend fun getSubRegionsStatsOrderByConfirmed(
+    fun getSubRegionsStatsOrderByConfirmed(
         idCountry: String,
         idRegion: String,
         date: String
     ): Flow<Either<StateError<DomainError>, State<ListSubRegionStats>>> =
         repository.getSubRegionsStatsOrderByConfirmed(idCountry, idRegion, date)
 
-    suspend fun getSubRegionsAndStatsWithMostConfirmed(
+    fun getSubRegionsAndStatsWithMostConfirmed(
         idCountry: String,
         idRegion: String
-    ): Flow<Either<StateError<DomainError>, State<ListSubRegionAndStats>>> =
+    ): Flow<Either<StateError<DomainError>, State<Pair<MenuItemViewType, ListSubRegionAndStats>>>> =
         repository.getSubRegionsAndStatsWithMostConfirmed(idCountry, idRegion)
 
-    suspend fun getSubRegionsAndStatsWithMostDeaths(
+    fun getSubRegionsAndStatsWithMostDeaths(
         idCountry: String,
         idRegion: String
-    ): Flow<Either<StateError<DomainError>, State<ListSubRegionAndStats>>> =
+    ): Flow<Either<StateError<DomainError>, State<Pair<MenuItemViewType, ListSubRegionAndStats>>>> =
         repository.getSubRegionsAndStatsWithMostDeaths(idCountry, idRegion)
 
-    suspend fun getSubRegionsAndStatsWithMostRecovered(
+    fun getSubRegionsAndStatsWithMostRecovered(
         idCountry: String,
         idRegion: String
-    ): Flow<Either<StateError<DomainError>, State<ListSubRegionAndStats>>> =
+    ): Flow<Either<StateError<DomainError>, State<Pair<MenuItemViewType, ListSubRegionAndStats>>>> =
         repository.getSubRegionsAndStatsWithMostRecovered(idCountry, idRegion)
 
-    suspend fun getSubRegionsAndStatsWithMostOpenCases(
+    fun getSubRegionsAndStatsWithMostOpenCases(
         idCountry: String,
         idRegion: String
-    ): Flow<Either<StateError<DomainError>, State<ListSubRegionAndStats>>> =
+    ): Flow<Either<StateError<DomainError>, State<Pair<MenuItemViewType, ListSubRegionAndStats>>>> =
         repository.getSubRegionsAndStatsWithMostOpenCases(idCountry, idRegion)
 
-    suspend fun getSubRegionsAllStatsOrderByConfirmed(
+    fun getSubRegionsAllStatsOrderByConfirmed(
         idCountry: String,
         idRegion: String
     ): Flow<Either<StateError<DomainError>, State<ListSubRegionAndStats>>> =

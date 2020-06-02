@@ -3,7 +3,7 @@
 buildscript {
     apply from: 'dependencies.gradle'
 
-    ext.kotlin_version = '1.3.61'
+    ext.kotlin_version = '1.3.72'
     ext.gradle_version = '3.6.1'
     ext.maven_gradle_plugin_version = '2.1'
     ext.google_services_version = '4.3.2'

@@ -12,6 +12,6 @@ class GetRegion(
     private val repository: CovidTrackerRepository
 ) {
 
-    suspend fun getRegionsByCountry(idCountry: String): Flow<Either<StateError<DomainError>, State<ListRegion>>> =
+    fun getRegionsByCountry(idCountry: String): Flow<Either<StateError<DomainError>, State<ListRegion>>> =
         repository.getRegionsByCountry(idCountry)
 }

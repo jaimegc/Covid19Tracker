@@ -12,14 +12,17 @@ import com.jaimegc.covid19tracker.domain.model.toPojoRegionDomain
 import com.jaimegc.covid19tracker.domain.model.toStatsDomain
 import com.jaimegc.covid19tracker.domain.model.toPojoCountriesOrdered
 import com.jaimegc.covid19tracker.domain.model.*
-import kotlinx.coroutines.flow.Flow
+import com.jaimegc.covid19tracker.ui.base.states.MenuItemViewType
+import kotlinx.coroutines.flow.*
 
 class RemoteCovidTrackerDatasource(
     private val apiClient: CovidTrackerApiClient
 ) {
     suspend fun getCovidTrackerByDate(date: String): Either<DomainError, CovidTracker> =
         try {
-            mapResponse(apiClient.getCovidTrackerByDate(date)) { covidTracker -> covidTracker.toDomain(date) }
+            mapResponse(apiClient.getCovidTrackerByDate(date)) { covidTracker ->
+                covidTracker.toDomain(date)
+            }
         } catch (exception: Exception) {
             Either.left(exception.apiException())
         }
@@ -35,22 +38,22 @@ class LocalCovidTrackerDatasource(
     private val subRegionStatsDao: SubRegionStatsDao
 ) {
 
-    suspend fun getCovidTrackerByDate(date: String): Flow<Either<DomainError, CovidTracker>> =
+    fun getCovidTrackerByDate(date: String): Flow<Either<DomainError, CovidTracker>> =
         mapEntityValid(covidTrackerDao.getWorldAndCountriesStatsByDate(date.dateToMilliseconds())) {
             covidTrackerPojo -> Pair(covidTrackerPojo.isValid(), covidTrackerPojo.toDomain())
         }
 
-    suspend fun getWorldAllStats(): Flow<Either<DomainError, ListWorldStats>> =
+    fun getWorldAllStats(): Flow<Either<DomainError, ListWorldStats>> =
         mapEntityValid(worldStatsDao.getAll()) { worldEntities ->
             Pair(worldEntities.isNotEmpty(), worldEntities.toDomain())
         }
 
-    suspend fun getCountryAllStats(idCountry: String): Flow<Either<DomainError, ListCountryOnlyStats>> =
+    fun getCountryAllStats(idCountry: String): Flow<Either<DomainError, ListCountryOnlyStats>> =
         mapEntityValid(countryStatsDao.getById(idCountry)) { countryEntities ->
             Pair(countryEntities.isNotEmpty(), countryEntities.toStatsDomain())
         }
 
-    suspend fun getRegionAllStats(
+    fun getRegionAllStats(
         idCountry: String,
         idRegion: String
     ): Flow<Either<DomainError, ListRegionOnlyStats>> =
@@ -58,12 +61,12 @@ class LocalCovidTrackerDatasource(
             Pair(regionEntities.isNotEmpty(), regionEntities.toStatsDomain())
         }
 
-    suspend fun getCountriesStatsOrderByConfirmed(): Flow<Either<DomainError, ListCountryAndStats>> =
+    fun getCountriesStatsOrderByConfirmed(): Flow<Either<DomainError, ListCountryAndStats>> =
         mapEntityValid(countryStatsDao.getCountriesAndStatsOrderByConfirmed()) { countriesListStats ->
             Pair(countriesListStats.isNotEmpty(), countriesListStats.toDomain())
         }
 
-    suspend fun getRegionsStatsOrderByConfirmed(
+    fun getRegionsStatsOrderByConfirmed(
         idCountry: String,
         date: String
     ): Flow<Either<DomainError, ListRegionStats>> =
@@ -72,7 +75,7 @@ class LocalCovidTrackerDatasource(
             Pair(regionsListStats.isNotEmpty(), regionsListStats.toDomain(date))
         }
 
-    suspend fun getSubRegionsStatsOrderByConfirmed(
+    fun getSubRegionsStatsOrderByConfirmed(
         idCountry: String,
         idRegion: String,
         date: String
@@ -82,14 +85,14 @@ class LocalCovidTrackerDatasource(
                 Pair(regionsListStats.isNotEmpty(), regionsListStats.toDomain(date))
         }
 
-    suspend fun getRegionsAllStatsOrderByConfirmed(
+    fun getRegionsAllStatsOrderByConfirmed(
         idCountry: String
     ): Flow<Either<DomainError, ListRegionAndStats>> =
         mapEntityValid(regionStatsDao.getRegionAndAllStatsByCountryAndDateOrderByConfirmed(idCountry)) {
             regionsListStats -> Pair(regionsListStats.isNotEmpty(), regionsListStats.toPojoRegionDomain())
         }
 
-    suspend fun getSubRegionsAllStatsOrderByConfirmed(
+    fun getSubRegionsAllStatsOrderByConfirmed(
         idCountry: String,
         idRegion: String
     ): Flow<Either<DomainError, ListSubRegionAndStats>> =
@@ -97,110 +100,125 @@ class LocalCovidTrackerDatasource(
             regionsListStats -> Pair(regionsListStats.isNotEmpty(), regionsListStats.toPojoSubRegionDomain())
         }
 
-    suspend fun getCountriesAndStatsWithMostConfirmed(): Flow<Either<DomainError, ListCountryAndStats>> =
+    fun getCountriesAndStatsWithMostConfirmed(): Flow<Either<DomainError, ListCountryAndStats>> =
         mapEntityValid(countryStatsDao.getCountriesAndStatsWithMostConfirmed()) { countriesListOneStats ->
             countriesListOneStats.toPojoCountriesOrdered().let { countriesListStats ->
                 Pair(countriesListStats.isNotEmpty(), countriesListStats.toDomain())
             }
         }
 
-    suspend fun getRegionsAndStatsWithMostConfirmed(idCountry: String): Flow<Either<DomainError, ListRegionAndStats>> =
+    fun getRegionsAndStatsWithMostConfirmed(
+        idCountry: String
+    ): Flow<Either<DomainError, Pair<MenuItemViewType, ListRegionAndStats>>> =
         mapEntityValid(regionStatsDao.getRegionsAndStatsWithMostConfirmed(idCountry)) {
             regionsListOneStats -> regionsListOneStats.toPojoRegionsOrdered().let {
-                regionsListStats -> Pair(regionsListStats.isNotEmpty(), regionsListStats.toDomain())
+                regionsListStats -> Pair(regionsListStats.isNotEmpty(),
+                    Pair(MenuItemViewType.LineChartMostConfirmed, regionsListStats.toDomain()))
             }
         }
 
-    suspend fun getSubRegionsAndStatsWithMostConfirmed(
+    fun getSubRegionsAndStatsWithMostConfirmed(
         idCountry: String,
         idRegion: String
-    ): Flow<Either<DomainError, ListSubRegionAndStats>> =
-        mapEntityValid(subRegionStatsDao.getSubRegionsAndStatsWithMostConfirmed(idCountry, idRegion)) {
+    ): Flow<Either<DomainError, Pair<MenuItemViewType, ListSubRegionAndStats>>> =
+        mapEntityMenuValid(subRegionStatsDao.getSubRegionsAndStatsWithMostConfirmed(idCountry, idRegion)) {
             subRegionsListOneStats -> subRegionsListOneStats.toPojoSubRegionsOrdered().let {
-                subRegionsListStats -> Pair(subRegionsListStats.isNotEmpty(), subRegionsListStats.toDomain()) }
+                subRegionsListStats -> Pair(subRegionsListStats.isNotEmpty(),
+                    Pair(MenuItemViewType.LineChartMostConfirmed, subRegionsListStats.toDomain())) }
         }
 
-    suspend fun getCountriesAndStatsWithMostDeaths(): Flow<Either<DomainError, ListCountryAndStats>> =
+    fun getCountriesAndStatsWithMostDeaths(): Flow<Either<DomainError, ListCountryAndStats>> =
         mapEntityValid(countryStatsDao.getCountriesAndStatsWithMostDeaths()) { countriesListOneStats ->
             countriesListOneStats.toPojoCountriesOrdered().let { countriesListStats ->
                 Pair(countriesListStats.isNotEmpty(), countriesListStats.toDomain())
             }
         }
 
-    suspend fun getRegionsAndStatsWithMostDeaths(idCountry: String): Flow<Either<DomainError, ListRegionAndStats>> =
+    fun getRegionsAndStatsWithMostDeaths(
+        idCountry: String
+    ): Flow<Either<DomainError, Pair<MenuItemViewType, ListRegionAndStats>>> =
         mapEntityValid(regionStatsDao.getRegionsAndStatsWithMostDeaths(idCountry)) {
             regionsListOneStats -> regionsListOneStats.toPojoRegionsOrdered().let {
-                regionsListStats -> Pair(regionsListStats.isNotEmpty(), regionsListStats.toDomain())
+                regionsListStats -> Pair(regionsListStats.isNotEmpty(),
+                    Pair(MenuItemViewType.LineChartMostDeaths, regionsListStats.toDomain()))
             }
         }
 
-    suspend fun getSubRegionsAndStatsWithMostDeaths(
+    fun getSubRegionsAndStatsWithMostDeaths(
         idCountry: String,
         idRegion: String
-    ): Flow<Either<DomainError, ListSubRegionAndStats>> =
+    ): Flow<Either<DomainError, Pair<MenuItemViewType, ListSubRegionAndStats>>> =
         mapEntityValid(subRegionStatsDao.getSubRegionsAndStatsWithMostDeaths(idCountry, idRegion)) {
             subRegionsListOneStats -> subRegionsListOneStats.toPojoSubRegionsOrdered().let {
-                subRegionsListStats -> Pair(subRegionsListStats.isNotEmpty(), subRegionsListStats.toDomain())
+                subRegionsListStats -> Pair(subRegionsListStats.isNotEmpty(),
+                    Pair(MenuItemViewType.LineChartMostDeaths, subRegionsListStats.toDomain()))
             }
         }
 
-    suspend fun getCountriesAndStatsWithMostRecovered(): Flow<Either<DomainError, ListCountryAndStats>> =
+    fun getCountriesAndStatsWithMostRecovered(): Flow<Either<DomainError, ListCountryAndStats>> =
         mapEntityValid(countryStatsDao.getCountriesAndStatsWithMostRecovered()) { countriesListOneStats ->
             countriesListOneStats.toPojoCountriesOrdered().let { countriesListStats ->
                 Pair(countriesListStats.isNotEmpty(), countriesListStats.toDomain())
             }
         }
 
-    suspend fun getRegionsAndStatsWithMostRecovered(idCountry: String): Flow<Either<DomainError, ListRegionAndStats>> =
+    fun getRegionsAndStatsWithMostRecovered(
+        idCountry: String
+    ): Flow<Either<DomainError, Pair<MenuItemViewType, ListRegionAndStats>>> =
         mapEntityValid(regionStatsDao.getRegionsAndStatsWithMostRecovered(idCountry)) {
-            regionsListOneStats -> regionsListOneStats.toPojoRegionsOrdered().let {
-                regionsListStats -> Pair(regionsListStats.isNotEmpty(), regionsListStats.toDomain())
+            regionsListOneStats -> regionsListOneStats.toPojoRegionsOrdered().let { regionsListStats ->
+                Pair(regionsListStats.isNotEmpty(), Pair(MenuItemViewType.LineChartMostRecovered,
+                    regionsListStats.toDomain()))
             }
         }
 
-    suspend fun getSubRegionsAndStatsWithMostRecovered(
+    fun getSubRegionsAndStatsWithMostRecovered(
         idCountry: String,
         idRegion: String
-    ): Flow<Either<DomainError, ListSubRegionAndStats>> =
+    ): Flow<Either<DomainError, Pair<MenuItemViewType, ListSubRegionAndStats>>> =
         mapEntityValid(subRegionStatsDao.getSubRegionsAndStatsWithMostRecovered(idCountry, idRegion)) {
             subRegionsListOneStats -> subRegionsListOneStats.toPojoSubRegionsOrdered().let {
-                subRegionsListStats -> Pair(subRegionsListStats.isNotEmpty(), subRegionsListStats.toDomain())
+                subRegionsListStats -> Pair(subRegionsListStats.isNotEmpty(),
+                    Pair(MenuItemViewType.LineChartMostRecovered, subRegionsListStats.toDomain()))
             }
         }
 
-    suspend fun getCountriesAndStatsWithMostOpenCases(): Flow<Either<DomainError, ListCountryAndStats>> =
+    fun getCountriesAndStatsWithMostOpenCases(): Flow<Either<DomainError, ListCountryAndStats>> =
         mapEntityValid(countryStatsDao.getCountriesAndStatsWithMostOpenCases()) { countriesListOneStats ->
             countriesListOneStats.toPojoCountriesOrdered().let { countriesListStats ->
                 Pair(countriesListStats.isNotEmpty(), countriesListStats.toDomain())
             }
         }
 
-    suspend fun getRegionsAndStatsWithMostOpenCases(idCountry: String): Flow<Either<DomainError, ListRegionAndStats>> =
+    fun getRegionsAndStatsWithMostOpenCases(
+        idCountry: String
+    ): Flow<Either<DomainError, Pair<MenuItemViewType, ListRegionAndStats>>> =
         mapEntityValid(regionStatsDao.getRegionsAndStatsWithMostOpenCases(idCountry)) { regionsListOneStats ->
-            regionsListOneStats.toPojoRegionsOrdered().let { regionsListStats ->
-                Pair(regionsListStats.isNotEmpty(), regionsListStats.toDomain())
+            regionsListOneStats.toPojoRegionsOrdered().let { regionsListStats -> Pair(regionsListStats.isNotEmpty(),
+                Pair(MenuItemViewType.LineChartMostOpenCases, regionsListStats.toDomain()))
             }
         }
 
-    suspend fun getSubRegionsAndStatsWithMostOpenCases(
+    fun getSubRegionsAndStatsWithMostOpenCases(
         idCountry: String,
         idRegion: String
-    ): Flow<Either<DomainError, ListSubRegionAndStats>> =
+    ): Flow<Either<DomainError, Pair<MenuItemViewType, ListSubRegionAndStats>>> =
         mapEntityValid(subRegionStatsDao.getSubRegionsAndStatsWithMostOpenCases(idCountry, idRegion)) {
             subRegionsListOneStats -> subRegionsListOneStats.toPojoSubRegionsOrdered().let {
-                subRegionsListStats -> Pair(subRegionsListStats.isNotEmpty(), subRegionsListStats.toDomain())
+                subRegionsListStats -> Pair(subRegionsListStats.isNotEmpty(),
+                    Pair(MenuItemViewType.LineChartMostOpenCases, subRegionsListStats.toDomain()))
             }
         }
 
-    suspend fun getCountries(): Flow<Either<DomainError, ListCountry>> =
+    fun getCountries(): Flow<Either<DomainError, ListCountry>> =
         mapEntityValid(countryDao.getAll()) { countries ->
             Pair(countries.isNotEmpty(), countries.toDomain())
         }
 
-    suspend fun getRegionsByCountry(idCountry: String): Flow<Either<DomainError, ListRegion>> =
+    fun getRegionsByCountry(idCountry: String): Flow<Either<DomainError, ListRegion>> =
         mapEntity(regionDao.getByCountry(idCountry)) { regions -> regions.toDomain() }
 
-    suspend fun getCountryAndStatsByDate(
+    fun getCountryAndStatsByDate(
         idCountry: String,
         date: String
     ): Flow<Either<DomainError, CountryOneStats>> =
@@ -208,7 +226,7 @@ class LocalCovidTrackerDatasource(
             country -> Pair(country.isValid(), country.toDomain())
         }
 
-    suspend fun getRegionAndStatsByDate(
+    fun getRegionAndStatsByDate(
         idCountry: String,
         idRegion: String,
         date: String
