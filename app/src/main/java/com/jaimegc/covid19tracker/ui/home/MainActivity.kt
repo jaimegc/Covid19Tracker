@@ -1,4 +1,4 @@
-package com.jaimegc.covid19tracker.ui
+package com.jaimegc.covid19tracker.ui.home
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -13,8 +13,12 @@ import com.jaimegc.covid19tracker.databinding.ActivityMainBinding
 import com.jaimegc.covid19tracker.databinding.LoadingDatabaseBinding
 import com.jaimegc.covid19tracker.ui.base.KeepStateNavigator
 import com.jaimegc.covid19tracker.utils.FileUtils
+import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.core.KoinComponent
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), KoinComponent {
+
+    private val viewModel: MainViewModel by viewModel()
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var loadingBinding: LoadingDatabaseBinding
@@ -29,6 +33,7 @@ class MainActivity : AppCompatActivity() {
 
         Coroutines.ioMain({ FileUtils(this).initDatabase() }) {
             initializeBottomNavigationBar()
+            viewModel.getCovidTracker()
         }
     }
 

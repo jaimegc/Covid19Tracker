@@ -50,6 +50,9 @@ class LocalCovidTrackerDatasource(
                 }
         }
 
+    fun getWorldAndCountriesByDate(date: String): Flow<Either<DomainError, CovidTracker>> =
+        getCovidTrackerByDate(date)
+
     fun getWorldAllStats(): Flow<Either<DomainError, ListWorldStats>> =
         mapEntityValid(worldStatsDao.getAll()) { worldEntities ->
             Pair(worldEntities.isNotEmpty(), worldEntities.toDomain())
@@ -276,7 +279,8 @@ class LocalCovidTrackerDatasource(
     suspend fun save(covidTracker: CovidTracker) = populateDatabase(listOf(covidTracker))
 
     suspend fun populateDatabase(covidTrackers: List<CovidTracker>) {
-        val maxDaysToSave = 7 // To avoid memory leaks
+        // To avoid memory leaks. If you are using an emulator you can add more days.
+        val maxDaysToSave = 1
         val worldStats = mutableListOf<WorldStatsEntity>()
         val countryEntities = mutableListOf<CountryEntity>()
         val countryStatsEntities = mutableListOf<CountryStatsEntity>()

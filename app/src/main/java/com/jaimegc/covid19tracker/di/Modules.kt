@@ -10,6 +10,7 @@ import com.jaimegc.covid19tracker.data.repository.CovidTrackerRepository
 import com.jaimegc.covid19tracker.data.room.Covid19TrackerDatabase
 import com.jaimegc.covid19tracker.domain.usecase.*
 import com.jaimegc.covid19tracker.ui.country.CountryViewModel
+import com.jaimegc.covid19tracker.ui.home.MainViewModel
 import com.jaimegc.covid19tracker.ui.world.WorldViewModel
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -26,7 +27,11 @@ val networkModule = module {
 
 val useCaseModule = module {
     single {
-        GetCovidTrackerLast(get())
+        GetCovidTracker(get())
+    }
+
+    single {
+        GetWorldAndCountries(get())
     }
 
     single {
@@ -61,6 +66,10 @@ val repositoryModule = module {
 }
 
 val viewModelModule = module {
+    viewModel {
+        MainViewModel(get())
+    }
+
     viewModel {
         WorldViewModel(get(), get(), get())
     }

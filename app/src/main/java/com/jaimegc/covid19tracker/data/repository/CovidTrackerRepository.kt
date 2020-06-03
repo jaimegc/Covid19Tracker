@@ -28,6 +28,14 @@ class CovidTrackerRepository(
                     local.save(covidTracker)
                 }
             }
+        }.asFlow(policy = CachePolicy.LocalFirst).flowOn(Dispatchers.IO)
+
+    fun getWorldAndCountriesByDate(
+        date: String
+    ): Flow<Either<StateError<DomainError>, State<CovidTracker>>> =
+        object : BaseRepository<DomainError, CovidTracker> {
+            override fun fetchFromLocal(): Flow<Either<DomainError, CovidTracker>> =
+                local.getWorldAndCountriesByDate(date)
         }.asFlow().flowOn(Dispatchers.IO)
 
     fun getWorldAllStats(): Flow<Either<StateError<DomainError>, State<ListWorldStats>>> =
