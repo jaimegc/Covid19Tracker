@@ -214,7 +214,7 @@ class CountryViewModel(
                                     PlaceStateScreen.SuccessPlaceAndStats(state.data.toPlaceUI())))
                             is MenuItemViewType.PieChart ->
                                 _screenState.postValue(ScreenState.Render(
-                                    PlaceStateScreen.SuccessCountryAndStatsPieChart(state.data.stats.toChartUI())))
+                                    PlaceStateScreen.SuccessPlaceTotalStatsPieChart(state.data.stats.toChartUI())))
                         }
                     is RegionOneStats ->
                         when (viewType) {
@@ -223,7 +223,7 @@ class CountryViewModel(
                                     PlaceStateScreen.SuccessPlaceAndStats(state.data.toPlaceUI())))
                             is MenuItemViewType.PieChart ->
                                 _screenState.postValue(ScreenState.Render(
-                                    PlaceStateScreen.SuccessCountryAndStatsPieChart(state.data.stats.toChartUI())))
+                                    PlaceStateScreen.SuccessPlaceTotalStatsPieChart(state.data.stats.toChartUI())))
                         }
                     is ListRegionStats ->
                         when (viewType) {
@@ -232,7 +232,7 @@ class CountryViewModel(
                                     PlaceStateScreen.SuccessPlaceStats(state.data.toPlaceUI())))
                             is MenuItemViewType.PieChart ->
                                 _screenState.postValue(ScreenState.Render(
-                                    PlaceStateScreen.SuccessRegionAndStatsPieChart(state.data.toPlaceChartUI())))
+                                    PlaceStateScreen.SuccessPlaceAndStatsPieChart(state.data.toPlaceChartUI())))
                         }
                     is ListSubRegionStats ->
                         when (viewType) {
@@ -241,7 +241,7 @@ class CountryViewModel(
                                     PlaceStateScreen.SuccessPlaceStats(state.data.toPlaceUI())))
                             is MenuItemViewType.PieChart ->
                                 _screenState.postValue(ScreenState.Render(
-                                    PlaceStateScreen.SuccessRegionAndStatsPieChart(state.data.toPlaceChartUI())))
+                                    PlaceStateScreen.SuccessPlaceAndStatsPieChart(state.data.toPlaceChartUI())))
                         }
                     is ListCountryOnlyStats ->
                         _screenState.postValue(ScreenState.Render(

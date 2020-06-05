@@ -120,12 +120,14 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
                 if (menu.isCurrentItemChecked(MENU_ITEM_LIST)) {
                     mergeAdapter.addAdapter(placeTotalAdapter)
                     placeTotalAdapter.submitList(listOf(renderState.data))
+                    binding.recyclerPlace.scrollToPosition(0)
                 }
             }
             is PlaceStateScreen.SuccessPlaceStats -> {
                 if (menu.isCurrentItemChecked(MENU_ITEM_LIST)) {
                     mergeAdapter.addAdapter(placeAdapter)
                     placeAdapter.submitList(renderState.data)
+                    binding.recyclerPlace.scrollToPosition(0)
                 }
             }
             is PlaceStateScreen.SuccessPlaceTotalStatsBarChart -> {
@@ -147,22 +149,33 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
                     placeBarChartAdapter.submitList(renderState.data)
                 }
             }
-            is PlaceStateScreen.SuccessCountryAndStatsPieChart -> {
+            is PlaceStateScreen.SuccessPlaceTotalStatsPieChart -> {
                 if (menu.isCurrentItemChecked(MENU_ITEM_PIE_CHART)) {
                     statsParent = renderState.data
-                    mergeAdapter.addAdapter(placeTotalPieChartAdapter)
+                    mergeAdapter.addAdapter(0, placeTotalPieChartAdapter)
+
+                    if (mergeAdapter.containsAdapter(placePieChartAdapter)) {
+                        binding.recyclerPlace.scrollToPosition(0)
+                    }
+
                     placeTotalPieChartAdapter.submitList(listOf(statsParent))
                 }
             }
-            is PlaceStateScreen.SuccessRegionAndStatsPieChart -> {
+            is PlaceStateScreen.SuccessPlaceAndStatsPieChart -> {
                 if (menu.isCurrentItemChecked(MENU_ITEM_PIE_CHART)) {
-                    mergeAdapter.addAdapter(placePieChartAdapter)
-                    if (placeTotalPieChartAdapter.currentList.isNotEmpty()) {
-                        renderState.data.map { placeStats ->
-                            placeStats.statsParent = statsParent
+                    if (mergeAdapter.containsAdapter(placeTotalPieChartAdapter)) {
+                        if (placeTotalPieChartAdapter.currentList.isNotEmpty()) {
+                            renderState.data.map { placeStats ->
+                                placeStats.statsParent = statsParent
+                            }
                         }
+                        mergeAdapter.addAdapter(1, placePieChartAdapter)
+                    } else {
+                        mergeAdapter.addAdapter(0, placePieChartAdapter)
                     }
+
                     placePieChartAdapter.submitList(renderState.data)
+                    binding.recyclerPlace.scrollToPosition(0)
                 }
             }
             is PlaceStateScreen.SuccessPlaceStatsLineCharts -> {
