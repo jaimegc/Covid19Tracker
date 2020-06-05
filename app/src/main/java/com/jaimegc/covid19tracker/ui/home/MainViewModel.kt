@@ -13,14 +13,13 @@ class MainViewModel(
     private val getCovidTracker: GetCovidTracker
 ) : ViewModel() {
 
-    fun getCovidTracker() {
+    fun getCovidTracker() =
         viewModelScope.launch {
             getCovidTracker.getCovidTrackerByDate(
                 System.currentTimeMillis().millisecondsToDate()).collect { result ->
                     result.mapLeft { handleError(it) }
             }
         }
-    }
 
     private fun handleError(state: StateError<DomainError>) {
         // Not implemented
