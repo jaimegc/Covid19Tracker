@@ -48,20 +48,23 @@ class LocalCovidTrackerDatasource(
                 mapEntityValid(covidTrackerDao.getWorldAndCountriesStatsByDate(date.dateToMilliseconds())) {
                     covidTrackerPojo -> Pair(covidTrackerPojo.isValid(), covidTrackerPojo.toDomain())
                 }
-        }
+        }.distinctUntilChanged()
+
+    suspend fun getAllDates(): Either<DomainError, List<String>> =
+        Either.right(worldStatsDao.getAllDates())
 
     fun getWorldAndCountriesByDate(date: String): Flow<Either<DomainError, CovidTracker>> =
-        getCovidTrackerByDate(date)
+        getCovidTrackerByDate(date).distinctUntilChanged()
 
     fun getWorldAllStats(): Flow<Either<DomainError, ListWorldStats>> =
         mapEntityValid(worldStatsDao.getAll()) { worldEntities ->
             Pair(worldEntities.isNotEmpty(), worldEntities.toDomain())
-        }
+        }.distinctUntilChanged()
 
     fun getCountryAllStats(idCountry: String): Flow<Either<DomainError, ListCountryOnlyStats>> =
         mapEntityValid(countryStatsDao.getById(idCountry)) { countryEntities ->
             Pair(countryEntities.isNotEmpty(), countryEntities.toStatsDomain())
-        }
+        }.distinctUntilChanged()
 
     fun getRegionAllStats(
         idCountry: String,
@@ -69,12 +72,12 @@ class LocalCovidTrackerDatasource(
     ): Flow<Either<DomainError, ListRegionOnlyStats>> =
         mapEntityValid(regionStatsDao.getById(idCountry, idRegion)) { regionEntities ->
             Pair(regionEntities.isNotEmpty(), regionEntities.toStatsDomain())
-        }
+        }.distinctUntilChanged()
 
     fun getCountriesStatsOrderByConfirmed(): Flow<Either<DomainError, ListCountryAndStats>> =
         mapEntityValid(countryStatsDao.getCountriesAndStatsOrderByConfirmed()) { countriesListStats ->
             Pair(countriesListStats.isNotEmpty(), countriesListStats.toDomain())
-        }
+        }.distinctUntilChanged()
 
     fun getRegionsStatsOrderByConfirmed(
         idCountry: String,
@@ -91,7 +94,7 @@ class LocalCovidTrackerDatasource(
                     idCountry, date.dateToMilliseconds())) { regionsListStats ->
                         Pair(regionsListStats.isNotEmpty(), regionsListStats.toDomain())
                 }
-        }
+        }.distinctUntilChanged()
 
 
     fun getSubRegionsStatsOrderByConfirmed(
@@ -110,14 +113,14 @@ class LocalCovidTrackerDatasource(
                     idCountry, idRegion, date.dateToMilliseconds())) { regionsListStats ->
                         Pair(regionsListStats.isNotEmpty(), regionsListStats.toDomain())
                 }
-        }
+        }.distinctUntilChanged()
 
     fun getRegionsAllStatsOrderByConfirmed(
         idCountry: String
     ): Flow<Either<DomainError, ListRegionAndStats>> =
         mapEntityValid(regionStatsDao.getRegionAndAllStatsByCountryAndDateOrderByConfirmed(idCountry)) {
             regionsListStats -> Pair(regionsListStats.isNotEmpty(), regionsListStats.toPojoRegionDomain())
-        }
+        }.distinctUntilChanged()
 
     fun getSubRegionsAllStatsOrderByConfirmed(
         idCountry: String,
@@ -125,14 +128,14 @@ class LocalCovidTrackerDatasource(
     ): Flow<Either<DomainError, ListSubRegionAndStats>> =
         mapEntityValid(subRegionStatsDao.getSubRegionAndAllStatsByCountryAndDateOrderByConfirmed(idCountry, idRegion)) {
             regionsListStats -> Pair(regionsListStats.isNotEmpty(), regionsListStats.toPojoSubRegionDomain())
-        }
+        }.distinctUntilChanged()
 
     fun getCountriesAndStatsWithMostConfirmed(): Flow<Either<DomainError, ListCountryAndStats>> =
         mapEntityValid(countryStatsDao.getCountriesAndStatsWithMostConfirmed()) { countriesListOneStats ->
             countriesListOneStats.toPojoCountriesOrdered().let { countriesListStats ->
                 Pair(countriesListStats.isNotEmpty(), countriesListStats.toDomain())
             }
-        }
+        }.distinctUntilChanged()
 
     fun getRegionsAndStatsWithMostConfirmed(
         idCountry: String
@@ -142,7 +145,7 @@ class LocalCovidTrackerDatasource(
                 regionsListStats -> Pair(regionsListStats.isNotEmpty(),
                     Pair(MenuItemViewType.LineChartMostConfirmed, regionsListStats.toDomain()))
             }
-        }
+        }.distinctUntilChanged()
 
     fun getSubRegionsAndStatsWithMostConfirmed(
         idCountry: String,
@@ -152,14 +155,14 @@ class LocalCovidTrackerDatasource(
             subRegionsListOneStats -> subRegionsListOneStats.toPojoSubRegionsOrdered().let {
                 subRegionsListStats -> Pair(subRegionsListStats.isNotEmpty(),
                     Pair(MenuItemViewType.LineChartMostConfirmed, subRegionsListStats.toDomain())) }
-        }
+        }.distinctUntilChanged()
 
     fun getCountriesAndStatsWithMostDeaths(): Flow<Either<DomainError, ListCountryAndStats>> =
         mapEntityValid(countryStatsDao.getCountriesAndStatsWithMostDeaths()) { countriesListOneStats ->
             countriesListOneStats.toPojoCountriesOrdered().let { countriesListStats ->
                 Pair(countriesListStats.isNotEmpty(), countriesListStats.toDomain())
             }
-        }
+        }.distinctUntilChanged()
 
     fun getRegionsAndStatsWithMostDeaths(
         idCountry: String
@@ -169,7 +172,7 @@ class LocalCovidTrackerDatasource(
                 regionsListStats -> Pair(regionsListStats.isNotEmpty(),
                     Pair(MenuItemViewType.LineChartMostDeaths, regionsListStats.toDomain()))
             }
-        }
+        }.distinctUntilChanged()
 
     fun getSubRegionsAndStatsWithMostDeaths(
         idCountry: String,
@@ -180,14 +183,14 @@ class LocalCovidTrackerDatasource(
                 subRegionsListStats -> Pair(subRegionsListStats.isNotEmpty(),
                     Pair(MenuItemViewType.LineChartMostDeaths, subRegionsListStats.toDomain()))
             }
-        }
+        }.distinctUntilChanged()
 
     fun getCountriesAndStatsWithMostRecovered(): Flow<Either<DomainError, ListCountryAndStats>> =
         mapEntityValid(countryStatsDao.getCountriesAndStatsWithMostRecovered()) { countriesListOneStats ->
             countriesListOneStats.toPojoCountriesOrdered().let { countriesListStats ->
                 Pair(countriesListStats.isNotEmpty(), countriesListStats.toDomain())
             }
-        }
+        }.distinctUntilChanged()
 
     fun getRegionsAndStatsWithMostRecovered(
         idCountry: String
@@ -197,7 +200,7 @@ class LocalCovidTrackerDatasource(
                 Pair(regionsListStats.isNotEmpty(), Pair(MenuItemViewType.LineChartMostRecovered,
                     regionsListStats.toDomain()))
             }
-        }
+        }.distinctUntilChanged()
 
     fun getSubRegionsAndStatsWithMostRecovered(
         idCountry: String,
@@ -208,14 +211,14 @@ class LocalCovidTrackerDatasource(
                 subRegionsListStats -> Pair(subRegionsListStats.isNotEmpty(),
                     Pair(MenuItemViewType.LineChartMostRecovered, subRegionsListStats.toDomain()))
             }
-        }
+        }.distinctUntilChanged()
 
     fun getCountriesAndStatsWithMostOpenCases(): Flow<Either<DomainError, ListCountryAndStats>> =
         mapEntityValid(countryStatsDao.getCountriesAndStatsWithMostOpenCases()) { countriesListOneStats ->
             countriesListOneStats.toPojoCountriesOrdered().let { countriesListStats ->
                 Pair(countriesListStats.isNotEmpty(), countriesListStats.toDomain())
             }
-        }
+        }.distinctUntilChanged()
 
     fun getRegionsAndStatsWithMostOpenCases(
         idCountry: String
@@ -224,7 +227,7 @@ class LocalCovidTrackerDatasource(
             regionsListOneStats.toPojoRegionsOrdered().let { regionsListStats -> Pair(regionsListStats.isNotEmpty(),
                 Pair(MenuItemViewType.LineChartMostOpenCases, regionsListStats.toDomain()))
             }
-        }
+        }.distinctUntilChanged()
 
     fun getSubRegionsAndStatsWithMostOpenCases(
         idCountry: String,
@@ -235,15 +238,17 @@ class LocalCovidTrackerDatasource(
                 subRegionsListStats -> Pair(subRegionsListStats.isNotEmpty(),
                     Pair(MenuItemViewType.LineChartMostOpenCases, subRegionsListStats.toDomain()))
             }
-        }
+        }.distinctUntilChanged()
 
     fun getCountries(): Flow<Either<DomainError, ListCountry>> =
         mapEntityValid(countryDao.getAll()) { countries ->
             Pair(countries.isNotEmpty(), countries.toDomain())
-        }
+        }.distinctUntilChanged()
 
     fun getRegionsByCountry(idCountry: String): Flow<Either<DomainError, ListRegion>> =
-        mapEntity(regionDao.getByCountry(idCountry)) { regions -> regions.toDomain() }
+        mapEntity(regionDao.getByCountry(idCountry)) { regions ->
+            regions.toDomain()
+        }.distinctUntilChanged()
 
     fun getCountryAndStatsByDate(
         idCountry: String,
@@ -255,10 +260,10 @@ class LocalCovidTrackerDatasource(
                     country -> Pair(country.isValid(), country.toDomain())
                 }
             false ->
-                mapEntityValid(countryStatsDao.getCountryAndStatsByDate(idCountry, date.dateToMilliseconds())) {
-                    country -> Pair(country.isValid(), country.toDomain())
+                mapEntityValid(countryStatsDao.getCountryAndStatsByDate(idCountry,
+                    date.dateToMilliseconds())) { country -> Pair(country.isValid(), country.toDomain())
                 }
-        }
+        }.distinctUntilChanged()
 
     fun getRegionAndStatsByDate(
         idCountry: String,
@@ -271,10 +276,10 @@ class LocalCovidTrackerDatasource(
                     region -> Pair(region.isValid(), region.toDomain())
                 }
             false ->
-                mapEntityValid(regionStatsDao.getRegionAndStatsByDate(idCountry, idRegion, date.dateToMilliseconds())) {
-                    region -> Pair(region.isValid(), region.toDomain())
+                mapEntityValid(regionStatsDao.getRegionAndStatsByDate(idCountry, idRegion,
+                    date.dateToMilliseconds())) { region -> Pair(region.isValid(), region.toDomain())
                 }
-        }
+        }.distinctUntilChanged()
 
     suspend fun save(covidTracker: CovidTracker) = populateDatabase(listOf(covidTracker))
 

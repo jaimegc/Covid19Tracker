@@ -9,6 +9,7 @@ class Covid19TrackerApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
         startKoin {
             androidContext(applicationContext)
             modules(
@@ -19,7 +20,8 @@ class Covid19TrackerApplication : Application() {
                 databaseModule,
                 daoModule,
                 datasourceModule,
-                preferenceModule)
+                preferenceModule,
+                othersModule)
         }
     }
 }

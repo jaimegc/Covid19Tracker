@@ -232,4 +232,7 @@ class CovidTrackerRepository(
             override fun fetchFromLocal(): Flow<Either<DomainError, RegionOneStats>> =
                 local.getRegionAndStatsByDate(idCountry, idRegion, date)
         }.asFlow().flowOn(Dispatchers.IO)
+
+    suspend fun getAllDates(): Either<DomainError, List<String>> =
+        local.getAllDates()
 }
