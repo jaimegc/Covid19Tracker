@@ -12,6 +12,7 @@ import com.jaimegc.covid19tracker.data.api.model.CovidTrackerDto
 import com.jaimegc.covid19tracker.data.datasource.LocalCovidTrackerDatasource
 import com.jaimegc.covid19tracker.domain.model.CovidTracker
 import com.jaimegc.covid19tracker.domain.model.toDomain
+import com.jaimegc.covid19tracker.utils.FileUtils
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -19,30 +20,31 @@ import kotlinx.coroutines.coroutineScope
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import retrofit2.Response
-import java.io.*
-import java.text.SimpleDateFormat
-import java.util.*
 
 class PopulateDatabaseWorker(
     val context: Context,
     workerParams: WorkerParameters
 ) : CoroutineWorker(context, workerParams), KoinComponent {
+
     companion object {
         private val TAG = PopulateDatabaseWorker::class.java.simpleName
         private const val FOLDER = "data/"
         private const val FOLDER_DOWNLOAD = "/data"
         private const val JSON_FILE_EXTENSION = ".json"
+        // First day in the API
         private val START_DATE = Triple(2020, 1, 23)
         private val END_DATE = Triple(2020, 5, 24)
-        // Please, use it responsibly
+        // PLEASE, USE RESPONSIBLY
         private val START_DATE_SERVER = Triple(2020, 3, 10)
         private val END_DATE_SERVER = Triple(2020, 3, 15)
         private const val DOWNLOAD_JSONS_FROM_SERVER = false
     }
 
+    private val fileUtils: FileUtils by inject()
+
     override suspend fun doWork(): Result =
         try {
-            val listDates = generateDateNames(START_DATE, END_DATE)
+            val listDates = fileUtils.generateDates(START_DATE, END_DATE)
             val covidTrackers = mutableListOf<CovidTracker>()
 
             listDates.map { date ->
@@ -71,27 +73,8 @@ class PopulateDatabaseWorker(
     private fun getDateFromFileName(date: String): String =
         date.replace(FOLDER, "").replace(JSON_FILE_EXTENSION, "")
 
-    private fun generateDateNames(
-        startDateTriple: Triple<Int, Int, Int>,
-        endDateTriple: Triple<Int, Int, Int>
-    ): List<String> {
-        val formatter = SimpleDateFormat(DATE_FORMATTER)
-        val dates = mutableListOf<String>()
-        val startDate = Calendar.getInstance()
-        val endDate = Calendar.getInstance()
-        startDate.set(startDateTriple.first, startDateTriple.second - 1, startDateTriple.third)
-        endDate.set(endDateTriple.first, endDateTriple.second - 1, endDateTriple.third)
-
-        while (startDate.timeInMillis <= endDate.timeInMillis) {
-            dates.add(formatter.format(startDate.timeInMillis))
-            startDate.add(Calendar.DATE, 1)
-        }
-
-        return dates
-    }
-
     private suspend fun downloadAllJsons() {
-        val listDates = generateDateNames(START_DATE_SERVER, END_DATE_SERVER)
+        val listDates = fileUtils.generateDates(START_DATE_SERVER, END_DATE_SERVER)
         val covidTrackerApiClient: CovidTrackerApiClient by inject()
         val allRequests = mutableListOf<Deferred<Response<JsonObject>>>()
 
@@ -103,23 +86,9 @@ class PopulateDatabaseWorker(
 
         allRequests.awaitAll().mapIndexed { index, response ->
             if (response.isSuccessful && response.body() != null) {
-                writeFileToInternalStorage(response.body().toString(),
+                fileUtils.writeFileToInternalStorage(response.body().toString(),
                     "${listDates[index]}$JSON_FILE_EXTENSION", FOLDER_DOWNLOAD)
             }
-        }
-    }
-
-    private suspend fun writeFileToInternalStorage(text: String, fileName: String, folder: String) {
-        try {
-            val directory = File(context.filesDir, folder)
-            if (directory.exists().not()) directory.mkdirs()
-            val file = File(directory, fileName)
-            val writer = FileWriter(file)
-            writer.append(text)
-            writer.flush()
-            writer.close()
-        } catch (exception: IOException) {
-            Log.e("Exception", "File write internal storage failed: $exception")
         }
     }
 }

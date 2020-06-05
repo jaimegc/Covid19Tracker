@@ -1,11 +1,13 @@
-package com.jaimegc.covid19tracker.ui
+package com.jaimegc.covid19tracker.ui.home
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.plusAssign
 import androidx.navigation.ui.setupWithNavController
+import androidx.work.*
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.common.extensions.Coroutines
 import com.jaimegc.covid19tracker.common.extensions.hide
@@ -13,9 +15,18 @@ import com.jaimegc.covid19tracker.databinding.ActivityMainBinding
 import com.jaimegc.covid19tracker.databinding.LoadingDatabaseBinding
 import com.jaimegc.covid19tracker.ui.base.KeepStateNavigator
 import com.jaimegc.covid19tracker.utils.FileUtils
+import com.jaimegc.covid19tracker.worker.UpdateDatabaseWorker
+import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.core.KoinComponent
+import org.koin.core.inject
+import java.util.concurrent.TimeUnit
 
-class MainActivity : AppCompatActivity() {
 
+class MainActivity : AppCompatActivity(), KoinComponent {
+
+    private val viewModel: MainViewModel by viewModel()
+
+    private val fileUtils: FileUtils by inject()
     private lateinit var binding: ActivityMainBinding
     private lateinit var loadingBinding: LoadingDatabaseBinding
     private lateinit var navigator: KeepStateNavigator
@@ -27,8 +38,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         loadingBinding = LoadingDatabaseBinding.bind(binding.root)
 
-        Coroutines.ioMain({ FileUtils(this).initDatabase() }) {
+        Coroutines.ioMain({ fileUtils.initDatabase() }) {
             initializeBottomNavigationBar()
+            viewModel.getCovidTracker()
+            initUpdateDatabaseWorker()
         }
     }
 
@@ -42,6 +55,30 @@ class MainActivity : AppCompatActivity() {
 
         binding.navView.setupWithNavController(navController)
         loadingBinding.loadingDatabaseLayout.hide()
+    }
+
+    private fun initUpdateDatabaseWorker() {
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
+        val periodicWorkRequest =
+            PeriodicWorkRequestBuilder<UpdateDatabaseWorker>(15, TimeUnit.MINUTES)
+                .setConstraints(constraints)
+                .build()
+
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+            UpdateDatabaseWorker.TAG,
+            ExistingPeriodicWorkPolicy.KEEP,
+            periodicWorkRequest
+        )
+
+        WorkManager.getInstance(this).getWorkInfoByIdLiveData(periodicWorkRequest.id)
+            .observe(this, Observer { workInfo ->
+                if (workInfo != null) {
+                    // TODO: Implement feedback
+                }
+            })
     }
 
     override fun onBackPressed() {

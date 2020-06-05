@@ -6,11 +6,14 @@ import com.jaimegc.covid19tracker.data.api.config.ServerApiCovidTrackerConfigBui
 import com.jaimegc.covid19tracker.data.datasource.LocalCovidTrackerDatasource
 import com.jaimegc.covid19tracker.data.datasource.RemoteCovidTrackerDatasource
 import com.jaimegc.covid19tracker.data.preference.CountryPreferences
+import com.jaimegc.covid19tracker.data.preference.CovidTrackerPreferences
 import com.jaimegc.covid19tracker.data.repository.CovidTrackerRepository
 import com.jaimegc.covid19tracker.data.room.Covid19TrackerDatabase
 import com.jaimegc.covid19tracker.domain.usecase.*
 import com.jaimegc.covid19tracker.ui.country.CountryViewModel
+import com.jaimegc.covid19tracker.ui.home.MainViewModel
 import com.jaimegc.covid19tracker.ui.world.WorldViewModel
+import com.jaimegc.covid19tracker.utils.FileUtils
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -26,7 +29,15 @@ val networkModule = module {
 
 val useCaseModule = module {
     single {
-        GetCovidTrackerLast(get())
+        GetCovidTracker(get())
+    }
+
+    single {
+        GetAllDates(get())
+    }
+
+    single {
+        GetWorldAndCountries(get())
     }
 
     single {
@@ -56,11 +67,15 @@ val useCaseModule = module {
 
 val repositoryModule = module {
     single {
-        CovidTrackerRepository(get(), get())
+        CovidTrackerRepository(get(), get(), get())
     }
 }
 
 val viewModelModule = module {
+    viewModel {
+        MainViewModel(get())
+    }
+
     viewModel {
         WorldViewModel(get(), get(), get())
     }
@@ -119,7 +134,7 @@ val daoModule = module {
 
 val datasourceModule = module {
     single {
-        RemoteCovidTrackerDatasource(get())
+        RemoteCovidTrackerDatasource(get(), get())
     }
 
     single {
@@ -129,6 +144,16 @@ val datasourceModule = module {
 
 val preferenceModule = module {
     single {
+        CovidTrackerPreferences(get())
+    }
+
+    single {
         CountryPreferences(get())
+    }
+}
+
+val othersModule = module {
+    single {
+        FileUtils(get())
     }
 }

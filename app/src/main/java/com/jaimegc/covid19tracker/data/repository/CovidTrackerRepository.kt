@@ -4,6 +4,7 @@ import arrow.core.Either
 import arrow.core.Left
 import com.jaimegc.covid19tracker.data.datasource.LocalCovidTrackerDatasource
 import com.jaimegc.covid19tracker.data.datasource.RemoteCovidTrackerDatasource
+import com.jaimegc.covid19tracker.data.preference.CovidTrackerPreferences
 import com.jaimegc.covid19tracker.domain.model.*
 import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.domain.states.StateError
@@ -13,7 +14,8 @@ import kotlinx.coroutines.flow.*
 
 class CovidTrackerRepository(
     private val local: LocalCovidTrackerDatasource,
-    private val remote: RemoteCovidTrackerDatasource
+    private val remote: RemoteCovidTrackerDatasource,
+    private val covidTrackerPreferences: CovidTrackerPreferences
 ) {
 
     fun getCovidTrackerByDate(
@@ -28,6 +30,15 @@ class CovidTrackerRepository(
                     local.save(covidTracker)
                 }
             }
+        }.asFlow(policy = CachePolicy.LocalFirst(covidTrackerPreferences.isCacheExpired()))
+            .flowOn(Dispatchers.IO)
+
+    fun getWorldAndCountriesByDate(
+        date: String
+    ): Flow<Either<StateError<DomainError>, State<CovidTracker>>> =
+        object : BaseRepository<DomainError, CovidTracker> {
+            override fun fetchFromLocal(): Flow<Either<DomainError, CovidTracker>> =
+                local.getWorldAndCountriesByDate(date)
         }.asFlow().flowOn(Dispatchers.IO)
 
     fun getWorldAllStats(): Flow<Either<StateError<DomainError>, State<ListWorldStats>>> =
@@ -224,4 +235,7 @@ class CovidTrackerRepository(
             override fun fetchFromLocal(): Flow<Either<DomainError, RegionOneStats>> =
                 local.getRegionAndStatsByDate(idCountry, idRegion, date)
         }.asFlow().flowOn(Dispatchers.IO)
+
+    suspend fun getAllDates(): Either<DomainError, List<String>> =
+        local.getAllDates()
 }

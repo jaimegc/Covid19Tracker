@@ -45,6 +45,8 @@ class PlaceAdapter : ListAdapter<PlaceStatsUI, PlaceAdapter.PlaceStatsViewHolder
                 textRecovered.text = placeStatsUI.stats.recovered
                 textDeaths.text = placeStatsUI.stats.deaths
 
+                textPosition.text = "${layoutPosition}º"
+
                 binding.textNewConfirmed.text = itemView.context.getString(R.string.text_trending,
                     placeStatsUI.stats.newConfirmed, (placeStatsUI.stats.vsYesterdayConfirmed))
                 binding.textNewOpenCases.text = itemView.context.getString(R.string.text_trending,

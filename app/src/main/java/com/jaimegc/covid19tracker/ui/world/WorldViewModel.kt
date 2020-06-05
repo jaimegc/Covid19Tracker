@@ -6,7 +6,7 @@ import com.jaimegc.covid19tracker.domain.model.*
 import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.domain.states.StateError
 import com.jaimegc.covid19tracker.domain.usecase.GetCountryStats
-import com.jaimegc.covid19tracker.domain.usecase.GetCovidTrackerLast
+import com.jaimegc.covid19tracker.domain.usecase.GetWorldAndCountries
 import com.jaimegc.covid19tracker.domain.usecase.GetWorldStats
 import com.jaimegc.covid19tracker.ui.model.CountryListStatsChartUI
 import com.jaimegc.covid19tracker.ui.model.toListChartUI
@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class WorldViewModel(
-    private val getCovidTrackerLast: GetCovidTrackerLast,
+    private val getWorldAndCountries: GetWorldAndCountries,
     private val getWorldStats: GetWorldStats,
     private val getCountryStats: GetCountryStats
 ) : BaseScreenStateMenuViewModel<WorldStateScreen>() {
@@ -46,7 +46,8 @@ class WorldViewModel(
     private fun listOrPieChartStats(viewType: MenuItemViewType) {
         cancelAll()
         jobWorldAndContries = viewModelScope.launch {
-            getCovidTrackerLast.getCovidTrackerByDate("2020-05-24").collect { result ->
+            val date = "" // Empty to get the last date or use yyyy-MM-dd
+            getWorldAndCountries.getWorldAndCountriesByDate(date).collect { result ->
                 result.fold({ handleError(it) }, { handleState(state = it, viewType = viewType) })
             }
         }

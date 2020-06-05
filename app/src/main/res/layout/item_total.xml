@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".ui.MainActivity">
+    tools:context=".ui.home.MainActivity">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/confirmed_layout"

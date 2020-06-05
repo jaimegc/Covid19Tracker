@@ -15,6 +15,16 @@ abstract class CovidTrackerDao {
     @Query("SELECT * FROM world_stats WHERE date_timestamp = :dateTimestamp")
     abstract fun getWorldAndCountriesStatsByDate(dateTimestamp: Long): Flow<WorldAndCountriesStatsPojo>
 
+    @Transaction
+    @Query("""
+        SELECT * FROM world_stats 
+        WHERE date_timestamp = (
+            SELECT MAX(date_timestamp) FROM world_stats
+        )
+        """
+    )
+    abstract fun getWorldAndCountriesStatsByLastDate(): Flow<WorldAndCountriesStatsPojo>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insertAllWorldsStats(worldsStats: List<WorldStatsEntity>)
 
@@ -59,11 +69,11 @@ abstract class CovidTrackerDao {
 @Dao
 abstract class WorldStatsDao {
 
-    @Query("SELECT * FROM world_stats WHERE date_timestamp = :dateTimestamp")
-    abstract fun getByDate(dateTimestamp: Long): Flow<List<WorldStatsEntity>>
-
     @Query("SELECT * FROM world_stats ORDER BY date_timestamp ASC")
     abstract fun getAll(): Flow<List<WorldStatsEntity>>
+
+    @Query("SELECT date FROM world_stats ORDER BY date ASC")
+    abstract suspend fun getAllDates(): List<String>
 }
 
 @Dao
@@ -156,6 +166,16 @@ abstract class CountryStatsDao {
         WHERE c.id = :idCountry AND cs.date_timestamp = :dateTimestamp
         """)
     abstract fun getCountryAndStatsByDate(idCountry: String, dateTimestamp: Long): Flow<CountryAndOneStatsPojo>
+
+    @Transaction
+    @Query("""
+        SELECT * FROM country c
+        LEFT JOIN country_stats cs ON c.id = cs.id_country_fk
+        WHERE c.id = :idCountry AND cs.date_timestamp = (
+            SELECT MAX(date_timestamp) FROM country_stats
+        )
+        """)
+    abstract fun getCountryAndStatsByLastDate(idCountry: String): Flow<CountryAndOneStatsPojo>
 }
 
 @Dao
@@ -194,6 +214,16 @@ abstract class RegionStatsDao {
     @Transaction
     @Query("""
         SELECT * FROM region r
+        LEFT JOIN region_stats s ON r.id = s.id_region_fk
+        WHERE r.id = :idRegion AND r.id_country_fk = :idCountry AND s.date_timestamp = (
+            SELECT MAX(date_timestamp) FROM region_stats
+        )
+        """)
+    abstract fun getRegionAndStatsByLastDate(idCountry: String, idRegion: String): Flow<RegionAndOneStatsPojo>
+
+    @Transaction
+    @Query("""
+        SELECT * FROM region r
         LEFT JOIN region_stats s ON r.id = s.id_region_fk 
         WHERE r.id_country_fk = :idCountry AND s.date_timestamp = :dateTimestamp
         ORDER BY s.confirmed DESC
@@ -201,6 +231,19 @@ abstract class RegionStatsDao {
     abstract fun getRegionAndStatsByCountryAndDateOrderByConfirmed(
         idCountry: String,
         dateTimestamp: Long
+    ): Flow<List<RegionAndStatsDV>>
+
+    @Transaction
+    @Query("""
+        SELECT * FROM region r
+        LEFT JOIN region_stats s ON r.id = s.id_region_fk 
+        WHERE r.id_country_fk = :idCountry AND s.date_timestamp = (
+            SELECT MAX(date_timestamp) FROM region_stats
+        )
+        ORDER BY s.confirmed DESC
+        """)
+    abstract fun getRegionAndStatsByCountryAndLastDateOrderByConfirmed(
+        idCountry: String
     ): Flow<List<RegionAndStatsDV>>
 
     @Transaction
@@ -293,6 +336,20 @@ abstract class SubRegionStatsDao {
         idCountry: String,
         idRegion: String,
         dateTimestamp: Long
+    ): Flow<List<SubRegionAndStatsDV>>
+
+    @Transaction
+    @Query("""
+        SELECT * FROM sub_region r
+        LEFT JOIN sub_region_stats s ON r.id = s.id_sub_region_fk AND r.id_region_fk = s.id_sub_region_region_fk
+        WHERE r.id_region_fk = :idRegion AND r.id_country_fk = :idCountry AND s.date_timestamp = (
+            SELECT MAX(date_timestamp) FROM sub_region_stats
+        )
+        ORDER BY s.confirmed DESC
+        """)
+    abstract fun getSubRegionAndStatsByCountryAndLastDateOrderByConfirmed(
+        idCountry: String,
+        idRegion: String
     ): Flow<List<SubRegionAndStatsDV>>
 
     @Transaction
