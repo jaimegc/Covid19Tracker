@@ -5,6 +5,7 @@ import com.jaimegc.covid19tracker.common.extensions.dateToMilliseconds
 import com.jaimegc.covid19tracker.data.api.client.CovidTrackerApiClient
 import com.jaimegc.covid19tracker.data.api.extensions.apiException
 import com.jaimegc.covid19tracker.data.api.extensions.mapResponse
+import com.jaimegc.covid19tracker.data.preference.CovidTrackerPreferences
 import com.jaimegc.covid19tracker.data.room.daos.*
 import com.jaimegc.covid19tracker.data.room.entities.*
 import com.jaimegc.covid19tracker.domain.model.toDomain
@@ -16,12 +17,15 @@ import com.jaimegc.covid19tracker.ui.base.states.MenuItemViewType
 import kotlinx.coroutines.flow.*
 
 class RemoteCovidTrackerDatasource(
-    private val apiClient: CovidTrackerApiClient
+    private val apiClient: CovidTrackerApiClient,
+    private val covidTrackerPreferences: CovidTrackerPreferences
 ) {
     suspend fun getCovidTrackerByDate(date: String): Either<DomainError, CovidTracker> =
         try {
             mapResponse(apiClient.getCovidTrackerByDate(date)) { covidTracker ->
-                covidTracker.toDomain(date)
+                covidTracker.toDomain(date).also {
+                    covidTrackerPreferences.saveTime()
+                }
             }
         } catch (exception: Exception) {
             Either.left(exception.apiException())

@@ -6,6 +6,7 @@ import androidx.work.WorkerParameters
 import arrow.core.Either
 import com.jaimegc.covid19tracker.data.datasource.LocalCovidTrackerDatasource
 import com.jaimegc.covid19tracker.data.datasource.RemoteCovidTrackerDatasource
+import com.jaimegc.covid19tracker.data.preference.CovidTrackerPreferences
 import com.jaimegc.covid19tracker.domain.model.CovidTracker
 import com.jaimegc.covid19tracker.domain.model.DomainError
 import com.jaimegc.covid19tracker.domain.usecase.GetAllDates
@@ -29,6 +30,7 @@ class UpdateDatabaseWorker(
     private val fileUtils: FileUtils by inject()
     private val remote: RemoteCovidTrackerDatasource by inject()
     private val getAllDates: GetAllDates by inject()
+    private val covidTrackerPreferences: CovidTrackerPreferences by inject()
 
     override suspend fun doWork(): Result {
         val currentDates = fileUtils.generateCurrentDates()
@@ -55,10 +57,10 @@ class UpdateDatabaseWorker(
             }
         }
 
-        if (covidTrackers.isNotEmpty()) {
-            val localDs: LocalCovidTrackerDatasource by inject()
-            localDs.populateDatabase(covidTrackers)
-        }
+        val localDs: LocalCovidTrackerDatasource by inject()
+        localDs.populateDatabase(covidTrackers)
+
+        covidTrackerPreferences.saveTime()
 
         return Result.success()
     }

@@ -4,7 +4,6 @@ import arrow.core.Either
 import com.jaimegc.covid19tracker.domain.model.DomainError
 import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.domain.states.StateError
-import com.jaimegc.covid19tracker.common.extensions.Coroutines
 import kotlinx.coroutines.flow.*
 
 interface BaseRepository<E: DomainError, T> {
@@ -13,21 +12,21 @@ interface BaseRepository<E: DomainError, T> {
         policy: CachePolicy = CachePolicy.LocalOnly,
         loading: Boolean = true
     ) = flow<Either<StateError<E>, State<T>>> {
-        if (loading || policy == CachePolicy.LocalFirst) emit(Either.right(State.Loading()))
+        if (loading || policy is CachePolicy.LocalFirst) emit(Either.right(State.Loading()))
 
         val datasources = mutableListOf<Datasource>()
 
         when (policy) {
             CachePolicy.LocalOnly ->
                 datasources.add(Datasource.Local)
-            CachePolicy.LocalFirst ->
-                datasources.addAll(listOf(Datasource.Network, Datasource.Local))
+            is CachePolicy.LocalFirst ->
+                if (policy.isCacheExpired) datasources.addAll(listOf(Datasource.Network, Datasource.Local))
         }
 
         datasources.map { ds ->
             when (ds) {
                 is Datasource.Network ->
-                    Coroutines.io { fetchFromRemote() }
+                    fetchFromRemote()
                 is Datasource.Local ->
                     fetchFromLocal().collect { value ->
                         value.fold({ error ->
