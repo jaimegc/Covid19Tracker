@@ -71,6 +71,9 @@ abstract class WorldStatsDao {
 
     @Query("SELECT * FROM world_stats ORDER BY date_timestamp ASC")
     abstract fun getAll(): Flow<List<WorldStatsEntity>>
+
+    @Query("SELECT date FROM world_stats ORDER BY date ASC")
+    abstract suspend fun getAllDates(): List<String>
 }
 
 @Dao
