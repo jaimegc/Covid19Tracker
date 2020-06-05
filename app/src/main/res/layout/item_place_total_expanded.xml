@@ -35,6 +35,16 @@
         app:layout_constraintTop_toTopOf="@+id/ic_country_emoji"
         tools:text="Spain" />
 
+    <TextView
+        android:id="@+id/text_position"
+        style="@style/TextPlacePosition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/text_place"
+        app:layout_constraintEnd_toStartOf="@+id/ic_expand_collapse"
+        tools:text="1º" />
+
     <ImageView
         android:id="@+id/ic_expand_collapse"
         android:layout_width="24dp"

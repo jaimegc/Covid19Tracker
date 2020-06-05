@@ -46,6 +46,8 @@ class WorldCountryAdapter : ListAdapter<CountryStatsUI, WorldCountryAdapter.Worl
                 textRecovered.text = totalStatsUI.stats.recovered
                 textDeaths.text = totalStatsUI.stats.deaths
 
+                textPosition.text = "${layoutPosition}º"
+
                 binding.textNewConfirmed.text = itemView.context.getString(R.string.text_trending,
                     totalStatsUI.stats.newConfirmed, (totalStatsUI.stats.vsYesterdayConfirmed))
                 binding.textNewOpenCases.text = itemView.context.getString(R.string.text_trending,
