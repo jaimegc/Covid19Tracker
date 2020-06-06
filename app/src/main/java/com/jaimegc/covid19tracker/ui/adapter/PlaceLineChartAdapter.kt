@@ -10,6 +10,7 @@ import com.github.mikephil.charting.charts.LineChart
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.common.extensions.chart.configure
 import com.jaimegc.covid19tracker.common.extensions.chart.setValues
+import com.jaimegc.covid19tracker.common.extensions.formatValue
 import com.jaimegc.covid19tracker.common.extensions.hide
 import com.jaimegc.covid19tracker.databinding.ItemLineChartTotalBinding
 import com.jaimegc.covid19tracker.ui.model.PlaceListStatsChartUI
@@ -31,6 +32,11 @@ class PlaceLineChartAdapter :
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(mapPlacesStatsChartUI: Map<MenuItemViewType, List<PlaceListStatsChartUI>>) {
             val ctx = itemView.context
+
+            binding.moreMostConfirmed.text = itemView.context.getString(R.string.places_with_most_confirmed)
+            binding.moreMostDeaths.text = itemView.context.getString(R.string.places_with_most_deaths)
+            binding.moreMostRecovered.text = itemView.context.getString(R.string.places_with_most_recovered)
+            binding.moreMostOpenCases.text = itemView.context.getString(R.string.places_with_most_open_cases)
 
             mapPlacesStatsChartUI.keys.map { type ->
                 when (type) {

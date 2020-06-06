@@ -15,6 +15,7 @@
     <string name="default_notification_channel_name">Covid19 Tracker</string>
     <string name="text_trending">[%1$s] (%2$s%%)</string>
     <string name="text_daily_change">DAILY CHANGE</string>
+    <string name="last_updated">Last updated: %s</string>
     <string name="loading_database">Loading local database</string>
 
     <!-- Graphs -->
@@ -28,6 +29,14 @@
     <string name="total_new_open_cases">Daily open cases</string>
     <string name="percentage_total">Percentage of total:</string>
     <string name="no_chart_data_available">No chart data available for this place</string>
+    <string name="countries_with_more_confirmed">Countries with more than %s confirmed</string>
+    <string name="countries_with_more_deaths">Countries with more than %s deaths</string>
+    <string name="countries_with_more_recovered">Countries with more than %s recovered</string>
+    <string name="countries_with_more_open_cases">Countries with more than %s open cases</string>
+    <string name="places_with_most_confirmed">Places with the most confirmed</string>
+    <string name="places_with_most_deaths">Places with the most deaths</string>
+    <string name="places_with_most_recovered">Places with the most recovered</string>
+    <string name="places_with_most_open_cases">Places with the most open cases</string>
 
     <!-- Menu -->
     <string name="menu_world_list">World list</string>
