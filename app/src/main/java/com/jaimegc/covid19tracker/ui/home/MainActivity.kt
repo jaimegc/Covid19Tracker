@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity(), KoinComponent {
             .build()
 
         val periodicWorkRequest =
-            PeriodicWorkRequestBuilder<UpdateDatabaseWorker>(15, TimeUnit.MINUTES)
+            PeriodicWorkRequestBuilder<UpdateDatabaseWorker>(6, TimeUnit.HOURS)
                 .setConstraints(constraints)
                 .build()
 
