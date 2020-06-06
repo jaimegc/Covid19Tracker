@@ -15,7 +15,7 @@
     <string name="default_notification_channel_name">Covid19 Tracker</string>
     <string name="text_trending">[%1$s] (%2$s%%)</string>
     <string name="text_daily_change">DAILY CHANGE</string>
-    <string name="loading_database">Loading database</string>
+    <string name="loading_database">Loading local database</string>
 
     <!-- Graphs -->
     <string name="total_confirmed">Total confirmed</string>
@@ -41,4 +41,9 @@
 
     <!-- Country Tab -->
     <string name="select_all_places">All</string>
+
+    <!-- Worker Update Database -->
+    <string name="worker_populating_database">Populating local database from %1$s to %2$s\n\nPlease wait...</string>
+    <string name="worker_finish">Finish</string>
+    <string name="worker_start">Start</string>
 </resources>
