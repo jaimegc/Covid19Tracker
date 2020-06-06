@@ -14,7 +14,6 @@ ext {
     architecture_components      = '2.0.0'
     arrow                        = '0.10.5'
     android_plugin               = '3.3.0'
-    carto_sdk                    = '4.2.2@aar'
     circle_imageview             = '3.0.0'
     constraintlayout             = '2.0.0-beta5'
     coroutines                   = '1.2.1'
@@ -46,7 +45,6 @@ ext {
     retrofit                     = '2.6.0'
     rounded_imageview            = '2.3.0'
     room                         = '2.2.5'
-    situm                        = '2.56.0@aar'
     support                      = '1.1.0'
     swipe_refresh                = '1.0.0'
     test                         = '1.2.0'
@@ -57,7 +55,6 @@ ext {
             architecture_components       : '2.0.0',
             arrow                         : '0.10.5',
             android_plugin                : '3.3.0',
-            carto_sdk                     : '4.2.2@aar',
             circle_imageview              : '3.0.0',
             constraintlayout              : '2.0.0-beta5',
             coroutines                    : '1.2.1',
@@ -89,7 +86,6 @@ ext {
             retrofit                      : '2.6.0',
             rounded_imageview             : '2.3.0',
             room                          : '2.2.5',
-            situm                         : '2.56.0@aar',
             support                       : '1.1.0',
             swipe_refresh                 : '1.0.0',
             test                          : '1.2.0',
@@ -156,7 +152,6 @@ ext {
             room_ktx                      : [group: 'androidx.room', name: 'room-ktx', version: versions.room],
             room_runtime                  : [group: 'androidx.room', name: 'room-runtime', version: versions.room],
             room_testing                  : [group: 'androidx.room', name: 'room-testing', version: versions.room],
-            situm                         : [group: 'es.situm', name: 'situm-sdk', version: versions.situm],
             swipe_refresh                 : [group: 'androidx.swiperefreshlayout', name: 'swiperefreshlayout', version: versions.swipe_refresh],
             test_core                     : [group: 'androidx.test', name: 'core', version: versions.test],
             test_running                  : [group: 'androidx.test', name: 'runner', version: versions.test],
