@@ -1,5 +1,6 @@
 package com.jaimegc.covid19tracker.common.extensions
 
+import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
@@ -11,6 +12,7 @@ import android.view.animation.RotateAnimation
 import android.widget.AdapterView
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.annotation.IdRes
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.MergeAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -38,6 +40,10 @@ fun View.show() {
 
 fun View.isVisible(): Boolean =
     visibility == View.VISIBLE
+
+inline fun <reified T : View> View.find(@IdRes id: Int): T = findViewById(id)
+
+inline fun <reified T : View> Activity.find(@IdRes id: Int): T = findViewById(id)
 
 fun View.rotateLeftAnimation(duration: Long = 250) =
     this.rotateAnimation(duration, 0f, 180f)

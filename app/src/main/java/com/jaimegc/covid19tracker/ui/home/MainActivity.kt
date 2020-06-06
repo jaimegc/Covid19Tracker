@@ -14,13 +14,13 @@ import com.jaimegc.covid19tracker.common.extensions.hide
 import com.jaimegc.covid19tracker.databinding.ActivityMainBinding
 import com.jaimegc.covid19tracker.databinding.LoadingDatabaseBinding
 import com.jaimegc.covid19tracker.ui.base.KeepStateNavigator
+import com.jaimegc.covid19tracker.ui.dialog.DialogUpdateDatabase
 import com.jaimegc.covid19tracker.utils.FileUtils
 import com.jaimegc.covid19tracker.worker.UpdateDatabaseWorker
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import java.util.concurrent.TimeUnit
-
 
 class MainActivity : AppCompatActivity(), KoinComponent {
 
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity(), KoinComponent {
         Coroutines.ioMain({ fileUtils.initDatabase() }) {
             initializeBottomNavigationBar()
             viewModel.getCovidTracker()
-            initUpdateDatabaseWorker()
+            initializeUpdateDatabaseWorker()
         }
     }
 
@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity(), KoinComponent {
         loadingBinding.loadingDatabaseLayout.hide()
     }
 
-    private fun initUpdateDatabaseWorker() {
+    private fun initializeUpdateDatabaseWorker() {
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
@@ -73,10 +73,24 @@ class MainActivity : AppCompatActivity(), KoinComponent {
             periodicWorkRequest
         )
 
+        val dialog = DialogUpdateDatabase.newInstance()
+
         WorkManager.getInstance(this).getWorkInfoByIdLiveData(periodicWorkRequest.id)
             .observe(this, Observer { workInfo ->
                 if (workInfo != null) {
-                    // TODO: Implement feedback
+                    if (workInfo.state == WorkInfo.State.RUNNING) {
+                        when (workInfo.progress.getString(UpdateDatabaseWorker.DATA_PROGRESS)) {
+                            this.getString(R.string.worker_start) ->
+                                dialog.open(supportFragmentManager)
+                            this.getString(R.string.worker_finish) ->
+                                dialog.close()
+                            else ->
+                                dialog.updateInfoStatus(workInfo.progress.getString(
+                                    UpdateDatabaseWorker.DATA_PROGRESS) ?: "")
+                        }
+                    } else if (workInfo.state == WorkInfo.State.ENQUEUED) {
+                        dialog.close()
+                    }
                 }
             })
     }

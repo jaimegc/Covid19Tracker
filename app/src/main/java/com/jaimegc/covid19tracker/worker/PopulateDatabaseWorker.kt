@@ -33,7 +33,7 @@ class PopulateDatabaseWorker(
         private const val JSON_FILE_EXTENSION = ".json"
         // First day in the API
         private val START_DATE = Triple(2020, 1, 23)
-        private val END_DATE = Triple(2020, 5, 24)
+        private val END_DATE = Triple(2020, 6, 5)
         // PLEASE, USE RESPONSIBLY
         private val START_DATE_SERVER = Triple(2020, 3, 10)
         private val END_DATE_SERVER = Triple(2020, 3, 15)
