@@ -1,58 +1,63 @@
 package com.jaimegc.covid19tracker.data.api.model
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class CovidTrackerDto(
-    @SerializedName("dates") val dates: Map<String, CovidTrackerDateDto>,
-    @SerializedName("total") val total: CovidTrackerTotalDto,
-    @SerializedName("updated_at") val updatedAt: String
+    @Json(name = "dates") val dates: Map<String, CovidTrackerDateDto>,
+    @Json(name = "total") val total: CovidTrackerTotalDto,
+    @Json(name = "updated_at") val updatedAt: String
 )
 
+@JsonClass(generateAdapter = true)
 data class CovidTrackerDateDto(
-    @SerializedName("countries") val countries: Map<String, CovidTrackerDateCountryDto>
+    @Json(name = "countries") val countries: Map<String, CovidTrackerDateCountryDto>
 )
 
+@JsonClass(generateAdapter = true)
 data class CovidTrackerDateCountryDto(
-    @SerializedName("id") val id: String,
-    @SerializedName("name") val name: String,
-    @SerializedName("name_es") val nameEs: String,
-    @SerializedName("source") val source: String? = null,
-    @SerializedName("today_confirmed") val todayConfirmed: Long,
-    @SerializedName("today_deaths") val todayDeaths: Long,
-    @SerializedName("today_new_confirmed") val todayNewConfirmed: Long,
-    @SerializedName("today_new_deaths") val todayNewDeaths: Long,
-    @SerializedName("today_new_open_cases") val todayNewOpenCases: Long,
-    @SerializedName("today_new_recovered") val todayNewRecovered: Long,
-    @SerializedName("today_open_cases") val todayOpenCases: Long,
-    @SerializedName("today_recovered") val todayRecovered: Long,
-    @SerializedName("today_vs_yesterday_confirmed") val todayVsYesterdayConfirmed: Double,
-    @SerializedName("today_vs_yesterday_deaths") val todayVsYesterdayDeaths: Double,
-    @SerializedName("today_vs_yesterday_open_cases") val todayVsYesterdayOpenCases: Double,
-    @SerializedName("today_vs_yesterday_recovered") val todayVsYesterdayRecovered: Double,
-    @SerializedName("yesterday_confirmed") val yesterdayConfirmed: Long,
-    @SerializedName("yesterday_deaths") val yesterdayDeaths: Long,
-    @SerializedName("yesterday_open_cases") val yesterdayOpenCases: Long,
-    @SerializedName("yesterday_recovered") val yesterdayRecovered: Long,
-    @SerializedName("regions") val regions: List<CovidTrackerDateCountryDto>? = null,
-    @SerializedName("sub_regions") val subRegions: List<CovidTrackerDateCountryDto>? = null
+    @Json(name = "id") val id: String,
+    @Json(name = "name") val name: String,
+    @Json(name = "name_es") val nameEs: String,
+    @Json(name = "source") val source: String?,
+    @Json(name = "today_confirmed") val todayConfirmed: Long?,
+    @Json(name = "today_deaths") val todayDeaths: Long?,
+    @Json(name = "today_new_confirmed") val todayNewConfirmed: Long?,
+    @Json(name = "today_new_deaths") val todayNewDeaths: Long?,
+    @Json(name = "today_new_open_cases") val todayNewOpenCases: Long?,
+    @Json(name = "today_new_recovered") val todayNewRecovered: Long?,
+    @Json(name = "today_open_cases") val todayOpenCases: Long?,
+    @Json(name = "today_recovered") val todayRecovered: Long?,
+    @Json(name = "today_vs_yesterday_confirmed") val todayVsYesterdayConfirmed: Double?,
+    @Json(name = "today_vs_yesterday_deaths") val todayVsYesterdayDeaths: Double?,
+    @Json(name = "today_vs_yesterday_open_cases") val todayVsYesterdayOpenCases: Double?,
+    @Json(name = "today_vs_yesterday_recovered") val todayVsYesterdayRecovered: Double?,
+    @Json(name = "yesterday_confirmed") val yesterdayConfirmed: Long?,
+    @Json(name = "yesterday_deaths") val yesterdayDeaths: Long?,
+    @Json(name = "yesterday_open_cases") val yesterdayOpenCases: Long?,
+    @Json(name = "yesterday_recovered") val yesterdayRecovered: Long?,
+    @Json(name = "regions") val regions: List<CovidTrackerDateCountryDto>? = null,
+    @Json(name = "sub_regions") val subRegions: List<CovidTrackerDateCountryDto>? = null
 )
 
+@JsonClass(generateAdapter = true)
 data class CovidTrackerTotalDto(
-    @SerializedName("source") val source: String? = null,
-    @SerializedName("today_confirmed") val todayConfirmed: Long,
-    @SerializedName("today_deaths") val todayDeaths: Long,
-    @SerializedName("today_new_confirmed") val todayNewConfirmed: Long,
-    @SerializedName("today_new_deaths") val todayNewDeaths: Long,
-    @SerializedName("today_new_open_cases") val todayNewOpenCases: Long,
-    @SerializedName("today_new_recovered") val todayNewRecovered: Long,
-    @SerializedName("today_open_cases") val todayOpenCases: Long,
-    @SerializedName("today_recovered") val todayRecovered: Long,
-    @SerializedName("today_vs_yesterday_confirmed") val todayVsYesterdayConfirmed: Double,
-    @SerializedName("today_vs_yesterday_deaths") val todayVsYesterdayDeaths: Double,
-    @SerializedName("today_vs_yesterday_open_cases") val todayVsYesterdayOpenCases: Double,
-    @SerializedName("today_vs_yesterday_recovered") val todayVsYesterdayRecovered: Double,
-    @SerializedName("yesterday_confirmed") val yesterdayConfirmed: Long,
-    @SerializedName("yesterday_deaths") val yesterdayDeaths: Long,
-    @SerializedName("yesterday_open_cases") val yesterdayOpenCases: Long,
-    @SerializedName("yesterday_recovered") val yesterdayRecovered: Long
+    @Json(name = "source") val source: String? = null,
+    @Json(name = "today_confirmed") val todayConfirmed: Long?,
+    @Json(name = "today_deaths") val todayDeaths: Long?,
+    @Json(name = "today_new_confirmed") val todayNewConfirmed: Long?,
+    @Json(name = "today_new_deaths") val todayNewDeaths: Long?,
+    @Json(name = "today_new_open_cases") val todayNewOpenCases: Long?,
+    @Json(name = "today_new_recovered") val todayNewRecovered: Long?,
+    @Json(name = "today_open_cases") val todayOpenCases: Long?,
+    @Json(name = "today_recovered") val todayRecovered: Long?,
+    @Json(name = "today_vs_yesterday_confirmed") val todayVsYesterdayConfirmed: Double?,
+    @Json(name = "today_vs_yesterday_deaths") val todayVsYesterdayDeaths: Double?,
+    @Json(name = "today_vs_yesterday_open_cases") val todayVsYesterdayOpenCases: Double?,
+    @Json(name = "today_vs_yesterday_recovered") val todayVsYesterdayRecovered: Double?,
+    @Json(name = "yesterday_confirmed") val yesterdayConfirmed: Long?,
+    @Json(name = "yesterday_deaths") val yesterdayDeaths: Long?,
+    @Json(name = "yesterday_open_cases") val yesterdayOpenCases: Long?,
+    @Json(name = "yesterday_recovered") val yesterdayRecovered: Long?
 )
