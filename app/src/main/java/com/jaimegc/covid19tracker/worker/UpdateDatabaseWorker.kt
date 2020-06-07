@@ -71,7 +71,11 @@ class UpdateDatabaseWorker(
         // Sometimes this progress is not called
         setProgress(workDataOf(DATA_PROGRESS to context.getString(R.string.worker_finish)))
 
-        covidTrackerPreferences.saveTime()
+        // Save preferences if the current day was downloaded
+        covidTrackers.firstOrNull { covidTracker ->
+            covidTracker.worldStats.date == datesToDownload.last()}?.let {
+            covidTrackerPreferences.saveTime()
+        }
 
         return Result.success()
     }

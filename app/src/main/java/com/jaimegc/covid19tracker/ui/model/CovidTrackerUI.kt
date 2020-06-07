@@ -95,7 +95,10 @@ data class StatsChartUI(
     val newRecovered: Float,
     val openCases: Float,
     val recovered: Float
-)
+) {
+    fun isNotEmpty(): Boolean =
+        confirmed != 0f && deaths != 0f && recovered != 0f && openCases != 0f
+}
 
 data class WorldCountryStatsUI(
     val countryStats: CountryStatsChartUI,

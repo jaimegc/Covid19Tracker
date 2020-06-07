@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/dimen_8"
+    android:background="@android:color/white"
     tools:context=".ui.home.MainActivity">
 
     <TextView

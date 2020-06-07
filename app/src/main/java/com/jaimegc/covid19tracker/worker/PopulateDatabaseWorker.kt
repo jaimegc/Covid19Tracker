@@ -4,15 +4,13 @@ import android.content.Context
 import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.google.gson.Gson
-import com.google.gson.JsonObject
-import com.jaimegc.covid19tracker.common.extensions.DATE_FORMATTER
 import com.jaimegc.covid19tracker.data.api.client.CovidTrackerApiClient
 import com.jaimegc.covid19tracker.data.api.model.CovidTrackerDto
 import com.jaimegc.covid19tracker.data.datasource.LocalCovidTrackerDatasource
 import com.jaimegc.covid19tracker.domain.model.CovidTracker
 import com.jaimegc.covid19tracker.domain.model.toDomain
 import com.jaimegc.covid19tracker.utils.FileUtils
+import com.squareup.moshi.Moshi
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -35,12 +33,14 @@ class PopulateDatabaseWorker(
         private val START_DATE = Triple(2020, 1, 23)
         private val END_DATE = Triple(2020, 6, 5)
         // PLEASE, USE RESPONSIBLY
-        private val START_DATE_SERVER = Triple(2020, 3, 10)
-        private val END_DATE_SERVER = Triple(2020, 3, 15)
+        private val START_DATE_SERVER = Triple(2020, 6, 5)
+        private val END_DATE_SERVER = Triple(2020, 6, 6)
         private const val DOWNLOAD_JSONS_FROM_SERVER = false
     }
 
     private val fileUtils: FileUtils by inject()
+    private val moshi =
+        Moshi.Builder().build().adapter(CovidTrackerDto::class.java)
 
     override suspend fun doWork(): Result =
         try {
@@ -51,8 +51,11 @@ class PopulateDatabaseWorker(
                 val dateSrc = "$FOLDER$date$JSON_FILE_EXTENSION"
 
                 val dataJson = applicationContext.assets.open(dateSrc).bufferedReader().use { it.readText() }
-                Gson().fromJson(dataJson, CovidTrackerDto::class.java).also { covidTrackerDto ->
-                    covidTrackers.add(covidTrackerDto.toDomain(getDateFromFileName(dateSrc)))
+
+                moshi.fromJson(dataJson).also { covidTrackerDto ->
+                    covidTrackerDto?.let {
+                        covidTrackers.add(covidTrackerDto.toDomain(getDateFromFileName(dateSrc)))
+                    }
                 }
             }
 
@@ -76,17 +79,17 @@ class PopulateDatabaseWorker(
     private suspend fun downloadAllJsons() {
         val listDates = fileUtils.generateDates(START_DATE_SERVER, END_DATE_SERVER)
         val covidTrackerApiClient: CovidTrackerApiClient by inject()
-        val allRequests = mutableListOf<Deferred<Response<JsonObject>>>()
+        val allRequests = mutableListOf<Deferred<Response<CovidTrackerDto>>>()
 
         coroutineScope {
             listDates.map { date ->
-                allRequests.add(async { covidTrackerApiClient.getCovidTrackerByDateAsJson(date) })
+                allRequests.add(async { covidTrackerApiClient.getCovidTrackerByDateAsResponse(date) })
             }
         }
 
         allRequests.awaitAll().mapIndexed { index, response ->
             if (response.isSuccessful && response.body() != null) {
-                fileUtils.writeFileToInternalStorage(response.body().toString(),
+                fileUtils.writeFileToInternalStorage(moshi.toJson(response.body()),
                     "${listDates[index]}$JSON_FILE_EXTENSION", FOLDER_DOWNLOAD)
             }
         }

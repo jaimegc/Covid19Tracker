@@ -1,18 +1,18 @@
 package com.jaimegc.covid19tracker.data.api.config
 
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import com.jaimegc.covid19tracker.BuildConfig
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 
 
 open class ServerApiConfig(
     private val baseUrl: String,
-    private val gsonConverter: Gson? = null
+    private val moshiConverter: Moshi? = null
 ) {
 
     companion object {
@@ -29,20 +29,18 @@ open class ServerApiConfig(
 
         lateinit var retrofit: Retrofit
 
-        val gsonConverterFactory = gsonConverter?.let {
-            GsonConverterFactory.create(gsonConverter)
-        } ?: GsonConverterFactory.create()
+        val moshiConverterFactory = moshiConverter?.let {
+            MoshiConverterFactory.create(moshiConverter)
+        } ?: MoshiConverterFactory.create(Moshi.Builder().add(KotlinJsonAdapterFactory()).build())
 
         retrofit = Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(getOkHttpClient().build())
-            .addConverterFactory(gsonConverterFactory)
+            .addConverterFactory(moshiConverterFactory)
             .build()
 
         return retrofit
     }
-
-    private fun defaultConverter(): Gson = GsonBuilder().create()
 
     private fun getOkHttpClient(): OkHttpClient.Builder {
         val client = OkHttpClient.Builder()
