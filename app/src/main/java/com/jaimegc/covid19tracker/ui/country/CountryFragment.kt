@@ -152,13 +152,18 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
             is PlaceStateScreen.SuccessPlaceTotalStatsPieChart -> {
                 if (menu.isCurrentItemChecked(MENU_ITEM_PIE_CHART)) {
                     statsParent = renderState.data
-                    mergeAdapter.addAdapter(0, placeTotalPieChartAdapter)
 
-                    if (mergeAdapter.containsAdapter(placePieChartAdapter)) {
-                        binding.recyclerPlace.scrollToPosition(0)
+                    if (statsParent.isNotEmpty()) {
+                        mergeAdapter.addAdapter(0, placeTotalPieChartAdapter)
+
+                        if (mergeAdapter.containsAdapter(placePieChartAdapter)) {
+                            binding.recyclerPlace.scrollToPosition(0)
+                        }
+
+                        placeTotalPieChartAdapter.submitList(listOf(statsParent))
+                    } else {
+                        emptyDatabaseBinding.emptyLayout.show()
                     }
-
-                    placeTotalPieChartAdapter.submitList(listOf(statsParent))
                 }
             }
             is PlaceStateScreen.SuccessPlaceAndStatsPieChart -> {
