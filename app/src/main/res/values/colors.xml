@@ -21,4 +21,6 @@
     <color name="title_grey">#6C757D</color>
     <color name="border_card">#4C4C4C</color>
 
+    <color name="ic_launcher_background">@android:color/white</color>
+
 </resources>

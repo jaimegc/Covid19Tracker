@@ -10,3 +10,6 @@ fun String.dateToMilliseconds(): Long =
 
 fun Long.millisecondsToDate(): String =
     SimpleDateFormat(DATE_FORMATTER, Locale.US).format(this)
+
+fun String.toLastUpdated(): String =
+    this.replace("UTC", " UTC")

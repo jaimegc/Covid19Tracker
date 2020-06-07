@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.jaimegc.covid19tracker.R
+import com.jaimegc.covid19tracker.common.extensions.toLastUpdated
 import com.jaimegc.covid19tracker.databinding.ItemTotalBinding
 import com.jaimegc.covid19tracker.ui.model.WorldStatsUI
 
@@ -35,6 +36,9 @@ class WorldAdapter : ListAdapter<WorldStatsUI, WorldAdapter.WorldViewHolder>(DIF
                 worldStatsUI.stats.newRecovered, (worldStatsUI.stats.vsYesterdayRecovered))
             binding.textNewDeaths.text = itemView.context.getString(R.string.text_trending,
                 worldStatsUI.stats.newDeaths, (worldStatsUI.stats.vsYesterdayDeaths))
+
+            binding.textLastUpdated.text = itemView.context.getString(R.string.last_updated,
+                worldStatsUI.updatedAt.toLastUpdated())
         }
     }
 

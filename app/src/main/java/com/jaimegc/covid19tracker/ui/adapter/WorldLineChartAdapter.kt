@@ -10,6 +10,7 @@ import com.github.mikephil.charting.charts.LineChart
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.common.extensions.chart.configure
 import com.jaimegc.covid19tracker.common.extensions.chart.setValues
+import com.jaimegc.covid19tracker.common.extensions.formatValue
 import com.jaimegc.covid19tracker.common.extensions.hide
 import com.jaimegc.covid19tracker.databinding.ItemLineChartTotalBinding
 import com.jaimegc.covid19tracker.ui.model.CountryListStatsChartUI
@@ -31,27 +32,38 @@ class WorldLineChartAdapter :
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(mapCountriesStatsChartUI: Map<MenuItemViewType, List<CountryListStatsChartUI>>) {
             val ctx = itemView.context
+            val minAxisOther = 2000f
+            val minAxisDeaths = 100f
+
+            binding.moreMostConfirmed.text =
+                itemView.context.getString(R.string.countries_with_more_confirmed, minAxisOther.formatValue())
+            binding.moreMostDeaths.text =
+                itemView.context.getString(R.string.countries_with_more_deaths, minAxisDeaths.formatValue())
+            binding.moreMostRecovered.text =
+                itemView.context.getString(R.string.countries_with_more_recovered, minAxisOther.formatValue())
+            binding.moreMostOpenCases.text =
+                itemView.context.getString(R.string.countries_with_more_open_cases, minAxisOther.formatValue())
 
             mapCountriesStatsChartUI.keys.map { type ->
                 when (type) {
                     is MenuItemViewType.LineChartMostConfirmed ->
                         configureLineChart(
-                            ctx, binding.chartConfirmed, mapCountriesStatsChartUI.getValue(type), type, 2000f).also {
+                            ctx, binding.chartConfirmed, mapCountriesStatsChartUI.getValue(type), type, minAxisOther).also {
                             binding.loadingConfirmed.hide()
                         }
                     is MenuItemViewType.LineChartMostDeaths ->
                         configureLineChart(
-                            ctx, binding.chartDeaths, mapCountriesStatsChartUI.getValue(type), type, 100f).also {
+                            ctx, binding.chartDeaths, mapCountriesStatsChartUI.getValue(type), type, minAxisDeaths).also {
                             binding.loadingDeaths.hide()
                         }
                     is MenuItemViewType.LineChartMostRecovered ->
                         configureLineChart(
-                            ctx, binding.chartRecovered, mapCountriesStatsChartUI.getValue(type), type, 2000f).also {
+                            ctx, binding.chartRecovered, mapCountriesStatsChartUI.getValue(type), type, minAxisOther).also {
                             binding.loadingRecovered.hide()
                         }
                     is MenuItemViewType.LineChartMostOpenCases ->
                         configureLineChart(
-                            ctx, binding.chartOpenCases, mapCountriesStatsChartUI.getValue(type), type, 2000f).also {
+                            ctx, binding.chartOpenCases, mapCountriesStatsChartUI.getValue(type), type, minAxisOther).also {
                             binding.loadingOpenCases.hide()
                         }
                 }

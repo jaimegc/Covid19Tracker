@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.jaimegc.covid19tracker.R
+import com.jaimegc.covid19tracker.common.extensions.hide
 import com.jaimegc.covid19tracker.databinding.ItemTotalBinding
 import com.jaimegc.covid19tracker.ui.model.PlaceStatsUI
 
@@ -22,6 +23,7 @@ class PlaceTotalAdapter : ListAdapter<PlaceStatsUI, PlaceTotalAdapter.PlaceTotal
         private val binding: ItemTotalBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(placeStatsUI: PlaceStatsUI) {
+            binding.textLastUpdated.hide()
             binding.textConfirmed.text = placeStatsUI.stats.confirmed
             binding.textOpenCases.text = placeStatsUI.stats.openCases
             binding.textRecovered.text = placeStatsUI.stats.recovered

@@ -9,14 +9,25 @@
     android:padding="@dimen/dimen_8"
     tools:context=".ui.home.MainActivity">
 
+    <TextView
+        android:id="@+id/more_most_confirmed"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/TextMoreMost"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Countries with more than 1000 confirmed" />
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/confirmed_layout"
         android:layout_width="match_parent"
         android:layout_height="229dp"
+        android:layout_marginTop="4dp"
         app:cardBackgroundColor="@color/light_red"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/more_most_confirmed">
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/chart_confirmed"
@@ -29,15 +40,26 @@
             android:indeterminateTint="@color/dark_red" />
     </com.google.android.material.card.MaterialCardView>
 
+    <TextView
+        android:id="@+id/more_most_deaths"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/TextMoreMost"
+        android:layout_marginTop="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/confirmed_layout"
+        tools:text="Countries with more than 1000 deaths" />
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/deaths_layout"
         android:layout_width="match_parent"
         android:layout_height="229dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="6dp"
         app:cardBackgroundColor="@color/light_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/confirmed_layout">
+        app:layout_constraintTop_toBottomOf="@+id/more_most_deaths">
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/chart_deaths"
@@ -50,15 +72,26 @@
             android:indeterminateTint="@color/dark_grey" />
     </com.google.android.material.card.MaterialCardView>
 
+    <TextView
+        android:id="@+id/more_most_recovered"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/TextMoreMost"
+        android:layout_marginTop="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/deaths_layout"
+        tools:text="Countries with more than 1000 recovered" />
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/recovered_layout"
         android:layout_width="match_parent"
         android:layout_height="229dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="6dp"
         app:cardBackgroundColor="@color/light_green"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/deaths_layout">
+        app:layout_constraintTop_toBottomOf="@+id/more_most_recovered">
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/chart_recovered"
@@ -71,15 +104,26 @@
             android:indeterminateTint="@color/dark_green" />
     </com.google.android.material.card.MaterialCardView>
 
+    <TextView
+        android:id="@+id/more_most_open_cases"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/TextMoreMost"
+        android:layout_marginTop="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recovered_layout"
+        tools:text="Countries with more than 1000 open cases" />
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/open_cases_layout"
         android:layout_width="match_parent"
         android:layout_height="229dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="6dp"
         app:cardBackgroundColor="@color/light_blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recovered_layout">
+        app:layout_constraintTop_toBottomOf="@+id/more_most_open_cases">
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/chart_open_cases"

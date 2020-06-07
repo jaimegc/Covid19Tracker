@@ -9,6 +9,8 @@ fun Double.formatDecimals(): String = numberFormatDecimals(this).format(this)
 
 fun Long.formatValue(): String = numberFormat().format(this)
 
+fun Float.formatValue(): String = numberFormat().format(this)
+
 fun Double.percentage(value: Double): String =
     "${(this / value * 100).formatDecimals()}%"
 
