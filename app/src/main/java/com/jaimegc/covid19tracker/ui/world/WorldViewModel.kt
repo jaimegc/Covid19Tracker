@@ -187,7 +187,11 @@ class WorldViewModel(
     }
 
     private fun handleError(state: StateError<DomainError>) {
-        // Not implemented
+        when (state) {
+            is StateError.Error ->
+                _screenState.postValue(ScreenState.Error(
+                    WorldStateScreen.SomeError(state.error.toUI())))
+        }
     }
     
     private fun cancelAll() {

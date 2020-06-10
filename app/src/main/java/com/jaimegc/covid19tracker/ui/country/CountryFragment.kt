@@ -66,6 +66,9 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
                     loadingBinding.loading.hide()
                     handleRenderState(screenState.renderState)
                 }
+                is ScreenState.Error<PlaceStateScreen> -> {
+                    // Not implemented
+                }
             }
         })
 

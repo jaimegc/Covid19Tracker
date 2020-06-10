@@ -259,3 +259,5 @@ fun ListSubRegionAndStats.toPlaceUI(): List<PlaceListStatsChartUI> =
             stats = stats.stats.map { place -> place.toChartUI() }
         )
     }
+
+fun DomainError.toUI(): ErrorUI = ErrorUI.SomeError

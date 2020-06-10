@@ -50,6 +50,9 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
                     loadingBinding.loading.hide()
                     handleRenderState(screenState.renderState)
                 }
+                is ScreenState.Error<WorldStateScreen> -> {
+                    // Not implemented
+                }
             }
         })
 
