@@ -286,7 +286,11 @@ class CountryViewModel(
     }
 
     private fun handleError(state: StateError<DomainError>) {
-        // Not implemented
+        when (state) {
+            is StateError.Error ->
+                _screenState.postValue(ScreenState.Error(
+                    PlaceStateScreen.SomeError(state.error.toUI())))
+        }
     }
 
     private fun cancelAllCharts() {

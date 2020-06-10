@@ -50,6 +50,9 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
                     loadingBinding.loading.hide()
                     handleRenderState(screenState.renderState)
                 }
+                is ScreenState.Error<WorldStateScreen> -> {
+                    // Not implemented
+                }
             }
         })
 
@@ -151,11 +154,4 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
             }
             else -> super.onOptionsItemSelected(item)
         }
-
-    companion object {
-        private const val MENU_ITEM_LIST = 0
-        private const val MENU_ITEM_BAR_CHART = 1
-        private const val MENU_ITEM_LINE_CHART = 2
-        private const val MENU_ITEM_PIE_CHART = 3
-    }
 }

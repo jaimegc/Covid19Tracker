@@ -7,4 +7,10 @@ import org.koin.core.KoinComponent
 
 abstract class BaseFragment<T: BaseScreenStateViewModel<S>, S: BaseScreenState>(
     layoutRes: Int
-) : Fragment(layoutRes), BaseViewScreenState<T, S>, KoinComponent
+) : Fragment(layoutRes), BaseViewScreenState<T, S>, KoinComponent {
+
+    protected val MENU_ITEM_LIST = 0
+    protected val MENU_ITEM_BAR_CHART = 1
+    protected val MENU_ITEM_LINE_CHART = 2
+    protected val MENU_ITEM_PIE_CHART = 3
+}

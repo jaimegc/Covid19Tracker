@@ -37,11 +37,9 @@ object Versions {
 
     object Square {
         const val MOSHI = "1.9.2"
-        const val MOSHI_CODEGEN = "1.8.0"
-        const val MOSHI_KOTLIN = "1.9.2"
-        const val OK_HTTP = "3.14.0"
+        const val OK_HTTP = "4.7.2"
         const val RETROFIT = "2.9.0"
-        const val RETROFIT_CONVERTER_MOSHI = "2.7.2"
+        const val RETROFIT_CONVERTER_MOSHI = "2.9.0"
     }
 
     object Koin {
@@ -53,7 +51,7 @@ object Versions {
     }
 
     object Other {
-        const val AIRBNB_LOTTIE = "3.4.0"
+        const val AIRBNB_LOTTIE = "3.4.1"
         const val ARROW = "0.10.5"
         const val CHART = "v3.1.0"
         const val EMOJI = "5.1.1"

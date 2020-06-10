@@ -7,6 +7,7 @@ sealed class BaseScreenState
 sealed class ScreenState<out T : BaseScreenState> {
     object Loading : ScreenState<Nothing>()
     object EmptyData : ScreenState<Nothing>()
+    class Error<out T : BaseScreenState>(val errorState: T) : ScreenState<T>()
     class Render<out T : BaseScreenState>(val renderState: T) : ScreenState<T>()
 }
 
@@ -17,6 +18,7 @@ sealed class WorldStateScreen : BaseScreenState() {
     class SuccessCountriesStatsLineCharts(
         val data: Map<MenuItemViewType, List<CountryListStatsChartUI>>) : WorldStateScreen()
     class SuccessCountriesStatsPieCharts(val data: List<WorldCountryStatsUI>) : WorldStateScreen()
+    class SomeError(val data: ErrorUI) : WorldStateScreen()
 }
 
 sealed class MenuItemViewType {
@@ -40,4 +42,5 @@ sealed class PlaceStateScreen : BaseScreenState() {
     class SuccessPlaceAndStatsPieChart(val data: List<PlaceStatsChartUI>) : PlaceStateScreen()
     class SuccessPlaceStatsLineCharts(
         val data: Map<MenuItemViewType, List<PlaceListStatsChartUI>>) : PlaceStateScreen()
+    class SomeError(val data: ErrorUI) : PlaceStateScreen()
 }
