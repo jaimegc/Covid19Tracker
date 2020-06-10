@@ -22,7 +22,6 @@
         android:paddingBottom="8dp"/>
 
     <include
-        android:id="@+id/include_loading"
         layout="@layout/loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

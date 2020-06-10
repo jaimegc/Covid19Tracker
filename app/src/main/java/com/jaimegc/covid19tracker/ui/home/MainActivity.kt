@@ -11,6 +11,7 @@ import androidx.work.*
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.common.extensions.Coroutines
 import com.jaimegc.covid19tracker.common.extensions.hide
+import com.jaimegc.covid19tracker.common.extensions.show
 import com.jaimegc.covid19tracker.databinding.ActivityMainBinding
 import com.jaimegc.covid19tracker.databinding.LoadingDatabaseBinding
 import com.jaimegc.covid19tracker.ui.base.KeepStateNavigator
@@ -28,7 +29,7 @@ class MainActivity : AppCompatActivity(), KoinComponent {
 
     private val fileUtils: FileUtils by inject()
     private lateinit var binding: ActivityMainBinding
-    private lateinit var loadingBinding: LoadingDatabaseBinding
+    private lateinit var loadingDatabaseBinding: LoadingDatabaseBinding
     private lateinit var navigator: KeepStateNavigator
     private lateinit var navController: NavController
 
@@ -36,7 +37,7 @@ class MainActivity : AppCompatActivity(), KoinComponent {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        loadingBinding = LoadingDatabaseBinding.bind(binding.root)
+        loadingDatabaseBinding = LoadingDatabaseBinding.bind(binding.root)
 
         Coroutines.ioMain({ fileUtils.initDatabase() }) {
             initializeBottomNavigationBar()
@@ -46,6 +47,7 @@ class MainActivity : AppCompatActivity(), KoinComponent {
     }
 
     private fun initializeBottomNavigationBar() {
+        loadingDatabaseBinding.groupLoadingDatabase.hide()
         navController = findNavController(R.id.nav_host_fragment)
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)!!
         navigator =
@@ -54,7 +56,7 @@ class MainActivity : AppCompatActivity(), KoinComponent {
         navController.setGraph(R.navigation.mobile_navigation)
 
         binding.navView.setupWithNavController(navController)
-        loadingBinding.loadingDatabaseLayout.hide()
+        binding.navView.show()
     }
 
     private fun initializeUpdateDatabaseWorker() {
