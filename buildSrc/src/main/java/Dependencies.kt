@@ -46,9 +46,9 @@ object Dependencies {
 
     const val SQUARE_MOSHI = "com.squareup.moshi:moshi:${Versions.Square.MOSHI}"
     const val SQUARE_MOSHI_CODEGEN =
-        "com.squareup.moshi:moshi-kotlin-codegen:${Versions.Square.MOSHI_CODEGEN}"
+        "com.squareup.moshi:moshi-kotlin-codegen:${Versions.Square.MOSHI}"
     const val SQUARE_MOSHI_KOTLIN =
-        "com.squareup.moshi:moshi-kotlin:${Versions.Square.MOSHI_KOTLIN}"
+        "com.squareup.moshi:moshi-kotlin:${Versions.Square.MOSHI}"
     const val SQUARE_OK_HTTP = "com.squareup.okhttp3:okhttp:${Versions.Square.OK_HTTP}"
     const val SQUARE_OK_HTTP_LOGGING_INTERCEPTOR =
         "com.squareup.okhttp3:logging-interceptor:${Versions.Square.OK_HTTP}"
