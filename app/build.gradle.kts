@@ -35,8 +35,8 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 
-    viewBinding {
-       android.buildFeatures.viewBinding = true
+    buildFeatures {
+        viewBinding = true
     }
 }
 

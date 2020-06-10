@@ -2,11 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/empty_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/white">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/empty_database"
@@ -33,4 +31,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/empty_database" />
+
+    <!-- From Gradle 4.0.0 I can't use the ConstraintLayout parent to
+         show/hide the view. I had to add this :S -->
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="empty_database,text"
+        tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>

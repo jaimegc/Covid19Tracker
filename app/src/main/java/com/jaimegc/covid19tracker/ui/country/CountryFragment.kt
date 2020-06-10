@@ -49,23 +49,22 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
         loadingBinding = LoadingBinding.bind(view)
         emptyDatabaseBinding = EmptyDatabaseBinding.bind(view)
 
-        emptyDatabaseBinding.emptyLayout.hide()
         binding.recyclerPlace.adapter = mergeAdapter
 
         viewModel.screenState.observe(viewLifecycleOwner, Observer { screenState ->
             when (screenState) {
                 ScreenState.Loading ->
                     if (mergeAdapter.adapters.isEmpty()) {
-                        emptyDatabaseBinding.emptyLayout.hide()
+                        emptyDatabaseBinding.groupEmpty.hide()
                         loadingBinding.loading.show()
                     }
                 ScreenState.EmptyData ->
                     if (currentMenuItem == MENU_ITEM_LINE_CHART) {
-                        emptyDatabaseBinding.emptyLayout.show()
+                        emptyDatabaseBinding.groupEmpty.show()
                     }
                 is ScreenState.Render<PlaceStateScreen> -> {
-                    handleRenderState(screenState.renderState)
                     loadingBinding.loading.hide()
+                    handleRenderState(screenState.renderState)
                 }
             }
         })
@@ -162,7 +161,7 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
 
                         placeTotalPieChartAdapter.submitList(listOf(statsParent))
                     } else {
-                        emptyDatabaseBinding.emptyLayout.show()
+                        emptyDatabaseBinding.groupEmpty.show()
                     }
                 }
             }
@@ -251,7 +250,7 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
 
     private fun selectMenu(idCountry: String, idRegion: String = "") {
         mergeAdapter.removeAllAdapters()
-        emptyDatabaseBinding.emptyLayout.hide()
+        emptyDatabaseBinding.groupEmpty.hide()
         loadingBinding.loading.hide()
         currentMenuItem = menu.isCurrentItemChecked()
 

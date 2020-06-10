@@ -10,11 +10,8 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.72")
         classpath("org.jetbrains.kotlin:kotlin-serialization:1.3.72")
         classpath("com.github.dcendents:android-maven-gradle-plugin:2.1")
-        classpath("com.google.gms:google-services:4.3.2")
+        classpath("com.google.gms:google-services:4.3.3")
         classpath("name.remal:gradle-plugins:1.0.192")
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
     }
 }
 
