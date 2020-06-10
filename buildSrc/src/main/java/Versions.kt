@@ -5,10 +5,15 @@ object Versions {
     }
 
     object Gradle {
-        const val GRADLE = "3.6.1"
+        const val GRADLE_ANDROID = "4.0.0"
         const val KOTLIN = "1.3.72"
-        const val MAVEN_GRADLE_PLUGIN = "2.1"
-        const val GOOGLE_SERVICES = "4.3.2"
+        const val MAVEN_PLUGIN = "2.1"
+        const val GOOGLE_SERVICES = "4.3.3"
+        const val REMAL_PLUGIN = "1.0.192"
+    }
+
+    object Kotlin {
+        const val JDK = Gradle.KOTLIN
     }
 
     object Google {

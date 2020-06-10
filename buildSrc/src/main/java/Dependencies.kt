@@ -1,6 +1,15 @@
 import org.gradle.api.artifacts.dsl.DependencyHandler
 
 object Dependencies {
+    const val GRADLE_ANDROID_TOOLS = "com.android.tools.build:gradle:${Versions.Gradle.GRADLE_ANDROID}"
+    const val GRADLE_GOOGLE_SERVICES = "com.google.gms:google-services:${Versions.Gradle.GOOGLE_SERVICES}"
+    const val GRADLE_KOTLIN_PLUGIN = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.Gradle.KOTLIN}"
+    const val GRADLE_KOTLIN_SERIALIZATION = "org.jetbrains.kotlin:kotlin-serialization:${Versions.Gradle.KOTLIN}"
+    const val GRADLE_MAVEN_PLUGIN = "com.github.dcendents:android-maven-gradle-plugin:${Versions.Gradle.MAVEN_PLUGIN}"
+    const val GRADLE_REMAL_PLUGIN = "name.remal:gradle-plugins:${Versions.Gradle.REMAL_PLUGIN}"
+
+    const val KOTLIN_JDK = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.Kotlin.JDK}"
+
     const val ANDROID_APP_COMPAT =
         "androidx.appcompat:appcompat:${Versions.Google.Androidx.APP_COMPAT}"
     const val ANDROID_CONSTRAINT_LAYOUT =
@@ -60,6 +69,19 @@ object Dependencies {
     const val OTHER_EMOJI = "com.vdurmont:emoji-java:${Versions.Other.EMOJI}"
 }
 
+fun DependencyHandler.gradle() {
+    classpath(Dependencies.GRADLE_ANDROID_TOOLS)
+    classpath(Dependencies.GRADLE_GOOGLE_SERVICES)
+    classpath(Dependencies.GRADLE_KOTLIN_PLUGIN)
+    classpath(Dependencies.GRADLE_KOTLIN_SERIALIZATION)
+    classpath(Dependencies.GRADLE_MAVEN_PLUGIN)
+    classpath(Dependencies.GRADLE_REMAL_PLUGIN)
+}
+
+fun DependencyHandler.kotlin() {
+    implementation(Dependencies.KOTLIN_JDK)
+}
+
 fun DependencyHandler.google() {
     implementation(Dependencies.ANDROID_APP_COMPAT)
     implementation(Dependencies.ANDROID_CONSTRAINT_LAYOUT)
@@ -102,6 +124,7 @@ fun DependencyHandler.koin() {
 fun DependencyHandler.test() {
     androidTestImplementation(Dependencies.ANDROID_JUNIT_EXT)
     androidTestImplementation(Dependencies.ANDROID_ESPRESSO_CORE)
+
     testImplementation(Dependencies.TEST_JUNIT)
 }
 
@@ -110,6 +133,10 @@ fun DependencyHandler.other() {
     implementation(Dependencies.OTHER_ARROW)
     implementation(Dependencies.OTHER_CHART)
     implementation(Dependencies.OTHER_EMOJI)
+}
+
+private fun DependencyHandler.classpath(depName: String) {
+    add("classpath", depName)
 }
 
 private fun DependencyHandler.implementation(depName: String) {
