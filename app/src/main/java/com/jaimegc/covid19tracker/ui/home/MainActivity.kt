@@ -3,13 +3,13 @@ package com.jaimegc.covid19tracker.ui.home
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.plusAssign
 import androidx.navigation.ui.setupWithNavController
 import androidx.work.*
 import com.jaimegc.covid19tracker.R
-import com.jaimegc.covid19tracker.common.extensions.Coroutines
 import com.jaimegc.covid19tracker.common.extensions.hide
 import com.jaimegc.covid19tracker.common.extensions.show
 import com.jaimegc.covid19tracker.databinding.ActivityMainBinding
@@ -39,7 +39,8 @@ class MainActivity : AppCompatActivity(), KoinComponent {
         setContentView(binding.root)
         loadingDatabaseBinding = LoadingDatabaseBinding.bind(binding.root)
 
-        Coroutines.ioMain({ fileUtils.initDatabase() }) {
+        lifecycleScope.launchWhenStarted {
+            fileUtils.initDatabase()
             initializeBottomNavigationBar()
             viewModel.getCovidTracker()
             initializeUpdateDatabaseWorker()
