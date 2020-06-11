@@ -7,17 +7,17 @@ plugins {
 }
 
 android {
-    compileSdkVersion(29)
-    buildToolsVersion = "29.0.3"
+    compileSdkVersion(Versions.Android.COMPILE_SDK)
+    buildToolsVersion = Versions.Android.BUILD_TOOLS
 
     defaultConfig {
-        applicationId = "com.jaimegc.covid19tracker"
-        minSdkVersion(29)
-        targetSdkVersion(29)
-        versionCode = 1
-        versionName = "1.0"
+        applicationId = Versions.Android.DefaultConfig.APPLICATION_ID
+        minSdkVersion(Versions.Android.DefaultConfig.MIN_ANDROID_SDK)
+        targetSdkVersion(Versions.Android.DefaultConfig.TARGET_ANDROID_SDK)
+        versionCode = Versions.Android.DefaultConfig.VERSION_CODE
+        versionName = Versions.Android.DefaultConfig.VERSION_NAME
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = Versions.Android.DefaultConfig.TEST_INSTRUMENTATION_RUNNER
     }
 
     buildTypes {
