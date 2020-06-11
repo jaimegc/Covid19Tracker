@@ -1,7 +1,16 @@
 object Versions {
     object Android {
-        const val MIN_ANDROID_SDK = 21
-        const val TARGET_ANDROID_SDK = 29
+        const val BUILD_TOOLS = "29.0.3"
+        const val COMPILE_SDK = 29
+
+        object DefaultConfig {
+            const val APPLICATION_ID = "com.jaimegc.covid19tracker"
+            const val MIN_ANDROID_SDK = 21
+            const val TARGET_ANDROID_SDK = 29
+            const val VERSION_CODE = 1
+            const val VERSION_NAME = "1.0"
+            const val TEST_INSTRUMENTATION_RUNNER = "androidx.test.runner.AndroidJUnitRunner"
+        }
     }
 
     object Gradle {
