@@ -52,7 +52,7 @@ object Versions {
     }
 
     object Koin {
-        const val KOIN = "2.1.5"
+        const val KOIN = "2.1.6"
     }
 
     object Test {

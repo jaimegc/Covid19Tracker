@@ -17,6 +17,7 @@ import kotlinx.coroutines.*
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
+@ExperimentalCoroutinesApi
 class UpdateDatabaseWorker(
     val context: Context,
     workerParams: WorkerParameters

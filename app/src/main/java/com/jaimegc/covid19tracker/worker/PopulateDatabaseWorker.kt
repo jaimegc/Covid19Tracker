@@ -11,14 +11,12 @@ import com.jaimegc.covid19tracker.domain.model.CovidTracker
 import com.jaimegc.covid19tracker.domain.model.toDomain
 import com.jaimegc.covid19tracker.utils.FileUtils
 import com.squareup.moshi.Moshi
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.*
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import retrofit2.Response
 
+@ExperimentalCoroutinesApi
 class PopulateDatabaseWorker(
     val context: Context,
     workerParams: WorkerParameters
@@ -31,7 +29,7 @@ class PopulateDatabaseWorker(
         private const val JSON_FILE_EXTENSION = ".json"
         // First day in the API
         private val START_DATE = Triple(2020, 1, 23)
-        private val END_DATE = Triple(2020, 6, 5)
+        private val END_DATE = Triple(2020, 6, 13)
         // PLEASE, USE RESPONSIBLY
         private val START_DATE_SERVER = Triple(2020, 6, 5)
         private val END_DATE_SERVER = Triple(2020, 6, 6)

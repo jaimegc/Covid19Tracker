@@ -14,6 +14,8 @@ import com.jaimegc.covid19tracker.ui.country.CountryViewModel
 import com.jaimegc.covid19tracker.ui.home.MainViewModel
 import com.jaimegc.covid19tracker.ui.world.WorldViewModel
 import com.jaimegc.covid19tracker.utils.FileUtils
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -27,6 +29,7 @@ val networkModule = module {
     }
 }
 
+@ExperimentalCoroutinesApi
 val useCaseModule = module {
     single {
         GetCovidTracker(get())
@@ -65,12 +68,15 @@ val useCaseModule = module {
     }
 }
 
+@ExperimentalCoroutinesApi
 val repositoryModule = module {
     single {
         CovidTrackerRepository(get(), get(), get())
     }
 }
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 val viewModelModule = module {
     viewModel {
         MainViewModel(get())
@@ -132,6 +138,7 @@ val daoModule = module {
     }
 }
 
+@ExperimentalCoroutinesApi
 val datasourceModule = module {
     single {
         RemoteCovidTrackerDatasource(get(), get())

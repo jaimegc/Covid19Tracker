@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:id="@+id/layout">
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/loading_database"
+        android:id="@+id/loading_animation"
         android:layout_width="250dp"
         android:layout_height="250dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,21 +21,12 @@
         android:id="@+id/text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        style="@style/TextPlaceName"
+        style="@style/TextLoadingDatabase"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
-        android:gravity="center"
         android:text="@string/loading_database"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loading_database" />
-
-    <!-- From Gradle 4.0.0 I can't use the ConstraintLayout parent to
-         show/hide the view. I had to add this :S -->
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/group_loading_database"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="loading_database,text" />
+        app:layout_constraintTop_toBottomOf="@+id/loading_animation" />
 </androidx.constraintlayout.widget.ConstraintLayout>

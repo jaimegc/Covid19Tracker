@@ -23,7 +23,8 @@ class PlaceTotalAdapter : ListAdapter<PlaceStatsUI, PlaceTotalAdapter.PlaceTotal
         private val binding: ItemTotalBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(placeStatsUI: PlaceStatsUI) {
-            binding.textLastUpdated.hide()
+            binding.textLastUpdatedSource.text =
+                itemView.context.getString(R.string.source, placeStatsUI.stats.source)
             binding.textConfirmed.text = placeStatsUI.stats.confirmed
             binding.textOpenCases.text = placeStatsUI.stats.openCases
             binding.textRecovered.text = placeStatsUI.stats.recovered

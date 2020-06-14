@@ -61,7 +61,7 @@ data class CountryEntity(
 
 @Entity(
     tableName = "country_stats",
-    indices = [(Index(value = ["confirmed", "deaths", "open_cases", "recovered"]))],
+    indices = [(Index(value = ["id_country_fk", "confirmed", "deaths", "open_cases", "recovered"]))],
     primaryKeys = ["date_timestamp", "id_country_fk"],
     foreignKeys = [ForeignKey(
         entity = CountryEntity::class,
@@ -82,7 +82,7 @@ data class CountryStatsEntity(
 
 @Entity(
     tableName = "region",
-    indices = [(Index(value = ["name"]))],
+    indices = [(Index(value = ["id_country_fk", "name"]))],
     primaryKeys = ["id", "id_country_fk"],
     foreignKeys = [ForeignKey(
         entity = CountryEntity::class,
@@ -103,7 +103,8 @@ data class RegionEntity(
 
 @Entity(
     tableName = "region_stats",
-    indices = [(Index(value = ["confirmed", "deaths", "open_cases", "recovered"]))],
+    indices = [(Index(value = ["id_region_fk", "id_region_country_fk", "confirmed",
+        "deaths", "open_cases", "recovered"]))],
     primaryKeys = ["date_timestamp", "id_region_fk", "id_region_country_fk"],
     foreignKeys = [ForeignKey(
         entity = RegionEntity::class,
@@ -126,7 +127,7 @@ data class RegionStatsEntity(
 
 @Entity(
     tableName = "sub_region",
-    indices = [(Index(value = ["name"]))],
+    indices = [(Index(value = ["id_region_fk", "id_country_fk", "name"]))],
     primaryKeys = ["id", "id_region_fk"],
     foreignKeys = [ForeignKey(
         entity = RegionEntity::class,
@@ -149,7 +150,8 @@ data class SubRegionEntity(
 
 @Entity(
     tableName = "sub_region_stats",
-    indices = [(Index(value = ["confirmed", "deaths", "open_cases", "recovered"]))],
+    indices = [(Index(value = ["id_sub_region_fk", "id_sub_region_region_fk", "confirmed",
+        "deaths", "open_cases", "recovered"]))],
     primaryKeys = ["date_timestamp", "id_sub_region_fk", "id_sub_region_region_fk"],
     foreignKeys = [ForeignKey(
         entity = SubRegionEntity::class,

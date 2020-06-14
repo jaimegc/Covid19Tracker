@@ -71,13 +71,13 @@
         <item name="android:paddingBottom">1dp</item>
     </style>
 
-    <style name="TextLastUpdatedTime">
+    <style name="TextLastUpdatedSource">
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
         <item name="android:textStyle">italic</item>
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Subtitle2</item>
         <item name="android:ellipsize">end</item>
-        <item name="android:maxLines">1</item>
+        <item name="android:maxLines">2</item>
     </style>
 
     <style name="TextMoreMost">
@@ -137,6 +137,14 @@
     </style>
 
     <style name="TextUpdatingDatabase">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Body1</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="TextLoadingDatabase">
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Body1</item>

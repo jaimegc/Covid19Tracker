@@ -6,18 +6,20 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.MergeAdapter
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.databinding.FragmentCountryBinding
-import com.jaimegc.covid19tracker.databinding.LoadingBinding
 import com.jaimegc.covid19tracker.common.extensions.*
 import com.jaimegc.covid19tracker.data.preference.CountryPreferences
-import com.jaimegc.covid19tracker.databinding.EmptyDatabaseBinding
 import com.jaimegc.covid19tracker.ui.adapter.*
 import com.jaimegc.covid19tracker.ui.base.BaseFragment
 import com.jaimegc.covid19tracker.ui.model.StatsChartUI
 import com.jaimegc.covid19tracker.ui.base.states.PlaceStateScreen
 import com.jaimegc.covid19tracker.ui.base.states.ScreenState
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.get
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layout.fragment_country) {
 
     override val viewModel: CountryViewModel by viewModel()
@@ -33,8 +35,6 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
     private val mergeAdapter = MergeAdapter()
 
     private lateinit var binding: FragmentCountryBinding
-    private lateinit var loadingBinding: LoadingBinding
-    private lateinit var emptyDatabaseBinding: EmptyDatabaseBinding
     private lateinit var menu: Menu
     private lateinit var countrySpinnerAdapter: CountrySpinnerAdapter
     private lateinit var placeSpinnerAdapter: PlaceSpinnerAdapter
@@ -46,8 +46,6 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCountryBinding.bind(view)
-        loadingBinding = LoadingBinding.bind(view)
-        emptyDatabaseBinding = EmptyDatabaseBinding.bind(view)
 
         binding.recyclerPlace.adapter = mergeAdapter
 
@@ -55,15 +53,16 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
             when (screenState) {
                 ScreenState.Loading ->
                     if (mergeAdapter.adapters.isEmpty()) {
-                        emptyDatabaseBinding.groupEmpty.hide()
-                        loadingBinding.loading.show()
+                        binding.emptyDatabase.layout.hide()
+                        binding.loading.layout.show()
                     }
                 ScreenState.EmptyData ->
                     if (currentMenuItem == MENU_ITEM_LINE_CHART) {
-                        emptyDatabaseBinding.groupEmpty.show()
+                        binding.loading.layout.hide()
+                        binding.emptyDatabase.layout.show()
                     }
                 is ScreenState.Render<PlaceStateScreen> -> {
-                    loadingBinding.loading.hide()
+                    binding.loading.layout.hide()
                     handleRenderState(screenState.renderState)
                 }
                 is ScreenState.Error<PlaceStateScreen> -> {
@@ -164,7 +163,7 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
 
                         placeTotalPieChartAdapter.submitList(listOf(statsParent))
                     } else {
-                        emptyDatabaseBinding.groupEmpty.show()
+                        binding.emptyDatabase.layout.show()
                     }
                 }
             }
@@ -253,8 +252,8 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
 
     private fun selectMenu(idCountry: String, idRegion: String = "") {
         mergeAdapter.removeAllAdapters()
-        emptyDatabaseBinding.groupEmpty.hide()
-        loadingBinding.loading.hide()
+        binding.emptyDatabase.layout.hide()
+        binding.loading.layout.hide()
         currentMenuItem = menu.isCurrentItemChecked()
 
         when (currentMenuItem) {

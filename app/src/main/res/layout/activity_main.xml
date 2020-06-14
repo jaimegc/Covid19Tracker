@@ -8,6 +8,7 @@
     android:background="@android:color/white">
 
     <include
+        android:id="@+id/loading_database"
         layout="@layout/loading_database"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

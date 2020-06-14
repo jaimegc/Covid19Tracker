@@ -97,6 +97,7 @@
         android:paddingBottom="8dp" />
 
     <include
+        android:id="@+id/loading"
         layout="@layout/loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -107,6 +108,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <include
+        android:id="@+id/empty_database"
         layout="@layout/empty_database"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
