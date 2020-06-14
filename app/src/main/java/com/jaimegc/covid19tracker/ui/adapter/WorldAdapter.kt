@@ -37,7 +37,7 @@ class WorldAdapter : ListAdapter<WorldStatsUI, WorldAdapter.WorldViewHolder>(DIF
             binding.textNewDeaths.text = itemView.context.getString(R.string.text_trending,
                 worldStatsUI.stats.newDeaths, (worldStatsUI.stats.vsYesterdayDeaths))
 
-            binding.textLastUpdated.text = itemView.context.getString(R.string.last_updated,
+            binding.textLastUpdatedSource.text = itemView.context.getString(R.string.last_updated,
                 worldStatsUI.updatedAt.toLastUpdated())
         }
     }

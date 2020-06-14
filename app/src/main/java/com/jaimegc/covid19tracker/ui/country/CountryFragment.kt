@@ -15,9 +15,13 @@ import com.jaimegc.covid19tracker.ui.base.BaseFragment
 import com.jaimegc.covid19tracker.ui.model.StatsChartUI
 import com.jaimegc.covid19tracker.ui.base.states.PlaceStateScreen
 import com.jaimegc.covid19tracker.ui.base.states.ScreenState
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.get
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layout.fragment_country) {
 
     override val viewModel: CountryViewModel by viewModel()

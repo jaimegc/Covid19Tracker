@@ -18,11 +18,13 @@ import com.jaimegc.covid19tracker.ui.base.KeepStateNavigator
 import com.jaimegc.covid19tracker.ui.dialog.DialogUpdateDatabase
 import com.jaimegc.covid19tracker.utils.FileUtils
 import com.jaimegc.covid19tracker.worker.UpdateDatabaseWorker
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import java.util.concurrent.TimeUnit
 
+@ExperimentalCoroutinesApi
 class MainActivity : AppCompatActivity(), KoinComponent {
 
     private val viewModel: MainViewModel by viewModel()
@@ -40,10 +42,10 @@ class MainActivity : AppCompatActivity(), KoinComponent {
         loadingDatabaseBinding = LoadingDatabaseBinding.bind(binding.root)
 
         lifecycleScope.launchWhenStarted {
-            fileUtils.initDatabase()
+            //fileUtils.initDatabase()
             initializeBottomNavigationBar()
             viewModel.getCovidTracker()
-            initializeUpdateDatabaseWorker()
+            //initializeUpdateDatabaseWorker()
         }
     }
 

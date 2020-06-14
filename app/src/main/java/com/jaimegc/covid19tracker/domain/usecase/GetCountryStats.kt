@@ -8,8 +8,10 @@ import com.jaimegc.covid19tracker.domain.model.ListCountryAndStats
 import com.jaimegc.covid19tracker.domain.model.ListCountryOnlyStats
 import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.domain.states.StateError
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 
+@ExperimentalCoroutinesApi
 class GetCountryStats(
     private val repository: CovidTrackerRepository
 ) {

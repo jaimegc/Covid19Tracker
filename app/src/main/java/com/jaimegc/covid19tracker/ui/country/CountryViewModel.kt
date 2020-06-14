@@ -15,6 +15,8 @@ import com.jaimegc.covid19tracker.ui.base.BaseScreenStateMenuViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 class CountryViewModel(
     private val getCountry: GetCountry,
     private val getCountryStats: GetCountryStats,
