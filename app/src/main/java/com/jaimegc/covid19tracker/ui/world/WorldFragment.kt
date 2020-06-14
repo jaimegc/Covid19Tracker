@@ -9,7 +9,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.MergeAdapter
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.databinding.FragmentWorldBinding
-import com.jaimegc.covid19tracker.databinding.LoadingBinding
 import com.jaimegc.covid19tracker.common.extensions.*
 import com.jaimegc.covid19tracker.ui.adapter.*
 import com.jaimegc.covid19tracker.ui.base.BaseFragment
@@ -32,7 +31,6 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
     private val mergeAdapter = MergeAdapter()
 
     private lateinit var binding: FragmentWorldBinding
-    private lateinit var loadingBinding: LoadingBinding
     private lateinit var menu: Menu
 
     private var currentMenuItem = MENU_ITEM_LIST
@@ -40,16 +38,15 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentWorldBinding.bind(view)
-        loadingBinding = LoadingBinding.bind(view)
 
         binding.recyclerWorld.adapter = mergeAdapter
 
         viewModel.screenState.observe(viewLifecycleOwner, Observer { screenState ->
             when (screenState) {
                 ScreenState.Loading ->
-                    if (mergeAdapter.adapters.isEmpty()) loadingBinding.loading.show()
+                    if (mergeAdapter.adapters.isEmpty()) binding.loading.layout.show()
                 is ScreenState.Render<WorldStateScreen> -> {
-                    loadingBinding.loading.hide()
+                    binding.loading.layout.hide()
                     handleRenderState(screenState.renderState)
                 }
                 is ScreenState.Error<WorldStateScreen> -> {

@@ -2,17 +2,16 @@ package com.jaimegc.covid19tracker.ui.home
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.plusAssign
 import androidx.navigation.ui.setupWithNavController
 import androidx.work.*
 import com.jaimegc.covid19tracker.R
+import com.jaimegc.covid19tracker.common.extensions.Coroutines
 import com.jaimegc.covid19tracker.common.extensions.hide
 import com.jaimegc.covid19tracker.common.extensions.show
 import com.jaimegc.covid19tracker.databinding.ActivityMainBinding
-import com.jaimegc.covid19tracker.databinding.LoadingDatabaseBinding
 import com.jaimegc.covid19tracker.ui.base.BaseActivity
 import com.jaimegc.covid19tracker.ui.base.KeepStateNavigator
 import com.jaimegc.covid19tracker.ui.dialog.DialogUpdateDatabase
@@ -30,7 +29,6 @@ class MainActivity : BaseActivity() {
 
     private val fileUtils: FileUtils by inject()
     private lateinit var binding: ActivityMainBinding
-    private lateinit var loadingDatabaseBinding: LoadingDatabaseBinding
     private lateinit var navigator: KeepStateNavigator
     private lateinit var navController: NavController
 
@@ -38,10 +36,8 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        loadingDatabaseBinding = LoadingDatabaseBinding.bind(binding.root)
 
-        lifecycleScope.launchWhenStarted {
-            fileUtils.initDatabase()
+        Coroutines.ioMain({ fileUtils.initDatabase() }) {
             initializeBottomNavigationBar()
             viewModel.getCovidTracker()
             initializeUpdateDatabaseWorker()
@@ -49,7 +45,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initializeBottomNavigationBar() {
-        loadingDatabaseBinding.groupLoadingDatabase.hide()
+        binding.loadingDatabase.layout.hide()
         navController = findNavController(R.id.nav_host_fragment)
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)!!
         navigator =
