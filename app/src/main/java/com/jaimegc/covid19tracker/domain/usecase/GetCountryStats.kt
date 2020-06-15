@@ -21,24 +21,19 @@ class GetCountryStats(
     ): Flow<Either<StateError<DomainError>, State<ListCountryOnlyStats>>> =
         repository.getCountryAllStats(idCountry)
 
-    fun getCountriesStatsOrderByConfirmed(
-    ): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
+    fun getCountriesStatsOrderByConfirmed(): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
         repository.getCountriesStatsOrderByConfirmed()
 
-    fun getCountriesAndStatsWithMostConfirmed(
-    ): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
+    fun getCountriesAndStatsWithMostConfirmed(): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
         repository.getCountriesAndStatsWithMostConfirmed()
 
-    fun getCountriesAndStatsWithMostDeaths(
-    ): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
+    fun getCountriesAndStatsWithMostDeaths(): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
         repository.getCountriesAndStatsWithMostDeaths()
 
-    fun getCountriesAndStatsWithMostRecovered(
-    ): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
+    fun getCountriesAndStatsWithMostRecovered(): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
         repository.getCountriesAndStatsWithMostRecovered()
 
-    fun getCountriesAndStatsWithMostOpenCases(
-    ): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
+    fun getCountriesAndStatsWithMostOpenCases(): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
         repository.getCountriesAndStatsWithMostOpenCases()
 
     fun getCountryAndStatsByDate(

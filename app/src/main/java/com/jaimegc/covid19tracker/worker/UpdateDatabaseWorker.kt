@@ -74,7 +74,7 @@ class UpdateDatabaseWorker(
 
         // Save preferences if the current day was downloaded
         covidTrackers.firstOrNull { covidTracker ->
-            covidTracker.worldStats.date == datesToDownload.last()}?.let {
+            covidTracker.worldStats.date == datesToDownload.last() }?.let {
             covidTrackerPreferences.saveTime()
         }
 

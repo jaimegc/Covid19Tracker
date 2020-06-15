@@ -10,7 +10,7 @@ fun CovidTracker.toUI(): CovidTrackerUI =
         worldStats = worldStats.toUI()
     )
 
-private fun CountryOneStats.toUI():  CountryStatsUI =
+private fun CountryOneStats.toUI(): CountryStatsUI =
     CountryStatsUI(
         country = country.toUI(),
         stats = stats.toUI()

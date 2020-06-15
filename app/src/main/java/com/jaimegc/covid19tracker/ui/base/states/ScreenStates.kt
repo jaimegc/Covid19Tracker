@@ -16,7 +16,8 @@ sealed class WorldStateScreen : BaseScreenState() {
     class SuccessWorldStatsBarCharts(val data: List<WorldStatsChartUI>) : WorldStateScreen()
     class SuccessCountriesStatsBarCharts(val data: List<CountryListStatsChartUI>) : WorldStateScreen()
     class SuccessCountriesStatsLineCharts(
-        val data: Map<MenuItemViewType, List<CountryListStatsChartUI>>) : WorldStateScreen()
+        val data: Map<MenuItemViewType, List<CountryListStatsChartUI>>
+    ) : WorldStateScreen()
     class SuccessCountriesStatsPieCharts(val data: List<WorldCountryStatsUI>) : WorldStateScreen()
     class SomeError(val data: ErrorUI) : WorldStateScreen()
 }
@@ -41,6 +42,7 @@ sealed class PlaceStateScreen : BaseScreenState() {
     class SuccessPlaceTotalStatsPieChart(val data: StatsChartUI) : PlaceStateScreen()
     class SuccessPlaceAndStatsPieChart(val data: List<PlaceStatsChartUI>) : PlaceStateScreen()
     class SuccessPlaceStatsLineCharts(
-        val data: Map<MenuItemViewType, List<PlaceListStatsChartUI>>) : PlaceStateScreen()
+        val data: Map<MenuItemViewType, List<PlaceListStatsChartUI>>
+    ) : PlaceStateScreen()
     class SomeError(val data: ErrorUI) : PlaceStateScreen()
 }

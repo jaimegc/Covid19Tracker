@@ -36,7 +36,7 @@ class PlaceAdapter : ListAdapter<PlaceStatsUI, PlaceAdapter.PlaceStatsViewHolder
             val constraintSetExpand = ConstraintSet()
             lateinit var layoutCard: ConstraintLayout
 
-            with (binding) {
+            with(binding) {
                 constraintSetCollapse.clone(itemView.context, R.layout.item_place_total)
                 constraintSetExpand.clone(itemView.context, R.layout.item_place_total_expanded)
                 textPlace.text = placeStatsUI.name

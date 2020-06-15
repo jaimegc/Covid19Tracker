@@ -6,7 +6,6 @@ import com.jaimegc.covid19tracker.data.api.model.CovidTrackerDto
 import com.jaimegc.covid19tracker.data.api.rest.CovidTrackerRest
 import retrofit2.Response
 
-
 class CovidTrackerApiClient(
     serverApiConfig: ServerApiCovidTrackerConfig
 ) : ServerApiClient(serverApiConfig) {

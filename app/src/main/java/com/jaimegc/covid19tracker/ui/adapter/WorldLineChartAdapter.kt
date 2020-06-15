@@ -84,7 +84,8 @@ class WorldLineChartAdapter :
             chart: LineChart,
             listCountriesStatsChartUI: List<CountryListStatsChartUI>,
             viewType: MenuItemViewType,
-            minAxisLeftValue: Float) {
+            minAxisLeftValue: Float
+        ) {
 
             val countryStatsMaxDays = listCountriesStatsChartUI.maxBy { it.stats.size }
             chart.configure(

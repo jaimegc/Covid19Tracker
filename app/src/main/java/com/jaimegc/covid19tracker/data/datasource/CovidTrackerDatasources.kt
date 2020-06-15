@@ -102,7 +102,6 @@ class LocalCovidTrackerDatasource(
                 }
         }.distinctUntilChanged()
 
-
     fun getSubRegionsStatsOrderByConfirmed(
         idCountry: String,
         idRegion: String,

@@ -12,7 +12,6 @@ import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
-
 fun Exception.apiException(): DomainError =
     when {
         this is HttpException -> toDomainError()

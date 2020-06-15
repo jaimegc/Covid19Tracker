@@ -104,6 +104,3 @@ data class WorldCountryStatsUI(
     val countryStats: CountryStatsChartUI,
     val worldStats: WorldStatsChartUI
 )
-
-
-

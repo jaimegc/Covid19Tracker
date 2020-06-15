@@ -66,8 +66,7 @@ class CovidTrackerRepository(
                 local.getRegionAllStats(idCountry, idRegion)
         }.asFlow().flowOn(Dispatchers.IO)
 
-    fun getCountriesStatsOrderByConfirmed(
-    ): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
+    fun getCountriesStatsOrderByConfirmed(): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
         object : BaseRepository<DomainError, ListCountryAndStats> {
             override fun fetchFromLocal(): Flow<Either<DomainError, ListCountryAndStats>> =
                 local.getCountriesStatsOrderByConfirmed()
@@ -109,8 +108,7 @@ class CovidTrackerRepository(
                 local.getSubRegionsAllStatsOrderByConfirmed(idCountry, idRegion)
         }.asFlow().flowOn(Dispatchers.IO)
 
-    fun getCountriesAndStatsWithMostConfirmed(
-    ): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
+    fun getCountriesAndStatsWithMostConfirmed(): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
         object : BaseRepository<DomainError, ListCountryAndStats> {
             override fun fetchFromLocal(): Flow<Either<DomainError, ListCountryAndStats>> =
                 local.getCountriesAndStatsWithMostConfirmed()
@@ -133,8 +131,7 @@ class CovidTrackerRepository(
                 local.getSubRegionsAndStatsWithMostConfirmed(idCountry, idRegion)
         }.asFlow().flowOn(Dispatchers.IO)
 
-    fun getCountriesAndStatsWithMostDeaths(
-    ): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
+    fun getCountriesAndStatsWithMostDeaths(): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
         object : BaseRepository<DomainError, ListCountryAndStats> {
             override fun fetchFromLocal(): Flow<Either<DomainError, ListCountryAndStats>> =
                 local.getCountriesAndStatsWithMostDeaths()
@@ -157,8 +154,8 @@ class CovidTrackerRepository(
                 local.getSubRegionsAndStatsWithMostDeaths(idCountry, idRegion)
         }.asFlow().flowOn(Dispatchers.IO)
 
-    fun getCountriesAndStatsWithMostRecovered()
-            : Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
+    fun getCountriesAndStatsWithMostRecovered():
+            Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
         object : BaseRepository<DomainError, ListCountryAndStats> {
             override fun fetchFromLocal(): Flow<Either<DomainError, ListCountryAndStats>> =
                 local.getCountriesAndStatsWithMostRecovered()
@@ -181,8 +178,7 @@ class CovidTrackerRepository(
                 local.getSubRegionsAndStatsWithMostRecovered(idCountry, idRegion)
         }.asFlow().flowOn(Dispatchers.IO)
 
-    fun getCountriesAndStatsWithMostOpenCases(
-    ): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
+    fun getCountriesAndStatsWithMostOpenCases(): Flow<Either<StateError<DomainError>, State<ListCountryAndStats>>> =
         object : BaseRepository<DomainError, ListCountryAndStats> {
             override fun fetchFromLocal(): Flow<Either<DomainError, ListCountryAndStats>> =
                 local.getCountriesAndStatsWithMostOpenCases()

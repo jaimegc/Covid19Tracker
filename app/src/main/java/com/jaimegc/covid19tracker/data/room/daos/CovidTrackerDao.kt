@@ -7,7 +7,6 @@ import com.jaimegc.covid19tracker.data.room.views.RegionAndStatsDV
 import com.jaimegc.covid19tracker.data.room.views.SubRegionAndStatsDV
 import kotlinx.coroutines.flow.Flow
 
-
 @Dao
 abstract class CovidTrackerDao {
 
@@ -423,7 +422,8 @@ abstract class SubRegionStatsDao {
                 )
         ORDER BY r.id ASC, s.recovered ASC
         """)
-    abstract fun getSubRegionsAndStatsWithMostRecovered(idCountry: String,
+    abstract fun getSubRegionsAndStatsWithMostRecovered(
+        idCountry: String,
         idRegion: String
     ): Flow<List<SubRegionAndOneStatsPojo>>
 

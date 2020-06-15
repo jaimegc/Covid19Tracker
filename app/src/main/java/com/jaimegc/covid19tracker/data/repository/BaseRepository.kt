@@ -6,7 +6,7 @@ import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.domain.states.StateError
 import kotlinx.coroutines.flow.*
 
-interface BaseRepository<E: DomainError, T> {
+interface BaseRepository<E : DomainError, T> {
 
     fun asFlow(
         policy: CachePolicy = CachePolicy.LocalOnly,

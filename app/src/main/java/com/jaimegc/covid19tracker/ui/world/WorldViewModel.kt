@@ -195,7 +195,7 @@ class WorldViewModel(
                     WorldStateScreen.SomeError(state.error.toUI())))
         }
     }
-    
+
     private fun cancelAll() {
         jobWorldAndContries?.cancel()
         jobWorldAll?.cancel()

@@ -4,7 +4,6 @@ import com.jaimegc.covid19tracker.data.api.error.*
 import retrofit2.Call
 import retrofit2.Response
 
-
 open class ServerApiClient(private val serverApiConfig: ServerApiConfig) {
 
     companion object {

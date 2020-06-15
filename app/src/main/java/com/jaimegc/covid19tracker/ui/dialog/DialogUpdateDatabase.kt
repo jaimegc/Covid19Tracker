@@ -11,9 +11,7 @@ import androidx.fragment.app.DialogFragment
 import com.jaimegc.covid19tracker.common.extensions.toPx
 import com.jaimegc.covid19tracker.databinding.DialogUpdateDatabaseBinding
 
-
-class DialogUpdateDatabase(
-) : DialogFragment() {
+class DialogUpdateDatabase() : DialogFragment() {
 
     companion object {
         private val TAG = DialogUpdateDatabase::class.java.simpleName
