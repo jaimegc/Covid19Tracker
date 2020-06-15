@@ -2,7 +2,12 @@ package com.jaimegc.covid19tracker.data.room.views
 
 import androidx.room.DatabaseView
 import androidx.room.Embedded
-import com.jaimegc.covid19tracker.data.room.entities.*
+import com.jaimegc.covid19tracker.data.room.entities.CountryEntity
+import com.jaimegc.covid19tracker.data.room.entities.CountryStatsEntity
+import com.jaimegc.covid19tracker.data.room.entities.RegionEntity
+import com.jaimegc.covid19tracker.data.room.entities.RegionStatsEntity
+import com.jaimegc.covid19tracker.data.room.entities.SubRegionEntity
+import com.jaimegc.covid19tracker.data.room.entities.SubRegionStatsEntity
 
 @DatabaseView("""
     SELECT * FROM country, country_stats 

@@ -1,19 +1,46 @@
 package com.jaimegc.covid19tracker.ui.country
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
 import arrow.core.Either
 import com.jaimegc.covid19tracker.common.QueueLiveData
-import com.jaimegc.covid19tracker.domain.model.*
+import com.jaimegc.covid19tracker.domain.model.CountryOneStats
+import com.jaimegc.covid19tracker.domain.model.DomainError
+import com.jaimegc.covid19tracker.domain.model.ListCountry
+import com.jaimegc.covid19tracker.domain.model.ListCountryOnlyStats
+import com.jaimegc.covid19tracker.domain.model.ListRegion
+import com.jaimegc.covid19tracker.domain.model.ListRegionAndStats
+import com.jaimegc.covid19tracker.domain.model.ListRegionOnlyStats
+import com.jaimegc.covid19tracker.domain.model.ListRegionStats
+import com.jaimegc.covid19tracker.domain.model.ListSubRegionAndStats
+import com.jaimegc.covid19tracker.domain.model.ListSubRegionStats
+import com.jaimegc.covid19tracker.domain.model.RegionOneStats
 import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.domain.states.StateError
-import com.jaimegc.covid19tracker.domain.usecase.*
-import com.jaimegc.covid19tracker.ui.model.*
+import com.jaimegc.covid19tracker.domain.usecase.GetCountry
+import com.jaimegc.covid19tracker.domain.usecase.GetCountryStats
+import com.jaimegc.covid19tracker.domain.usecase.GetRegion
+import com.jaimegc.covid19tracker.domain.usecase.GetRegionStats
+import com.jaimegc.covid19tracker.domain.usecase.GetSubRegionStats
 import com.jaimegc.covid19tracker.ui.base.states.PlaceStateScreen
 import com.jaimegc.covid19tracker.ui.base.states.MenuItemViewType
 import com.jaimegc.covid19tracker.ui.base.states.ScreenState
 import com.jaimegc.covid19tracker.ui.base.BaseScreenStateMenuViewModel
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import com.jaimegc.covid19tracker.ui.model.PlaceListStatsChartUI
+import com.jaimegc.covid19tracker.ui.model.toChartUI
+import com.jaimegc.covid19tracker.ui.model.toPlaceChartUI
+import com.jaimegc.covid19tracker.ui.model.toPlaceUI
+import com.jaimegc.covid19tracker.ui.model.toUI
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapMerge
+import kotlinx.coroutines.flow.zip
+import kotlinx.coroutines.launch
 
 @FlowPreview
 @ExperimentalCoroutinesApi

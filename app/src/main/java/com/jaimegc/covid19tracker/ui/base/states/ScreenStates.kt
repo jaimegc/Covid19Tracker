@@ -1,6 +1,16 @@
 package com.jaimegc.covid19tracker.ui.base.states
 
-import com.jaimegc.covid19tracker.ui.model.*
+import com.jaimegc.covid19tracker.ui.model.CountryListStatsChartUI
+import com.jaimegc.covid19tracker.ui.model.CountryUI
+import com.jaimegc.covid19tracker.ui.model.CovidTrackerUI
+import com.jaimegc.covid19tracker.ui.model.ErrorUI
+import com.jaimegc.covid19tracker.ui.model.PlaceListStatsChartUI
+import com.jaimegc.covid19tracker.ui.model.PlaceStatsChartUI
+import com.jaimegc.covid19tracker.ui.model.PlaceStatsUI
+import com.jaimegc.covid19tracker.ui.model.PlaceUI
+import com.jaimegc.covid19tracker.ui.model.StatsChartUI
+import com.jaimegc.covid19tracker.ui.model.WorldCountryStatsUI
+import com.jaimegc.covid19tracker.ui.model.WorldStatsChartUI
 
 sealed class BaseScreenState
 

@@ -1,6 +1,11 @@
 package com.jaimegc.covid19tracker.data.room.entities
 
-import androidx.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "world_stats")
 data class WorldStatsEntity(

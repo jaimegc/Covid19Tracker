@@ -1,8 +1,12 @@
 package com.jaimegc.covid19tracker.ui.world
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
 import com.jaimegc.covid19tracker.common.QueueLiveData
-import com.jaimegc.covid19tracker.domain.model.*
+import com.jaimegc.covid19tracker.domain.model.CovidTracker
+import com.jaimegc.covid19tracker.domain.model.DomainError
+import com.jaimegc.covid19tracker.domain.model.ListCountryAndStats
+import com.jaimegc.covid19tracker.domain.model.ListWorldStats
 import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.domain.states.StateError
 import com.jaimegc.covid19tracker.domain.usecase.GetCountryStats
@@ -11,11 +15,13 @@ import com.jaimegc.covid19tracker.domain.usecase.GetWorldStats
 import com.jaimegc.covid19tracker.ui.model.CountryListStatsChartUI
 import com.jaimegc.covid19tracker.ui.model.toListChartUI
 import com.jaimegc.covid19tracker.ui.model.toUI
-import com.jaimegc.covid19tracker.ui.base.states.*
 import com.jaimegc.covid19tracker.ui.base.BaseScreenStateMenuViewModel
+import com.jaimegc.covid19tracker.ui.base.states.MenuItemViewType
+import com.jaimegc.covid19tracker.ui.base.states.ScreenState
+import com.jaimegc.covid19tracker.ui.base.states.WorldStateScreen
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi

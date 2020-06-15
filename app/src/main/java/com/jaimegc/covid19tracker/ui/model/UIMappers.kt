@@ -1,8 +1,23 @@
 package com.jaimegc.covid19tracker.ui.model
 
-import com.jaimegc.covid19tracker.domain.model.*
 import com.jaimegc.covid19tracker.common.extensions.formatDecimals
 import com.jaimegc.covid19tracker.common.extensions.formatValue
+import com.jaimegc.covid19tracker.domain.model.Country
+import com.jaimegc.covid19tracker.domain.model.CountryAndStats
+import com.jaimegc.covid19tracker.domain.model.CountryOneStats
+import com.jaimegc.covid19tracker.domain.model.CovidTracker
+import com.jaimegc.covid19tracker.domain.model.DomainError
+import com.jaimegc.covid19tracker.domain.model.ListCountryOnlyStats
+import com.jaimegc.covid19tracker.domain.model.ListRegionAndStats
+import com.jaimegc.covid19tracker.domain.model.ListRegionOnlyStats
+import com.jaimegc.covid19tracker.domain.model.ListRegionStats
+import com.jaimegc.covid19tracker.domain.model.ListSubRegionAndStats
+import com.jaimegc.covid19tracker.domain.model.ListSubRegionStats
+import com.jaimegc.covid19tracker.domain.model.Region
+import com.jaimegc.covid19tracker.domain.model.RegionOneStats
+import com.jaimegc.covid19tracker.domain.model.Stats
+import com.jaimegc.covid19tracker.domain.model.SubRegion
+import com.jaimegc.covid19tracker.domain.model.WorldStats
 
 fun CovidTracker.toUI(): CovidTrackerUI =
     CovidTrackerUI(

@@ -1,8 +1,24 @@
 package com.jaimegc.covid19tracker.data.room.daos
 
-import androidx.room.*
-import com.jaimegc.covid19tracker.data.room.entities.*
-import com.jaimegc.covid19tracker.data.room.pojos.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Transaction
+import com.jaimegc.covid19tracker.data.room.entities.CountryEntity
+import com.jaimegc.covid19tracker.data.room.entities.CountryStatsEntity
+import com.jaimegc.covid19tracker.data.room.entities.RegionEntity
+import com.jaimegc.covid19tracker.data.room.entities.RegionStatsEntity
+import com.jaimegc.covid19tracker.data.room.entities.SubRegionEntity
+import com.jaimegc.covid19tracker.data.room.entities.SubRegionStatsEntity
+import com.jaimegc.covid19tracker.data.room.entities.WorldStatsEntity
+import com.jaimegc.covid19tracker.data.room.pojos.CountryAndOneStatsPojo
+import com.jaimegc.covid19tracker.data.room.pojos.CountryAndStatsPojo
+import com.jaimegc.covid19tracker.data.room.pojos.RegionAndOneStatsPojo
+import com.jaimegc.covid19tracker.data.room.pojos.RegionAndStatsPojo
+import com.jaimegc.covid19tracker.data.room.pojos.SubRegionAndOneStatsPojo
+import com.jaimegc.covid19tracker.data.room.pojos.SubRegionAndStatsPojo
+import com.jaimegc.covid19tracker.data.room.pojos.WorldAndCountriesStatsPojo
 import com.jaimegc.covid19tracker.data.room.views.RegionAndStatsDV
 import com.jaimegc.covid19tracker.data.room.views.SubRegionAndStatsDV
 import kotlinx.coroutines.flow.Flow

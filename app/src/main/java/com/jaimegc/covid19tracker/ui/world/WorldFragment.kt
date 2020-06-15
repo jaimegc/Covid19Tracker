@@ -8,11 +8,23 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.MergeAdapter
 import com.jaimegc.covid19tracker.R
+import com.jaimegc.covid19tracker.common.extensions.containsAdapter
+import com.jaimegc.covid19tracker.common.extensions.enableItem
+import com.jaimegc.covid19tracker.common.extensions.hide
+import com.jaimegc.covid19tracker.common.extensions.isCurrentItemChecked
+import com.jaimegc.covid19tracker.common.extensions.removeAllAdapters
+import com.jaimegc.covid19tracker.common.extensions.show
 import com.jaimegc.covid19tracker.databinding.FragmentWorldBinding
-import com.jaimegc.covid19tracker.common.extensions.*
-import com.jaimegc.covid19tracker.ui.adapter.*
+import com.jaimegc.covid19tracker.ui.adapter.WorldAdapter
+import com.jaimegc.covid19tracker.ui.adapter.WorldBarChartAdapter
+import com.jaimegc.covid19tracker.ui.adapter.WorldCountriesBarChartAdapter
+import com.jaimegc.covid19tracker.ui.adapter.WorldCountriesPieChartAdapter
+import com.jaimegc.covid19tracker.ui.adapter.WorldCountryAdapter
+import com.jaimegc.covid19tracker.ui.adapter.WorldLineChartAdapter
+import com.jaimegc.covid19tracker.ui.adapter.WorldPieChartAdapter
 import com.jaimegc.covid19tracker.ui.base.BaseFragment
-import com.jaimegc.covid19tracker.ui.base.states.*
+import com.jaimegc.covid19tracker.ui.base.states.ScreenState
+import com.jaimegc.covid19tracker.ui.base.states.WorldStateScreen
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.viewmodel.ext.android.viewModel
 

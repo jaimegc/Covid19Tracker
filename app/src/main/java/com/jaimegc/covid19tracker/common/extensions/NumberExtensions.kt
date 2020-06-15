@@ -3,7 +3,7 @@ package com.jaimegc.covid19tracker.common.extensions
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.text.NumberFormat
-import java.util.*
+import java.util.Locale
 
 fun Double.formatDecimals(): String = numberFormatDecimals(this).format(this)
 

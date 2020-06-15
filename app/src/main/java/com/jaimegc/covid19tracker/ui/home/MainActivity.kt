@@ -6,7 +6,12 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.plusAssign
 import androidx.navigation.ui.setupWithNavController
-import androidx.work.*
+import androidx.work.Constraints
+import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.WorkInfo
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.common.extensions.Coroutines
 import com.jaimegc.covid19tracker.common.extensions.hide

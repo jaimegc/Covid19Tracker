@@ -1,7 +1,15 @@
 package com.jaimegc.covid19tracker
 
 import android.app.Application
-import com.jaimegc.covid19tracker.di.*
+import com.jaimegc.covid19tracker.di.daoModule
+import com.jaimegc.covid19tracker.di.databaseModule
+import com.jaimegc.covid19tracker.di.datasourceModule
+import com.jaimegc.covid19tracker.di.networkModule
+import com.jaimegc.covid19tracker.di.othersModule
+import com.jaimegc.covid19tracker.di.preferenceModule
+import com.jaimegc.covid19tracker.di.repositoryModule
+import com.jaimegc.covid19tracker.di.useCaseModule
+import com.jaimegc.covid19tracker.di.viewModelModule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.ext.koin.androidContext

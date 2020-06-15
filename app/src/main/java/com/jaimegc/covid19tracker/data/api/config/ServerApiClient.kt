@@ -1,6 +1,10 @@
 package com.jaimegc.covid19tracker.data.api.config
 
-import com.jaimegc.covid19tracker.data.api.error.*
+import com.jaimegc.covid19tracker.data.api.error.Server403ApiException
+import com.jaimegc.covid19tracker.data.api.error.Server404ApiException
+import com.jaimegc.covid19tracker.data.api.error.Server500ApiException
+import com.jaimegc.covid19tracker.data.api.error.ServerConnectionApiException
+import com.jaimegc.covid19tracker.data.api.error.ServerUnknownApiException
 import retrofit2.Call
 import retrofit2.Response
 

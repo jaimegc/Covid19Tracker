@@ -4,9 +4,14 @@ import android.content.Context
 import android.util.Log
 import com.jaimegc.covid19tracker.common.extensions.DATE_FORMATTER
 import com.jaimegc.covid19tracker.data.room.Covid19TrackerDatabase
-import java.io.*
+import java.io.BufferedInputStream
+import java.io.BufferedOutputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.io.FileWriter
+import java.io.IOException
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
 import java.util.zip.ZipInputStream
 
 class FileUtils(private val context: Context) {
