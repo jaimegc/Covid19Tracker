@@ -35,6 +35,13 @@
   <img src="./art/country_pie_chart2.jpg" width="310">
 </p>
 
+<b>Pie Chart</b>: Line chart view
+
+<p align="left">
+  <img src="./art/country_pie_chart1.jpg" width="310">
+  <img src="./art/country_pie_chart2.jpg" width="310">
+</p>
+
 ### World
 
 <b>List</b>: List view
@@ -61,13 +68,12 @@
   <img src="./art/world_line_chart2.jpg" width="310">
 </p>
 
-<b>Pie Chart</b>: Line chart view
+<b>Countries & Regions</b>: Line chart view
 
 <p align="left">
-  <img src="./art/world_pie_chart1.jpg" width="310">
-  <img src="./art/world_pie_chart2.jpg" width="310">
+  <img src="./art/list_countries.jpg" width="310">
+  <img src="./art/list_regions.jpg" width="310">
 </p>
-
 
 ### Others
 
