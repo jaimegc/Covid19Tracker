@@ -1,11 +1,16 @@
 import org.gradle.api.artifacts.dsl.DependencyHandler
 
 object Dependencies {
-    const val GRADLE_ANDROID_TOOLS = "com.android.tools.build:gradle:${Versions.Gradle.GRADLE_ANDROID}"
-    const val GRADLE_GOOGLE_SERVICES = "com.google.gms:google-services:${Versions.Gradle.GOOGLE_SERVICES}"
-    const val GRADLE_KOTLIN_PLUGIN = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.Gradle.KOTLIN}"
-    const val GRADLE_KOTLIN_SERIALIZATION = "org.jetbrains.kotlin:kotlin-serialization:${Versions.Gradle.KOTLIN}"
-    const val GRADLE_MAVEN_PLUGIN = "com.github.dcendents:android-maven-gradle-plugin:${Versions.Gradle.MAVEN_PLUGIN}"
+    const val GRADLE_ANDROID_TOOLS =
+        "com.android.tools.build:gradle:${Versions.Gradle.GRADLE_ANDROID}"
+    const val GRADLE_GOOGLE_SERVICES =
+        "com.google.gms:google-services:${Versions.Gradle.GOOGLE_SERVICES}"
+    const val GRADLE_KOTLIN_PLUGIN =
+        "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.Gradle.KOTLIN}"
+    const val GRADLE_KOTLIN_SERIALIZATION =
+        "org.jetbrains.kotlin:kotlin-serialization:${Versions.Gradle.KOTLIN}"
+    const val GRADLE_MAVEN_PLUGIN =
+        "com.github.dcendents:android-maven-gradle-plugin:${Versions.Gradle.MAVEN_PLUGIN}"
     const val GRADLE_REMAL_PLUGIN = "name.remal:gradle-plugins:${Versions.Gradle.REMAL_PLUGIN}"
 
     const val KOTLIN_JDK = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.Kotlin.JDK}"
@@ -65,7 +70,8 @@ object Dependencies {
 
     const val DETEKT = Versions.Detekt.DETEKT
     const val DETEKT_PLUGIN = "io.gitlab.arturbosch.detekt"
-    const val DETEKT_FORMATTING = "io.gitlab.arturbosch.detekt:detekt-formatting:${Versions.Detekt.DETEKT}"
+    const val DETEKT_FORMATTING =
+        "io.gitlab.arturbosch.detekt:detekt-formatting:${Versions.Detekt.DETEKT}"
 
     const val OTHER_AIRBNB_LOTTIE = "com.airbnb.android:lottie:${Versions.Other.AIRBNB_LOTTIE}"
     const val OTHER_ARROW = "io.arrow-kt:arrow-core-data:${Versions.Other.ARROW}"
