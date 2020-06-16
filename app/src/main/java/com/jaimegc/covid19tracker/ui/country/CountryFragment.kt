@@ -59,7 +59,7 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
     private lateinit var statsParent: StatsChartUI
 
     private var countryJustSelected = false
-    private var currentMenuItem = MENU_ITEM_LIST
+    private var currentMenuItem = menuItemList
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -75,7 +75,7 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
                         binding.loading.layout.show()
                     }
                 ScreenState.EmptyData ->
-                    if (currentMenuItem == MENU_ITEM_LINE_CHART) {
+                    if (currentMenuItem == menuItemLineChart) {
                         binding.loading.layout.hide()
                         binding.emptyDatabase.layout.show()
                     }
@@ -136,21 +136,21 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
                 }
             }
             is PlaceStateScreen.SuccessPlaceAndStats -> {
-                if (menu.isCurrentItemChecked(MENU_ITEM_LIST)) {
+                if (menu.isCurrentItemChecked(menuItemList)) {
                     mergeAdapter.addAdapter(placeTotalAdapter)
                     placeTotalAdapter.submitList(listOf(renderState.data))
                     binding.recyclerPlace.scrollToPosition(0)
                 }
             }
             is PlaceStateScreen.SuccessPlaceStats -> {
-                if (menu.isCurrentItemChecked(MENU_ITEM_LIST)) {
+                if (menu.isCurrentItemChecked(menuItemList)) {
                     mergeAdapter.addAdapter(placeAdapter)
                     placeAdapter.submitList(renderState.data)
                     binding.recyclerPlace.scrollToPosition(0)
                 }
             }
             is PlaceStateScreen.SuccessPlaceTotalStatsBarChart -> {
-                if (menu.isCurrentItemChecked(MENU_ITEM_BAR_CHART)) {
+                if (menu.isCurrentItemChecked(menuItemBarChart)) {
                     mergeAdapter.addAdapter(0, placeTotalBarChartAdapter)
                     if (mergeAdapter.containsAdapter(placeBarChartAdapter)) {
                         binding.recyclerPlace.scrollToPosition(0)
@@ -159,7 +159,7 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
                 }
             }
             is PlaceStateScreen.SuccessPlaceStatsBarChart -> {
-                if (menu.isCurrentItemChecked(MENU_ITEM_BAR_CHART)) {
+                if (menu.isCurrentItemChecked(menuItemBarChart)) {
                     if (mergeAdapter.containsAdapter(placeTotalBarChartAdapter)) {
                         mergeAdapter.addAdapter(1, placeBarChartAdapter)
                     } else {
@@ -169,7 +169,7 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
                 }
             }
             is PlaceStateScreen.SuccessPlaceTotalStatsPieChart -> {
-                if (menu.isCurrentItemChecked(MENU_ITEM_PIE_CHART)) {
+                if (menu.isCurrentItemChecked(menuItemPieChart)) {
                     statsParent = renderState.data
 
                     if (statsParent.isNotEmpty()) {
@@ -186,7 +186,7 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
                 }
             }
             is PlaceStateScreen.SuccessPlaceAndStatsPieChart -> {
-                if (menu.isCurrentItemChecked(MENU_ITEM_PIE_CHART)) {
+                if (menu.isCurrentItemChecked(menuItemPieChart)) {
                     if (mergeAdapter.containsAdapter(placeTotalPieChartAdapter)) {
                         if (placeTotalPieChartAdapter.currentList.isNotEmpty()) {
                             renderState.data.map { placeStats ->
@@ -203,7 +203,7 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
                 }
             }
             is PlaceStateScreen.SuccessPlaceStatsLineCharts -> {
-                if (menu.isCurrentItemChecked(MENU_ITEM_LINE_CHART)) {
+                if (menu.isCurrentItemChecked(menuItemLineChart)) {
                     mergeAdapter.addAdapter(placeLineChartAdapter)
                     placeLineChartAdapter.submitList(listOf(renderState.data))
                     placeLineChartAdapter.notifyDataSetChanged()
@@ -222,30 +222,30 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
         if (::countrySpinnerAdapter.isInitialized) {
             when (item.itemId) {
                 R.id.list_view -> {
-                    if (menu.isCurrentItemChecked(MENU_ITEM_LIST).not()) {
+                    if (menu.isCurrentItemChecked(menuItemList).not()) {
                         mergeAdapter.removeAllAdapters()
-                        menu.enableItem(MENU_ITEM_LIST)
+                        menu.enableItem(menuItemList)
                         selectMenu(getSelectedCountry(), getSelectedPlace())
                     }
                     true
                 }
                 R.id.bar_chart_view -> {
-                    if (menu.isCurrentItemChecked(MENU_ITEM_BAR_CHART).not()) {
-                        menu.enableItem(MENU_ITEM_BAR_CHART)
+                    if (menu.isCurrentItemChecked(menuItemBarChart).not()) {
+                        menu.enableItem(menuItemBarChart)
                         selectMenu(getSelectedCountry(), getSelectedPlace())
                     }
                     true
                 }
                 R.id.line_chart_view -> {
-                    if (menu.isCurrentItemChecked(MENU_ITEM_LINE_CHART).not()) {
-                        menu.enableItem(MENU_ITEM_LINE_CHART)
+                    if (menu.isCurrentItemChecked(menuItemLineChart).not()) {
+                        menu.enableItem(menuItemLineChart)
                         selectMenu(getSelectedCountry(), getSelectedPlace())
                     }
                     true
                 }
                 R.id.pie_chart_view -> {
-                    if (menu.isCurrentItemChecked(MENU_ITEM_PIE_CHART).not()) {
-                        menu.enableItem(MENU_ITEM_PIE_CHART)
+                    if (menu.isCurrentItemChecked(menuItemPieChart).not()) {
+                        menu.enableItem(menuItemPieChart)
                         selectMenu(getSelectedCountry(), getSelectedPlace())
                     }
                     true
@@ -275,11 +275,11 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
         currentMenuItem = menu.isCurrentItemChecked()
 
         when (currentMenuItem) {
-            MENU_ITEM_LIST ->
+            menuItemList ->
                 viewModel.getListStats(idCountry, idRegion)
-            MENU_ITEM_BAR_CHART ->
+            menuItemBarChart ->
                 viewModel.getBarChartStats(idCountry, idRegion)
-            MENU_ITEM_LINE_CHART ->
+            menuItemLineChart ->
                 viewModel.getLineChartStats(idCountry, idRegion)
             else -> viewModel.getPieChartStats(idCountry, idRegion)
         }
