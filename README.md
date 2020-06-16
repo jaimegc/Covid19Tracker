@@ -67,3 +67,13 @@
   <img src="./art/world_pie_chart1.jpg" width="310">
   <img src="./art/world_pie_chart2.jpg" width="310">
 </p>
+
+
+### Others
+
+<p align="left">
+  <img src="./art/loading_local_database.jpg" width="310">
+  <img src="./art/populating_database.jpg" width="310">
+  <img src="./art/empty_chart.jpg" width="310">
+</p>
+
