@@ -13,8 +13,8 @@ import androidx.work.WorkManager
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.WorkInfo
 import com.jaimegc.covid19tracker.R
-import com.jaimegc.covid19tracker.common.extensions.Coroutines
 import com.jaimegc.covid19tracker.common.extensions.hide
+import com.jaimegc.covid19tracker.common.extensions.ioMain
 import com.jaimegc.covid19tracker.common.extensions.show
 import com.jaimegc.covid19tracker.databinding.ActivityMainBinding
 import com.jaimegc.covid19tracker.ui.base.BaseActivity
@@ -42,7 +42,7 @@ class MainActivity : BaseActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        Coroutines.ioMain({ fileUtils.initDatabase() }) {
+        ioMain({ fileUtils.initDatabase() }) {
             initializeBottomNavigationBar()
             viewModel.getCovidTracker()
             initializeUpdateDatabaseWorker()
