@@ -6,7 +6,7 @@ import com.jaimegc.covid19tracker.domain.model.DomainError
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
-class GetAllDates(
+class GetDates(
     private val repository: CovidTrackerRepository
 ) {
 

@@ -11,7 +11,7 @@ import com.jaimegc.covid19tracker.data.datasource.RemoteCovidTrackerDatasource
 import com.jaimegc.covid19tracker.data.preference.CovidTrackerPreferences
 import com.jaimegc.covid19tracker.domain.model.CovidTracker
 import com.jaimegc.covid19tracker.domain.model.DomainError
-import com.jaimegc.covid19tracker.domain.usecase.GetAllDates
+import com.jaimegc.covid19tracker.domain.usecase.GetDates
 import com.jaimegc.covid19tracker.utils.FileUtils
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -35,12 +35,12 @@ class UpdateDatabaseWorker(
 
     private val fileUtils: FileUtils by inject()
     private val remote: RemoteCovidTrackerDatasource by inject()
-    private val getAllDates: GetAllDates by inject()
+    private val getDates: GetDates by inject()
     private val covidTrackerPreferences: CovidTrackerPreferences by inject()
 
     override suspend fun doWork(): Result {
         val currentDates = fileUtils.generateCurrentDates()
-        val datesDB = getAllDates.getAllDates()
+        val datesDB = getDates.getAllDates()
         val datesToDownload = mutableListOf<String>()
         val covidTrackers = mutableListOf<CovidTracker>()
 
