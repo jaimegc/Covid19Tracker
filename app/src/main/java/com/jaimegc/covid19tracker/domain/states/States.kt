@@ -8,6 +8,6 @@ sealed class State<T> {
     data class Success<T>(val data: T) : State<T>()
 }
 
-sealed class StateError<T: DomainError> {
-    data class Error<T: DomainError>(val error: DomainError) : StateError<T>()
+sealed class StateError<T : DomainError> {
+    data class Error<T : DomainError>(val error: DomainError) : StateError<T>()
 }

@@ -59,6 +59,10 @@ object Versions {
         const val JUNIT = "4.13"
     }
 
+    object Detekt {
+        const val DETEKT = "1.10.0-RC1"
+    }
+
     object Other {
         const val AIRBNB_LOTTIE = "3.4.1"
         const val ARROW = "0.10.5"

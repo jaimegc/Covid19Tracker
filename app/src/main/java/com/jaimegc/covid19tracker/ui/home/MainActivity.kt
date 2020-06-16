@@ -6,10 +6,15 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.plusAssign
 import androidx.navigation.ui.setupWithNavController
-import androidx.work.*
+import androidx.work.Constraints
+import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.WorkInfo
 import com.jaimegc.covid19tracker.R
-import com.jaimegc.covid19tracker.common.extensions.Coroutines
 import com.jaimegc.covid19tracker.common.extensions.hide
+import com.jaimegc.covid19tracker.common.extensions.ioMain
 import com.jaimegc.covid19tracker.common.extensions.show
 import com.jaimegc.covid19tracker.databinding.ActivityMainBinding
 import com.jaimegc.covid19tracker.ui.base.BaseActivity
@@ -17,6 +22,7 @@ import com.jaimegc.covid19tracker.ui.base.KeepStateNavigator
 import com.jaimegc.covid19tracker.ui.dialog.DialogUpdateDatabase
 import com.jaimegc.covid19tracker.utils.FileUtils
 import com.jaimegc.covid19tracker.worker.UpdateDatabaseWorker
+import com.jaimegc.covid19tracker.worker.UpdateDatabaseWorker.Companion.UPDATE_TIME_HOURS
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.inject
@@ -37,7 +43,7 @@ class MainActivity : BaseActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        Coroutines.ioMain({ fileUtils.initDatabase() }) {
+        ioMain({ fileUtils.initDatabase() }) {
             initializeBottomNavigationBar()
             viewModel.getCovidTracker()
             initializeUpdateDatabaseWorker()
@@ -63,7 +69,7 @@ class MainActivity : BaseActivity() {
             .build()
 
         val periodicWorkRequest =
-            PeriodicWorkRequestBuilder<UpdateDatabaseWorker>(6, TimeUnit.HOURS)
+            PeriodicWorkRequestBuilder<UpdateDatabaseWorker>(UPDATE_TIME_HOURS, TimeUnit.HOURS)
                 .setConstraints(constraints)
                 .build()
 

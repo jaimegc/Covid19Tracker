@@ -1,19 +1,46 @@
 package com.jaimegc.covid19tracker.ui.country
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
 import arrow.core.Either
 import com.jaimegc.covid19tracker.common.QueueLiveData
-import com.jaimegc.covid19tracker.domain.model.*
+import com.jaimegc.covid19tracker.domain.model.CountryOneStats
+import com.jaimegc.covid19tracker.domain.model.DomainError
+import com.jaimegc.covid19tracker.domain.model.ListCountry
+import com.jaimegc.covid19tracker.domain.model.ListCountryOnlyStats
+import com.jaimegc.covid19tracker.domain.model.ListRegion
+import com.jaimegc.covid19tracker.domain.model.ListRegionAndStats
+import com.jaimegc.covid19tracker.domain.model.ListRegionOnlyStats
+import com.jaimegc.covid19tracker.domain.model.ListRegionStats
+import com.jaimegc.covid19tracker.domain.model.ListSubRegionAndStats
+import com.jaimegc.covid19tracker.domain.model.ListSubRegionStats
+import com.jaimegc.covid19tracker.domain.model.RegionOneStats
 import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.domain.states.StateError
-import com.jaimegc.covid19tracker.domain.usecase.*
-import com.jaimegc.covid19tracker.ui.model.*
+import com.jaimegc.covid19tracker.domain.usecase.GetCountry
+import com.jaimegc.covid19tracker.domain.usecase.GetCountryStats
+import com.jaimegc.covid19tracker.domain.usecase.GetRegion
+import com.jaimegc.covid19tracker.domain.usecase.GetRegionStats
+import com.jaimegc.covid19tracker.domain.usecase.GetSubRegionStats
 import com.jaimegc.covid19tracker.ui.base.states.PlaceStateScreen
 import com.jaimegc.covid19tracker.ui.base.states.MenuItemViewType
 import com.jaimegc.covid19tracker.ui.base.states.ScreenState
 import com.jaimegc.covid19tracker.ui.base.BaseScreenStateMenuViewModel
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import com.jaimegc.covid19tracker.ui.model.PlaceListStatsChartUI
+import com.jaimegc.covid19tracker.ui.model.toChartUI
+import com.jaimegc.covid19tracker.ui.model.toPlaceChartUI
+import com.jaimegc.covid19tracker.ui.model.toPlaceUI
+import com.jaimegc.covid19tracker.ui.model.toUI
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapMerge
+import kotlinx.coroutines.flow.zip
+import kotlinx.coroutines.launch
 
 @FlowPreview
 @ExperimentalCoroutinesApi
@@ -25,8 +52,8 @@ class CountryViewModel(
     private val getSubRegionStats: GetSubRegionStats
 ) : BaseScreenStateMenuViewModel<PlaceStateScreen>() {
 
-    override val _screenState = QueueLiveData<ScreenState<PlaceStateScreen>>()
-    override val screenState: LiveData<ScreenState<PlaceStateScreen>> = _screenState
+    override val screenStateQueue = QueueLiveData<ScreenState<PlaceStateScreen>>()
+    override val screenState: LiveData<ScreenState<PlaceStateScreen>> = screenStateQueue
 
     private val mapPlacesLineStats =
         mutableMapOf<MenuItemViewType, List<PlaceListStatsChartUI>>()
@@ -204,63 +231,63 @@ class CountryViewModel(
             is State.Success -> {
                 when (state.data) {
                     is ListCountry ->
-                        _screenState.postValue(ScreenState.Render(PlaceStateScreen.SuccessSpinnerCountries(
+                        screenStateQueue.postValue(ScreenState.Render(PlaceStateScreen.SuccessSpinnerCountries(
                             state.data.countries.map { country -> country.toUI() })))
                     is ListRegion ->
-                        _screenState.postValue(ScreenState.Render(PlaceStateScreen.SuccessSpinnerRegions(
+                        screenStateQueue.postValue(ScreenState.Render(PlaceStateScreen.SuccessSpinnerRegions(
                             state.data.regions.map { region -> region.toPlaceUI() })))
                     is CountryOneStats ->
                         when (viewType) {
                             is MenuItemViewType.List ->
-                                _screenState.postValue(ScreenState.Render(
+                                screenStateQueue.postValue(ScreenState.Render(
                                     PlaceStateScreen.SuccessPlaceAndStats(state.data.toPlaceUI())))
                             is MenuItemViewType.PieChart ->
-                                _screenState.postValue(ScreenState.Render(
+                                screenStateQueue.postValue(ScreenState.Render(
                                     PlaceStateScreen.SuccessPlaceTotalStatsPieChart(state.data.stats.toChartUI())))
                         }
                     is RegionOneStats ->
                         when (viewType) {
                             is MenuItemViewType.List ->
-                                _screenState.postValue(ScreenState.Render(
+                                screenStateQueue.postValue(ScreenState.Render(
                                     PlaceStateScreen.SuccessPlaceAndStats(state.data.toPlaceUI())))
                             is MenuItemViewType.PieChart ->
-                                _screenState.postValue(ScreenState.Render(
+                                screenStateQueue.postValue(ScreenState.Render(
                                     PlaceStateScreen.SuccessPlaceTotalStatsPieChart(state.data.stats.toChartUI())))
                         }
                     is ListRegionStats ->
                         when (viewType) {
                             is MenuItemViewType.List ->
-                                _screenState.postValue(ScreenState.Render(
+                                screenStateQueue.postValue(ScreenState.Render(
                                     PlaceStateScreen.SuccessPlaceStats(state.data.toPlaceUI())))
                             is MenuItemViewType.PieChart ->
-                                _screenState.postValue(ScreenState.Render(
+                                screenStateQueue.postValue(ScreenState.Render(
                                     PlaceStateScreen.SuccessPlaceAndStatsPieChart(state.data.toPlaceChartUI())))
                         }
                     is ListSubRegionStats ->
                         when (viewType) {
                             is MenuItemViewType.List ->
-                                _screenState.postValue(ScreenState.Render(
+                                screenStateQueue.postValue(ScreenState.Render(
                                     PlaceStateScreen.SuccessPlaceStats(state.data.toPlaceUI())))
                             is MenuItemViewType.PieChart ->
-                                _screenState.postValue(ScreenState.Render(
+                                screenStateQueue.postValue(ScreenState.Render(
                                     PlaceStateScreen.SuccessPlaceAndStatsPieChart(state.data.toPlaceChartUI())))
                         }
                     is ListCountryOnlyStats ->
-                        _screenState.postValue(ScreenState.Render(
+                        screenStateQueue.postValue(ScreenState.Render(
                             PlaceStateScreen.SuccessPlaceTotalStatsBarChart(state.data.toPlaceUI())))
                     is ListRegionOnlyStats ->
-                        _screenState.postValue(ScreenState.Render(
+                        screenStateQueue.postValue(ScreenState.Render(
                             PlaceStateScreen.SuccessPlaceTotalStatsBarChart(state.data.toPlaceUI())))
                     is ListRegionAndStats ->
                         when (viewType) {
                             is MenuItemViewType.BarChart ->
-                                _screenState.postValue(ScreenState.Render(
+                                screenStateQueue.postValue(ScreenState.Render(
                                     PlaceStateScreen.SuccessPlaceStatsBarChart(state.data.toPlaceUI())))
                         }
                     is ListSubRegionAndStats ->
                         when (viewType) {
                             is MenuItemViewType.BarChart ->
-                                _screenState.postValue(ScreenState.Render(
+                                screenStateQueue.postValue(ScreenState.Render(
                                     PlaceStateScreen.SuccessPlaceStatsBarChart(state.data.toPlaceUI())))
                         }
                     is Pair<*, *> -> {
@@ -275,22 +302,22 @@ class CountryViewModel(
                                     (state.data.second as ListSubRegionAndStats).toPlaceUI()
                         }
 
-                        _screenState.postValue(ScreenState.Render(
+                        screenStateQueue.postValue(ScreenState.Render(
                             PlaceStateScreen.SuccessPlaceStatsLineCharts(mapPlacesLineStats)))
                     }
                 }
             }
             is State.Loading ->
-                _screenState.postValue(ScreenState.Loading)
+                screenStateQueue.postValue(ScreenState.Loading)
             is State.EmptyData ->
-                _screenState.postValue(ScreenState.EmptyData)
+                screenStateQueue.postValue(ScreenState.EmptyData)
         }
     }
 
     private fun handleError(state: StateError<DomainError>) {
         when (state) {
             is StateError.Error ->
-                _screenState.postValue(ScreenState.Error(
+                screenStateQueue.postValue(ScreenState.Error(
                     PlaceStateScreen.SomeError(state.error.toUI())))
         }
     }

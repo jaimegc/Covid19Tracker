@@ -1,7 +1,6 @@
 package com.jaimegc.covid19tracker.data.api.extensions
 
 import arrow.core.Either
-import com.jaimegc.covid19tracker.data.api.config.ServerApiClient
 import com.jaimegc.covid19tracker.data.api.error.Server403ApiException
 import com.jaimegc.covid19tracker.data.api.error.Server404ApiException
 import com.jaimegc.covid19tracker.data.api.error.Server500ApiException
@@ -12,6 +11,9 @@ import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
+private const val RESPONSE_ERROR_500: Int = 500
+private const val RESPONSE_ERROR_404: Int = 404
+private const val RESPONSE_ERROR_403: Int = 403
 
 fun Exception.apiException(): DomainError =
     when {
@@ -32,9 +34,9 @@ fun Exception.apiException(): DomainError =
 
 fun HttpException.toDomainError(): DomainError =
     when (this.code()) {
-        ServerApiClient.RESPONSE_ERROR_500 -> DomainError.ServerDomainError
-        ServerApiClient.RESPONSE_ERROR_404 -> DomainError.ServerDomainError
-        ServerApiClient.RESPONSE_ERROR_403 -> DomainError.ServerForbiddenDomainError
+        RESPONSE_ERROR_500 -> DomainError.ServerDomainError
+        RESPONSE_ERROR_404 -> DomainError.ServerDomainError
+        RESPONSE_ERROR_403 -> DomainError.ServerForbiddenDomainError
         else -> DomainError.ServerDomainError
     }
 

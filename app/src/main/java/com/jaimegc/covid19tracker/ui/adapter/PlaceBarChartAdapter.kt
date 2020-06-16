@@ -11,7 +11,8 @@ import com.jaimegc.covid19tracker.common.extensions.chart.setValues
 import com.jaimegc.covid19tracker.databinding.ItemBarChartPlaceBinding
 import com.jaimegc.covid19tracker.ui.model.PlaceListStatsChartUI
 
-class PlaceBarChartAdapter : ListAdapter<PlaceListStatsChartUI, PlaceBarChartAdapter.PlaceListStatsViewHolder>(DIFF_CALLBACK) {
+class PlaceBarChartAdapter :
+    ListAdapter<PlaceListStatsChartUI, PlaceBarChartAdapter.PlaceListStatsViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         PlaceListStatsViewHolder(ItemBarChartPlaceBinding.inflate(

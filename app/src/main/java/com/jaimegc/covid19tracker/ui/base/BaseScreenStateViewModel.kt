@@ -9,7 +9,7 @@ import com.jaimegc.covid19tracker.ui.base.states.MenuItemViewType
 import com.jaimegc.covid19tracker.ui.base.states.ScreenState
 
 abstract class BaseScreenStateViewModel<T : BaseScreenState> : ViewModel() {
-    abstract val _screenState: QueueLiveData<ScreenState<T>>
+    abstract val screenStateQueue: QueueLiveData<ScreenState<T>>
     abstract val screenState: LiveData<ScreenState<T>>
 }
 

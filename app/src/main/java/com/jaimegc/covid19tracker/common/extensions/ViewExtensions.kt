@@ -88,10 +88,10 @@ fun RecyclerView.updateAdapter(adapter: MergeAdapter) {
 fun MergeAdapter.removeAllAdapters() =
     this.adapters.map { adapter -> removeAdapter(adapter) }
 
-fun <T: RecyclerView.ViewHolder>MergeAdapter.removeAllAdaptersExcept(adapter: RecyclerView.Adapter<T>) =
+fun <T : RecyclerView.ViewHolder> MergeAdapter.removeAllAdaptersExcept(adapter: RecyclerView.Adapter<T>) =
     this.adapters.map { if (it != adapter) removeAdapter(adapter) }
 
-fun <T: RecyclerView.ViewHolder> MergeAdapter.containsAdapter(
+fun <T : RecyclerView.ViewHolder> MergeAdapter.containsAdapter(
     adapter: RecyclerView.Adapter<T>,
     removeOthers: Boolean = false
 ): Boolean =

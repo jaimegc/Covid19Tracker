@@ -10,7 +10,6 @@ import com.github.mikephil.charting.charts.LineChart
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.common.extensions.chart.configure
 import com.jaimegc.covid19tracker.common.extensions.chart.setValues
-import com.jaimegc.covid19tracker.common.extensions.formatValue
 import com.jaimegc.covid19tracker.common.extensions.hide
 import com.jaimegc.covid19tracker.databinding.ItemLineChartTotalBinding
 import com.jaimegc.covid19tracker.ui.model.PlaceListStatsChartUI
@@ -78,7 +77,8 @@ class PlaceLineChartAdapter :
             chart: LineChart,
             listPlacesStatsChartUI: List<PlaceListStatsChartUI>,
             viewType: MenuItemViewType,
-            minAxisLeftValue: Float = 0f) {
+            minAxisLeftValue: Float = 0f
+        ) {
 
             val placeStatsMaxDays = listPlacesStatsChartUI.maxBy { it.stats.size }
             chart.configure(

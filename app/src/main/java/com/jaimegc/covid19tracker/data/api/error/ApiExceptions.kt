@@ -1,6 +1,5 @@
 package com.jaimegc.covid19tracker.data.api.error
 
-
 abstract class ServerApiException : Exception()
 
 object ServerConnectionApiException : ServerApiException()

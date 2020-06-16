@@ -9,7 +9,15 @@ import com.jaimegc.covid19tracker.data.preference.CountryPreferences
 import com.jaimegc.covid19tracker.data.preference.CovidTrackerPreferences
 import com.jaimegc.covid19tracker.data.repository.CovidTrackerRepository
 import com.jaimegc.covid19tracker.data.room.Covid19TrackerDatabase
-import com.jaimegc.covid19tracker.domain.usecase.*
+import com.jaimegc.covid19tracker.domain.usecase.GetDates
+import com.jaimegc.covid19tracker.domain.usecase.GetCountry
+import com.jaimegc.covid19tracker.domain.usecase.GetCountryStats
+import com.jaimegc.covid19tracker.domain.usecase.GetCovidTracker
+import com.jaimegc.covid19tracker.domain.usecase.GetRegion
+import com.jaimegc.covid19tracker.domain.usecase.GetRegionStats
+import com.jaimegc.covid19tracker.domain.usecase.GetSubRegionStats
+import com.jaimegc.covid19tracker.domain.usecase.GetWorldAndCountries
+import com.jaimegc.covid19tracker.domain.usecase.GetWorldStats
 import com.jaimegc.covid19tracker.ui.country.CountryViewModel
 import com.jaimegc.covid19tracker.ui.home.MainViewModel
 import com.jaimegc.covid19tracker.ui.world.WorldViewModel
@@ -36,7 +44,7 @@ val useCaseModule = module {
     }
 
     single {
-        GetAllDates(get())
+        GetDates(get())
     }
 
     single {

@@ -12,7 +12,8 @@ import com.jaimegc.covid19tracker.common.extensions.chart.setValues
 import com.jaimegc.covid19tracker.common.extensions.setEmojiCountry
 import com.jaimegc.covid19tracker.ui.model.CountryListStatsChartUI
 
-class WorldCountriesBarChartAdapter : ListAdapter<CountryListStatsChartUI, WorldCountriesBarChartAdapter.CountriesListStatsViewHolder>(DIFF_CALLBACK) {
+class WorldCountriesBarChartAdapter :
+    ListAdapter<CountryListStatsChartUI, WorldCountriesBarChartAdapter.CountriesListStatsViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         CountriesListStatsViewHolder(ItemBarChartCountryTotalBinding.inflate(
@@ -50,7 +51,10 @@ class WorldCountriesBarChartAdapter : ListAdapter<CountryListStatsChartUI, World
             override fun areItemsTheSame(oldItem: CountryListStatsChartUI, newItem: CountryListStatsChartUI): Boolean =
                 oldItem.country.id == newItem.country.id
 
-            override fun areContentsTheSame(oldItem: CountryListStatsChartUI, newItem: CountryListStatsChartUI): Boolean =
+            override fun areContentsTheSame(
+                oldItem: CountryListStatsChartUI,
+                newItem: CountryListStatsChartUI
+            ): Boolean =
                 oldItem == newItem
         }
     }

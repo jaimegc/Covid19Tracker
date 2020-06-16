@@ -10,7 +10,7 @@ class ChartDayMonthFormatter(
     override fun getFormattedValue(value: Float): String =
         try {
             listDates[value.toInt()].substring(5, listDates[value.toInt()].length)
-        } catch(e: Exception) {
+        } catch (e: Exception) {
             ""
         }
 }

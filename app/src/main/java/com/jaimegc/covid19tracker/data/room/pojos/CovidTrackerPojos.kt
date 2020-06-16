@@ -2,7 +2,13 @@ package com.jaimegc.covid19tracker.data.room.pojos
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import com.jaimegc.covid19tracker.data.room.entities.*
+import com.jaimegc.covid19tracker.data.room.entities.CountryEntity
+import com.jaimegc.covid19tracker.data.room.entities.CountryStatsEntity
+import com.jaimegc.covid19tracker.data.room.entities.RegionEntity
+import com.jaimegc.covid19tracker.data.room.entities.RegionStatsEntity
+import com.jaimegc.covid19tracker.data.room.entities.SubRegionEntity
+import com.jaimegc.covid19tracker.data.room.entities.SubRegionStatsEntity
+import com.jaimegc.covid19tracker.data.room.entities.WorldStatsEntity
 import com.jaimegc.covid19tracker.data.room.views.CountryAndStatsDV
 
 data class WorldAndCountriesStatsPojo(

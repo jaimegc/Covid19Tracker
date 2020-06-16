@@ -3,7 +3,9 @@ package com.jaimegc.covid19tracker.common.extensions
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.text.NumberFormat
-import java.util.*
+import java.util.Locale
+
+const val PERCENTAGE = 100
 
 fun Double.formatDecimals(): String = numberFormatDecimals(this).format(this)
 
@@ -12,10 +14,10 @@ fun Long.formatValue(): String = numberFormat().format(this)
 fun Float.formatValue(): String = numberFormat().format(this)
 
 fun Double.percentage(value: Double): String =
-    "${(this / value * 100).formatDecimals()}%"
+    "${(this / value * PERCENTAGE).formatDecimals()}%"
 
 fun Float.percentage(value: Float): String =
-    "${(this / value * 100).toDouble().formatDecimals()}%"
+    "${(this / value * PERCENTAGE).toDouble().formatDecimals()}%"
 
 private fun numberFormatDecimals(value: Double, totalDecimals: Int = 2): NumberFormat {
     val locale = Locale.getDefault()

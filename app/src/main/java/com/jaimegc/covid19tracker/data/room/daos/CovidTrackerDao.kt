@@ -1,12 +1,27 @@
 package com.jaimegc.covid19tracker.data.room.daos
 
-import androidx.room.*
-import com.jaimegc.covid19tracker.data.room.entities.*
-import com.jaimegc.covid19tracker.data.room.pojos.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Transaction
+import com.jaimegc.covid19tracker.data.room.entities.CountryEntity
+import com.jaimegc.covid19tracker.data.room.entities.CountryStatsEntity
+import com.jaimegc.covid19tracker.data.room.entities.RegionEntity
+import com.jaimegc.covid19tracker.data.room.entities.RegionStatsEntity
+import com.jaimegc.covid19tracker.data.room.entities.SubRegionEntity
+import com.jaimegc.covid19tracker.data.room.entities.SubRegionStatsEntity
+import com.jaimegc.covid19tracker.data.room.entities.WorldStatsEntity
+import com.jaimegc.covid19tracker.data.room.pojos.CountryAndOneStatsPojo
+import com.jaimegc.covid19tracker.data.room.pojos.CountryAndStatsPojo
+import com.jaimegc.covid19tracker.data.room.pojos.RegionAndOneStatsPojo
+import com.jaimegc.covid19tracker.data.room.pojos.RegionAndStatsPojo
+import com.jaimegc.covid19tracker.data.room.pojos.SubRegionAndOneStatsPojo
+import com.jaimegc.covid19tracker.data.room.pojos.SubRegionAndStatsPojo
+import com.jaimegc.covid19tracker.data.room.pojos.WorldAndCountriesStatsPojo
 import com.jaimegc.covid19tracker.data.room.views.RegionAndStatsDV
 import com.jaimegc.covid19tracker.data.room.views.SubRegionAndStatsDV
 import kotlinx.coroutines.flow.Flow
-
 
 @Dao
 abstract class CovidTrackerDao {
@@ -209,7 +224,11 @@ abstract class RegionStatsDao {
         LEFT JOIN region_stats s ON r.id = s.id_region_fk
         WHERE r.id = :idRegion AND r.id_country_fk = :idCountry AND s.date_timestamp = :dateTimestamp
         """)
-    abstract fun getRegionAndStatsByDate(idCountry: String, idRegion: String, dateTimestamp: Long): Flow<RegionAndOneStatsPojo>
+    abstract fun getRegionAndStatsByDate(
+        idCountry: String,
+        idRegion: String,
+        dateTimestamp: Long
+    ): Flow<RegionAndOneStatsPojo>
 
     @Transaction
     @Query("""
@@ -261,14 +280,15 @@ abstract class RegionStatsDao {
     @Transaction
     @Query("""
         SELECT * FROM region r, region_stats s
-        WHERE r.id = s.id_region_fk AND r.id_country_fk = :idCountry AND s.id_region_country_fk = :idCountry AND r.id IN (
-            SELECT id FROM region 
-                LEFT JOIN (
-                    SELECT id_region_fk, MAX(confirmed) AS maxConfirmed FROM region_stats 
-                    GROUP BY id_region_fk
-                ) statsMaxConfirmed
-                ON region.id = statsMaxConfirmed.id_region_fk AND region.id_country_fk = :idCountry
-                ORDER BY statsMaxConfirmed.maxConfirmed DESC LIMIT 5
+        WHERE r.id = s.id_region_fk AND r.id_country_fk = :idCountry AND 
+            s.id_region_country_fk = :idCountry AND r.id IN (
+                SELECT id FROM region 
+                    LEFT JOIN (
+                        SELECT id_region_fk, MAX(confirmed) AS maxConfirmed FROM region_stats 
+                        GROUP BY id_region_fk
+                    ) statsMaxConfirmed
+                    ON region.id = statsMaxConfirmed.id_region_fk AND region.id_country_fk = :idCountry
+                    ORDER BY statsMaxConfirmed.maxConfirmed DESC LIMIT 5
             )
         ORDER BY r.id ASC, s.confirmed ASC
         """)
@@ -277,14 +297,15 @@ abstract class RegionStatsDao {
     @Transaction
     @Query("""
         SELECT * FROM region r, region_stats s
-        WHERE r.id = s.id_region_fk AND r.id_country_fk = :idCountry AND s.id_region_country_fk = :idCountry AND r.id IN (
-            SELECT id FROM region 
-                LEFT JOIN (
-                    SELECT id_region_fk, MAX(deaths) AS maxDeaths FROM region_stats 
-                    GROUP BY id_region_fk
-                ) statsMaxDeaths
-                ON region.id = statsMaxDeaths.id_region_fk AND region.id_country_fk = :idCountry
-                ORDER BY statsMaxDeaths.maxDeaths DESC LIMIT 5
+        WHERE r.id = s.id_region_fk AND r.id_country_fk = :idCountry AND 
+            s.id_region_country_fk = :idCountry AND r.id IN (
+                SELECT id FROM region 
+                    LEFT JOIN (
+                        SELECT id_region_fk, MAX(deaths) AS maxDeaths FROM region_stats 
+                        GROUP BY id_region_fk
+                    ) statsMaxDeaths
+                    ON region.id = statsMaxDeaths.id_region_fk AND region.id_country_fk = :idCountry
+                    ORDER BY statsMaxDeaths.maxDeaths DESC LIMIT 5
             )
         ORDER BY r.id ASC, s.deaths ASC
         """)
@@ -293,14 +314,15 @@ abstract class RegionStatsDao {
     @Transaction
     @Query("""
         SELECT * FROM region r, region_stats s
-        WHERE r.id = s.id_region_fk AND r.id_country_fk = :idCountry AND s.id_region_country_fk = :idCountry AND r.id IN (
-            SELECT id FROM region 
-                LEFT JOIN (
-                    SELECT id_region_fk, MAX(recovered) AS maxRecovered FROM region_stats 
-                    GROUP BY id_region_fk
-                ) statsMaxRecovered
-                ON region.id = statsMaxRecovered.id_region_fk AND region.id_country_fk = :idCountry
-                ORDER BY statsMaxRecovered.maxRecovered DESC LIMIT 5
+        WHERE r.id = s.id_region_fk AND r.id_country_fk = :idCountry AND 
+            s.id_region_country_fk = :idCountry AND r.id IN (
+                SELECT id FROM region 
+                    LEFT JOIN (
+                        SELECT id_region_fk, MAX(recovered) AS maxRecovered FROM region_stats 
+                        GROUP BY id_region_fk
+                    ) statsMaxRecovered
+                    ON region.id = statsMaxRecovered.id_region_fk AND region.id_country_fk = :idCountry
+                    ORDER BY statsMaxRecovered.maxRecovered DESC LIMIT 5
             )
         ORDER BY r.id ASC, s.recovered ASC
         """)
@@ -309,14 +331,15 @@ abstract class RegionStatsDao {
     @Transaction
     @Query("""
         SELECT * FROM region r, region_stats s
-        WHERE r.id = s.id_region_fk AND r.id_country_fk = :idCountry AND s.id_region_country_fk = :idCountry AND r.id IN (
-            SELECT id FROM region 
-                LEFT JOIN (
-                    SELECT id_region_fk, MAX(open_cases) AS maxOpenCases FROM region_stats 
-                    GROUP BY id_region_fk
-                ) statsMaxOpenCases
-                ON region.id = statsMaxOpenCases.id_region_fk AND region.id_country_fk = :idCountry
-                ORDER BY statsMaxOpenCases.maxOpenCases DESC LIMIT 5
+        WHERE r.id = s.id_region_fk AND r.id_country_fk = :idCountry AND 
+            s.id_region_country_fk = :idCountry AND r.id IN (
+                SELECT id FROM region 
+                    LEFT JOIN (
+                        SELECT id_region_fk, MAX(open_cases) AS maxOpenCases FROM region_stats 
+                        GROUP BY id_region_fk
+                    ) statsMaxOpenCases
+                    ON region.id = statsMaxOpenCases.id_region_fk AND region.id_country_fk = :idCountry
+                    ORDER BY statsMaxOpenCases.maxOpenCases DESC LIMIT 5
             )
         ORDER BY r.id ASC, s.open_cases ASC
         """)
@@ -423,7 +446,8 @@ abstract class SubRegionStatsDao {
                 )
         ORDER BY r.id ASC, s.recovered ASC
         """)
-    abstract fun getSubRegionsAndStatsWithMostRecovered(idCountry: String,
+    abstract fun getSubRegionsAndStatsWithMostRecovered(
+        idCountry: String,
         idRegion: String
     ): Flow<List<SubRegionAndOneStatsPojo>>
 

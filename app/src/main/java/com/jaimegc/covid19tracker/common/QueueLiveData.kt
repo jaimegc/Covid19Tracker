@@ -2,7 +2,8 @@ package com.jaimegc.covid19tracker.common
 
 import androidx.annotation.MainThread
 import androidx.lifecycle.MutableLiveData
-import java.util.*
+import java.util.Queue
+import java.util.LinkedList
 
 /**
  * This LiveData will deliver values even when they are

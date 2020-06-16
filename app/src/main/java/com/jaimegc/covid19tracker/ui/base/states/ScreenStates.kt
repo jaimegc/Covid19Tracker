@@ -1,6 +1,16 @@
 package com.jaimegc.covid19tracker.ui.base.states
 
-import com.jaimegc.covid19tracker.ui.model.*
+import com.jaimegc.covid19tracker.ui.model.CountryListStatsChartUI
+import com.jaimegc.covid19tracker.ui.model.CountryUI
+import com.jaimegc.covid19tracker.ui.model.CovidTrackerUI
+import com.jaimegc.covid19tracker.ui.model.ErrorUI
+import com.jaimegc.covid19tracker.ui.model.PlaceListStatsChartUI
+import com.jaimegc.covid19tracker.ui.model.PlaceStatsChartUI
+import com.jaimegc.covid19tracker.ui.model.PlaceStatsUI
+import com.jaimegc.covid19tracker.ui.model.PlaceUI
+import com.jaimegc.covid19tracker.ui.model.StatsChartUI
+import com.jaimegc.covid19tracker.ui.model.WorldCountryStatsUI
+import com.jaimegc.covid19tracker.ui.model.WorldStatsChartUI
 
 sealed class BaseScreenState
 
@@ -16,7 +26,8 @@ sealed class WorldStateScreen : BaseScreenState() {
     class SuccessWorldStatsBarCharts(val data: List<WorldStatsChartUI>) : WorldStateScreen()
     class SuccessCountriesStatsBarCharts(val data: List<CountryListStatsChartUI>) : WorldStateScreen()
     class SuccessCountriesStatsLineCharts(
-        val data: Map<MenuItemViewType, List<CountryListStatsChartUI>>) : WorldStateScreen()
+        val data: Map<MenuItemViewType, List<CountryListStatsChartUI>>
+    ) : WorldStateScreen()
     class SuccessCountriesStatsPieCharts(val data: List<WorldCountryStatsUI>) : WorldStateScreen()
     class SomeError(val data: ErrorUI) : WorldStateScreen()
 }
@@ -41,6 +52,7 @@ sealed class PlaceStateScreen : BaseScreenState() {
     class SuccessPlaceTotalStatsPieChart(val data: StatsChartUI) : PlaceStateScreen()
     class SuccessPlaceAndStatsPieChart(val data: List<PlaceStatsChartUI>) : PlaceStateScreen()
     class SuccessPlaceStatsLineCharts(
-        val data: Map<MenuItemViewType, List<PlaceListStatsChartUI>>) : PlaceStateScreen()
+        val data: Map<MenuItemViewType, List<PlaceListStatsChartUI>>
+    ) : PlaceStateScreen()
     class SomeError(val data: ErrorUI) : PlaceStateScreen()
 }

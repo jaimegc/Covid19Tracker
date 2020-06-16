@@ -48,24 +48,28 @@ class WorldLineChartAdapter :
                 when (type) {
                     is MenuItemViewType.LineChartMostConfirmed ->
                         configureLineChart(
-                            ctx, binding.chartConfirmed, mapCountriesStatsChartUI.getValue(type), type, minAxisOther).also {
-                            binding.loadingConfirmed.hide()
-                        }
+                            ctx, binding.chartConfirmed,
+                            mapCountriesStatsChartUI.getValue(type), type, minAxisOther).also {
+                                binding.loadingConfirmed.hide()
+                            }
                     is MenuItemViewType.LineChartMostDeaths ->
                         configureLineChart(
-                            ctx, binding.chartDeaths, mapCountriesStatsChartUI.getValue(type), type, minAxisDeaths).also {
-                            binding.loadingDeaths.hide()
-                        }
+                            ctx, binding.chartDeaths,
+                            mapCountriesStatsChartUI.getValue(type), type, minAxisDeaths).also {
+                                binding.loadingDeaths.hide()
+                            }
                     is MenuItemViewType.LineChartMostRecovered ->
                         configureLineChart(
-                            ctx, binding.chartRecovered, mapCountriesStatsChartUI.getValue(type), type, minAxisOther).also {
-                            binding.loadingRecovered.hide()
-                        }
+                            ctx, binding.chartRecovered,
+                            mapCountriesStatsChartUI.getValue(type), type, minAxisOther).also {
+                                binding.loadingRecovered.hide()
+                            }
                     is MenuItemViewType.LineChartMostOpenCases ->
                         configureLineChart(
-                            ctx, binding.chartOpenCases, mapCountriesStatsChartUI.getValue(type), type, minAxisOther).also {
-                            binding.loadingOpenCases.hide()
-                        }
+                            ctx, binding.chartOpenCases,
+                            mapCountriesStatsChartUI.getValue(type), type, minAxisOther).also {
+                                binding.loadingOpenCases.hide()
+                            }
                 }
             }
 
@@ -84,7 +88,8 @@ class WorldLineChartAdapter :
             chart: LineChart,
             listCountriesStatsChartUI: List<CountryListStatsChartUI>,
             viewType: MenuItemViewType,
-            minAxisLeftValue: Float) {
+            minAxisLeftValue: Float
+        ) {
 
             val countryStatsMaxDays = listCountriesStatsChartUI.maxBy { it.stats.size }
             chart.configure(

@@ -1,8 +1,12 @@
 package com.jaimegc.covid19tracker.ui.world
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
 import com.jaimegc.covid19tracker.common.QueueLiveData
-import com.jaimegc.covid19tracker.domain.model.*
+import com.jaimegc.covid19tracker.domain.model.CovidTracker
+import com.jaimegc.covid19tracker.domain.model.DomainError
+import com.jaimegc.covid19tracker.domain.model.ListCountryAndStats
+import com.jaimegc.covid19tracker.domain.model.ListWorldStats
 import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.domain.states.StateError
 import com.jaimegc.covid19tracker.domain.usecase.GetCountryStats
@@ -11,11 +15,13 @@ import com.jaimegc.covid19tracker.domain.usecase.GetWorldStats
 import com.jaimegc.covid19tracker.ui.model.CountryListStatsChartUI
 import com.jaimegc.covid19tracker.ui.model.toListChartUI
 import com.jaimegc.covid19tracker.ui.model.toUI
-import com.jaimegc.covid19tracker.ui.base.states.*
 import com.jaimegc.covid19tracker.ui.base.BaseScreenStateMenuViewModel
+import com.jaimegc.covid19tracker.ui.base.states.MenuItemViewType
+import com.jaimegc.covid19tracker.ui.base.states.ScreenState
+import com.jaimegc.covid19tracker.ui.base.states.WorldStateScreen
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
@@ -25,8 +31,8 @@ class WorldViewModel(
     private val getCountryStats: GetCountryStats
 ) : BaseScreenStateMenuViewModel<WorldStateScreen>() {
 
-    override val _screenState = QueueLiveData<ScreenState<WorldStateScreen>>()
-    override val screenState: LiveData<ScreenState<WorldStateScreen>> = _screenState
+    override val screenStateQueue = QueueLiveData<ScreenState<WorldStateScreen>>()
+    override val screenState: LiveData<ScreenState<WorldStateScreen>> = screenStateQueue
 
     private val mapWorldLineStats =
         mutableMapOf<MenuItemViewType, List<CountryListStatsChartUI>>()
@@ -150,22 +156,22 @@ class WorldViewModel(
                     is CovidTracker -> {
                         when (viewType) {
                             is MenuItemViewType.List ->
-                                _screenState.postValue(ScreenState.Render(
+                                screenStateQueue.postValue(ScreenState.Render(
                                     WorldStateScreen.SuccessCovidTracker(state.data.toUI())))
                             is MenuItemViewType.PieChart ->
-                                _screenState.postValue(ScreenState.Render(
+                                screenStateQueue.postValue(ScreenState.Render(
                                     WorldStateScreen.SuccessCountriesStatsPieCharts(
                                         state.data.toListChartUI())))
                         }
                     }
                     is ListWorldStats ->
-                        _screenState.postValue(ScreenState.Render(
+                        screenStateQueue.postValue(ScreenState.Render(
                             WorldStateScreen.SuccessWorldStatsBarCharts(
                                 state.data.worldStats.map { worldStats -> worldStats.toListChartUI() })))
                     is ListCountryAndStats -> {
                         when (viewType) {
                             is MenuItemViewType.BarChart ->
-                                _screenState.postValue(ScreenState.Render(
+                                screenStateQueue.postValue(ScreenState.Render(
                                     WorldStateScreen.SuccessCountriesStatsBarCharts(
                                         state.data.countriesStats.map { countryStats ->
                                             countryStats.toListChartUI() })))
@@ -176,7 +182,7 @@ class WorldViewModel(
                                    mapWorldLineStats[viewType] = state.data.countriesStats.map {
                                         countryStats -> countryStats.toListChartUI()
                                    }
-                                _screenState.postValue(ScreenState.Render(
+                                screenStateQueue.postValue(ScreenState.Render(
                                     WorldStateScreen.SuccessCountriesStatsLineCharts(mapWorldLineStats)))
                             }
                         }
@@ -184,18 +190,18 @@ class WorldViewModel(
                 }
             }
             is State.Loading ->
-                _screenState.postValue(ScreenState.Loading)
+                screenStateQueue.postValue(ScreenState.Loading)
         }
     }
 
     private fun handleError(state: StateError<DomainError>) {
         when (state) {
             is StateError.Error ->
-                _screenState.postValue(ScreenState.Error(
+                screenStateQueue.postValue(ScreenState.Error(
                     WorldStateScreen.SomeError(state.error.toUI())))
         }
     }
-    
+
     private fun cancelAll() {
         jobWorldAndContries?.cancel()
         jobWorldAll?.cancel()
