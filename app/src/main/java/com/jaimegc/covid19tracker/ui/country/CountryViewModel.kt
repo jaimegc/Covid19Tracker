@@ -52,8 +52,8 @@ class CountryViewModel(
     private val getSubRegionStats: GetSubRegionStats
 ) : BaseScreenStateMenuViewModel<PlaceStateScreen>() {
 
-    override val _screenState = QueueLiveData<ScreenState<PlaceStateScreen>>()
-    override val screenState: LiveData<ScreenState<PlaceStateScreen>> = _screenState
+    override val screenStateQueue = QueueLiveData<ScreenState<PlaceStateScreen>>()
+    override val screenState: LiveData<ScreenState<PlaceStateScreen>> = screenStateQueue
 
     private val mapPlacesLineStats =
         mutableMapOf<MenuItemViewType, List<PlaceListStatsChartUI>>()
@@ -231,63 +231,63 @@ class CountryViewModel(
             is State.Success -> {
                 when (state.data) {
                     is ListCountry ->
-                        _screenState.postValue(ScreenState.Render(PlaceStateScreen.SuccessSpinnerCountries(
+                        screenStateQueue.postValue(ScreenState.Render(PlaceStateScreen.SuccessSpinnerCountries(
                             state.data.countries.map { country -> country.toUI() })))
                     is ListRegion ->
-                        _screenState.postValue(ScreenState.Render(PlaceStateScreen.SuccessSpinnerRegions(
+                        screenStateQueue.postValue(ScreenState.Render(PlaceStateScreen.SuccessSpinnerRegions(
                             state.data.regions.map { region -> region.toPlaceUI() })))
                     is CountryOneStats ->
                         when (viewType) {
                             is MenuItemViewType.List ->
-                                _screenState.postValue(ScreenState.Render(
+                                screenStateQueue.postValue(ScreenState.Render(
                                     PlaceStateScreen.SuccessPlaceAndStats(state.data.toPlaceUI())))
                             is MenuItemViewType.PieChart ->
-                                _screenState.postValue(ScreenState.Render(
+                                screenStateQueue.postValue(ScreenState.Render(
                                     PlaceStateScreen.SuccessPlaceTotalStatsPieChart(state.data.stats.toChartUI())))
                         }
                     is RegionOneStats ->
                         when (viewType) {
                             is MenuItemViewType.List ->
-                                _screenState.postValue(ScreenState.Render(
+                                screenStateQueue.postValue(ScreenState.Render(
                                     PlaceStateScreen.SuccessPlaceAndStats(state.data.toPlaceUI())))
                             is MenuItemViewType.PieChart ->
-                                _screenState.postValue(ScreenState.Render(
+                                screenStateQueue.postValue(ScreenState.Render(
                                     PlaceStateScreen.SuccessPlaceTotalStatsPieChart(state.data.stats.toChartUI())))
                         }
                     is ListRegionStats ->
                         when (viewType) {
                             is MenuItemViewType.List ->
-                                _screenState.postValue(ScreenState.Render(
+                                screenStateQueue.postValue(ScreenState.Render(
                                     PlaceStateScreen.SuccessPlaceStats(state.data.toPlaceUI())))
                             is MenuItemViewType.PieChart ->
-                                _screenState.postValue(ScreenState.Render(
+                                screenStateQueue.postValue(ScreenState.Render(
                                     PlaceStateScreen.SuccessPlaceAndStatsPieChart(state.data.toPlaceChartUI())))
                         }
                     is ListSubRegionStats ->
                         when (viewType) {
                             is MenuItemViewType.List ->
-                                _screenState.postValue(ScreenState.Render(
+                                screenStateQueue.postValue(ScreenState.Render(
                                     PlaceStateScreen.SuccessPlaceStats(state.data.toPlaceUI())))
                             is MenuItemViewType.PieChart ->
-                                _screenState.postValue(ScreenState.Render(
+                                screenStateQueue.postValue(ScreenState.Render(
                                     PlaceStateScreen.SuccessPlaceAndStatsPieChart(state.data.toPlaceChartUI())))
                         }
                     is ListCountryOnlyStats ->
-                        _screenState.postValue(ScreenState.Render(
+                        screenStateQueue.postValue(ScreenState.Render(
                             PlaceStateScreen.SuccessPlaceTotalStatsBarChart(state.data.toPlaceUI())))
                     is ListRegionOnlyStats ->
-                        _screenState.postValue(ScreenState.Render(
+                        screenStateQueue.postValue(ScreenState.Render(
                             PlaceStateScreen.SuccessPlaceTotalStatsBarChart(state.data.toPlaceUI())))
                     is ListRegionAndStats ->
                         when (viewType) {
                             is MenuItemViewType.BarChart ->
-                                _screenState.postValue(ScreenState.Render(
+                                screenStateQueue.postValue(ScreenState.Render(
                                     PlaceStateScreen.SuccessPlaceStatsBarChart(state.data.toPlaceUI())))
                         }
                     is ListSubRegionAndStats ->
                         when (viewType) {
                             is MenuItemViewType.BarChart ->
-                                _screenState.postValue(ScreenState.Render(
+                                screenStateQueue.postValue(ScreenState.Render(
                                     PlaceStateScreen.SuccessPlaceStatsBarChart(state.data.toPlaceUI())))
                         }
                     is Pair<*, *> -> {
@@ -302,22 +302,22 @@ class CountryViewModel(
                                     (state.data.second as ListSubRegionAndStats).toPlaceUI()
                         }
 
-                        _screenState.postValue(ScreenState.Render(
+                        screenStateQueue.postValue(ScreenState.Render(
                             PlaceStateScreen.SuccessPlaceStatsLineCharts(mapPlacesLineStats)))
                     }
                 }
             }
             is State.Loading ->
-                _screenState.postValue(ScreenState.Loading)
+                screenStateQueue.postValue(ScreenState.Loading)
             is State.EmptyData ->
-                _screenState.postValue(ScreenState.EmptyData)
+                screenStateQueue.postValue(ScreenState.EmptyData)
         }
     }
 
     private fun handleError(state: StateError<DomainError>) {
         when (state) {
             is StateError.Error ->
-                _screenState.postValue(ScreenState.Error(
+                screenStateQueue.postValue(ScreenState.Error(
                     PlaceStateScreen.SomeError(state.error.toUI())))
         }
     }
