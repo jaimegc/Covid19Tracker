@@ -63,6 +63,10 @@ object Dependencies {
 
     const val TEST_JUNIT = "junit:junit:${Versions.Test.JUNIT}"
 
+    const val DETEKT = Versions.Detekt.DETEKT
+    const val DETEKT_PLUGIN = "io.gitlab.arturbosch.detekt"
+    const val DETEKT_FORMATTING = "io.gitlab.arturbosch.detekt:detekt-formatting:${Versions.Detekt.DETEKT}"
+
     const val OTHER_AIRBNB_LOTTIE = "com.airbnb.android:lottie:${Versions.Other.AIRBNB_LOTTIE}"
     const val OTHER_ARROW = "io.arrow-kt:arrow-core-data:${Versions.Other.ARROW}"
     const val OTHER_CHART = "com.github.PhilJay:MPAndroidChart:${Versions.Other.CHART}"
@@ -128,6 +132,10 @@ fun DependencyHandler.test() {
     testImplementation(Dependencies.TEST_JUNIT)
 }
 
+fun DependencyHandler.detektFormatting() {
+    add("detektPlugins", Dependencies.DETEKT_FORMATTING)
+}
+
 fun DependencyHandler.other() {
     implementation(Dependencies.OTHER_AIRBNB_LOTTIE)
     implementation(Dependencies.OTHER_ARROW)
@@ -153,6 +161,10 @@ private fun DependencyHandler.compileOnly(depName: String) {
 
 private fun DependencyHandler.api(depName: String) {
     add("api", depName)
+}
+
+private fun DependencyHandler.id(depName: String) {
+    add("id", depName)
 }
 
 private fun DependencyHandler.testImplementation(depName: String) {
