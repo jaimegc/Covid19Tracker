@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import java.util.concurrent.TimeUnit
 
-abstract class BasePreferences(context: Context) {
+open class BasePreferences(context: Context) {
     protected var settings: SharedPreferences =
         context.getSharedPreferences("prefs", Context.MODE_PRIVATE)
 }
