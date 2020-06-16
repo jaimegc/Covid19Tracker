@@ -4,23 +4,20 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-object Coroutines {
+fun main(work: suspend(() -> Unit)) =
+    CoroutineScope(Dispatchers.Main).launch { work() }
 
-    fun main(work: suspend(() -> Unit)) =
-        CoroutineScope(Dispatchers.Main).launch { work() }
+fun io(work: suspend(() -> Unit)) =
+    CoroutineScope(Dispatchers.IO).launch { work() }
 
-    fun io(work: suspend(() -> Unit)) =
-        CoroutineScope(Dispatchers.IO).launch { work() }
+fun default(work: suspend(() -> Unit)) =
+    CoroutineScope(Dispatchers.Default).launch { work() }
 
-    fun default(work: suspend(() -> Unit)) =
-        CoroutineScope(Dispatchers.Default).launch { work() }
+fun unconfined(work: suspend(() -> Unit)) =
+    CoroutineScope(Dispatchers.Unconfined).launch { work() }
 
-    fun unconfined(work: suspend(() -> Unit)) =
-        CoroutineScope(Dispatchers.Unconfined).launch { work() }
-
-    fun ioMain(workIO: suspend(() -> Unit), workMain: () -> Unit) =
-        CoroutineScope(Dispatchers.IO).launch {
-            workIO()
-            CoroutineScope(Dispatchers.Main).launch { workMain() }
-        }
-}
+fun ioMain(workIO: suspend(() -> Unit), workMain: () -> Unit) =
+    CoroutineScope(Dispatchers.IO).launch {
+        workIO()
+        CoroutineScope(Dispatchers.Main).launch { workMain() }
+    }
