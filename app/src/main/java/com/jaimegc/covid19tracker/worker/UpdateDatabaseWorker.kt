@@ -31,6 +31,7 @@ class UpdateDatabaseWorker(
     companion object {
         val TAG = UpdateDatabaseWorker::class.java.simpleName
         const val DATA_PROGRESS = "DATA_PROGRESS"
+        const val UPDATE_TIME_HOURS = 6L
     }
 
     private val fileUtils: FileUtils by inject()
