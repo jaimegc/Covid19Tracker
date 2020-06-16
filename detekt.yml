@@ -72,6 +72,7 @@ complexity:
     ignoreSimpleWhenEntries: false
     ignoreNestingFunctions: false
     nestingFunctions: [run, let, apply, with, also, use, forEach, isNotNull, ifNull]
+    excludes: ['**/CountryViewModel.kt', '**/CountryFragment.kt']
   LabeledExpression:
     active: false
     ignoredLabels: []
@@ -79,7 +80,7 @@ complexity:
     active: true
     threshold: 600
   LongMethod:
-    active: true
+    active: false
     threshold: 60
   LongParameterList:
     active: false
@@ -93,7 +94,7 @@ complexity:
     threshold: 6
   NestedBlockDepth:
     active: true
-    threshold: 4
+    threshold: 6
   StringLiteralDuplication:
     active: false
     excludes: ['**/test/**', '**/androidTest/**', '**/*.Test.kt', '**/*.Spec.kt', '**/*.Spek.kt']
