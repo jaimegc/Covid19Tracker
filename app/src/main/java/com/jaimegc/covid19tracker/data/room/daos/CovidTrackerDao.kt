@@ -280,14 +280,15 @@ abstract class RegionStatsDao {
     @Transaction
     @Query("""
         SELECT * FROM region r, region_stats s
-        WHERE r.id = s.id_region_fk AND r.id_country_fk = :idCountry AND s.id_region_country_fk = :idCountry AND r.id IN (
-            SELECT id FROM region 
-                LEFT JOIN (
-                    SELECT id_region_fk, MAX(confirmed) AS maxConfirmed FROM region_stats 
-                    GROUP BY id_region_fk
-                ) statsMaxConfirmed
-                ON region.id = statsMaxConfirmed.id_region_fk AND region.id_country_fk = :idCountry
-                ORDER BY statsMaxConfirmed.maxConfirmed DESC LIMIT 5
+        WHERE r.id = s.id_region_fk AND r.id_country_fk = :idCountry AND 
+            s.id_region_country_fk = :idCountry AND r.id IN (
+                SELECT id FROM region 
+                    LEFT JOIN (
+                        SELECT id_region_fk, MAX(confirmed) AS maxConfirmed FROM region_stats 
+                        GROUP BY id_region_fk
+                    ) statsMaxConfirmed
+                    ON region.id = statsMaxConfirmed.id_region_fk AND region.id_country_fk = :idCountry
+                    ORDER BY statsMaxConfirmed.maxConfirmed DESC LIMIT 5
             )
         ORDER BY r.id ASC, s.confirmed ASC
         """)
@@ -296,14 +297,15 @@ abstract class RegionStatsDao {
     @Transaction
     @Query("""
         SELECT * FROM region r, region_stats s
-        WHERE r.id = s.id_region_fk AND r.id_country_fk = :idCountry AND s.id_region_country_fk = :idCountry AND r.id IN (
-            SELECT id FROM region 
-                LEFT JOIN (
-                    SELECT id_region_fk, MAX(deaths) AS maxDeaths FROM region_stats 
-                    GROUP BY id_region_fk
-                ) statsMaxDeaths
-                ON region.id = statsMaxDeaths.id_region_fk AND region.id_country_fk = :idCountry
-                ORDER BY statsMaxDeaths.maxDeaths DESC LIMIT 5
+        WHERE r.id = s.id_region_fk AND r.id_country_fk = :idCountry AND 
+            s.id_region_country_fk = :idCountry AND r.id IN (
+                SELECT id FROM region 
+                    LEFT JOIN (
+                        SELECT id_region_fk, MAX(deaths) AS maxDeaths FROM region_stats 
+                        GROUP BY id_region_fk
+                    ) statsMaxDeaths
+                    ON region.id = statsMaxDeaths.id_region_fk AND region.id_country_fk = :idCountry
+                    ORDER BY statsMaxDeaths.maxDeaths DESC LIMIT 5
             )
         ORDER BY r.id ASC, s.deaths ASC
         """)
@@ -312,14 +314,15 @@ abstract class RegionStatsDao {
     @Transaction
     @Query("""
         SELECT * FROM region r, region_stats s
-        WHERE r.id = s.id_region_fk AND r.id_country_fk = :idCountry AND s.id_region_country_fk = :idCountry AND r.id IN (
-            SELECT id FROM region 
-                LEFT JOIN (
-                    SELECT id_region_fk, MAX(recovered) AS maxRecovered FROM region_stats 
-                    GROUP BY id_region_fk
-                ) statsMaxRecovered
-                ON region.id = statsMaxRecovered.id_region_fk AND region.id_country_fk = :idCountry
-                ORDER BY statsMaxRecovered.maxRecovered DESC LIMIT 5
+        WHERE r.id = s.id_region_fk AND r.id_country_fk = :idCountry AND 
+            s.id_region_country_fk = :idCountry AND r.id IN (
+                SELECT id FROM region 
+                    LEFT JOIN (
+                        SELECT id_region_fk, MAX(recovered) AS maxRecovered FROM region_stats 
+                        GROUP BY id_region_fk
+                    ) statsMaxRecovered
+                    ON region.id = statsMaxRecovered.id_region_fk AND region.id_country_fk = :idCountry
+                    ORDER BY statsMaxRecovered.maxRecovered DESC LIMIT 5
             )
         ORDER BY r.id ASC, s.recovered ASC
         """)
@@ -328,14 +331,15 @@ abstract class RegionStatsDao {
     @Transaction
     @Query("""
         SELECT * FROM region r, region_stats s
-        WHERE r.id = s.id_region_fk AND r.id_country_fk = :idCountry AND s.id_region_country_fk = :idCountry AND r.id IN (
-            SELECT id FROM region 
-                LEFT JOIN (
-                    SELECT id_region_fk, MAX(open_cases) AS maxOpenCases FROM region_stats 
-                    GROUP BY id_region_fk
-                ) statsMaxOpenCases
-                ON region.id = statsMaxOpenCases.id_region_fk AND region.id_country_fk = :idCountry
-                ORDER BY statsMaxOpenCases.maxOpenCases DESC LIMIT 5
+        WHERE r.id = s.id_region_fk AND r.id_country_fk = :idCountry AND 
+            s.id_region_country_fk = :idCountry AND r.id IN (
+                SELECT id FROM region 
+                    LEFT JOIN (
+                        SELECT id_region_fk, MAX(open_cases) AS maxOpenCases FROM region_stats 
+                        GROUP BY id_region_fk
+                    ) statsMaxOpenCases
+                    ON region.id = statsMaxOpenCases.id_region_fk AND region.id_country_fk = :idCountry
+                    ORDER BY statsMaxOpenCases.maxOpenCases DESC LIMIT 5
             )
         ORDER BY r.id ASC, s.open_cases ASC
         """)
