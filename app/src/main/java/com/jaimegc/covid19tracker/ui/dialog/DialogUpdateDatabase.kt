@@ -21,11 +21,11 @@ class DialogUpdateDatabase : DialogFragment() {
         fun newInstance(): DialogUpdateDatabase = DialogUpdateDatabase()
     }
 
-    private var dialogUpdateDatabase: Dialog? = null
+    private var dialogUpdateDb: Dialog? = null
     private lateinit var binding: DialogUpdateDatabaseBinding
 
     override fun setupDialog(dialog: Dialog, style: Int) {
-        this.dialogUpdateDatabase = dialog
+        this.dialogUpdateDb = dialog
         binding = DialogUpdateDatabaseBinding.inflate(layoutInflater)
         val contentView = binding.root
 
@@ -44,7 +44,7 @@ class DialogUpdateDatabase : DialogFragment() {
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        dialogUpdateDatabase = null
+        dialogUpdateDb = null
     }
 
     fun updateInfoStatus(infoStatus: String) {
@@ -52,12 +52,12 @@ class DialogUpdateDatabase : DialogFragment() {
     }
 
     fun close() {
-        dialogUpdateDatabase?.let {
-            dismiss().also { dialogUpdateDatabase = null }
+        dialogUpdateDb?.let {
+            dismiss().also { dialogUpdateDb = null }
         }
     }
 
     fun open(fragmentManager: FragmentManager) {
-        if (dialogUpdateDatabase == null || dialogUpdateDatabase!!.isShowing.not()) show(fragmentManager, TAG)
+        if (dialogUpdateDb == null || dialogUpdateDb!!.isShowing.not()) show(fragmentManager, TAG)
     }
 }

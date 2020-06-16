@@ -11,7 +11,8 @@ import com.jaimegc.covid19tracker.common.extensions.chart.setValues
 import com.jaimegc.covid19tracker.databinding.ItemPieChartTotalBinding
 import com.jaimegc.covid19tracker.ui.model.WorldStatsChartUI
 
-class WorldPieChartAdapter : ListAdapter<WorldStatsChartUI, WorldPieChartAdapter.WorldPieChartViewHolder>(DIFF_CALLBACK) {
+class WorldPieChartAdapter :
+    ListAdapter<WorldStatsChartUI, WorldPieChartAdapter.WorldPieChartViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         WorldPieChartViewHolder(ItemPieChartTotalBinding.inflate(

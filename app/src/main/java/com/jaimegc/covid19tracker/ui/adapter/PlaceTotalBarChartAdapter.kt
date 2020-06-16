@@ -11,7 +11,8 @@ import com.jaimegc.covid19tracker.common.extensions.chart.setValues
 import com.jaimegc.covid19tracker.databinding.ItemBarChartTotalBinding
 import com.jaimegc.covid19tracker.ui.model.StatsChartUI
 
-class PlaceTotalBarChartAdapter : ListAdapter<List<StatsChartUI>, PlaceTotalBarChartAdapter.PlaceTotalBarChartViewHolder>(DIFF_CALLBACK) {
+class PlaceTotalBarChartAdapter :
+    ListAdapter<List<StatsChartUI>, PlaceTotalBarChartAdapter.PlaceTotalBarChartViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         PlaceTotalBarChartViewHolder(ItemBarChartTotalBinding.inflate(

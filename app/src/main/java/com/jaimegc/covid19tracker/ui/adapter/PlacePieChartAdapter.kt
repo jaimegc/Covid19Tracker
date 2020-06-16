@@ -12,7 +12,8 @@ import com.jaimegc.covid19tracker.common.extensions.percentage
 import com.jaimegc.covid19tracker.databinding.ItemPieChartPlaceTotalBinding
 import com.jaimegc.covid19tracker.ui.model.PlaceStatsChartUI
 
-class PlacePieChartAdapter : ListAdapter<PlaceStatsChartUI, PlacePieChartAdapter.PlaceListStatsViewHolder>(DIFF_CALLBACK) {
+class PlacePieChartAdapter :
+    ListAdapter<PlaceStatsChartUI, PlacePieChartAdapter.PlaceListStatsViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         PlaceListStatsViewHolder(ItemPieChartPlaceTotalBinding.inflate(

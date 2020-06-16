@@ -13,7 +13,8 @@ import com.jaimegc.covid19tracker.common.extensions.setEmojiCountry
 import com.jaimegc.covid19tracker.databinding.ItemPieChartPlaceTotalBinding
 import com.jaimegc.covid19tracker.ui.model.WorldCountryStatsUI
 
-class WorldCountriesPieChartAdapter : ListAdapter<WorldCountryStatsUI, WorldCountriesPieChartAdapter.CountriesListStatsViewHolder>(DIFF_CALLBACK) {
+class WorldCountriesPieChartAdapter :
+    ListAdapter<WorldCountryStatsUI, WorldCountriesPieChartAdapter.CountriesListStatsViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         CountriesListStatsViewHolder(ItemPieChartPlaceTotalBinding.inflate(

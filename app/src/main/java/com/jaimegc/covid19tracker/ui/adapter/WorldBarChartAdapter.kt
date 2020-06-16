@@ -11,7 +11,8 @@ import com.jaimegc.covid19tracker.common.extensions.chart.setValues
 import com.jaimegc.covid19tracker.databinding.ItemBarChartTotalBinding
 import com.jaimegc.covid19tracker.ui.model.WorldStatsChartUI
 
-class WorldBarChartAdapter : ListAdapter<List<WorldStatsChartUI>, WorldBarChartAdapter.WorldBarChartViewHolder>(DIFF_CALLBACK) {
+class WorldBarChartAdapter :
+    ListAdapter<List<WorldStatsChartUI>, WorldBarChartAdapter.WorldBarChartViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         WorldBarChartViewHolder(ItemBarChartTotalBinding.inflate(
@@ -75,7 +76,10 @@ class WorldBarChartAdapter : ListAdapter<List<WorldStatsChartUI>, WorldBarChartA
             override fun areItemsTheSame(oldItem: List<WorldStatsChartUI>, newItem: List<WorldStatsChartUI>): Boolean =
                 oldItem.size == newItem.size
 
-            override fun areContentsTheSame(oldItem: List<WorldStatsChartUI>, newItem: List<WorldStatsChartUI>): Boolean =
+            override fun areContentsTheSame(
+                oldItem: List<WorldStatsChartUI>,
+                newItem: List<WorldStatsChartUI>
+            ): Boolean =
                 oldItem == newItem
         }
     }

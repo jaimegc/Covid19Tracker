@@ -224,7 +224,11 @@ abstract class RegionStatsDao {
         LEFT JOIN region_stats s ON r.id = s.id_region_fk
         WHERE r.id = :idRegion AND r.id_country_fk = :idCountry AND s.date_timestamp = :dateTimestamp
         """)
-    abstract fun getRegionAndStatsByDate(idCountry: String, idRegion: String, dateTimestamp: Long): Flow<RegionAndOneStatsPojo>
+    abstract fun getRegionAndStatsByDate(
+        idCountry: String,
+        idRegion: String,
+        dateTimestamp: Long
+    ): Flow<RegionAndOneStatsPojo>
 
     @Transaction
     @Query("""
