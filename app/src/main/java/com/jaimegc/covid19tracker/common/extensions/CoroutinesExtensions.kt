@@ -1,5 +1,7 @@
 package com.jaimegc.covid19tracker.common.extensions
 
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,8 +18,9 @@ fun default(work: suspend(() -> Unit)) =
 fun unconfined(work: suspend(() -> Unit)) =
     CoroutineScope(Dispatchers.Unconfined).launch { work() }
 
-fun ioMain(workIO: suspend(() -> Unit), workMain: () -> Unit) =
-    CoroutineScope(Dispatchers.IO).launch {
+fun LifecycleOwner.ioMain(workIO: suspend(() -> Unit), workMain: () -> Unit) {
+    lifecycleScope.launch(Dispatchers.IO) {
         workIO()
-        CoroutineScope(Dispatchers.Main).launch { workMain() }
+        launch(Dispatchers.Main) { workMain() }
     }
+}
