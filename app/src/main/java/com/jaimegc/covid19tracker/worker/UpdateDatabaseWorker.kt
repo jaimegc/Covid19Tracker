@@ -4,20 +4,17 @@ import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
-import arrow.core.Either
+import arrow.fx.IO
+import arrow.fx.extensions.io.concurrent.parTraverse
+import arrow.fx.fix
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.data.datasource.LocalCovidTrackerDatasource
 import com.jaimegc.covid19tracker.data.datasource.RemoteCovidTrackerDatasource
 import com.jaimegc.covid19tracker.data.preference.CovidTrackerPreferences
 import com.jaimegc.covid19tracker.domain.model.CovidTracker
-import com.jaimegc.covid19tracker.domain.model.DomainError
 import com.jaimegc.covid19tracker.domain.usecase.GetDates
 import com.jaimegc.covid19tracker.utils.FileUtils
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import org.koin.core.KoinComponent
 import org.koin.core.inject
@@ -52,19 +49,9 @@ class UpdateDatabaseWorker(
 
         val datesToDownloadSize = datesToDownload.size
 
-        val allRequests = mutableListOf<Deferred<Either<DomainError, CovidTracker>>>()
+        val allRequests = downloadAllDates(datesToDownload)
 
-        datesToDownload.map { date ->
-            coroutineScope {
-                allRequests.add(async { remote.getCovidTrackerByDate(date) })
-            }
-        }
-
-        allRequests.awaitAll().map { result ->
-            result.map { covidTracker ->
-                covidTrackers.add(covidTracker)
-            }
-        }
+        allRequests.map { date -> date.map { covidTracker -> covidTrackers.add(covidTracker) } }
 
         if (datesToDownloadSize > 1) {
             setProgress(workDataOf(DATA_PROGRESS to context.getString(R.string.worker_start)))
@@ -80,10 +67,14 @@ class UpdateDatabaseWorker(
 
         // Save preferences if the current day was downloaded
         covidTrackers.firstOrNull { covidTracker ->
-            covidTracker.worldStats.date == datesToDownload.last() }?.let {
-            covidTrackerPreferences.saveTime()
-        }
+            covidTracker.worldStats.date == datesToDownload.last()
+        }?.let { covidTrackerPreferences.saveTime() }
 
         return Result.success()
     }
+
+    private fun downloadAllDates(dates: List<String>) =
+        dates.parTraverse { date ->
+            IO.effect { remote.getCovidTrackerByDate(date) }
+        }.fix().unsafeRunSync()
 }
