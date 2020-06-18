@@ -84,6 +84,7 @@
 </p>
 
 ## Contribute
+
 If you want to contribute to this app, you're always welcome!
 See [Contributing Guidelines](CONTRIBUTING.md). 
 
