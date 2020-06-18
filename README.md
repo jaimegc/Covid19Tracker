@@ -94,7 +94,7 @@
 
 - [Narrativa COVID-19 Project](https://covid19tracking.narrativa.com) for the open-source API.
 - [Covid19-Notifier-IN Android Project](https://github.com/PatilShreyas/Covid19-Notifier-IN) for the inspiration to start this project.
-- [MPAndroidChart library](https://github.com/PhilJay/MPAndroidChart) for the amazing chart library.
+- [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) for the amazing chart library.
 
 ### Thanks
 
