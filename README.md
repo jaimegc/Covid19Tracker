@@ -96,7 +96,7 @@
 - [Covid19-Notifier-IN Android Project](https://github.com/PatilShreyas/Covid19-Notifier-IN) for the inspiration to start this project.
 - [MPAndroidChart library](https://github.com/PhilJay/MPAndroidChart) for the amazing chart library.
 
-## Thanks
+### Thanks
 
 - Code:
   * [CountryCode](https://github.com/pablisco/virustrend)
