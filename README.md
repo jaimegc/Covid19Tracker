@@ -109,7 +109,7 @@
   * [Empty chart data](https://lottiefiles.com/17801-stay-at-home)
   * [Loading](https://lottiefiles.com/18466-corona-virus)
 - Icons:
-  * [Menu List](https://github.com/PatilShreyas/Covid19-Notifier-IN)
+  * [Menu List](https://github.com/PatilShreyas/Covid19-Notifier-IN/tree/master/app/src/main/res/drawable)
   * [Launcher & Splash](https://www.flaticon.es/icono-gratis/coronavirus_2746582)
   * [Country](https://pngimage.net/%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%B0-png-4)
 
