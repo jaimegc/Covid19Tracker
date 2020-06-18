@@ -18,7 +18,7 @@ object Versions {
         const val KOTLIN = "1.3.72"
         const val MAVEN_PLUGIN = "2.1"
         const val GOOGLE_SERVICES = "4.3.3"
-        const val REMAL_PLUGIN = "1.0.192"
+        const val REMAL_PLUGIN = "1.0.194"
     }
 
     object Kotlin {
@@ -63,9 +63,12 @@ object Versions {
         const val DETEKT = "1.10.0-RC1"
     }
 
+    object Arrow {
+        const val ARROW = "0.10.5"
+    }
+
     object Other {
         const val AIRBNB_LOTTIE = "3.4.1"
-        const val ARROW = "0.10.5"
         const val CHART = "v3.1.0"
         const val EMOJI = "5.1.1"
     }
