@@ -99,10 +99,19 @@
 ### Thanks
 
 - Code:
-  * [CountryCode](https://github.com/pablisco/virustrend)
-  * [KeepStateNavigator](https://github.com/STAR-ZERO/navigation-keep-fragment-sample) 
+  * [Arrow](https://github.com/arrow-kt/arrow)
+  * [VirusTrend](https://github.com/pablisco/virustrend)
+  * [NavigationKeepFragment](https://github.com/STAR-ZERO/navigation-keep-fragment-sample) 
   * [QueueLiveData](https://stackoverflow.com/questions/56097647/can-we-use-livedata-without-loosing-any-value) 
-- Images & Icons:
+  * [Mobility Finder](https://github.com/pablodeafsapps/mobility-finder)
+- Animations:
+  * [Loading & Populating database](https://lottiefiles.com/17895-wear-mask)
+  * [Empty chart data](https://lottiefiles.com/17801-stay-at-home)
+  * [Loading](https://lottiefiles.com/18466-corona-virus)
+- Icons:
+  * [Menu List](https://github.com/PatilShreyas/Covid19-Notifier-IN)
+  * [Launcher & Splash](https://www.flaticon.es/icono-gratis/coronavirus_2746582)
+  * [Country](https://pngimage.net/%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%B0-png-4)
 
 ## Contribute
 
