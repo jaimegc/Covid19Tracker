@@ -7,9 +7,9 @@
 <b>List</b>: List view
 
 <p align="left">
-  <img src="./art/country_list1.jpg" width="300">
-  <img src="./art/country_list2.jpg" width="300">
-  <img src="./art/country_list3.jpg" width="300">
+  <img src="./art/country_list1.jpg" width="295">
+  <img src="./art/country_list2.jpg" width="295">
+  <img src="./art/country_list3.jpg" width="295">
 </p>
 
 <b>Bar Chart</b>: Bar chart view
