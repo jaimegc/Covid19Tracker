@@ -73,8 +73,12 @@ object Dependencies {
     const val DETEKT_FORMATTING =
         "io.gitlab.arturbosch.detekt:detekt-formatting:${Versions.Detekt.DETEKT}"
 
+    const val ARROW_CORE = "io.arrow-kt:arrow-core-data:${Versions.Arrow.ARROW}"
+    const val ARROW_FX = "io.arrow-kt:arrow-fx:${Versions.Arrow.ARROW}"
+    const val ARROW_FX_COROUTINES =
+        "io.arrow-kt:arrow-fx-kotlinx-coroutines:${Versions.Arrow.ARROW}"
+
     const val OTHER_AIRBNB_LOTTIE = "com.airbnb.android:lottie:${Versions.Other.AIRBNB_LOTTIE}"
-    const val OTHER_ARROW = "io.arrow-kt:arrow-core-data:${Versions.Other.ARROW}"
     const val OTHER_CHART = "com.github.PhilJay:MPAndroidChart:${Versions.Other.CHART}"
     const val OTHER_EMOJI = "com.vdurmont:emoji-java:${Versions.Other.EMOJI}"
 }
@@ -142,9 +146,14 @@ fun DependencyHandler.detektFormatting() {
     add("detektPlugins", Dependencies.DETEKT_FORMATTING)
 }
 
-fun DependencyHandler.other() {
+fun DependencyHandler.arrow() {
+    implementation(Dependencies.ARROW_CORE)
+    implementation(Dependencies.ARROW_FX)
+    implementation(Dependencies.ARROW_FX_COROUTINES)
+}
+
+fun DependencyHandler.others() {
     implementation(Dependencies.OTHER_AIRBNB_LOTTIE)
-    implementation(Dependencies.OTHER_ARROW)
     implementation(Dependencies.OTHER_CHART)
     implementation(Dependencies.OTHER_EMOJI)
 }

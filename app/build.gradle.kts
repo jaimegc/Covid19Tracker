@@ -47,6 +47,7 @@ dependencies {
     google()
     square()
     koin()
-    other()
+    arrow()
+    others()
     test()
 }
