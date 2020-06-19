@@ -42,7 +42,7 @@
   <img src="./art/country_pie_chart2.jpg" width="295">
 </p>
 
-<b>Countries & Regions</b>: Line chart view
+<b>Countries & Regions</b>
 
 <p align="left">
   <img src="./art/list_countries.jpg" width="295">
@@ -82,6 +82,13 @@
   <img src="./art/populating_database.jpg" width="295">
   <img src="./art/empty_chart.jpg" width="295">
 </p>
+
+## Simplified UML Database
+
+<br />
+<p align="left">
+  <img src="./art/uml_database.png" width="600">
+</p>  
 
 ## TODO List
 
