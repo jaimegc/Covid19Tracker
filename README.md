@@ -90,6 +90,12 @@
   <img src="./art/uml_database.png" width="600">
 </p>  
 
+## Initialize Database
+
+There are three ways to initialize the local database:
+
+- <b>By default, using the zip file</b>: This file is in the <i>assets</i> folder and the name is <b>covid19-tracker-db.zip</b>. In the [MainActivity](/app/src/main/java/com/jaimegc/covid19tracker/ui/home/MainActivity.kt) class, the <i>fileUtils.initDatabase()</i> method unzips the file. After that, the [Covid19TrackerDatabase](/app/src/main/java/com/jaimegc/covid19tracker/data/room/CovidTrackerDatabase.kt) class will load the unzipped file in the <i>createFromFile()</i> method.
+
 ## TODO List
 
 - Add unit tests, integration tests, UI tests, etc.
