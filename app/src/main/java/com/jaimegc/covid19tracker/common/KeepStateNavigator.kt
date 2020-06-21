@@ -1,4 +1,4 @@
-package com.jaimegc.covid19tracker.ui.base
+package com.jaimegc.covid19tracker.common
 
 import android.app.Activity
 import android.content.Context

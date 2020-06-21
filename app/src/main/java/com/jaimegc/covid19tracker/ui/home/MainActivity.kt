@@ -18,7 +18,7 @@ import com.jaimegc.covid19tracker.common.extensions.ioMain
 import com.jaimegc.covid19tracker.common.extensions.show
 import com.jaimegc.covid19tracker.databinding.ActivityMainBinding
 import com.jaimegc.covid19tracker.ui.base.BaseActivity
-import com.jaimegc.covid19tracker.ui.base.KeepStateNavigator
+import com.jaimegc.covid19tracker.common.KeepStateNavigator
 import com.jaimegc.covid19tracker.ui.dialog.DialogUpdateDatabase
 import com.jaimegc.covid19tracker.utils.FileUtils
 import com.jaimegc.covid19tracker.worker.UpdateDatabaseWorker
@@ -55,7 +55,11 @@ class MainActivity : BaseActivity() {
         navController = findNavController(R.id.nav_host_fragment)
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)!!
         navigator =
-            KeepStateNavigator(this, navHostFragment.childFragmentManager, R.id.nav_host_fragment)
+            KeepStateNavigator(
+                this,
+                navHostFragment.childFragmentManager,
+                R.id.nav_host_fragment
+            )
         navController.navigatorProvider += navigator
         navController.setGraph(R.navigation.mobile_navigation)
 
