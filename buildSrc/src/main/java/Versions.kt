@@ -45,7 +45,7 @@ object Versions {
     }
 
     object Square {
-        const val MOSHI = "1.9.2"
+        const val MOSHI = "1.9.3"
         const val OK_HTTP = "4.7.2"
         const val RETROFIT = "2.9.0"
         const val RETROFIT_CONVERTER_MOSHI = "2.9.0"
