@@ -78,9 +78,9 @@
 <b>List</b>: List view
 
 <p align="left">
-  <img src="./art/world_list1.jpg" width="295">
-  <img src="./art/world_list2.jpg" width="295">
-  <img src="./art/world_list3.jpg" width="295">
+  <img src="./art/world_list1.jpg" width="270">
+  <img src="./art/world_list2.jpg" width="270">
+  <img src="./art/world_list3.jpg" width="270">
 </p>
 
 <b>Bar Chart</b>: Bar chart view
@@ -102,9 +102,9 @@
 ### Others
 
 <p align="left">
-  <img src="./art/loading_local_database.jpg" width="295">
-  <img src="./art/populating_database.jpg" width="295">
-  <img src="./art/empty_chart.jpg" width="295">
+  <img src="./art/loading_local_database.jpg" width="270">
+  <img src="./art/populating_database.jpg" width="270">
+  <img src="./art/empty_chart.jpg" width="270">
 </p>
 
 ## Simplified UML Database
