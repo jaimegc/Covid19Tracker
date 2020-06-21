@@ -177,6 +177,11 @@ There are three ways to initialize the local database:
 
 <b>IMPORTANT:</b> The rest of the days, from the last one in the local database until the current one will be downloaded automatically using the [UpdateDatabaseWorker](/app/src/main/java/com/jaimegc/covid19tracker/worker/UpdateDatabaseWorker.kt) worker. The data will be updated every 6 hours.
 
+## Gradle tasks
+
+- ```./gradlew detektAll```: Code analysis. More information [here](https://github.com/detekt/detekt#features).
+- ```./gradlew checkDependencyUpdates```: Check dependency updates.
+
 ## TODO List
 
 - Add unit tests, integration tests, UI tests, etc.
