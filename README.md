@@ -27,10 +27,12 @@
 
 ## Introduction
 
-Covid19 Tracker is a sample Android application focused on displaying statistics using graphs. From a technical point of view, it has an <b>Offline-First</b> approach and uses the <b>Single Source of Truth Principle</b> ([SSOT](https://developer.android.com/jetpack/docs/guide#truth)). Also, it has been built to play with a huge database and <b>Flow </b> streams trying to find the best performance. Although some technical decisions have only been taken to practice some new Android concepts for me.
+Covid19 Tracker is a sample Android application focused on displaying statistics using graphs. From a technical point of view, it has an <b>Offline-First</b> approach and uses the <b>Single Source of Truth</b> ([SSOT](https://developer.android.com/jetpack/docs/guide#truth)) principle. Also, it has been built to play with a huge database and <b>Flow </b> streams trying to find the best performance. Although some technical decisions have only been taken to practice some new Android concepts for me.
 
 ## Technical summary
 
+- [Offline-First](https://applikeysolutions.com/blog/the-offline-first-approach-to-mobile-app-development): The offline-first apps, while still requiring a connection to the servers, don't need a constant internet connection. The data from servers is downloaded to the user's device and can still be accessed offline.
+- [Single Source of Truth (SSOT)](https://developer.android.com/jetpack/docs/guide#truth): It is the practice of structuring information models and associated schemata such that every data element is stored exactly once. You can have an offline app and be sure your data always use one source and that is your database.
 - [Flow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/): A cold asynchronous data stream that sequentially emits values and completes normally or with an exception.
   - [zip](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/zip.html): Zips values from the current flow (this) with other flow using provided transform function applied to each pair of values. The resulting flow completes as soon as one of the flows completes and cancel is called on the remaining flow.
   - [combine](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/combine.html): Returns a Flow whose values are generated with transform function by combining the most recently emitted values by each flow.
@@ -42,7 +44,7 @@ Covid19 Tracker is a sample Android application focused on displaying statistics
   - [QueueLiveData](/app/src/main/java/com/jaimegc/covid19tracker/common/QueueLiveData.kt): This custom LiveData class will deliver values even when they are posted very quickly one after another. It solves the issue of losing values when several new ones are posted very quickly.
   - [Room](https://developer.android.com/topic/libraries/architecture/room): The library provides an abstraction layer over SQLite to allow for more robust database access while harnessing the full power of SQLite.
     - [DatabaseView](https://developer.android.com/training/data-storage/room/creating-views): This annotation allows you to encapsulate a query into a class. Room refers to these query-backed classes as views, and they behave the same as simple data objects when used in a DAO.
-- [Arrow]((https://github.com/arrow-kt/arrow): It is a library for Typed Functional Programming in Kotlin.
+- [Arrow](https://github.com/arrow-kt/arrow): It is a library for Typed Functional Programming in Kotlin.
   - [Either](https://arrow-kt.io/docs/0.10/apidocs/arrow-core-data/arrow.core/-either/): Represents the presence of either a Left value or a Right value. By convention, most functional programming libraries choose Left as the exceptional case and Right as the success value.
   - [IO](https://arrow-kt.io/docs/0.10/effects/io/): It is used to represent operations that can be executed lazily, and are capable of failing, generally with exceptions. This means that code wrapped inside IO will not throw exceptions until it is run, and those exceptions can be captured inside IO for the user to check. In this project, it has only been used in the [UpdateDatabaseWorker](/app/src/main/java/com/jaimegc/covid19tracker/worker/UpdateDatabaseWorker.kt) worker to build concurrent API calls.
 - [Koin](https://start.insert-koin.io/): Dependency Injection Framework (Kotlin)
