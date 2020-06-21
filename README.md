@@ -1,4 +1,28 @@
-# Covid19 Tracker
+
+<h1 align="center">Covid19 Tracker</h1>
+
+<p align="center">
+  <img src="./art/logo.png" height="200"/>
+</p>
+
+<br />
+
+## Table of contents
+
+- [Screens](#screens)
+  - [Country](#country)
+  - [World](#world)
+  - [Others](#others)
+- [Simplified UML Database](#simplified-uml-database)
+- [Initialize Database](#initialize-database)
+- [TODO List](#todo-list)
+- [Credits](#credits)
+  - [Special thanks](#special-thanks)
+  - [Thanks](#thanks)
+- [Contribute](#contribute)
+- [Author](#author)
+- [License](#license)
+
 
 ## Screens
 
