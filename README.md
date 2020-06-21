@@ -9,6 +9,7 @@
 
 ## Table of contents
 
+- [Introduction](#introduction)
 - [Screens](#screens)
   - [Country](#country)
   - [World](#world)
@@ -23,6 +24,9 @@
 - [Author](#author)
 - [License](#license)
 
+## Introduction
+
+Covid19 Tracker is a sample Android application focused on displaying statistics using graphs. From a technical point of view, it has an <b>Offline-First</b> approach and uses the <b>Single Source of Truth Principle</b> ([SSOT](https://developer.android.com/jetpack/docs/guide#truth)). Also, it has been built to play with a huge database and Flow streams trying to find the best performance. Although some technical decisions have only been taken to practice some new Android concepts for me.
 
 ## Screens
 
