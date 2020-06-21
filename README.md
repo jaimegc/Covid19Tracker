@@ -62,7 +62,7 @@ Covid19 Tracker is a sample Android application focused on displaying statistics
 
 ### Country
 
-<b>List</b>: List view
+<b>List</b>
 
 <p align="left">
   <img src="./art/country_list1.jpg" width="270">
@@ -70,7 +70,7 @@ Covid19 Tracker is a sample Android application focused on displaying statistics
   <img src="./art/country_list3.jpg" width="270">
 </p>
 
-<b>Bar Chart</b>: Bar chart view
+<b>Bar Chart</b>
 
 <p align="left">
   <img src="./art/country_bar_chart1.jpg" width="295">
@@ -79,21 +79,21 @@ Covid19 Tracker is a sample Android application focused on displaying statistics
   <img src="./art/country_bar_chart4.jpg" width="295">
 </p>
 
-<b>Line Chart</b>: Line chart view
+<b>Line Chart</b>
 
 <p align="left">
   <img src="./art/country_line_chart1.jpg" width="295">
   <img src="./art/country_line_chart2.jpg" width="295">
 </p>
 
-<b>Pie Chart</b>: Line chart view
+<b>Pie Chart</b>
 
 <p align="left">
   <img src="./art/country_pie_chart1.jpg" width="295">
   <img src="./art/country_pie_chart2.jpg" width="295">
 </p>
 
-<b>Pie Chart</b>: Line chart view
+<b>Pie Chart</b>
 
 <p align="left">
   <img src="./art/country_pie_chart1.jpg" width="295">
@@ -109,7 +109,7 @@ Covid19 Tracker is a sample Android application focused on displaying statistics
 
 ### World
 
-<b>List</b>: List view
+<b>List</b>
 
 <p align="left">
   <img src="./art/world_list1.jpg" width="270">
@@ -117,7 +117,7 @@ Covid19 Tracker is a sample Android application focused on displaying statistics
   <img src="./art/world_list3.jpg" width="270">
 </p>
 
-<b>Bar Chart</b>: Bar chart view
+<b>Bar Chart</b>
 
 <p align="left">
   <img src="./art/world_bar_chart1.jpg" width="295">
@@ -126,7 +126,7 @@ Covid19 Tracker is a sample Android application focused on displaying statistics
   <img src="./art/world_bar_chart4.jpg" width="295">
 </p>
 
-<b>Line Chart</b>: Line chart view
+<b>Line Chart</b>
 
 <p align="left">
   <img src="./art/world_line_chart1.jpg" width="295">
