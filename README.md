@@ -48,7 +48,7 @@ Covid19 Tracker is a sample Android application focused on displaying statistics
   - [Navigation](https://developer.android.com/guide/navigation): This component helps you implement navigation.
   - Custom classes:
     - [QueueLiveData](/app/src/main/java/com/jaimegc/covid19tracker/common/QueueLiveData.kt): This custom LiveData class will deliver values even when they are posted very quickly one after another. It solves the issue of losing values when several new ones are posted very quickly.
-    - [KeepStateNavigator](/app/src/main/java/com/jaimegc/covid19tracker/ui/base/KeepStateNavigator.kt): This class is to keep state in fragment navigator.
+    - [KeepStateNavigator](/app/src/main/java/com/jaimegc/covid19tracker/common/KeepStateNavigator.kt): This class is to keep state in fragment navigator.
 - [Arrow](https://github.com/arrow-kt/arrow): It is a library for Typed Functional Programming in Kotlin.
   - [Either](https://arrow-kt.io/docs/0.10/apidocs/arrow-core-data/arrow.core/-either/): Represents the presence of either a Left value or a Right value. By convention, most functional programming libraries choose Left as the exceptional case and Right as the success value.
   - [IO](https://arrow-kt.io/docs/0.10/effects/io/): It is used to represent operations that can be executed lazily, and are capable of failing, generally with exceptions. This means that code wrapped inside IO will not throw exceptions until it is run, and those exceptions can be captured inside IO for the user to check. In this project, it has only been used in the [UpdateDatabaseWorker](/app/src/main/java/com/jaimegc/covid19tracker/worker/UpdateDatabaseWorker.kt) worker to build concurrent API calls.
