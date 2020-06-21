@@ -112,9 +112,9 @@ Covid19 Tracker is a sample Android application focused on displaying statistics
 <b>List</b>
 
 <p align="left">
-  <img src="./art/world_list1.jpg" width="270">
-  <img src="./art/world_list2.jpg" width="270">
-  <img src="./art/world_list3.jpg" width="270">
+  <img src="./art/world_list1.jpg" width="275">
+  <img src="./art/world_list2.jpg" width="275">
+  <img src="./art/world_list3.jpg" width="275">
 </p>
 
 <b>Bar Chart</b>
@@ -136,9 +136,9 @@ Covid19 Tracker is a sample Android application focused on displaying statistics
 ### Others
 
 <p align="left">
-  <img src="./art/loading_local_database.jpg" width="270">
-  <img src="./art/populating_database.jpg" width="270">
-  <img src="./art/empty_chart.jpg" width="270">
+  <img src="./art/loading_local_database.jpg" width="275">
+  <img src="./art/populating_database.jpg" width="275">
+  <img src="./art/empty_chart.jpg" width="275">
 </p>
 
 ## Simplified UML Database
