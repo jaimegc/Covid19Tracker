@@ -1,4 +1,57 @@
-# Covid19 Tracker
+
+<h1 align="center">Covid19 Tracker</h1>
+
+<p align="center">
+  <img src="./art/logo.png" height="200"/>
+</p>
+
+<br />
+
+## Table of contents
+
+- [Introduction](#introduction)
+- [Technical summary](#technical-summary)
+- [Screens](#screens)
+  - [Country](#country)
+  - [World](#world)
+  - [Others](#others)
+- [Simplified UML Database](#simplified-uml-database)
+- [Initialize Database](#initialize-database)
+- [TODO List](#todo-list)
+- [Credits](#credits)
+  - [Special thanks](#special-thanks)
+  - [Thanks](#thanks)
+- [Contribute](#contribute)
+- [Author](#author)
+- [License](#license)
+
+## Introduction
+
+Covid19 Tracker is a sample Android application focused on displaying statistics using graphs. From a technical point of view, it has an <b>Offline-First</b> approach and uses the <b>Single Source of Truth</b> ([SSOT](https://developer.android.com/jetpack/docs/guide#truth)) principle. Also, it has been built to play with a huge database and <b>Flow </b> streams trying to find the best performance. Although some technical decisions have only been taken to practice some new Android concepts for me.
+
+## Technical summary
+
+- [Offline-First](https://applikeysolutions.com/blog/the-offline-first-approach-to-mobile-app-development): The offline-first apps, while still requiring a connection to the servers, don't need a constant internet connection. The data from servers is downloaded to the user's device and can still be accessed offline.
+- [Single Source of Truth (SSOT)](https://developer.android.com/jetpack/docs/guide#truth): It is the practice of structuring information models and associated schemata such that every data element is stored exactly once. You can have an offline app and be sure your data always use one source and that is your database.
+- [Flow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/): A cold asynchronous data stream that sequentially emits values and completes normally or with an exception.
+  - [zip](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/zip.html): Zips values from the current flow (this) with other flow using provided transform function applied to each pair of values. The resulting flow completes as soon as one of the flows completes and cancel is called on the remaining flow.
+  - [combine](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/combine.html): Returns a Flow whose values are generated with transform function by combining the most recently emitted values by each flow.
+  - [flatMapMerge](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flat-map-merge.html): Transforms elements emitted by the original flow by applying transform, that returns another flow, and then merging and flattening these flows. This operator calls transform sequentially and then merges the resulting flows with a concurrency limit on the number of concurrently collected flows.
+- [Android Architecture Components](https://developer.android.com/topic/libraries/architecture) - Collection of libraries that help you design robust, testable, and maintainable apps.
+  - [LiveData](https://developer.android.com/topic/libraries/architecture/livedata): Data objects that notify views when the underlying database changes.
+  - [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel): Stores UI-related data that isn't destroyed on UI changes. 
+  - [ViewBinding](https://developer.android.com/topic/libraries/view-binding): Generates a binding class for each XML layout file present in that module and allows you to more easily write code that interacts with views.
+  - [QueueLiveData](/app/src/main/java/com/jaimegc/covid19tracker/common/QueueLiveData.kt): This custom LiveData class will deliver values even when they are posted very quickly one after another. It solves the issue of losing values when several new ones are posted very quickly.
+  - [Room](https://developer.android.com/topic/libraries/architecture/room): The library provides an abstraction layer over SQLite to allow for more robust database access while harnessing the full power of SQLite.
+    - [DatabaseView](https://developer.android.com/training/data-storage/room/creating-views): This annotation allows you to encapsulate a query into a class. Room refers to these query-backed classes as views, and they behave the same as simple data objects when used in a DAO.
+- [Arrow](https://github.com/arrow-kt/arrow): It is a library for Typed Functional Programming in Kotlin.
+  - [Either](https://arrow-kt.io/docs/0.10/apidocs/arrow-core-data/arrow.core/-either/): Represents the presence of either a Left value or a Right value. By convention, most functional programming libraries choose Left as the exceptional case and Right as the success value.
+  - [IO](https://arrow-kt.io/docs/0.10/effects/io/): It is used to represent operations that can be executed lazily, and are capable of failing, generally with exceptions. This means that code wrapped inside IO will not throw exceptions until it is run, and those exceptions can be captured inside IO for the user to check. In this project, it has only been used in the [UpdateDatabaseWorker](/app/src/main/java/com/jaimegc/covid19tracker/worker/UpdateDatabaseWorker.kt) worker to build concurrent API calls.
+- [Koin](https://start.insert-koin.io/): Dependency Injection Framework (Kotlin)
+- [Moshi](https://github.com/square/moshi) & [Moshi Converter](https://github.com/square/retrofit/tree/master/retrofit-converters/moshi): A modern JSON library for Kotlin and Java. The converter uses Moshi for serialization to and from JSON.
+- [Detekt](https://github.com/detekt/detekt): A static code analysis tool for the Kotlin programming language. It operates on the abstract syntax tree provided by the Kotlin compiler.
+- [Kotlin Gradle DSL](https://docs.gradle.org/current/userguide/kotlin_dsl.html): Gradle's Kotlin DSL provides an alternative syntax to the traditional Groovy DSL with an enhanced editing experience in supported IDEs, with superior content assist, refactoring, documentation, and more.
+- [Remal check dependency update](https://plugins.gradle.org/plugin/name.remal.check-dependency-updates): Plugin that provides task for discovering dependency updates.
 
 ## Screens
 
@@ -7,9 +60,9 @@
 <b>List</b>: List view
 
 <p align="left">
-  <img src="./art/country_list1.jpg" width="295">
-  <img src="./art/country_list2.jpg" width="295">
-  <img src="./art/country_list3.jpg" width="295">
+  <img src="./art/country_list1.jpg" width="270">
+  <img src="./art/country_list2.jpg" width="270">
+  <img src="./art/country_list3.jpg" width="270">
 </p>
 
 <b>Bar Chart</b>: Bar chart view
@@ -54,9 +107,9 @@
 <b>List</b>: List view
 
 <p align="left">
-  <img src="./art/world_list1.jpg" width="295">
-  <img src="./art/world_list2.jpg" width="295">
-  <img src="./art/world_list3.jpg" width="295">
+  <img src="./art/world_list1.jpg" width="270">
+  <img src="./art/world_list2.jpg" width="270">
+  <img src="./art/world_list3.jpg" width="270">
 </p>
 
 <b>Bar Chart</b>: Bar chart view
@@ -78,9 +131,9 @@
 ### Others
 
 <p align="left">
-  <img src="./art/loading_local_database.jpg" width="295">
-  <img src="./art/populating_database.jpg" width="295">
-  <img src="./art/empty_chart.jpg" width="295">
+  <img src="./art/loading_local_database.jpg" width="270">
+  <img src="./art/populating_database.jpg" width="270">
+  <img src="./art/empty_chart.jpg" width="270">
 </p>
 
 ## Simplified UML Database
@@ -89,6 +142,16 @@
 <p align="left">
   <img src="./art/uml_database.png" width="600">
 </p>  
+
+### Database rows from 2020/01/23 until 2020/06/14
+
+- country: 176
+- region: 408
+- sub_region: 3.212
+- world_stats: 148
+- country_stats: 26.048
+- region_stats: 60.223
+- sub_region_stats: 475.324
 
 ## Initialize Database
 
@@ -113,6 +176,11 @@ There are three ways to initialize the local database:
   Also, remove ```fileUtils.initDatabase()``` method from [MainActivity](/app/src/main/java/com/jaimegc/covid19tracker/ui/home/MainActivity.kt). The [PopulateDatabaseWorker](/app/src/main/java/com/jaimegc/covid19tracker/worker/PopulateDatabaseWorker.kt) worker is in charge of creating and populating the database. You can choose a range of days with   the variables <i>START_DATE</i> and <i>END_DATE</i>. I recommend using the emulator to generate the database. After that, in the internal folder <i>data/data /com.jaimegc.covid19tracker/databases</i> you can export the <b>covid19-tracker-db</b> file and zip it to be loaded using the first way of this section.
 
 <b>IMPORTANT:</b> The rest of the days, from the last one in the local database until the current one will be downloaded automatically using the [UpdateDatabaseWorker](/app/src/main/java/com/jaimegc/covid19tracker/worker/UpdateDatabaseWorker.kt) worker. The data will be updated every 6 hours.
+
+## Gradle tasks
+
+- ```./gradlew detektAll```: Code analysis. More information [here](https://github.com/detekt/detekt#features).
+- ```./gradlew checkDependencyUpdates```: Check dependency updates.
 
 ## TODO List
 
