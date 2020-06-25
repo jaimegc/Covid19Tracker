@@ -3,6 +3,10 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 object Dependencies {
     const val GRADLE_ANDROID_TOOLS =
         "com.android.tools.build:gradle:${Versions.Gradle.GRADLE_ANDROID}"
+    const val GRADLE_FIREBASE_CRASHLYTICS =
+        "com.google.firebase:firebase-crashlytics-gradle:${Versions.Gradle.FIREBASE_CRASHLYTICS}"
+    const val GRADLE_FIREBASE_PERFORMANCE_PLUGIN =
+        "com.google.firebase:perf-plugin:${Versions.Gradle.FIREBASE_PERFORMANCE_PLUGIN}"
     const val GRADLE_GOOGLE_SERVICES =
         "com.google.gms:google-services:${Versions.Gradle.GOOGLE_SERVICES}"
     const val GRADLE_KOTLIN_PLUGIN =
@@ -49,6 +53,14 @@ object Dependencies {
     const val ANDROID_WORK_MANAGER =
         "androidx.work:work-runtime-ktx:${Versions.Google.Androidx.WORK_MANAGER}"
 
+    const val FIREBASE_ANALYTICS =
+        "com.google.firebase:firebase-analytics:${Versions.Google.Firebase.ANALYTICS}"
+    const val FIREBASE_CRASHLYTICS =
+        "com.google.firebase:firebase-crashlytics:${Versions.Google.Firebase.CRASHLYTICS}"
+    const val FIREBASE_PERFORMANCE =
+        "com.google.firebase:firebase-perf:${Versions.Google.Firebase.PERFORMANCE}"
+
+
     const val SQUARE_MOSHI = "com.squareup.moshi:moshi:${Versions.Square.MOSHI}"
     const val SQUARE_MOSHI_CODEGEN =
         "com.squareup.moshi:moshi-kotlin-codegen:${Versions.Square.MOSHI}"
@@ -85,10 +97,13 @@ object Dependencies {
 
 fun DependencyHandler.gradle() {
     classpath(Dependencies.GRADLE_ANDROID_TOOLS)
+    classpath(Dependencies.GRADLE_FIREBASE_CRASHLYTICS)
+    classpath(Dependencies.GRADLE_FIREBASE_PERFORMANCE_PLUGIN)
     classpath(Dependencies.GRADLE_GOOGLE_SERVICES)
     classpath(Dependencies.GRADLE_KOTLIN_PLUGIN)
     classpath(Dependencies.GRADLE_KOTLIN_SERIALIZATION)
     classpath(Dependencies.GRADLE_MAVEN_PLUGIN)
+    classpath(Dependencies.GRADLE_REMAL_PLUGIN)
     classpath(Dependencies.GRADLE_REMAL_PLUGIN)
 }
 
@@ -113,6 +128,9 @@ fun DependencyHandler.google() {
     implementation(Dependencies.ANDROID_ROOM_KTX)
     implementation(Dependencies.ANDROID_ROOM_RUNTIME)
     implementation(Dependencies.ANDROID_WORK_MANAGER)
+    implementation(Dependencies.FIREBASE_ANALYTICS)
+    implementation(Dependencies.FIREBASE_CRASHLYTICS)
+    implementation(Dependencies.FIREBASE_PERFORMANCE)
 
     kapt(Dependencies.ANDROID_ROOM_COMPILER)
 }

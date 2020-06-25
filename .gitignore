@@ -59,3 +59,4 @@ captures/
 # Others
 .DS_Store
 /keystore.properties
+app/google-services.json
