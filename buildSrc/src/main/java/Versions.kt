@@ -14,11 +14,13 @@ object Versions {
     }
 
     object Gradle {
+        const val FIREBASE_CRASHLYTICS = "2.2.0"
+        const val FIREBASE_PERFORMANCE_PLUGIN = "1.3.1"
         const val GRADLE_ANDROID = "4.0.0"
         const val KOTLIN = "1.3.72"
         const val MAVEN_PLUGIN = "2.1"
         const val GOOGLE_SERVICES = "4.3.3"
-        const val REMAL_PLUGIN = "1.0.194"
+        const val REMAL_PLUGIN = "1.0.195"
     }
 
     object Kotlin {
@@ -37,6 +39,12 @@ object Versions {
             const val RECYCLERVIEW = "1.2.0-alpha03"
             const val ROOM = "2.2.5"
             const val WORK_MANAGER = "2.3.4"
+        }
+
+        object Firebase {
+            const val ANALYTICS = "17.4.3"
+            const val CRASHLYTICS = "17.1.0"
+            const val PERFORMANCE = "19.0.7"
         }
 
         object Material {

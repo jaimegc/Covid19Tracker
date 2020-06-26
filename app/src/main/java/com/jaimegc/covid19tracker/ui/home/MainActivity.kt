@@ -53,18 +53,19 @@ class MainActivity : BaseActivity() {
     private fun initializeBottomNavigationBar() {
         binding.loadingDatabase.layout.hide()
         navController = findNavController(R.id.nav_host_fragment)
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)!!
-        navigator =
-            KeepStateNavigator(
-                this,
-                navHostFragment.childFragmentManager,
-                R.id.nav_host_fragment
-            )
-        navController.navigatorProvider += navigator
-        navController.setGraph(R.navigation.mobile_navigation)
+        supportFragmentManager.findFragmentById(R.id.nav_host_fragment)?.let { navHostFragment ->
+            navigator =
+                KeepStateNavigator(
+                    this,
+                    navHostFragment.childFragmentManager,
+                    R.id.nav_host_fragment
+                )
+            navController.navigatorProvider += navigator
+            navController.setGraph(R.navigation.mobile_navigation)
 
-        binding.navView.setupWithNavController(navController)
-        binding.navView.show()
+            binding.navView.setupWithNavController(navController)
+            binding.navView.show()
+        }
     }
 
     private fun initializeUpdateDatabaseWorker() {
