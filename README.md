@@ -93,13 +93,6 @@ Covid19 Tracker is a sample Android application focused on displaying statistics
   <img src="./art/country_pie_chart2.jpg" width="295">
 </p>
 
-<b>Pie Charts</b>
-
-<p align="left">
-  <img src="./art/country_pie_chart1.jpg" width="295">
-  <img src="./art/country_pie_chart2.jpg" width="295">
-</p>
-
 <b>Countries & Regions</b>
 
 <p align="left">
@@ -133,12 +126,25 @@ Covid19 Tracker is a sample Android application focused on displaying statistics
   <img src="./art/world_line_chart2.jpg" width="295">
 </p>
 
+<b>Pie Charts</b>
+
+<p align="left">
+  <img src="./art/world_pie_chart1.jpg" width="295">
+  <img src="./art/world_pie_chart2.jpg" width="295">
+</p>
+
 ### Others
 
 <p align="left">
   <img src="./art/loading_local_database.jpg" width="275">
   <img src="./art/populating_database.jpg" width="275">
   <img src="./art/empty_chart.jpg" width="275">
+</p>
+
+### GIF
+
+<p align="left">
+  <img src="./art/covid19_tracker.gif" width="295">
 </p>
 
 ## Simplified UML Database
@@ -148,15 +154,15 @@ Covid19 Tracker is a sample Android application focused on displaying statistics
   <img src="./art/uml_database.png" width="600">
 </p>  
 
-### Database rows from 2020/01/23 until 2020/06/14
+### Database rows from 2020/01/23 until 2020/06/26
 
 - country: 176
-- region: 408
-- sub_region: 3.212
-- world_stats: 148
-- country_stats: 26.048
-- region_stats: 60.223
-- sub_region_stats: 475.324
+- region: 406
+- sub_region: 3.208
+- world_stats: 156
+- country_stats: 27.456
+- region_stats: 63.336
+- sub_region_stats: 500.424
 
 ## Initialize Database
 
@@ -182,7 +188,7 @@ There are three ways to initialize the local database:
 
 The rest of the days, from the last one in the local database until the current one will be downloaded automatically using the [UpdateDatabaseWorker](/app/src/main/java/com/jaimegc/covid19tracker/worker/UpdateDatabaseWorker.kt) worker. The data will be updated every 6 hours.
 
-<b>WARNING:</b> The data provided and used for the generation of these products comes from the aggregation of different sources, each of which with different update times and frequencies. Additionally, each country has its own accounting criteria, so comparisons of data between countries or regions, and even within them over time, may not be representative of reality. An example is the case of positive cases that depend not only on the spread of the disease but also on the number of tests that are carried out.
+<b>⚠️ WARNING: ⚠️</b> The data provided and used for the generation of these products comes from the aggregation of different sources, each of which with different update times and frequencies. Additionally, each country has its own accounting criteria, so comparisons of data between countries or regions, and even within them over time, may not be representative of reality. An example is the case of positive cases that depend not only on the spread of the disease but also on the number of tests that are carried out.
 
 ## Gradle tasks
 
