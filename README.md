@@ -141,6 +141,12 @@ Covid19 Tracker is a sample Android application focused on displaying statistics
   <img src="./art/empty_chart.jpg" width="275">
 </p>
 
+### GIF
+
+<p align="left">
+  <img src="./art/covid19_tracker.gif" width="295">
+</p>
+
 ## Simplified UML Database
 
 <br />
