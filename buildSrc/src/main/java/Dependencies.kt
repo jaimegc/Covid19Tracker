@@ -54,12 +54,11 @@ object Dependencies {
         "androidx.work:work-runtime-ktx:${Versions.Google.Androidx.WORK_MANAGER}"
 
     const val FIREBASE_ANALYTICS =
-        "com.google.firebase:firebase-analytics:${Versions.Google.Firebase.ANALYTICS}"
+        "com.google.firebase:firebase-analytics-ktx:${Versions.Google.Firebase.ANALYTICS}"
     const val FIREBASE_CRASHLYTICS =
         "com.google.firebase:firebase-crashlytics:${Versions.Google.Firebase.CRASHLYTICS}"
     const val FIREBASE_PERFORMANCE =
         "com.google.firebase:firebase-perf:${Versions.Google.Firebase.PERFORMANCE}"
-
 
     const val SQUARE_MOSHI = "com.squareup.moshi:moshi:${Versions.Square.MOSHI}"
     const val SQUARE_MOSHI_CODEGEN =
@@ -104,7 +103,6 @@ fun DependencyHandler.gradle() {
     classpath(Dependencies.GRADLE_KOTLIN_SERIALIZATION)
     classpath(Dependencies.GRADLE_MAVEN_PLUGIN)
     classpath(Dependencies.GRADLE_REMAL_PLUGIN)
-    classpath(Dependencies.GRADLE_REMAL_PLUGIN)
 }
 
 fun DependencyHandler.kotlin() {
@@ -128,11 +126,14 @@ fun DependencyHandler.google() {
     implementation(Dependencies.ANDROID_ROOM_KTX)
     implementation(Dependencies.ANDROID_ROOM_RUNTIME)
     implementation(Dependencies.ANDROID_WORK_MANAGER)
+
+    kapt(Dependencies.ANDROID_ROOM_COMPILER)
+}
+
+fun DependencyHandler.firebase() {
     implementation(Dependencies.FIREBASE_ANALYTICS)
     implementation(Dependencies.FIREBASE_CRASHLYTICS)
     implementation(Dependencies.FIREBASE_PERFORMANCE)
-
-    kapt(Dependencies.ANDROID_ROOM_COMPILER)
 }
 
 fun DependencyHandler.square() {

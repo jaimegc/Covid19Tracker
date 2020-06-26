@@ -49,6 +49,7 @@ dependencies {
 
     kotlin()
     google()
+    firebase()
     square()
     koin()
     arrow()
