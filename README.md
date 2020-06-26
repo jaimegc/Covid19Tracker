@@ -93,13 +93,6 @@ Covid19 Tracker is a sample Android application focused on displaying statistics
   <img src="./art/country_pie_chart2.jpg" width="295">
 </p>
 
-<b>Pie Charts</b>
-
-<p align="left">
-  <img src="./art/country_pie_chart1.jpg" width="295">
-  <img src="./art/country_pie_chart2.jpg" width="295">
-</p>
-
 <b>Countries & Regions</b>
 
 <p align="left">
