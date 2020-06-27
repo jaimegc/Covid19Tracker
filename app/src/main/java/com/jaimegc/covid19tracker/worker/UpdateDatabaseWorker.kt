@@ -44,7 +44,9 @@ class UpdateDatabaseWorker(
 
         datesDB.map { dates ->
             datesToDownload.addAll(currentDates.minus(dates))
-            datesToDownload.add(currentDates.last())
+            currentDates.last().let { currentDate ->
+                if (datesToDownload.contains(currentDate).not()) datesToDownload.add(currentDate)
+            }
         }
 
         val datesToDownloadSize = datesToDownload.size

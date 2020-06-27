@@ -25,7 +25,7 @@ android {
     }
 
     buildTypes {
-        getByName("debug") {
+        getByName(Versions.Android.BuildTypes.DEBUG) {
             buildConfigField("String", "BASE_URL", "\"https://api.covid19tracking.narrativa.com/api/\"")
         }
     }
