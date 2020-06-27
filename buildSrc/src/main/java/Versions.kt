@@ -11,6 +11,10 @@ object Versions {
             const val VERSION_NAME = "1.0"
             const val TEST_INSTRUMENTATION_RUNNER = "androidx.test.runner.AndroidJUnitRunner"
         }
+
+        object BuildTypes {
+            const val DEBUG = "debug"
+        }
     }
 
     object Gradle {
