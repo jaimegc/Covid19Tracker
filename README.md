@@ -27,7 +27,7 @@
 
 ## Introduction
 
-Covid19 Tracker is a sample Android application focused on displaying statistics using graphs. From a technical point of view, it has an <b>Offline-First</b> approach and uses the <b>Single Source of Truth (SSOT)</b> principle. Also, it has been built to play with a huge database and <b>Flow </b> streams trying to find the best performance. Although some technical decisions have only been taken to practice some new Android concepts for me.
+Covid19 Tracker is a sample Android application focused on displaying statistics using graphs. From a technical point of view, it has an <b>Offline-First</b> approach and uses the <b>Single Source of Truth (SSOT)</b> principle. Also, it has been built making use of a huge database and <b>Flow</b> streams with the aim of achieving the best performance. However, it is important to point out that certain technical decisions have been made only for me to have an opportunity to practice new Android concepts.
 
 ## Technical summary
 
@@ -168,11 +168,11 @@ Covid19 Tracker is a sample Android application focused on displaying statistics
 
 There are three ways to initialize the local database:
 
-- <b>By default, using the zip file</b>: This file is in the <i>assets</i> folder and the name is <b>covid19-tracker-db.zip</b>. In the [MainActivity](/app/src/main/java/com/jaimegc/covid19tracker/ui/home/MainActivity.kt) class, the ```fileUtils.initDatabase()``` method unzips the file. After that, the [Covid19TrackerDatabase](/app/src/main/java/com/jaimegc/covid19tracker/data/room/CovidTrackerDatabase.kt) class will load the unzipped file in the ```.createFromFile(File("${context.filesDir}${File.separator}$DATABASE_NAME"))``` method.
+- <b>By default, using the zip file</b>: This file is in the <i>assets</i> folder and its name is <b>covid19-tracker-db.zip</b>. In the [MainActivity](/app/src/main/java/com/jaimegc/covid19tracker/ui/home/MainActivity.kt) class, the ```fileUtils.initDatabase()``` method unzips this file. After that, the [Covid19TrackerDatabase](/app/src/main/java/com/jaimegc/covid19tracker/data/room/CovidTrackerDatabase.kt) class loads the unzipped file in the ```.createFromFile(File("${context.filesDir}${File.separator}$DATABASE_NAME"))``` method.
 
 - <b>Unzipped file</b>: You need to add this file in the <i>assets</i> folder with the name <b>covid19-tracker-db</b>. In the [Covid19TrackerDatabase](/app/src/main/java/com/jaimegc/covid19tracker/data/room/CovidTrackerDatabase.kt) class you need to replace the line ```.createFromFile(File("${context.filesDir}${File.separator}$DATABASE_NAME"))``` with this one ```.createFromAsset(DATABASE_NAME)```. Also, in the [MainActivity](/app/src/main/java/com/jaimegc/covid19tracker/ui/home/MainActivity.kt) class you need to remove the ```fileUtils.initDatabase()``` method.
 
-- <b>Adding jsons manually</b>: You can add manually the jsons downloaded from ```https://api.covid19tracking.narrativa.com/api/YYYY-MM-DD```. You need to save these files with this format ```YYYY-MM-DD.json``` in the <i>assets/data</i> folder. In the [Covid19TrackerDatabase](/app/src/main/java/com/jaimegc/covid19tracker/data/room/CovidTrackerDatabase.kt) class you need to remove the line ```.createFromFile(File("${context.filesDir}${File.separator}$DATABASE_NAME"))``` and ```.createFromAsset(DATABASE_NAME)``` and add this code:
+- <b>Adding jsons manually</b>: You can manually add the jsons downloaded from ```https://api.covid19tracking.narrativa.com/api/YYYY-MM-DD```. You need to save these files with this format ```YYYY-MM-DD.json``` in the <i>assets/data</i> folder. In the [Covid19TrackerDatabase](/app/src/main/java/com/jaimegc/covid19tracker/data/room/CovidTrackerDatabase.kt) class you need to remove the line ```.createFromFile(File("${context.filesDir}${File.separator}$DATABASE_NAME"))``` and ```.createFromAsset(DATABASE_NAME)``` and add this piece of code:
 
   ```kotlin
   .addCallback(object : RoomDatabase.Callback() {
@@ -184,9 +184,9 @@ There are three ways to initialize the local database:
   })
   ```
 
-  Also, remove ```fileUtils.initDatabase()``` method from [MainActivity](/app/src/main/java/com/jaimegc/covid19tracker/ui/home/MainActivity.kt). The [PopulateDatabaseWorker](/app/src/main/java/com/jaimegc/covid19tracker/worker/PopulateDatabaseWorker.kt) worker is in charge of creating and populating the database. You can choose a range of days with   the variables <i>START_DATE</i> and <i>END_DATE</i>. I recommend using the emulator to generate the database. After that, in the internal folder <i>data/data /com.jaimegc.covid19tracker/databases</i> you can export the <b>covid19-tracker-db</b> file and zip it to be loaded using the first way of this section.
+  Also, remove the ```fileUtils.initDatabase()``` method from [MainActivity](/app/src/main/java/com/jaimegc/covid19tracker/ui/home/MainActivity.kt). The [PopulateDatabaseWorker](/app/src/main/java/com/jaimegc/covid19tracker/worker/PopulateDatabaseWorker.kt) worker is in charge of creating and populating the database. You can choose a date range using the variables <i>START_DATE</i> and <i>END_DATE</i>. I recommend using the emulator to generate the database. After that, in the internal folder <i>data/data /com.jaimegc.covid19tracker/databases</i> you can export the <b>covid19-tracker-db</b> file and zip it it in order for it to be loaded following the first of the three methods explained in this section.
 
-The rest of the days, from the last one in the local database until the current one will be downloaded automatically using the [UpdateDatabaseWorker](/app/src/main/java/com/jaimegc/covid19tracker/worker/UpdateDatabaseWorker.kt) worker. The data will be updated every 6 hours.
+The data for any other day, from the last one in the local database until the current one, will be downloaded automatically using the [UpdateDatabaseWorker](/app/src/main/java/com/jaimegc/covid19tracker/worker/UpdateDatabaseWorker.kt) worker. The data will be updated every 6 hours.
 
 <b>⚠️ WARNING: ⚠️</b> The data provided and used for the generation of these products comes from the aggregation of different sources, each of which with different update times and frequencies. Additionally, each country has its own accounting criteria, so comparisons of data between countries or regions, and even within them over time, may not be representative of reality. An example is the case of positive cases that depend not only on the spread of the disease but also on the number of tests that are carried out.
 
