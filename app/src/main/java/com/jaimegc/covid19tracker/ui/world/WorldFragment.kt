@@ -6,7 +6,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.MergeAdapter
+import androidx.recyclerview.widget.ConcatAdapter
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.common.extensions.containsAdapter
 import com.jaimegc.covid19tracker.common.extensions.enableItem
@@ -40,7 +40,7 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
     private val worldLineChartAdapter = WorldLineChartAdapter()
     private val worldCountriesPieChartAdapter = WorldCountriesPieChartAdapter()
     private val worldPieChartAdapter = WorldPieChartAdapter()
-    private val mergeAdapter = MergeAdapter()
+    private val concatAdapter = ConcatAdapter()
 
     private lateinit var binding: FragmentWorldBinding
     private lateinit var menu: Menu
@@ -51,12 +51,12 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentWorldBinding.bind(view)
 
-        binding.recyclerWorld.adapter = mergeAdapter
+        binding.recyclerWorld.adapter = concatAdapter
 
         viewModel.screenState.observe(viewLifecycleOwner, Observer { screenState ->
             when (screenState) {
                 ScreenState.Loading ->
-                    if (mergeAdapter.adapters.isEmpty()) binding.loading.layout.show()
+                    if (concatAdapter.adapters.isEmpty()) binding.loading.layout.show()
                 is ScreenState.Render<WorldStateScreen> -> {
                     binding.loading.layout.hide()
                     handleRenderState(screenState.renderState)
@@ -75,17 +75,17 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
         when (renderState) {
             is WorldStateScreen.SuccessCovidTracker -> {
                 if (menu.isCurrentItemChecked(menuItemList)) {
-                    mergeAdapter.removeAllAdapters()
-                    mergeAdapter.addAdapter(worldAdapter)
-                    mergeAdapter.addAdapter(worldCountryAdapter)
+                    concatAdapter.removeAllAdapters()
+                    concatAdapter.addAdapter(worldAdapter)
+                    concatAdapter.addAdapter(worldCountryAdapter)
                     worldAdapter.submitList(listOf(renderState.data.worldStats))
                     worldCountryAdapter.submitList(renderState.data.countriesStats)
                 }
             }
             is WorldStateScreen.SuccessWorldStatsBarCharts -> {
                 if (menu.isCurrentItemChecked(menuItemBarChart)) {
-                    mergeAdapter.addAdapter(0, worldBarChartAdapter)
-                    if (mergeAdapter.containsAdapter(worldBarCountriesChartAdapter)) {
+                    concatAdapter.addAdapter(0, worldBarChartAdapter)
+                    if (concatAdapter.containsAdapter(worldBarCountriesChartAdapter)) {
                         binding.recyclerWorld.scrollToPosition(0)
                     }
                     worldBarChartAdapter.submitList(listOf(renderState.data))
@@ -93,25 +93,25 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
             }
             is WorldStateScreen.SuccessCountriesStatsBarCharts -> {
                 if (menu.isCurrentItemChecked(menuItemBarChart)) {
-                    if (mergeAdapter.containsAdapter(worldBarChartAdapter)) {
-                        mergeAdapter.addAdapter(1, worldBarCountriesChartAdapter)
+                    if (concatAdapter.containsAdapter(worldBarChartAdapter)) {
+                        concatAdapter.addAdapter(1, worldBarCountriesChartAdapter)
                     } else {
-                        mergeAdapter.addAdapter(0, worldBarCountriesChartAdapter)
+                        concatAdapter.addAdapter(0, worldBarCountriesChartAdapter)
                     }
                     worldBarCountriesChartAdapter.submitList(renderState.data)
                 }
             }
             is WorldStateScreen.SuccessCountriesStatsLineCharts -> {
                 if (menu.isCurrentItemChecked(menuItemLineChart)) {
-                    mergeAdapter.addAdapter(worldLineChartAdapter)
+                    concatAdapter.addAdapter(worldLineChartAdapter)
                     worldLineChartAdapter.submitList(listOf(renderState.data))
                     worldLineChartAdapter.notifyDataSetChanged()
                 }
             }
             is WorldStateScreen.SuccessCountriesStatsPieCharts -> {
                 if (menu.isCurrentItemChecked(menuItemPieChart)) {
-                    mergeAdapter.addAdapter(worldPieChartAdapter)
-                    mergeAdapter.addAdapter(worldCountriesPieChartAdapter)
+                    concatAdapter.addAdapter(worldPieChartAdapter)
+                    concatAdapter.addAdapter(worldCountriesPieChartAdapter)
                     worldPieChartAdapter.submitList(listOf(renderState.data[0].worldStats))
                     worldCountriesPieChartAdapter.submitList(renderState.data)
                 }
@@ -131,7 +131,7 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
                 if (menu.isCurrentItemChecked(menuItemList).not()) {
                     menu.enableItem(menuItemList)
                     currentMenuItem = menuItemList
-                    mergeAdapter.removeAllAdapters()
+                    concatAdapter.removeAllAdapters()
                     viewModel.getListChartStats()
                 }
                 true
@@ -140,7 +140,7 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
                 if (menu.isCurrentItemChecked(menuItemBarChart).not()) {
                     menu.enableItem(menuItemBarChart)
                     currentMenuItem = menuItemBarChart
-                    mergeAdapter.removeAllAdapters()
+                    concatAdapter.removeAllAdapters()
                     viewModel.getBarChartStats()
                 }
                 true
@@ -149,7 +149,7 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
                 if (menu.isCurrentItemChecked(menuItemLineChart).not()) {
                     menu.enableItem(menuItemLineChart)
                     currentMenuItem = menuItemLineChart
-                    mergeAdapter.removeAllAdapters()
+                    concatAdapter.removeAllAdapters()
                     viewModel.getLineChartStats()
                 }
                 true
@@ -158,7 +158,7 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
                 if (menu.isCurrentItemChecked(menuItemPieChart).not()) {
                     menu.enableItem(menuItemPieChart)
                     currentMenuItem = menuItemPieChart
-                    mergeAdapter.removeAllAdapters()
+                    concatAdapter.removeAllAdapters()
                     viewModel.getPieChartStats()
                 }
                 true

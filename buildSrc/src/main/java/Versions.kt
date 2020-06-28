@@ -24,7 +24,7 @@ object Versions {
         const val KOTLIN = "1.3.72"
         const val MAVEN_PLUGIN = "2.1"
         const val GOOGLE_SERVICES = "4.3.3"
-        const val REMAL_PLUGIN = "1.0.195"
+        const val REMAL_PLUGIN = "1.0.198"
     }
 
     object Kotlin {
@@ -34,13 +34,13 @@ object Versions {
     object Google {
         object Androidx {
             const val APP_COMPAT = "1.1.0"
-            const val CONSTRAINT_LAYOUT = "2.0.0-beta5"
+            const val CONSTRAINT_LAYOUT = "2.0.0-beta7"
             const val CORE_KTX = "1.3.0"
             const val ESPRESSO = "3.2.0"
             const val JUNIT_EXT = "1.1.1"
             const val LIFECYCLE = "2.2.0"
-            const val NAVIGATION = "2.2.2"
-            const val RECYCLERVIEW = "1.2.0-alpha03"
+            const val NAVIGATION = "2.3.0"
+            const val RECYCLERVIEW = "1.2.0-alpha04"
             const val ROOM = "2.2.5"
             const val WORK_MANAGER = "2.3.4"
         }
@@ -72,7 +72,7 @@ object Versions {
     }
 
     object Detekt {
-        const val DETEKT = "1.10.0-RC1"
+        const val DETEKT = "1.10.0"
     }
 
     object Arrow {

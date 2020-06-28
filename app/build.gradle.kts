@@ -5,7 +5,7 @@ plugins {
     kotlin("kapt")
     id("name.remal.check-dependency-updates")
     // Uncomment this line and add your own google-services file to use Firebase
-    //id("com.google.gms.google-services")
+    // id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("com.google.firebase.firebase-perf")
 }

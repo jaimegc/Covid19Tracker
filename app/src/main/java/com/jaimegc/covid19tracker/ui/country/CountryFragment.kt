@@ -6,7 +6,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.MergeAdapter
+import androidx.recyclerview.widget.ConcatAdapter
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.common.extensions.containsAdapter
 import com.jaimegc.covid19tracker.common.extensions.enableItem
@@ -50,7 +50,7 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
     private val placeTotalPieChartAdapter = PlaceTotalPieChartAdapter()
     private val placePieChartAdapter = PlacePieChartAdapter()
     private val placeLineChartAdapter = PlaceLineChartAdapter()
-    private val mergeAdapter = MergeAdapter()
+    private val concatAdapter = ConcatAdapter()
 
     private lateinit var binding: FragmentCountryBinding
     private lateinit var menu: Menu
@@ -65,12 +65,12 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCountryBinding.bind(view)
 
-        binding.recyclerPlace.adapter = mergeAdapter
+        binding.recyclerPlace.adapter = concatAdapter
 
         viewModel.screenState.observe(viewLifecycleOwner, Observer { screenState ->
             when (screenState) {
                 ScreenState.Loading ->
-                    if (mergeAdapter.adapters.isEmpty()) {
+                    if (concatAdapter.adapters.isEmpty()) {
                         binding.emptyDatabase.layout.hide()
                         binding.loading.layout.show()
                     }
@@ -137,22 +137,22 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
             }
             is PlaceStateScreen.SuccessPlaceAndStats -> {
                 if (menu.isCurrentItemChecked(menuItemList)) {
-                    mergeAdapter.addAdapter(placeTotalAdapter)
+                    concatAdapter.addAdapter(placeTotalAdapter)
                     placeTotalAdapter.submitList(listOf(renderState.data))
                     binding.recyclerPlace.scrollToPosition(0)
                 }
             }
             is PlaceStateScreen.SuccessPlaceStats -> {
                 if (menu.isCurrentItemChecked(menuItemList)) {
-                    mergeAdapter.addAdapter(placeAdapter)
+                    concatAdapter.addAdapter(placeAdapter)
                     placeAdapter.submitList(renderState.data)
                     binding.recyclerPlace.scrollToPosition(0)
                 }
             }
             is PlaceStateScreen.SuccessPlaceTotalStatsBarChart -> {
                 if (menu.isCurrentItemChecked(menuItemBarChart)) {
-                    mergeAdapter.addAdapter(0, placeTotalBarChartAdapter)
-                    if (mergeAdapter.containsAdapter(placeBarChartAdapter)) {
+                    concatAdapter.addAdapter(0, placeTotalBarChartAdapter)
+                    if (concatAdapter.containsAdapter(placeBarChartAdapter)) {
                         binding.recyclerPlace.scrollToPosition(0)
                     }
                     placeTotalBarChartAdapter.submitList(listOf(renderState.data))
@@ -160,10 +160,10 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
             }
             is PlaceStateScreen.SuccessPlaceStatsBarChart -> {
                 if (menu.isCurrentItemChecked(menuItemBarChart)) {
-                    if (mergeAdapter.containsAdapter(placeTotalBarChartAdapter)) {
-                        mergeAdapter.addAdapter(1, placeBarChartAdapter)
+                    if (concatAdapter.containsAdapter(placeTotalBarChartAdapter)) {
+                        concatAdapter.addAdapter(1, placeBarChartAdapter)
                     } else {
-                        mergeAdapter.addAdapter(0, placeBarChartAdapter)
+                        concatAdapter.addAdapter(0, placeBarChartAdapter)
                     }
                     placeBarChartAdapter.submitList(renderState.data)
                 }
@@ -173,9 +173,9 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
                     statsParent = renderState.data
 
                     if (statsParent.isNotEmpty()) {
-                        mergeAdapter.addAdapter(0, placeTotalPieChartAdapter)
+                        concatAdapter.addAdapter(0, placeTotalPieChartAdapter)
 
-                        if (mergeAdapter.containsAdapter(placePieChartAdapter)) {
+                        if (concatAdapter.containsAdapter(placePieChartAdapter)) {
                             binding.recyclerPlace.scrollToPosition(0)
                         }
 
@@ -187,15 +187,15 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
             }
             is PlaceStateScreen.SuccessPlaceAndStatsPieChart -> {
                 if (menu.isCurrentItemChecked(menuItemPieChart)) {
-                    if (mergeAdapter.containsAdapter(placeTotalPieChartAdapter)) {
+                    if (concatAdapter.containsAdapter(placeTotalPieChartAdapter)) {
                         if (placeTotalPieChartAdapter.currentList.isNotEmpty()) {
                             renderState.data.map { placeStats ->
                                 placeStats.statsParent = statsParent
                             }
                         }
-                        mergeAdapter.addAdapter(1, placePieChartAdapter)
+                        concatAdapter.addAdapter(1, placePieChartAdapter)
                     } else {
-                        mergeAdapter.addAdapter(0, placePieChartAdapter)
+                        concatAdapter.addAdapter(0, placePieChartAdapter)
                     }
 
                     placePieChartAdapter.submitList(renderState.data)
@@ -204,7 +204,7 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
             }
             is PlaceStateScreen.SuccessPlaceStatsLineCharts -> {
                 if (menu.isCurrentItemChecked(menuItemLineChart)) {
-                    mergeAdapter.addAdapter(placeLineChartAdapter)
+                    concatAdapter.addAdapter(placeLineChartAdapter)
                     placeLineChartAdapter.submitList(listOf(renderState.data))
                     placeLineChartAdapter.notifyDataSetChanged()
                 }
@@ -223,7 +223,7 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
             when (item.itemId) {
                 R.id.list_view -> {
                     if (menu.isCurrentItemChecked(menuItemList).not()) {
-                        mergeAdapter.removeAllAdapters()
+                        concatAdapter.removeAllAdapters()
                         menu.enableItem(menuItemList)
                         selectMenu(getSelectedCountry(), getSelectedPlace())
                     }
@@ -269,7 +269,7 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
         }
 
     private fun selectMenu(idCountry: String, idRegion: String = "") {
-        mergeAdapter.removeAllAdapters()
+        concatAdapter.removeAllAdapters()
         binding.emptyDatabase.layout.hide()
         binding.loading.layout.hide()
         currentMenuItem = menu.isCurrentItemChecked()

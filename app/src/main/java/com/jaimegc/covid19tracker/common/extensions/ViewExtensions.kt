@@ -14,7 +14,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.MergeAdapter
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.vdurmont.emoji.EmojiParser
 
@@ -81,17 +81,17 @@ fun TextView.setEmojiCountry(emojiCountryCharacters: String) {
     }
 }
 
-fun RecyclerView.updateAdapter(adapter: MergeAdapter) {
+fun RecyclerView.updateAdapter(adapter: ConcatAdapter) {
     if (this.adapter != adapter) this.adapter = adapter
 }
 
-fun MergeAdapter.removeAllAdapters() =
+fun ConcatAdapter.removeAllAdapters() =
     this.adapters.map { adapter -> removeAdapter(adapter) }
 
-fun <T : RecyclerView.ViewHolder> MergeAdapter.removeAllAdaptersExcept(adapter: RecyclerView.Adapter<T>) =
+fun <T : RecyclerView.ViewHolder> ConcatAdapter.removeAllAdaptersExcept(adapter: RecyclerView.Adapter<T>) =
     this.adapters.map { if (it != adapter) removeAdapter(adapter) }
 
-fun <T : RecyclerView.ViewHolder> MergeAdapter.containsAdapter(
+fun <T : RecyclerView.ViewHolder> ConcatAdapter.containsAdapter(
     adapter: RecyclerView.Adapter<T>,
     removeOthers: Boolean = false
 ): Boolean =
