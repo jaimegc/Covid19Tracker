@@ -7,6 +7,10 @@
 
 <br />
 
+## APK
+
+[Download](/art/covid19tracker.apk?raw=true)
+
 ## Table of contents
 
 - [Introduction](#introduction)
