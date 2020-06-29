@@ -159,7 +159,7 @@ Covid19 Tracker is a sample Android application focused on displaying statistics
 - country: 176
 - region: 406
 - sub_region: 3.208
-- world_stats: 156
+- world_stats: 159
 - country_stats: 27.984
 - region_stats: 64.554
 - sub_region_stats: 510.072
