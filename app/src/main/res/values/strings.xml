@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Covid19Tracker</string>
+    <string name="app_name">Covid19 Tracker</string>
 
     <!-- Navigation Menu -->
     <string name="title_country">Country</string>
