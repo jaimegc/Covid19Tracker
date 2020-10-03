@@ -7,7 +7,8 @@ plugins {
     // Uncomment this line and add your own google-services file to use Firebase
     // id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
-    id("com.google.firebase.firebase-perf")
+    // Commented until updating AGP 4.1 (https://issuetracker.google.com/issues/165535092)
+    //id("com.google.firebase.firebase-perf")
 }
 
 android {
