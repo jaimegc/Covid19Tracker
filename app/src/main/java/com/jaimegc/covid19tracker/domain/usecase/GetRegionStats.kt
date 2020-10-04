@@ -10,10 +10,8 @@ import com.jaimegc.covid19tracker.domain.model.RegionOneStats
 import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.domain.states.StateError
 import com.jaimegc.covid19tracker.ui.base.states.MenuItemViewType
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 
-@ExperimentalCoroutinesApi
 class GetRegionStats(
     private val repository: CovidTrackerRepository
 ) {

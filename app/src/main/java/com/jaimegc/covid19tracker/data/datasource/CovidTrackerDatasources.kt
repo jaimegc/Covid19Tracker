@@ -46,7 +46,6 @@ import com.jaimegc.covid19tracker.domain.model.toPojoRegionsOrdered
 import com.jaimegc.covid19tracker.domain.model.toPojoSubRegionDomain
 import com.jaimegc.covid19tracker.domain.model.toPojoSubRegionsOrdered
 import com.jaimegc.covid19tracker.ui.base.states.MenuItemViewType
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 
@@ -66,7 +65,6 @@ class RemoteCovidTrackerDatasource(
         }
 }
 
-@ExperimentalCoroutinesApi
 class LocalCovidTrackerDatasource(
     private val covidTrackerDao: CovidTrackerDao,
     private val worldStatsDao: WorldStatsDao,

@@ -19,12 +19,10 @@ import com.jaimegc.covid19tracker.ui.base.BaseScreenStateMenuViewModel
 import com.jaimegc.covid19tracker.ui.base.states.MenuItemViewType
 import com.jaimegc.covid19tracker.ui.base.states.ScreenState
 import com.jaimegc.covid19tracker.ui.base.states.WorldStateScreen
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-@ExperimentalCoroutinesApi
 class WorldViewModel(
     private val getWorldAndCountries: GetWorldAndCountries,
     private val getWorldStats: GetWorldStats,

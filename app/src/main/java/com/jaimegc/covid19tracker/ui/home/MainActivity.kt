@@ -23,12 +23,10 @@ import com.jaimegc.covid19tracker.ui.dialog.DialogUpdateDatabase
 import com.jaimegc.covid19tracker.utils.FileUtils
 import com.jaimegc.covid19tracker.worker.UpdateDatabaseWorker
 import com.jaimegc.covid19tracker.worker.UpdateDatabaseWorker.Companion.UPDATE_TIME_HOURS
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.inject
 import java.util.concurrent.TimeUnit
 
-@ExperimentalCoroutinesApi
 class MainActivity : BaseActivity() {
 
     private val viewModel: MainViewModel by viewModel()

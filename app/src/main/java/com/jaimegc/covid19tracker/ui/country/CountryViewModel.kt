@@ -31,8 +31,6 @@ import com.jaimegc.covid19tracker.ui.model.toChartUI
 import com.jaimegc.covid19tracker.ui.model.toPlaceChartUI
 import com.jaimegc.covid19tracker.ui.model.toPlaceUI
 import com.jaimegc.covid19tracker.ui.model.toUI
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
@@ -42,8 +40,6 @@ import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 
-@FlowPreview
-@ExperimentalCoroutinesApi
 class CountryViewModel(
     private val getCountry: GetCountry,
     private val getCountryStats: GetCountryStats,

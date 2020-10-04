@@ -14,12 +14,10 @@ import com.jaimegc.covid19tracker.data.preference.CovidTrackerPreferences
 import com.jaimegc.covid19tracker.domain.model.CovidTracker
 import com.jaimegc.covid19tracker.domain.usecase.GetDates
 import com.jaimegc.covid19tracker.utils.FileUtils
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-@ExperimentalCoroutinesApi
 class UpdateDatabaseWorker(
     val context: Context,
     workerParams: WorkerParameters
