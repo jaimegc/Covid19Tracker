@@ -81,7 +81,7 @@ object Versions {
     }
 
     object Other {
-        const val AIRBNB_LOTTIE = "3.4.3"
+        const val AIRBNB_LOTTIE = "3.4.4"
         const val CHART = "v3.1.0"
         const val EMOJI = "5.1.1"
     }
