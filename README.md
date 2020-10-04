@@ -158,15 +158,15 @@ Covid19 Tracker is a sample Android application focused on displaying statistics
   <img src="./art/uml_database.png" width="600">
 </p>  
 
-### Database rows from 2020/01/23 until 2020/06/29
+### Database rows from 2020/01/23 until 2020/10/02
 
-- country: 176
+- country: 191
 - region: 406
 - sub_region: 3.208
-- world_stats: 159
-- country_stats: 27.984
-- region_stats: 64.554
-- sub_region_stats: 510.072
+- world_stats: 254
+- country_stats: 48.514
+- region_stats: 103.124
+- sub_region_stats: 814.832
 
 ## Initialize Database
 
