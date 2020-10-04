@@ -101,7 +101,7 @@ class PlaceLineChartAdapter :
             minAxisLeftValue: Float = 0f
         ) {
 
-            val placeStatsMaxDays = listPlacesStatsChartUI.maxBy { it.stats.size }
+            val placeStatsMaxDays = listPlacesStatsChartUI.maxByOrNull { it.stats.size }
             chart.configure(
                 placeStatsMaxDays!!.stats.sortedBy { it.date }.map { it.date },
                 minAxisLeftValue
