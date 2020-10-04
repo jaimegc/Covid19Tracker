@@ -51,19 +51,22 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
 
         binding.recyclerWorld.adapter = concatAdapter
 
-        viewModel.screenState.observe(viewLifecycleOwner, Observer { screenState ->
-            when (screenState) {
-                ScreenState.Loading ->
-                    if (concatAdapter.adapters.isEmpty()) binding.loading.layout.show()
-                is ScreenState.Render<WorldStateScreen> -> {
-                    binding.loading.layout.hide()
-                    handleRenderState(screenState.renderState)
-                }
-                is ScreenState.Error<WorldStateScreen> -> {
-                    // Not implemented
-                }
+        viewModel.screenState.observe(
+            viewLifecycleOwner,
+            Observer { screenState ->
+                when (screenState) {
+                            ScreenState.Loading ->
+                                if (concatAdapter.adapters.isEmpty()) binding.loading.layout.show()
+                            is ScreenState.Render<WorldStateScreen> -> {
+                                binding.loading.layout.hide()
+                                handleRenderState(screenState.renderState)
+                            }
+                            is ScreenState.Error<WorldStateScreen> -> {
+                                // Not implemented
+                            }
+                        }
             }
-        })
+        )
 
         viewModel.getListChartStats()
         setHasOptionsMenu(true)

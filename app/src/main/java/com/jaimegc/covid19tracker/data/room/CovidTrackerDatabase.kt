@@ -22,8 +22,9 @@ import com.jaimegc.covid19tracker.data.room.views.CountryAndStatsDV
 import com.jaimegc.covid19tracker.data.room.views.RegionAndStatsDV
 import java.io.File
 
-@Database(entities = [CountryEntity::class, WorldStatsEntity::class, CountryStatsEntity::class,
-    RegionEntity::class, RegionStatsEntity::class, SubRegionEntity::class, SubRegionStatsEntity::class],
+@Database(
+    entities = [CountryEntity::class, WorldStatsEntity::class, CountryStatsEntity::class,
+        RegionEntity::class, RegionStatsEntity::class, SubRegionEntity::class, SubRegionStatsEntity::class],
     views = [CountryAndStatsDV::class, RegionAndStatsDV::class],
     version = Covid19TrackerDatabase.version
 )

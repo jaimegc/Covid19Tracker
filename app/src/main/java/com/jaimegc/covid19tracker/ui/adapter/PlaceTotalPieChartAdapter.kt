@@ -15,8 +15,13 @@ class PlaceTotalPieChartAdapter :
     ListAdapter<StatsChartUI, PlaceTotalPieChartAdapter.PlacePieChartViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        PlacePieChartViewHolder(ItemPieChartTotalBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false))
+        PlacePieChartViewHolder(
+            ItemPieChartTotalBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
 
     override fun onBindViewHolder(holder: PlacePieChartViewHolder, position: Int) =
         holder.bind(getItem(position))
@@ -32,11 +37,15 @@ class PlaceTotalPieChartAdapter :
 
             chartTotal.setValues(
                 ctx,
-                listOf(statsChartUI.confirmed,
-                    statsChartUI.deaths, statsChartUI.recovered,
-                    statsChartUI.openCases),
+                listOf(
+                    statsChartUI.confirmed,
+                    statsChartUI.deaths,
+                    statsChartUI.recovered,
+                    statsChartUI.openCases
+                ),
                 listOf(R.string.confirmed, R.string.deaths, R.string.recovered, R.string.open_cases),
-                listOf(R.color.dark_red, R.color.dark_grey, R.color.dark_green, R.color.dark_blue))
+                listOf(R.color.dark_red, R.color.dark_grey, R.color.dark_green, R.color.dark_blue)
+            )
         }
     }
 

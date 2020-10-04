@@ -20,8 +20,13 @@ class PlaceLineChartAdapter :
     PlaceLineChartAdapter.PlaceLineChartViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        PlaceLineChartViewHolder(ItemLineChartTotalBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false))
+        PlaceLineChartViewHolder(
+            ItemLineChartTotalBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
 
     override fun onBindViewHolder(holder: PlaceLineChartViewHolder, position: Int) =
         holder.bind(getItem(position))
@@ -41,22 +46,38 @@ class PlaceLineChartAdapter :
                 when (type) {
                     is MenuItemViewType.LineChartMostConfirmed ->
                         configureLineChart(
-                            ctx, binding.chartConfirmed, mapPlacesStatsChartUI.getValue(type), type).also {
+                            ctx,
+                            binding.chartConfirmed,
+                            mapPlacesStatsChartUI.getValue(type),
+                            type
+                        ).also {
                             binding.loadingConfirmed.hide()
                         }
                     is MenuItemViewType.LineChartMostDeaths ->
                         configureLineChart(
-                            ctx, binding.chartDeaths, mapPlacesStatsChartUI.getValue(type), type).also {
+                            ctx,
+                            binding.chartDeaths,
+                            mapPlacesStatsChartUI.getValue(type),
+                            type
+                        ).also {
                             binding.loadingDeaths.hide()
                         }
                     is MenuItemViewType.LineChartMostRecovered ->
                         configureLineChart(
-                            ctx, binding.chartRecovered, mapPlacesStatsChartUI.getValue(type), type).also {
+                            ctx,
+                            binding.chartRecovered,
+                            mapPlacesStatsChartUI.getValue(type),
+                            type
+                        ).also {
                             binding.loadingRecovered.hide()
                         }
                     is MenuItemViewType.LineChartMostOpenCases ->
                         configureLineChart(
-                            ctx, binding.chartOpenCases, mapPlacesStatsChartUI.getValue(type), type).also {
+                            ctx,
+                            binding.chartOpenCases,
+                            mapPlacesStatsChartUI.getValue(type),
+                            type
+                        ).also {
                             binding.loadingOpenCases.hide()
                         }
                 }
@@ -82,7 +103,8 @@ class PlaceLineChartAdapter :
 
             val placeStatsMaxDays = listPlacesStatsChartUI.maxBy { it.stats.size }
             chart.configure(
-                placeStatsMaxDays!!.stats.sortedBy { it.date }.map { it.date }, minAxisLeftValue
+                placeStatsMaxDays!!.stats.sortedBy { it.date }.map { it.date },
+                minAxisLeftValue
             )
 
             val placeStatsValues = mutableListOf<List<Float>>()
@@ -105,9 +127,20 @@ class PlaceLineChartAdapter :
                 placeStatsValues.add(listPlaceStats)
             }
 
-            chart.setValues(ctx, placeStatsValues, listOf(
-                R.color.dark_purple, R.color.dark_blue, R.color.dark_green, R.color.dark_orange, R.color.dark_red),
-                listPlacesStatsChartUI.map { it.place.name }, placeStatsMaxDays.stats.size, chart.legend)
+            chart.setValues(
+                ctx,
+                placeStatsValues,
+                listOf(
+                    R.color.dark_purple,
+                    R.color.dark_blue,
+                    R.color.dark_green,
+                    R.color.dark_orange,
+                    R.color.dark_red
+                ),
+                listPlacesStatsChartUI.map { it.place.name },
+                placeStatsMaxDays.stats.size,
+                chart.legend
+            )
         }
     }
 

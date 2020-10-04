@@ -154,25 +154,40 @@ class WorldViewModel(
                     is CovidTracker -> {
                         when (viewType) {
                             is MenuItemViewType.List ->
-                                screenStateQueue.postValue(ScreenState.Render(
-                                    WorldStateScreen.SuccessCovidTracker(state.data.toUI())))
+                                screenStateQueue.postValue(
+                                    ScreenState.Render(
+                                        WorldStateScreen.SuccessCovidTracker(state.data.toUI())
+                                    )
+                                )
                             is MenuItemViewType.PieChart ->
-                                screenStateQueue.postValue(ScreenState.Render(
-                                    WorldStateScreen.SuccessCountriesStatsPieCharts(
-                                        state.data.toListChartUI())))
+                                screenStateQueue.postValue(
+                                    ScreenState.Render(
+                                        WorldStateScreen.SuccessCountriesStatsPieCharts(
+                                            state.data.toListChartUI()
+                                        )
+                                    )
+                                )
                         }
                     }
                     is ListWorldStats ->
-                        screenStateQueue.postValue(ScreenState.Render(
-                            WorldStateScreen.SuccessWorldStatsBarCharts(
-                                state.data.worldStats.map { worldStats -> worldStats.toListChartUI() })))
+                        screenStateQueue.postValue(
+                            ScreenState.Render(
+                                WorldStateScreen.SuccessWorldStatsBarCharts(
+                                    state.data.worldStats.map { worldStats -> worldStats.toListChartUI() }
+                                )
+                            )
+                        )
                     is ListCountryAndStats -> {
                         when (viewType) {
                             is MenuItemViewType.BarChart ->
-                                screenStateQueue.postValue(ScreenState.Render(
-                                    WorldStateScreen.SuccessCountriesStatsBarCharts(
-                                        state.data.countriesStats.map { countryStats ->
-                                            countryStats.toListChartUI() })))
+                                screenStateQueue.postValue(
+                                    ScreenState.Render(
+                                        WorldStateScreen.SuccessCountriesStatsBarCharts(
+                                            state.data.countriesStats.map { countryStats ->
+                                                    countryStats.toListChartUI() }
+                                        )
+                                    )
+                                )
                             is MenuItemViewType.LineChartMostConfirmed,
                                MenuItemViewType.LineChartMostDeaths,
                                MenuItemViewType.LineChartMostOpenCases,
@@ -180,8 +195,11 @@ class WorldViewModel(
                                    mapWorldLineStats[viewType] = state.data.countriesStats.map {
                                         countryStats -> countryStats.toListChartUI()
                                    }
-                                screenStateQueue.postValue(ScreenState.Render(
-                                    WorldStateScreen.SuccessCountriesStatsLineCharts(mapWorldLineStats)))
+                                screenStateQueue.postValue(
+                                    ScreenState.Render(
+                                        WorldStateScreen.SuccessCountriesStatsLineCharts(mapWorldLineStats)
+                                    )
+                                )
                             }
                         }
                     }
@@ -195,8 +213,11 @@ class WorldViewModel(
     private fun handleError(state: StateError<DomainError>) {
         when (state) {
             is StateError.Error ->
-                screenStateQueue.postValue(ScreenState.Error(
-                    WorldStateScreen.SomeError(state.error.toUI())))
+                screenStateQueue.postValue(
+                    ScreenState.Error(
+                        WorldStateScreen.SomeError(state.error.toUI())
+                    )
+                )
         }
     }
 

@@ -122,13 +122,22 @@ class LocalCovidTrackerDatasource(
     ): Flow<Either<DomainError, ListRegionStats>> =
         when (date.isEmpty()) {
             true ->
-                mapEntityValid(regionStatsDao.getRegionAndStatsByCountryAndLastDateOrderByConfirmed(
-                    idCountry)) { regionsListStats -> Pair(regionsListStats.isNotEmpty(),
-                        regionsListStats.toDomain())
+                mapEntityValid(
+                    regionStatsDao.getRegionAndStatsByCountryAndLastDateOrderByConfirmed(
+                        idCountry
+                    )
+                ) { regionsListStats -> Pair(
+                    regionsListStats.isNotEmpty(),
+                    regionsListStats.toDomain()
+                )
                 }
             else ->
-                mapEntityValid(regionStatsDao.getRegionAndStatsByCountryAndDateOrderByConfirmed(
-                    idCountry, date.dateToMilliseconds())) { regionsListStats ->
+                mapEntityValid(
+                    regionStatsDao.getRegionAndStatsByCountryAndDateOrderByConfirmed(
+                        idCountry,
+                        date.dateToMilliseconds()
+                    )
+                ) { regionsListStats ->
                         Pair(regionsListStats.isNotEmpty(), regionsListStats.toDomain())
                 }
         }.distinctUntilChanged()
@@ -140,13 +149,24 @@ class LocalCovidTrackerDatasource(
     ): Flow<Either<DomainError, ListSubRegionStats>> =
         when (date.isEmpty()) {
             true ->
-                mapEntityValid(subRegionStatsDao.getSubRegionAndStatsByCountryAndLastDateOrderByConfirmed(
-                    idCountry, idRegion)) { regionsListStats -> Pair(regionsListStats.isNotEmpty(),
-                        regionsListStats.toDomain())
+                mapEntityValid(
+                    subRegionStatsDao.getSubRegionAndStatsByCountryAndLastDateOrderByConfirmed(
+                        idCountry,
+                        idRegion
+                    )
+                ) { regionsListStats -> Pair(
+                    regionsListStats.isNotEmpty(),
+                    regionsListStats.toDomain()
+                )
                 }
             else ->
-                mapEntityValid(subRegionStatsDao.getSubRegionAndStatsByCountryAndDateOrderByConfirmed(
-                    idCountry, idRegion, date.dateToMilliseconds())) { regionsListStats ->
+                mapEntityValid(
+                    subRegionStatsDao.getSubRegionAndStatsByCountryAndDateOrderByConfirmed(
+                        idCountry,
+                        idRegion,
+                        date.dateToMilliseconds()
+                    )
+                ) { regionsListStats ->
                         Pair(regionsListStats.isNotEmpty(), regionsListStats.toDomain())
                 }
         }.distinctUntilChanged()
@@ -178,8 +198,10 @@ class LocalCovidTrackerDatasource(
     ): Flow<Either<DomainError, Pair<MenuItemViewType, ListRegionAndStats>>> =
         mapEntityValid(regionStatsDao.getRegionsAndStatsWithMostConfirmed(idCountry)) {
             regionsListOneStats -> regionsListOneStats.toPojoRegionsOrdered().let {
-                regionsListStats -> Pair(regionsListStats.isNotEmpty(),
-                    Pair(MenuItemViewType.LineChartMostConfirmed, regionsListStats.toDomain()))
+                regionsListStats -> Pair(
+                    regionsListStats.isNotEmpty(),
+                    Pair(MenuItemViewType.LineChartMostConfirmed, regionsListStats.toDomain())
+                )
             }
         }.distinctUntilChanged()
 
@@ -189,8 +211,10 @@ class LocalCovidTrackerDatasource(
     ): Flow<Either<DomainError, Pair<MenuItemViewType, ListSubRegionAndStats>>> =
         mapEntityMenuValid(subRegionStatsDao.getSubRegionsAndStatsWithMostConfirmed(idCountry, idRegion)) {
             subRegionsListOneStats -> subRegionsListOneStats.toPojoSubRegionsOrdered().let {
-                subRegionsListStats -> Pair(subRegionsListStats.isNotEmpty(),
-                    Pair(MenuItemViewType.LineChartMostConfirmed, subRegionsListStats.toDomain())) }
+                subRegionsListStats -> Pair(
+                    subRegionsListStats.isNotEmpty(),
+                    Pair(MenuItemViewType.LineChartMostConfirmed, subRegionsListStats.toDomain())
+                ) }
         }.distinctUntilChanged()
 
     fun getCountriesAndStatsWithMostDeaths(): Flow<Either<DomainError, ListCountryAndStats>> =
@@ -205,8 +229,10 @@ class LocalCovidTrackerDatasource(
     ): Flow<Either<DomainError, Pair<MenuItemViewType, ListRegionAndStats>>> =
         mapEntityValid(regionStatsDao.getRegionsAndStatsWithMostDeaths(idCountry)) {
             regionsListOneStats -> regionsListOneStats.toPojoRegionsOrdered().let {
-                regionsListStats -> Pair(regionsListStats.isNotEmpty(),
-                    Pair(MenuItemViewType.LineChartMostDeaths, regionsListStats.toDomain()))
+                regionsListStats -> Pair(
+                    regionsListStats.isNotEmpty(),
+                    Pair(MenuItemViewType.LineChartMostDeaths, regionsListStats.toDomain())
+                )
             }
         }.distinctUntilChanged()
 
@@ -216,8 +242,10 @@ class LocalCovidTrackerDatasource(
     ): Flow<Either<DomainError, Pair<MenuItemViewType, ListSubRegionAndStats>>> =
         mapEntityValid(subRegionStatsDao.getSubRegionsAndStatsWithMostDeaths(idCountry, idRegion)) {
             subRegionsListOneStats -> subRegionsListOneStats.toPojoSubRegionsOrdered().let {
-                subRegionsListStats -> Pair(subRegionsListStats.isNotEmpty(),
-                    Pair(MenuItemViewType.LineChartMostDeaths, subRegionsListStats.toDomain()))
+                subRegionsListStats -> Pair(
+                    subRegionsListStats.isNotEmpty(),
+                    Pair(MenuItemViewType.LineChartMostDeaths, subRegionsListStats.toDomain())
+                )
             }
         }.distinctUntilChanged()
 
@@ -233,8 +261,13 @@ class LocalCovidTrackerDatasource(
     ): Flow<Either<DomainError, Pair<MenuItemViewType, ListRegionAndStats>>> =
         mapEntityValid(regionStatsDao.getRegionsAndStatsWithMostRecovered(idCountry)) {
             regionsListOneStats -> regionsListOneStats.toPojoRegionsOrdered().let { regionsListStats ->
-                Pair(regionsListStats.isNotEmpty(), Pair(MenuItemViewType.LineChartMostRecovered,
-                    regionsListStats.toDomain()))
+                Pair(
+                    regionsListStats.isNotEmpty(),
+                    Pair(
+                        MenuItemViewType.LineChartMostRecovered,
+                        regionsListStats.toDomain()
+                    )
+                )
             }
         }.distinctUntilChanged()
 
@@ -244,8 +277,10 @@ class LocalCovidTrackerDatasource(
     ): Flow<Either<DomainError, Pair<MenuItemViewType, ListSubRegionAndStats>>> =
         mapEntityValid(subRegionStatsDao.getSubRegionsAndStatsWithMostRecovered(idCountry, idRegion)) {
             subRegionsListOneStats -> subRegionsListOneStats.toPojoSubRegionsOrdered().let {
-                subRegionsListStats -> Pair(subRegionsListStats.isNotEmpty(),
-                    Pair(MenuItemViewType.LineChartMostRecovered, subRegionsListStats.toDomain()))
+                subRegionsListStats -> Pair(
+                    subRegionsListStats.isNotEmpty(),
+                    Pair(MenuItemViewType.LineChartMostRecovered, subRegionsListStats.toDomain())
+                )
             }
         }.distinctUntilChanged()
 
@@ -260,8 +295,10 @@ class LocalCovidTrackerDatasource(
         idCountry: String
     ): Flow<Either<DomainError, Pair<MenuItemViewType, ListRegionAndStats>>> =
         mapEntityValid(regionStatsDao.getRegionsAndStatsWithMostOpenCases(idCountry)) { regionsListOneStats ->
-            regionsListOneStats.toPojoRegionsOrdered().let { regionsListStats -> Pair(regionsListStats.isNotEmpty(),
-                Pair(MenuItemViewType.LineChartMostOpenCases, regionsListStats.toDomain()))
+            regionsListOneStats.toPojoRegionsOrdered().let { regionsListStats -> Pair(
+                regionsListStats.isNotEmpty(),
+                Pair(MenuItemViewType.LineChartMostOpenCases, regionsListStats.toDomain())
+            )
             }
         }.distinctUntilChanged()
 
@@ -271,8 +308,10 @@ class LocalCovidTrackerDatasource(
     ): Flow<Either<DomainError, Pair<MenuItemViewType, ListSubRegionAndStats>>> =
         mapEntityValid(subRegionStatsDao.getSubRegionsAndStatsWithMostOpenCases(idCountry, idRegion)) {
             subRegionsListOneStats -> subRegionsListOneStats.toPojoSubRegionsOrdered().let {
-                subRegionsListStats -> Pair(subRegionsListStats.isNotEmpty(),
-                    Pair(MenuItemViewType.LineChartMostOpenCases, subRegionsListStats.toDomain()))
+                subRegionsListStats -> Pair(
+                    subRegionsListStats.isNotEmpty(),
+                    Pair(MenuItemViewType.LineChartMostOpenCases, subRegionsListStats.toDomain())
+                )
             }
         }.distinctUntilChanged()
 
@@ -296,8 +335,12 @@ class LocalCovidTrackerDatasource(
                     country -> Pair(country.isValid(), country.toDomain())
                 }
             false ->
-                mapEntityValid(countryStatsDao.getCountryAndStatsByDate(idCountry,
-                    date.dateToMilliseconds())) { country -> Pair(country.isValid(), country.toDomain())
+                mapEntityValid(
+                    countryStatsDao.getCountryAndStatsByDate(
+                        idCountry,
+                        date.dateToMilliseconds()
+                    )
+                ) { country -> Pair(country.isValid(), country.toDomain())
                 }
         }.distinctUntilChanged()
 
@@ -312,8 +355,13 @@ class LocalCovidTrackerDatasource(
                     region -> Pair(region.isValid(), region.toDomain())
                 }
             false ->
-                mapEntityValid(regionStatsDao.getRegionAndStatsByDate(idCountry, idRegion,
-                    date.dateToMilliseconds())) { region -> Pair(region.isValid(), region.toDomain())
+                mapEntityValid(
+                    regionStatsDao.getRegionAndStatsByDate(
+                        idCountry,
+                        idRegion,
+                        date.dateToMilliseconds()
+                    )
+                ) { region -> Pair(region.isValid(), region.toDomain())
                 }
         }.distinctUntilChanged()
 
@@ -338,19 +386,28 @@ class LocalCovidTrackerDatasource(
                     countryStats.regionStats?.map { regionStats ->
                         regionEntities.add(regionStats.region.toEntity(countryStats.country.id))
                         regionStats.subRegionStats?.map { subRegionStats ->
-                            subRegionEntities.add(subRegionStats.subRegion.toEntity(
-                                regionStats.region.id, countryStats.country.id))
+                            subRegionEntities.add(
+                                subRegionStats.subRegion.toEntity(
+                                    regionStats.region.id,
+                                    countryStats.country.id
+                                )
+                            )
                         }
                     }
                 }
                 countryStatsEntities.add(countryStats.stats.toEntity(countryStats.country.id))
                 countryStats.regionStats?.map { regionStats ->
-                    regionStatsEntities.add(regionStats.toEntity(
-                        regionStats.region.id, countryStats.country.id))
+                    regionStatsEntities.add(
+                        regionStats.toEntity(
+                            regionStats.region.id,
+                            countryStats.country.id
+                        )
+                    )
 
                     regionStats.subRegionStats?.map { subRegionStats ->
                         subRegionStatsEntities.add(
-                            subRegionStats.toEntity(subRegionStats.subRegion.id, regionStats.region.id))
+                            subRegionStats.toEntity(subRegionStats.subRegion.id, regionStats.region.id)
+                        )
                     }
                 }
             }

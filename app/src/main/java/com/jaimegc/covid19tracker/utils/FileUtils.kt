@@ -24,8 +24,11 @@ class FileUtils(private val context: Context) {
     suspend fun initDatabase() {
         try {
             if (context.getDatabasePath(Covid19TrackerDatabase.DATABASE_NAME).exists().not()) {
-                val bis = BufferedInputStream(context.assets.open(
-                    "${Covid19TrackerDatabase.DATABASE_NAME}.zip"))
+                val bis = BufferedInputStream(
+                    context.assets.open(
+                        "${Covid19TrackerDatabase.DATABASE_NAME}.zip"
+                    )
+                )
                 val zis = ZipInputStream(bis).also { it.nextEntry }
                 val destinationFile = File(context.filesDir, Covid19TrackerDatabase.DATABASE_NAME)
                 val inputStream = BufferedInputStream(zis)
@@ -62,8 +65,14 @@ class FileUtils(private val context: Context) {
 
     fun generateCurrentDates(): List<String> =
         Calendar.getInstance().let { date ->
-            generateDates(START_DATE_SERVER, Triple(date.get(Calendar.YEAR),
-                date.get(Calendar.MONTH) + 1, date.get(Calendar.DAY_OF_MONTH)))
+            generateDates(
+                START_DATE_SERVER,
+                Triple(
+                    date.get(Calendar.YEAR),
+                    date.get(Calendar.MONTH) + 1,
+                    date.get(Calendar.DAY_OF_MONTH)
+                )
+            )
         }
 
     fun generateDates(

@@ -85,23 +85,29 @@ class MainActivity : BaseActivity() {
         val dialog = DialogUpdateDatabase.newInstance()
 
         WorkManager.getInstance(this).getWorkInfoByIdLiveData(periodicWorkRequest.id)
-            .observe(this, Observer { workInfo ->
-                if (workInfo != null) {
-                    if (workInfo.state == WorkInfo.State.RUNNING) {
-                        when (workInfo.progress.getString(UpdateDatabaseWorker.DATA_PROGRESS)) {
-                            this.getString(R.string.worker_start) ->
-                                dialog.open(supportFragmentManager)
-                            this.getString(R.string.worker_finish) ->
-                                dialog.close()
-                            else ->
-                                dialog.updateInfoStatus(workInfo.progress.getString(
-                                    UpdateDatabaseWorker.DATA_PROGRESS) ?: "")
-                        }
-                    } else if (workInfo.state == WorkInfo.State.ENQUEUED) {
-                        dialog.close()
-                    }
+            .observe(
+                this,
+                Observer { workInfo ->
+                    if (workInfo != null) {
+                                    if (workInfo.state == WorkInfo.State.RUNNING) {
+                                        when (workInfo.progress.getString(UpdateDatabaseWorker.DATA_PROGRESS)) {
+                                            this.getString(R.string.worker_start) ->
+                                                dialog.open(supportFragmentManager)
+                                            this.getString(R.string.worker_finish) ->
+                                                dialog.close()
+                                            else ->
+                                                dialog.updateInfoStatus(
+                                                    workInfo.progress.getString(
+                                                        UpdateDatabaseWorker.DATA_PROGRESS
+                                                    ) ?: ""
+                                                )
+                                        }
+                                    } else if (workInfo.state == WorkInfo.State.ENQUEUED) {
+                                        dialog.close()
+                                    }
+                                }
                 }
-            })
+            )
     }
 
     override fun onBackPressed() {

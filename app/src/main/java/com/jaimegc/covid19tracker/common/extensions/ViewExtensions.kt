@@ -52,8 +52,14 @@ fun View.rotateRightAnimation(duration: Long = 250) =
     this.rotateAnimation(duration, 180f, 0f)
 
 private fun View.rotateAnimation(duration: Long = 250, fromDegrees: Float, toDegrees: Float) {
-    val animation = RotateAnimation(fromDegrees, toDegrees,
-        Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
+    val animation = RotateAnimation(
+        fromDegrees,
+        toDegrees,
+        Animation.RELATIVE_TO_SELF,
+        0.5f,
+        Animation.RELATIVE_TO_SELF,
+        0.5f
+    )
     animation.duration = duration
     animation.fillAfter = true
     this.startAnimation(animation)

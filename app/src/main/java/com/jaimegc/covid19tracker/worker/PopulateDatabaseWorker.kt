@@ -90,8 +90,11 @@ class PopulateDatabaseWorker(
         // You can see another way of concurrent requests using Arrow in UpdatebaseWorker class
         allRequests.awaitAll().mapIndexed { index, response ->
             if (response.isSuccessful && response.body() != null) {
-                fileUtils.writeFileToInternalStorage(moshi.toJson(response.body()),
-                    "${listDates[index]}$JSON_FILE_EXTENSION", FOLDER_DOWNLOAD)
+                fileUtils.writeFileToInternalStorage(
+                    moshi.toJson(response.body()),
+                    "${listDates[index]}$JSON_FILE_EXTENSION",
+                    FOLDER_DOWNLOAD
+                )
             }
         }
     }

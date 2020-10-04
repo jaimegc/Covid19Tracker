@@ -8,7 +8,7 @@ plugins {
     // id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     // Commented until updating AGP 4.1 (https://issuetracker.google.com/issues/165535092)
-    //id("com.google.firebase.firebase-perf")
+    // id("com.google.firebase.firebase-perf")
 }
 
 android {

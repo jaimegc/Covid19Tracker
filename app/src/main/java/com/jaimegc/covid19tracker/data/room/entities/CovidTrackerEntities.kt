@@ -51,7 +51,8 @@ data class StatsEmbedded(
 
 @Entity(
     tableName = "country",
-    indices = [(Index(value = ["name"]))])
+    indices = [(Index(value = ["name"]))]
+)
 data class CountryEntity(
     @PrimaryKey
     @ColumnInfo(name = "id")
@@ -73,7 +74,8 @@ data class CountryEntity(
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("id_country_fk"),
         onDelete = ForeignKey.CASCADE
-    )])
+    )]
+)
 data class CountryStatsEntity(
     @ColumnInfo(name = "date_timestamp")
     val dateTimestamp: Long,
@@ -94,7 +96,8 @@ data class CountryStatsEntity(
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("id_country_fk"),
         onDelete = ForeignKey.CASCADE
-    )])
+    )]
+)
 data class RegionEntity(
     @ColumnInfo(name = "id")
     val id: String,
@@ -108,15 +111,18 @@ data class RegionEntity(
 
 @Entity(
     tableName = "region_stats",
-    indices = [(Index(value = ["id_region_fk", "id_region_country_fk", "confirmed",
-        "deaths", "open_cases", "recovered"]))],
+    indices = [(Index(
+        value = ["id_region_fk", "id_region_country_fk", "confirmed",
+            "deaths", "open_cases", "recovered"]
+    ))],
     primaryKeys = ["date_timestamp", "id_region_fk", "id_region_country_fk"],
     foreignKeys = [ForeignKey(
         entity = RegionEntity::class,
         parentColumns = arrayOf("id", "id_country_fk"),
         childColumns = arrayOf("id_region_fk", "id_region_country_fk"),
         onDelete = ForeignKey.CASCADE
-    )])
+    )]
+)
 data class RegionStatsEntity(
     @ColumnInfo(name = "date_timestamp")
     val dateTimestamp: Long,
@@ -139,7 +145,8 @@ data class RegionStatsEntity(
         parentColumns = arrayOf("id", "id_country_fk"),
         childColumns = arrayOf("id_region_fk", "id_country_fk"),
         onDelete = ForeignKey.CASCADE
-    )])
+    )]
+)
 data class SubRegionEntity(
     @ColumnInfo(name = "id")
     val id: String,
@@ -155,15 +162,18 @@ data class SubRegionEntity(
 
 @Entity(
     tableName = "sub_region_stats",
-    indices = [(Index(value = ["id_sub_region_fk", "id_sub_region_region_fk", "confirmed",
-        "deaths", "open_cases", "recovered"]))],
+    indices = [(Index(
+        value = ["id_sub_region_fk", "id_sub_region_region_fk", "confirmed",
+            "deaths", "open_cases", "recovered"]
+    ))],
     primaryKeys = ["date_timestamp", "id_sub_region_fk", "id_sub_region_region_fk"],
     foreignKeys = [ForeignKey(
         entity = SubRegionEntity::class,
         parentColumns = arrayOf("id", "id_region_fk"),
         childColumns = arrayOf("id_sub_region_fk", "id_sub_region_region_fk"),
         onDelete = ForeignKey.CASCADE
-    )])
+    )]
+)
 data class SubRegionStatsEntity(
     @ColumnInfo(name = "date_timestamp")
     val dateTimestamp: Long,

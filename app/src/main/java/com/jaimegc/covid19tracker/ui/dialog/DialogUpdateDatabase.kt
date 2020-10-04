@@ -30,8 +30,12 @@ class DialogUpdateDatabase : DialogFragment() {
         val contentView = binding.root
 
         dialog.setContentView(contentView)
-        (contentView.parent as View).setBackgroundColor(ContextCompat.getColor(requireContext(),
-            android.R.color.transparent))
+        (contentView.parent as View).setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                android.R.color.transparent
+            )
+        )
     }
 
     override fun onStart() {

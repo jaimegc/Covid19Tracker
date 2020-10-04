@@ -56,8 +56,15 @@ class UpdateDatabaseWorker(
         if (datesToDownloadSize > 1) {
             setProgress(workDataOf(DATA_PROGRESS to context.getString(R.string.worker_start)))
             delay(500)
-            setProgress(workDataOf(DATA_PROGRESS to context.getString(
-                R.string.worker_populating_database, datesToDownload.first(), datesToDownload.last())))
+            setProgress(
+                workDataOf(
+                    DATA_PROGRESS to context.getString(
+                        R.string.worker_populating_database,
+                        datesToDownload.first(),
+                        datesToDownload.last()
+                    )
+                )
+            )
         }
 
         val localDs: LocalCovidTrackerDatasource by inject()

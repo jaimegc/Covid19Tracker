@@ -227,64 +227,110 @@ class CountryViewModel(
             is State.Success -> {
                 when (state.data) {
                     is ListCountry ->
-                        screenStateQueue.postValue(ScreenState.Render(PlaceStateScreen.SuccessSpinnerCountries(
-                            state.data.countries.map { country -> country.toUI() })))
+                        screenStateQueue.postValue(
+                            ScreenState.Render(
+                                PlaceStateScreen.SuccessSpinnerCountries(
+                                    state.data.countries.map { country -> country.toUI() }
+                                )
+                            )
+                        )
                     is ListRegion ->
-                        screenStateQueue.postValue(ScreenState.Render(PlaceStateScreen.SuccessSpinnerRegions(
-                            state.data.regions.map { region -> region.toPlaceUI() })))
+                        screenStateQueue.postValue(
+                            ScreenState.Render(
+                                PlaceStateScreen.SuccessSpinnerRegions(
+                                    state.data.regions.map { region -> region.toPlaceUI() }
+                                )
+                            )
+                        )
                     is CountryOneStats ->
                         when (viewType) {
                             is MenuItemViewType.List ->
-                                screenStateQueue.postValue(ScreenState.Render(
-                                    PlaceStateScreen.SuccessPlaceAndStats(state.data.toPlaceUI())))
+                                screenStateQueue.postValue(
+                                    ScreenState.Render(
+                                        PlaceStateScreen.SuccessPlaceAndStats(state.data.toPlaceUI())
+                                    )
+                                )
                             is MenuItemViewType.PieChart ->
-                                screenStateQueue.postValue(ScreenState.Render(
-                                    PlaceStateScreen.SuccessPlaceTotalStatsPieChart(state.data.stats.toChartUI())))
+                                screenStateQueue.postValue(
+                                    ScreenState.Render(
+                                        PlaceStateScreen.SuccessPlaceTotalStatsPieChart(state.data.stats.toChartUI())
+                                    )
+                                )
                         }
                     is RegionOneStats ->
                         when (viewType) {
                             is MenuItemViewType.List ->
-                                screenStateQueue.postValue(ScreenState.Render(
-                                    PlaceStateScreen.SuccessPlaceAndStats(state.data.toPlaceUI())))
+                                screenStateQueue.postValue(
+                                    ScreenState.Render(
+                                        PlaceStateScreen.SuccessPlaceAndStats(state.data.toPlaceUI())
+                                    )
+                                )
                             is MenuItemViewType.PieChart ->
-                                screenStateQueue.postValue(ScreenState.Render(
-                                    PlaceStateScreen.SuccessPlaceTotalStatsPieChart(state.data.stats.toChartUI())))
+                                screenStateQueue.postValue(
+                                    ScreenState.Render(
+                                        PlaceStateScreen.SuccessPlaceTotalStatsPieChart(state.data.stats.toChartUI())
+                                    )
+                                )
                         }
                     is ListRegionStats ->
                         when (viewType) {
                             is MenuItemViewType.List ->
-                                screenStateQueue.postValue(ScreenState.Render(
-                                    PlaceStateScreen.SuccessPlaceStats(state.data.toPlaceUI())))
+                                screenStateQueue.postValue(
+                                    ScreenState.Render(
+                                        PlaceStateScreen.SuccessPlaceStats(state.data.toPlaceUI())
+                                    )
+                                )
                             is MenuItemViewType.PieChart ->
-                                screenStateQueue.postValue(ScreenState.Render(
-                                    PlaceStateScreen.SuccessPlaceAndStatsPieChart(state.data.toPlaceChartUI())))
+                                screenStateQueue.postValue(
+                                    ScreenState.Render(
+                                        PlaceStateScreen.SuccessPlaceAndStatsPieChart(state.data.toPlaceChartUI())
+                                    )
+                                )
                         }
                     is ListSubRegionStats ->
                         when (viewType) {
                             is MenuItemViewType.List ->
-                                screenStateQueue.postValue(ScreenState.Render(
-                                    PlaceStateScreen.SuccessPlaceStats(state.data.toPlaceUI())))
+                                screenStateQueue.postValue(
+                                    ScreenState.Render(
+                                        PlaceStateScreen.SuccessPlaceStats(state.data.toPlaceUI())
+                                    )
+                                )
                             is MenuItemViewType.PieChart ->
-                                screenStateQueue.postValue(ScreenState.Render(
-                                    PlaceStateScreen.SuccessPlaceAndStatsPieChart(state.data.toPlaceChartUI())))
+                                screenStateQueue.postValue(
+                                    ScreenState.Render(
+                                        PlaceStateScreen.SuccessPlaceAndStatsPieChart(state.data.toPlaceChartUI())
+                                    )
+                                )
                         }
                     is ListCountryOnlyStats ->
-                        screenStateQueue.postValue(ScreenState.Render(
-                            PlaceStateScreen.SuccessPlaceTotalStatsBarChart(state.data.toPlaceUI())))
+                        screenStateQueue.postValue(
+                            ScreenState.Render(
+                                PlaceStateScreen.SuccessPlaceTotalStatsBarChart(state.data.toPlaceUI())
+                            )
+                        )
                     is ListRegionOnlyStats ->
-                        screenStateQueue.postValue(ScreenState.Render(
-                            PlaceStateScreen.SuccessPlaceTotalStatsBarChart(state.data.toPlaceUI())))
+                        screenStateQueue.postValue(
+                            ScreenState.Render(
+                                PlaceStateScreen.SuccessPlaceTotalStatsBarChart(state.data.toPlaceUI())
+                            )
+                        )
                     is ListRegionAndStats ->
                         when (viewType) {
                             is MenuItemViewType.BarChart ->
-                                screenStateQueue.postValue(ScreenState.Render(
-                                    PlaceStateScreen.SuccessPlaceStatsBarChart(state.data.toPlaceUI())))
+                                screenStateQueue.postValue(
+                                    ScreenState.Render(
+                                        PlaceStateScreen.SuccessPlaceStatsBarChart(state.data.toPlaceUI())
+                                    )
+                                )
                         }
                     is ListSubRegionAndStats ->
                         when (viewType) {
                             is MenuItemViewType.BarChart ->
-                                screenStateQueue.postValue(ScreenState.Render(
-                                    PlaceStateScreen.SuccessPlaceStatsBarChart(state.data.toPlaceUI())))
+                                screenStateQueue.postValue(
+                                    ScreenState.Render(
+                                        PlaceStateScreen.SuccessPlaceStatsBarChart(state.data.toPlaceUI())
+                                    )
+                                )
                         }
                     is Pair<*, *> -> {
                         val menuViewType = state.data.first as MenuItemViewType
@@ -298,8 +344,11 @@ class CountryViewModel(
                                     (state.data.second as ListSubRegionAndStats).toPlaceUI()
                         }
 
-                        screenStateQueue.postValue(ScreenState.Render(
-                            PlaceStateScreen.SuccessPlaceStatsLineCharts(mapPlacesLineStats)))
+                        screenStateQueue.postValue(
+                            ScreenState.Render(
+                                PlaceStateScreen.SuccessPlaceStatsLineCharts(mapPlacesLineStats)
+                            )
+                        )
                     }
                 }
             }
@@ -313,8 +362,11 @@ class CountryViewModel(
     private fun handleError(state: StateError<DomainError>) {
         when (state) {
             is StateError.Error ->
-                screenStateQueue.postValue(ScreenState.Error(
-                    PlaceStateScreen.SomeError(state.error.toUI())))
+                screenStateQueue.postValue(
+                    ScreenState.Error(
+                        PlaceStateScreen.SomeError(state.error.toUI())
+                    )
+                )
         }
     }
 

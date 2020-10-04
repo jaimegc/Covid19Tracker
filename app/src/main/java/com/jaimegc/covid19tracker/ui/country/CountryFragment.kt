@@ -63,27 +63,30 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
 
         binding.recyclerPlace.adapter = concatAdapter
 
-        viewModel.screenState.observe(viewLifecycleOwner, Observer { screenState ->
-            when (screenState) {
-                ScreenState.Loading ->
-                    if (concatAdapter.adapters.isEmpty()) {
-                        binding.emptyDatabase.layout.hide()
-                        binding.loading.layout.show()
-                    }
-                ScreenState.EmptyData ->
-                    if (currentMenuItem == menuItemLineChart) {
-                        binding.loading.layout.hide()
-                        binding.emptyDatabase.layout.show()
-                    }
-                is ScreenState.Render<PlaceStateScreen> -> {
-                    binding.loading.layout.hide()
-                    handleRenderState(screenState.renderState)
-                }
-                is ScreenState.Error<PlaceStateScreen> -> {
-                    // Not implemented
-                }
+        viewModel.screenState.observe(
+            viewLifecycleOwner,
+            Observer { screenState ->
+                when (screenState) {
+                            ScreenState.Loading ->
+                                if (concatAdapter.adapters.isEmpty()) {
+                                    binding.emptyDatabase.layout.hide()
+                                    binding.loading.layout.show()
+                                }
+                            ScreenState.EmptyData ->
+                                if (currentMenuItem == menuItemLineChart) {
+                                    binding.loading.layout.hide()
+                                    binding.emptyDatabase.layout.show()
+                                }
+                            is ScreenState.Render<PlaceStateScreen> -> {
+                                binding.loading.layout.hide()
+                                handleRenderState(screenState.renderState)
+                            }
+                            is ScreenState.Error<PlaceStateScreen> -> {
+                                // Not implemented
+                            }
+                        }
             }
-        })
+        )
 
         viewModel.getCountries()
         setHasOptionsMenu(true)
@@ -96,9 +99,11 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
                 binding.countrySpinner.adapter = countrySpinnerAdapter
 
                 binding.countrySpinner.setSelection(
-                    renderState.data.indexOf(renderState.data.first { country ->
-                        country.id == countryPreferences.getId() })
+                    renderState.data.indexOf(
+                        renderState.data.first { country ->
+                            country.id == countryPreferences.getId() }
                     )
+                )
 
                 binding.countrySpinner.onItemSelected { pos ->
                     countrySpinnerAdapter.getCountryId(pos).let { idCountry ->
@@ -121,8 +126,10 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
                     binding.regionSpinner.onItemSelected(ignoreFirst = false) { pos ->
                         if (countryJustSelected.not()) {
                             placeSpinnerAdapter.saveCurrentPosition(pos)
-                            selectMenu(countrySpinnerAdapter.getCurrentCountryId(),
-                                placeSpinnerAdapter.getId(pos))
+                            selectMenu(
+                                countrySpinnerAdapter.getCurrentCountryId(),
+                                placeSpinnerAdapter.getId(pos)
+                            )
                         }
                         countryJustSelected = false
                     }

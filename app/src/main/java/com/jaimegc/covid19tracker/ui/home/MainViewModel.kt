@@ -16,7 +16,8 @@ class MainViewModel(
     fun getCovidTracker() =
         viewModelScope.launch {
             getCovidTracker.getCovidTrackerByDate(
-                System.currentTimeMillis().millisecondsToDate()).collect { result ->
+                System.currentTimeMillis().millisecondsToDate()
+            ).collect { result ->
                     result.mapLeft { handleError(it) }
             }
         }

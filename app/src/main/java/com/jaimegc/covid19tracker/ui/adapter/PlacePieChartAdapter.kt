@@ -16,8 +16,13 @@ class PlacePieChartAdapter :
     ListAdapter<PlaceStatsChartUI, PlacePieChartAdapter.PlaceListStatsViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        PlaceListStatsViewHolder(ItemPieChartPlaceTotalBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false))
+        PlaceListStatsViewHolder(
+            ItemPieChartPlaceTotalBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
 
     override fun onBindViewHolder(holder: PlaceListStatsViewHolder, position: Int) =
         holder.bind(getItem(position))
@@ -33,12 +38,15 @@ class PlacePieChartAdapter :
 
             chartTotal.setValues(
                 ctx,
-                listOf(placeStatsChart.stats.confirmed,
+                listOf(
+                    placeStatsChart.stats.confirmed,
                     placeStatsChart.stats.deaths,
                     placeStatsChart.stats.recovered,
-                    placeStatsChart.stats.openCases),
+                    placeStatsChart.stats.openCases
+                ),
                 listOf(R.string.confirmed, R.string.deaths, R.string.recovered, R.string.open_cases),
-                listOf(R.color.dark_red, R.color.dark_grey, R.color.dark_green, R.color.dark_blue))
+                listOf(R.color.dark_red, R.color.dark_grey, R.color.dark_green, R.color.dark_blue)
+            )
 
             placeStatsChart.statsParent?.let { statsParent ->
                 binding.percentageConfirmed.text =

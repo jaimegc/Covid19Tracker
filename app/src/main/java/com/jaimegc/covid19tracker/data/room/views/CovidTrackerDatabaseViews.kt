@@ -9,10 +9,12 @@ import com.jaimegc.covid19tracker.data.room.entities.RegionStatsEntity
 import com.jaimegc.covid19tracker.data.room.entities.SubRegionEntity
 import com.jaimegc.covid19tracker.data.room.entities.SubRegionStatsEntity
 
-@DatabaseView("""
+@DatabaseView(
+    """
     SELECT * FROM country, country_stats 
     WHERE country.id = country_stats.id_country_fk 
-    ORDER BY confirmed DESC""")
+    ORDER BY confirmed DESC"""
+)
 data class CountryAndStatsDV(
     @Embedded
     val country: CountryEntity?,
@@ -20,10 +22,12 @@ data class CountryAndStatsDV(
     val countryStats: CountryStatsEntity?
 )
 
-@DatabaseView("""
+@DatabaseView(
+    """
     SELECT * FROM region r
     LEFT JOIN region_stats s ON r.id = s.id_region_fk AND r.id_country_fk = s.id_region_country_fk
-    ORDER BY confirmed DESC""")
+    ORDER BY confirmed DESC"""
+)
 data class RegionAndStatsDV(
     @Embedded
     val region: RegionEntity?,
@@ -31,10 +35,12 @@ data class RegionAndStatsDV(
     val regionStats: RegionStatsEntity?
 )
 
-@DatabaseView("""
+@DatabaseView(
+    """
     SELECT * FROM sub_region r
     LEFT JOIN sub_region_stats s ON r.id = s.id_sub_region_fk AND r.id_region_fk = s.id_sub_region_region_fk
-    ORDER BY confirmed DESC""")
+    ORDER BY confirmed DESC"""
+)
 data class SubRegionAndStatsDV(
     @Embedded
     val subRegion: SubRegionEntity?,
