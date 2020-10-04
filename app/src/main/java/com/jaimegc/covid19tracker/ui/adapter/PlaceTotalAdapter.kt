@@ -12,8 +12,13 @@ import com.jaimegc.covid19tracker.ui.model.PlaceStatsUI
 class PlaceTotalAdapter : ListAdapter<PlaceStatsUI, PlaceTotalAdapter.PlaceTotalViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        PlaceTotalViewHolder(ItemTotalBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false))
+        PlaceTotalViewHolder(
+            ItemTotalBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
 
     override fun onBindViewHolder(holder: PlaceTotalViewHolder, position: Int) =
         holder.bind(getItem(position))
@@ -29,14 +34,26 @@ class PlaceTotalAdapter : ListAdapter<PlaceStatsUI, PlaceTotalAdapter.PlaceTotal
             binding.textRecovered.text = placeStatsUI.stats.recovered
             binding.textDeaths.text = placeStatsUI.stats.deaths
 
-            binding.textNewConfirmed.text = itemView.context.getString(R.string.text_trending,
-                placeStatsUI.stats.newConfirmed, (placeStatsUI.stats.vsYesterdayConfirmed))
-            binding.textNewOpenCases.text = itemView.context.getString(R.string.text_trending,
-                placeStatsUI.stats.newOpenCases, (placeStatsUI.stats.vsYesterdayOpenCases))
-            binding.textNewRecovered.text = itemView.context.getString(R.string.text_trending,
-                placeStatsUI.stats.newRecovered, (placeStatsUI.stats.vsYesterdayRecovered))
-            binding.textNewDeaths.text = itemView.context.getString(R.string.text_trending,
-                placeStatsUI.stats.newDeaths, (placeStatsUI.stats.vsYesterdayDeaths))
+            binding.textNewConfirmed.text = itemView.context.getString(
+                R.string.text_trending,
+                placeStatsUI.stats.newConfirmed,
+                (placeStatsUI.stats.vsYesterdayConfirmed)
+            )
+            binding.textNewOpenCases.text = itemView.context.getString(
+                R.string.text_trending,
+                placeStatsUI.stats.newOpenCases,
+                (placeStatsUI.stats.vsYesterdayOpenCases)
+            )
+            binding.textNewRecovered.text = itemView.context.getString(
+                R.string.text_trending,
+                placeStatsUI.stats.newRecovered,
+                (placeStatsUI.stats.vsYesterdayRecovered)
+            )
+            binding.textNewDeaths.text = itemView.context.getString(
+                R.string.text_trending,
+                placeStatsUI.stats.newDeaths,
+                (placeStatsUI.stats.vsYesterdayDeaths)
+            )
         }
     }
 

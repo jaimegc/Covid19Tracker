@@ -26,7 +26,10 @@ class PlaceSpinnerAdapter(
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view = convertView ?: ItemPlaceSpinnerBinding.inflate(
-            LayoutInflater.from(parent?.context), parent, false).root
+            LayoutInflater.from(parent?.context),
+            parent,
+            false
+        ).root
 
         val binding = ItemPlaceSpinnerBinding.bind(view)
 

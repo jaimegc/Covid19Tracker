@@ -127,8 +127,12 @@ fun List<CountryAndOneStatsPojo>.toPojoCountriesOrdered(): List<CountryAndStatsP
     this.groupBy { it.country }.let { mapCountries ->
         val listCountryAndStatsPojo = mutableListOf<CountryAndStatsPojo>()
         mapCountries.map { countryStats ->
-            listCountryAndStatsPojo.add(CountryAndStatsPojo(
-                countryStats.key, countryStats.value.map { stats -> stats.countryStats!! }))
+            listCountryAndStatsPojo.add(
+                CountryAndStatsPojo(
+                    countryStats.key,
+                    countryStats.value.map { stats -> stats.countryStats!! }
+                )
+            )
         }
         listCountryAndStatsPojo
     }
@@ -137,8 +141,12 @@ fun List<RegionAndOneStatsPojo>.toPojoRegionsOrdered(): List<RegionAndStatsPojo>
     this.groupBy { it.region }.let { mapRegions ->
         val listRegionAndStatsPojo = mutableListOf<RegionAndStatsPojo>()
         mapRegions.map { regionStats ->
-            listRegionAndStatsPojo.add(RegionAndStatsPojo(
-                regionStats.key, regionStats.value.map { stats -> stats.regionStats!! }))
+            listRegionAndStatsPojo.add(
+                RegionAndStatsPojo(
+                    regionStats.key,
+                    regionStats.value.map { stats -> stats.regionStats!! }
+                )
+            )
         }
         listRegionAndStatsPojo
     }
@@ -147,8 +155,12 @@ fun List<SubRegionAndOneStatsPojo>.toPojoSubRegionsOrdered(): List<SubRegionAndS
     this.groupBy { it.subRegion }.let { mapSubRegions ->
         val listSubRegionAndStatsPojo = mutableListOf<SubRegionAndStatsPojo>()
         mapSubRegions.map { subRegionStats ->
-            listSubRegionAndStatsPojo.add(SubRegionAndStatsPojo(
-                subRegionStats.key, subRegionStats.value.map { stats -> stats.subRegionStats!! }))
+            listSubRegionAndStatsPojo.add(
+                SubRegionAndStatsPojo(
+                    subRegionStats.key,
+                    subRegionStats.value.map { stats -> stats.subRegionStats!! }
+                )
+            )
         }
         listSubRegionAndStatsPojo
     }
@@ -198,36 +210,44 @@ fun List<RegionStatsEntity>.toStatsDomain(): ListRegionOnlyStats =
     ListRegionOnlyStats(map { entity -> entity.toDomain(entity.date) })
 
 fun List<SubRegionAndStatsDV>.toDomain(): ListSubRegionStats =
-    ListSubRegionStats(map { entity ->
-        SubRegionStats(
-            subRegion = entity.subRegion!!.toDomain(),
-            stats = entity.subRegionStats!!.toDomain(entity.subRegionStats.date)
-        )
-    })
+    ListSubRegionStats(
+        map { entity ->
+            SubRegionStats(
+                subRegion = entity.subRegion!!.toDomain(),
+                stats = entity.subRegionStats!!.toDomain(entity.subRegionStats.date)
+            )
+        }
+    )
 
 fun List<RegionAndStatsDV>.toDomain(): ListRegionStats =
-    ListRegionStats(map { entity ->
-        RegionStats(
-            region = entity.region!!.toDomain(),
-            stats = entity.regionStats!!.toDomain(entity.regionStats.date)
-        )
-    })
+    ListRegionStats(
+        map { entity ->
+            RegionStats(
+                region = entity.region!!.toDomain(),
+                stats = entity.regionStats!!.toDomain(entity.regionStats.date)
+            )
+        }
+    )
 
 fun List<RegionAndStatsPojo>.toPojoRegionDomain(): ListRegionAndStats =
-    ListRegionAndStats(map { entity ->
-        RegionAndStats(
-            region = entity.region!!.toDomain(),
-            stats = entity.stats.toRegionDomain()
-        )
-    })
+    ListRegionAndStats(
+        map { entity ->
+            RegionAndStats(
+                region = entity.region!!.toDomain(),
+                stats = entity.stats.toRegionDomain()
+            )
+        }
+    )
 
 fun List<SubRegionAndStatsPojo>.toPojoSubRegionDomain(): ListSubRegionAndStats =
-    ListSubRegionAndStats(map { entity ->
-        SubRegionAndStats(
-            subRegion = entity.subRegion!!.toDomain(),
-            stats = entity.stats.toSubRegionDomain()
-        )
-    })
+    ListSubRegionAndStats(
+        map { entity ->
+            SubRegionAndStats(
+                subRegion = entity.subRegion!!.toDomain(),
+                stats = entity.stats.toSubRegionDomain()
+            )
+        }
+    )
 
 fun List<RegionStatsEntity>.toRegionDomain(): List<Stats> =
     map { entity -> entity.toDomain(entity.date) }

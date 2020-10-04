@@ -14,12 +14,10 @@ import com.jaimegc.covid19tracker.data.preference.CovidTrackerPreferences
 import com.jaimegc.covid19tracker.domain.model.CovidTracker
 import com.jaimegc.covid19tracker.domain.usecase.GetDates
 import com.jaimegc.covid19tracker.utils.FileUtils
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-@ExperimentalCoroutinesApi
 class UpdateDatabaseWorker(
     val context: Context,
     workerParams: WorkerParameters
@@ -58,8 +56,15 @@ class UpdateDatabaseWorker(
         if (datesToDownloadSize > 1) {
             setProgress(workDataOf(DATA_PROGRESS to context.getString(R.string.worker_start)))
             delay(500)
-            setProgress(workDataOf(DATA_PROGRESS to context.getString(
-                R.string.worker_populating_database, datesToDownload.first(), datesToDownload.last())))
+            setProgress(
+                workDataOf(
+                    DATA_PROGRESS to context.getString(
+                        R.string.worker_populating_database,
+                        datesToDownload.first(),
+                        datesToDownload.last()
+                    )
+                )
+            )
         }
 
         val localDs: LocalCovidTrackerDatasource by inject()

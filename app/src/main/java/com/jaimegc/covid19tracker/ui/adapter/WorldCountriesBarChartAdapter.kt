@@ -16,8 +16,13 @@ class WorldCountriesBarChartAdapter :
     ListAdapter<CountryListStatsChartUI, WorldCountriesBarChartAdapter.CountriesListStatsViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        CountriesListStatsViewHolder(ItemBarChartCountryTotalBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false))
+        CountriesListStatsViewHolder(
+            ItemBarChartCountryTotalBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
 
     override fun onBindViewHolder(holder: CountriesListStatsViewHolder, position: Int) =
         holder.bind(getItem(position))
@@ -30,15 +35,29 @@ class WorldCountriesBarChartAdapter :
             val chartConfirmed = binding.chartConfirmed
             val chartDeaths = binding.chartDeaths
 
-            chartConfirmed.configure(countryStatsChartUI.stats.map { countryStats -> countryStats.date },
-                countryStatsChartUI.stats.minBy { countryStats -> countryStats.confirmed }!!.confirmed)
-            chartDeaths.configure(countryStatsChartUI.stats.map { countryStats -> countryStats.date },
-                countryStatsChartUI.stats.minBy { countryStats -> countryStats.deaths }!!.deaths)
+            chartConfirmed.configure(
+                countryStatsChartUI.stats.map { countryStats -> countryStats.date },
+                countryStatsChartUI.stats.minBy { countryStats -> countryStats.confirmed }!!.confirmed
+            )
+            chartDeaths.configure(
+                countryStatsChartUI.stats.map { countryStats -> countryStats.date },
+                countryStatsChartUI.stats.minBy { countryStats -> countryStats.deaths }!!.deaths
+            )
 
-            chartConfirmed.setValues(ctx, countryStatsChartUI.stats.map { countryStats ->
-                countryStats.confirmed }, R.string.total_confirmed, R.color.dark_red)
-            chartDeaths.setValues(ctx, countryStatsChartUI.stats.map { countryStats ->
-                countryStats.deaths }, R.string.total_deaths, R.color.dark_grey)
+            chartConfirmed.setValues(
+                ctx,
+                countryStatsChartUI.stats.map { countryStats ->
+                    countryStats.confirmed },
+                R.string.total_confirmed,
+                R.color.dark_red
+            )
+            chartDeaths.setValues(
+                ctx,
+                countryStatsChartUI.stats.map { countryStats ->
+                    countryStats.deaths },
+                R.string.total_deaths,
+                R.color.dark_grey
+            )
 
             binding.textPlace.text = countryStatsChartUI.country.name
 

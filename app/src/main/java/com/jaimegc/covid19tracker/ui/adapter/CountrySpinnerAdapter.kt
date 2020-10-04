@@ -16,7 +16,10 @@ class CountrySpinnerAdapter(
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view = convertView ?: ItemCountrySpinnerBinding.inflate(
-            LayoutInflater.from(parent?.context), parent, false).root
+            LayoutInflater.from(parent?.context),
+            parent,
+            false
+        ).root
 
         val binding = ItemCountrySpinnerBinding.bind(view)
 

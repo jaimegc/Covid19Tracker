@@ -23,8 +23,13 @@ import com.jaimegc.covid19tracker.ui.model.CountryStatsUI
 class WorldCountryAdapter : ListAdapter<CountryStatsUI, WorldCountryAdapter.WorldCountryViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        WorldCountryViewHolder(ItemPlaceTotalBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false))
+        WorldCountryViewHolder(
+            ItemPlaceTotalBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
 
     override fun onBindViewHolder(holderCountry: WorldCountryViewHolder, position: Int) =
         holderCountry.bind(getItem(position))
@@ -48,14 +53,26 @@ class WorldCountryAdapter : ListAdapter<CountryStatsUI, WorldCountryAdapter.Worl
 
                 textPosition.text = "${layoutPosition}º"
 
-                binding.textNewConfirmed.text = itemView.context.getString(R.string.text_trending,
-                    totalStatsUI.stats.newConfirmed, (totalStatsUI.stats.vsYesterdayConfirmed))
-                binding.textNewOpenCases.text = itemView.context.getString(R.string.text_trending,
-                    totalStatsUI.stats.newOpenCases, (totalStatsUI.stats.vsYesterdayOpenCases))
-                binding.textNewRecovered.text = itemView.context.getString(R.string.text_trending,
-                    totalStatsUI.stats.newRecovered, (totalStatsUI.stats.vsYesterdayRecovered))
-                binding.textNewDeaths.text = itemView.context.getString(R.string.text_trending,
-                    totalStatsUI.stats.newDeaths, (totalStatsUI.stats.vsYesterdayDeaths))
+                binding.textNewConfirmed.text = itemView.context.getString(
+                    R.string.text_trending,
+                    totalStatsUI.stats.newConfirmed,
+                    (totalStatsUI.stats.vsYesterdayConfirmed)
+                )
+                binding.textNewOpenCases.text = itemView.context.getString(
+                    R.string.text_trending,
+                    totalStatsUI.stats.newOpenCases,
+                    (totalStatsUI.stats.vsYesterdayOpenCases)
+                )
+                binding.textNewRecovered.text = itemView.context.getString(
+                    R.string.text_trending,
+                    totalStatsUI.stats.newRecovered,
+                    (totalStatsUI.stats.vsYesterdayRecovered)
+                )
+                binding.textNewDeaths.text = itemView.context.getString(
+                    R.string.text_trending,
+                    totalStatsUI.stats.newDeaths,
+                    (totalStatsUI.stats.vsYesterdayDeaths)
+                )
 
                 binding.icCountryEmoji.setEmojiCountry(totalStatsUI.country.code)
 
@@ -79,13 +96,23 @@ class WorldCountryAdapter : ListAdapter<CountryStatsUI, WorldCountryAdapter.Worl
                     if (totalStatsUI.isExpanded.not()) {
                         icExpandCollapse.rotateLeftAnimation()
                         constraintSetExpand.applyTo(layoutCard)
-                        applyTextSizes(textConfirmed, textOpenCases, textRecovered, textDeaths,
-                            size = TEXT_SIZE_EXPANDED)
+                        applyTextSizes(
+                            textConfirmed,
+                            textOpenCases,
+                            textRecovered,
+                            textDeaths,
+                            size = TEXT_SIZE_EXPANDED
+                        )
                     } else {
                         icExpandCollapse.rotateRightAnimation()
                         constraintSetCollapse.applyTo(layoutCard)
-                        applyTextSizes(textConfirmed, textOpenCases, textRecovered, textDeaths,
-                            size = TEXT_SIZE_COLLAPSED)
+                        applyTextSizes(
+                            textConfirmed,
+                            textOpenCases,
+                            textRecovered,
+                            textDeaths,
+                            size = TEXT_SIZE_COLLAPSED
+                        )
                     }
 
                     totalStatsUI.isExpanded = totalStatsUI.isExpanded.not()

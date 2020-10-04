@@ -15,8 +15,13 @@ class WorldPieChartAdapter :
     ListAdapter<WorldStatsChartUI, WorldPieChartAdapter.WorldPieChartViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        WorldPieChartViewHolder(ItemPieChartTotalBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false))
+        WorldPieChartViewHolder(
+            ItemPieChartTotalBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
 
     override fun onBindViewHolder(holder: WorldPieChartViewHolder, position: Int) =
         holder.bind(getItem(position))
@@ -32,11 +37,15 @@ class WorldPieChartAdapter :
 
             chartTotal.setValues(
                 ctx,
-                listOf(worldStatsChartUI.stats.confirmed,
-                    worldStatsChartUI.stats.deaths, worldStatsChartUI.stats.recovered,
-                    worldStatsChartUI.stats.openCases),
+                listOf(
+                    worldStatsChartUI.stats.confirmed,
+                    worldStatsChartUI.stats.deaths,
+                    worldStatsChartUI.stats.recovered,
+                    worldStatsChartUI.stats.openCases
+                ),
                 listOf(R.string.confirmed, R.string.deaths, R.string.recovered, R.string.open_cases),
-                listOf(R.color.dark_red, R.color.dark_grey, R.color.dark_green, R.color.dark_blue))
+                listOf(R.color.dark_red, R.color.dark_grey, R.color.dark_green, R.color.dark_blue)
+            )
         }
     }
 

@@ -22,8 +22,13 @@ import com.jaimegc.covid19tracker.ui.model.PlaceStatsUI
 class PlaceAdapter : ListAdapter<PlaceStatsUI, PlaceAdapter.PlaceStatsViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        PlaceStatsViewHolder(ItemPlaceTotalBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false))
+        PlaceStatsViewHolder(
+            ItemPlaceTotalBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
 
     override fun onBindViewHolder(holderCountry: PlaceStatsViewHolder, position: Int) =
         holderCountry.bind(getItem(position))
@@ -47,14 +52,26 @@ class PlaceAdapter : ListAdapter<PlaceStatsUI, PlaceAdapter.PlaceStatsViewHolder
 
                 textPosition.text = "${layoutPosition}º"
 
-                binding.textNewConfirmed.text = itemView.context.getString(R.string.text_trending,
-                    placeStatsUI.stats.newConfirmed, (placeStatsUI.stats.vsYesterdayConfirmed))
-                binding.textNewOpenCases.text = itemView.context.getString(R.string.text_trending,
-                    placeStatsUI.stats.newOpenCases, (placeStatsUI.stats.vsYesterdayOpenCases))
-                binding.textNewRecovered.text = itemView.context.getString(R.string.text_trending,
-                    placeStatsUI.stats.newRecovered, (placeStatsUI.stats.vsYesterdayRecovered))
-                binding.textNewDeaths.text = itemView.context.getString(R.string.text_trending,
-                    placeStatsUI.stats.newDeaths, (placeStatsUI.stats.vsYesterdayDeaths))
+                binding.textNewConfirmed.text = itemView.context.getString(
+                    R.string.text_trending,
+                    placeStatsUI.stats.newConfirmed,
+                    (placeStatsUI.stats.vsYesterdayConfirmed)
+                )
+                binding.textNewOpenCases.text = itemView.context.getString(
+                    R.string.text_trending,
+                    placeStatsUI.stats.newOpenCases,
+                    (placeStatsUI.stats.vsYesterdayOpenCases)
+                )
+                binding.textNewRecovered.text = itemView.context.getString(
+                    R.string.text_trending,
+                    placeStatsUI.stats.newRecovered,
+                    (placeStatsUI.stats.vsYesterdayRecovered)
+                )
+                binding.textNewDeaths.text = itemView.context.getString(
+                    R.string.text_trending,
+                    placeStatsUI.stats.newDeaths,
+                    (placeStatsUI.stats.vsYesterdayDeaths)
+                )
                 binding.icCountryEmoji.text = ""
 
                 if (placeStatsUI.isExpanded.not()) {
@@ -77,13 +94,23 @@ class PlaceAdapter : ListAdapter<PlaceStatsUI, PlaceAdapter.PlaceStatsViewHolder
                     if (placeStatsUI.isExpanded.not()) {
                         icExpandCollapse.rotateLeftAnimation()
                         constraintSetExpand.applyTo(layoutCard)
-                        applyTextSizes(textConfirmed, textOpenCases, textRecovered, textDeaths,
-                            size = TEXT_SIZE_EXPANDED)
+                        applyTextSizes(
+                            textConfirmed,
+                            textOpenCases,
+                            textRecovered,
+                            textDeaths,
+                            size = TEXT_SIZE_EXPANDED
+                        )
                     } else {
                         icExpandCollapse.rotateRightAnimation()
                         constraintSetCollapse.applyTo(layoutCard)
-                        applyTextSizes(textConfirmed, textOpenCases, textRecovered, textDeaths,
-                            size = TEXT_SIZE_COLLAPSED)
+                        applyTextSizes(
+                            textConfirmed,
+                            textOpenCases,
+                            textRecovered,
+                            textDeaths,
+                            size = TEXT_SIZE_COLLAPSED
+                        )
                     }
 
                     placeStatsUI.isExpanded = placeStatsUI.isExpanded.not()
