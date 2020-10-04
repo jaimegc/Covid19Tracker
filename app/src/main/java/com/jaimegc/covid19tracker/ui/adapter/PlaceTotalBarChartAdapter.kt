@@ -42,35 +42,35 @@ class PlaceTotalBarChartAdapter :
 
             chartConfirmed.configure(
                 placeStatsChartUI.map { placeStats -> placeStats.date },
-                placeStatsChartUI.minBy { placeStats -> placeStats.confirmed }!!.confirmed
+                placeStatsChartUI.minByOrNull { placeStats -> placeStats.confirmed }?.confirmed
             )
             chartRecovered.configure(
                 placeStatsChartUI.map { placeStats -> placeStats.date },
-                placeStatsChartUI.minBy { placeStats -> placeStats.recovered }!!.recovered
+                placeStatsChartUI.minByOrNull { placeStats -> placeStats.recovered }?.recovered
             )
             chartDeaths.configure(
                 placeStatsChartUI.map { placeStats -> placeStats.date },
-                placeStatsChartUI.minBy { placeStats -> placeStats.deaths }!!.deaths
+                placeStatsChartUI.minByOrNull { placeStats -> placeStats.deaths }?.deaths
             )
             chartOpenCases.configure(
                 placeStatsChartUI.map { placeStats -> placeStats.date },
-                placeStatsChartUI.minBy { placeStats -> placeStats.openCases }!!.openCases
+                placeStatsChartUI.minByOrNull { placeStats -> placeStats.openCases }?.openCases
             )
             chartNewConfirmed.configure(
                 placeStatsChartUI.map { placeStats -> placeStats.date },
-                placeStatsChartUI.minBy { placeStats -> placeStats.newConfirmed }!!.newConfirmed
+                placeStatsChartUI.minByOrNull { placeStats -> placeStats.newConfirmed }?.newConfirmed
             )
             chartNewRecovered.configure(
                 placeStatsChartUI.map { placeStats -> placeStats.date },
-                placeStatsChartUI.minBy { placeStats -> placeStats.newRecovered }!!.newRecovered
+                placeStatsChartUI.minByOrNull { placeStats -> placeStats.newRecovered }?.newRecovered
             )
             chartNewDeaths.configure(
                 placeStatsChartUI.map { placeStats -> placeStats.date },
-                placeStatsChartUI.minBy { placeStats -> placeStats.newDeaths }!!.newDeaths
+                placeStatsChartUI.minByOrNull { placeStats -> placeStats.newDeaths }?.newDeaths
             )
             chartNewOpenCases.configure(
                 placeStatsChartUI.map { placeStats -> placeStats.date },
-                placeStatsChartUI.minBy { placeStats -> placeStats.newOpenCases }!!.newOpenCases
+                placeStatsChartUI.minByOrNull { placeStats -> placeStats.newOpenCases }?.newOpenCases
             )
 
             chartConfirmed.setValues(

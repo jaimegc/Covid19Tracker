@@ -42,35 +42,35 @@ class WorldBarChartAdapter :
 
             chartConfirmed.configure(
                 listWorldStatsChartUI.map { worldStats -> worldStats.date },
-                listWorldStatsChartUI.minBy { worldStats -> worldStats.stats.confirmed }!!.stats.confirmed
+                listWorldStatsChartUI.minByOrNull { worldStats -> worldStats.stats.confirmed }?.stats?.confirmed
             )
             chartRecovered.configure(
                 listWorldStatsChartUI.map { worldStats -> worldStats.date },
-                listWorldStatsChartUI.minBy { worldStats -> worldStats.stats.recovered }!!.stats.recovered
+                listWorldStatsChartUI.minByOrNull { worldStats -> worldStats.stats.recovered }?.stats?.recovered
             )
             chartDeaths.configure(
                 listWorldStatsChartUI.map { worldStats -> worldStats.date },
-                listWorldStatsChartUI.minBy { worldStats -> worldStats.stats.deaths }!!.stats.deaths
+                listWorldStatsChartUI.minByOrNull { worldStats -> worldStats.stats.deaths }?.stats?.deaths
             )
             chartOpenCases.configure(
                 listWorldStatsChartUI.map { worldStats -> worldStats.date },
-                listWorldStatsChartUI.minBy { worldStats -> worldStats.stats.openCases }!!.stats.openCases
+                listWorldStatsChartUI.minByOrNull { worldStats -> worldStats.stats.openCases }?.stats?.openCases
             )
             chartNewConfirmed.configure(
                 listWorldStatsChartUI.map { worldStats -> worldStats.date },
-                listWorldStatsChartUI.minBy { worldStats -> worldStats.stats.newConfirmed }!!.stats.newConfirmed
+                listWorldStatsChartUI.minByOrNull { worldStats -> worldStats.stats.newConfirmed }?.stats?.newConfirmed
             )
             chartNewRecovered.configure(
                 listWorldStatsChartUI.map { worldStats -> worldStats.date },
-                listWorldStatsChartUI.minBy { worldStats -> worldStats.stats.newRecovered }!!.stats.newRecovered
+                listWorldStatsChartUI.minByOrNull { worldStats -> worldStats.stats.newRecovered }?.stats?.newRecovered
             )
             chartNewDeaths.configure(
                 listWorldStatsChartUI.map { worldStats -> worldStats.date },
-                listWorldStatsChartUI.minBy { worldStats -> worldStats.stats.newDeaths }!!.stats.newDeaths
+                listWorldStatsChartUI.minByOrNull { worldStats -> worldStats.stats.newDeaths }?.stats?.newDeaths
             )
             chartNewOpenCases.configure(
                 listWorldStatsChartUI.map { worldStats -> worldStats.date },
-                listWorldStatsChartUI.minBy { worldStats -> worldStats.stats.newOpenCases }!!.stats.newOpenCases
+                listWorldStatsChartUI.minByOrNull { worldStats -> worldStats.stats.newOpenCases }?.stats?.newOpenCases
             )
 
             chartConfirmed.setValues(

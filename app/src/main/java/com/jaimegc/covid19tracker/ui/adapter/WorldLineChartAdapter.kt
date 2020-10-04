@@ -112,7 +112,7 @@ class WorldLineChartAdapter :
             minAxisLeftValue: Float
         ) {
 
-            val countryStatsMaxDays = listCountriesStatsChartUI.maxBy { it.stats.size }
+            val countryStatsMaxDays = listCountriesStatsChartUI.maxByOrNull { it.stats.size }
             chart.configure(
                 countryStatsMaxDays!!.stats.sortedBy { it.date }.map { it.date },
                 minAxisLeftValue

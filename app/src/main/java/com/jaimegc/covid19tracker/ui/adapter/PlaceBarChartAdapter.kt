@@ -38,19 +38,19 @@ class PlaceBarChartAdapter :
 
             chartConfirmed.configure(
                 placeStatsChartUI.stats.map { placeStats -> placeStats.date },
-                placeStatsChartUI.stats.minBy { placeStats -> placeStats.confirmed }!!.confirmed
+                placeStatsChartUI.stats.minByOrNull { placeStats -> placeStats.confirmed }?.confirmed
             )
             chartDeaths.configure(
                 placeStatsChartUI.stats.map { placeStats -> placeStats.date },
-                placeStatsChartUI.stats.minBy { placeStats -> placeStats.deaths }!!.deaths
+                placeStatsChartUI.stats.minByOrNull { placeStats -> placeStats.deaths }?.deaths
             )
             chartRecovered.configure(
                 placeStatsChartUI.stats.map { placeStats -> placeStats.date },
-                placeStatsChartUI.stats.minBy { placeStats -> placeStats.recovered }!!.recovered
+                placeStatsChartUI.stats.minByOrNull { placeStats -> placeStats.recovered }?.recovered
             )
             chartOpenCases.configure(
                 placeStatsChartUI.stats.map { placeStats -> placeStats.date },
-                placeStatsChartUI.stats.minBy { placeStats -> placeStats.openCases }!!.openCases
+                placeStatsChartUI.stats.minByOrNull { placeStats -> placeStats.openCases }?.openCases
             )
 
             chartConfirmed.setValues(

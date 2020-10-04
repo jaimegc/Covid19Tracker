@@ -37,11 +37,11 @@ class WorldCountriesBarChartAdapter :
 
             chartConfirmed.configure(
                 countryStatsChartUI.stats.map { countryStats -> countryStats.date },
-                countryStatsChartUI.stats.minBy { countryStats -> countryStats.confirmed }!!.confirmed
+                countryStatsChartUI.stats.minByOrNull { countryStats -> countryStats.confirmed }?.confirmed
             )
             chartDeaths.configure(
                 countryStatsChartUI.stats.map { countryStats -> countryStats.date },
-                countryStatsChartUI.stats.minBy { countryStats -> countryStats.deaths }!!.deaths
+                countryStatsChartUI.stats.minByOrNull { countryStats -> countryStats.deaths }?.deaths
             )
 
             chartConfirmed.setValues(
