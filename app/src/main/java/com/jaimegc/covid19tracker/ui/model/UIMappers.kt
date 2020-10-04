@@ -1,8 +1,7 @@
 package com.jaimegc.covid19tracker.ui.model
 
-import com.jaimegc.covid19tracker.common.extensions.PERCENTAGE
-import com.jaimegc.covid19tracker.common.extensions.formatDecimals
 import com.jaimegc.covid19tracker.common.extensions.formatValue
+import com.jaimegc.covid19tracker.common.extensions.percentage
 import com.jaimegc.covid19tracker.domain.model.Country
 import com.jaimegc.covid19tracker.domain.model.CountryAndStats
 import com.jaimegc.covid19tracker.domain.model.CountryOneStats
@@ -47,10 +46,10 @@ fun WorldStats.toUI(): WorldStatsUI =
             newRecovered = stats.newRecovered.formatValue(),
             openCases = stats.openCases.formatValue(),
             recovered = stats.recovered.formatValue(),
-            vsYesterdayConfirmed = (stats.vsYesterdayConfirmed * PERCENTAGE).formatDecimals(),
-            vsYesterdayDeaths = (stats.vsYesterdayDeaths * PERCENTAGE).formatDecimals(),
-            vsYesterdayOpenCases = (stats.vsYesterdayOpenCases * PERCENTAGE).formatDecimals(),
-            vsYesterdayRecovered = (stats.vsYesterdayRecovered * PERCENTAGE).formatDecimals()
+            vsYesterdayConfirmed = stats.vsYesterdayConfirmed.percentage(),
+            vsYesterdayDeaths = stats.vsYesterdayDeaths.percentage(),
+            vsYesterdayOpenCases = stats.vsYesterdayOpenCases.percentage(),
+            vsYesterdayRecovered = stats.vsYesterdayRecovered.percentage()
         )
     )
 
@@ -66,10 +65,10 @@ fun Stats.toUI(): StatsUI =
         newRecovered = newRecovered.formatValue(),
         openCases = openCases.formatValue(),
         recovered = recovered.formatValue(),
-        vsYesterdayConfirmed = (vsYesterdayConfirmed * PERCENTAGE).formatDecimals(),
-        vsYesterdayDeaths = (vsYesterdayDeaths * PERCENTAGE).formatDecimals(),
-        vsYesterdayOpenCases = (vsYesterdayOpenCases * PERCENTAGE).formatDecimals(),
-        vsYesterdayRecovered = (vsYesterdayRecovered * PERCENTAGE).formatDecimals()
+        vsYesterdayConfirmed = vsYesterdayConfirmed.percentage(),
+        vsYesterdayDeaths = vsYesterdayDeaths.percentage(),
+        vsYesterdayOpenCases = vsYesterdayOpenCases.percentage(),
+        vsYesterdayRecovered = vsYesterdayRecovered.percentage()
     )
 
 fun Stats.toChartUI(): StatsChartUI =

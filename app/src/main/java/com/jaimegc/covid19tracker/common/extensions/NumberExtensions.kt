@@ -5,13 +5,15 @@ import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.Locale
 
-const val PERCENTAGE = 100
+private const val PERCENTAGE = 100
 
 fun Double.formatDecimals(): String = numberFormatDecimals(this).format(this)
 
 fun Long.formatValue(): String = numberFormat().format(this)
 
 fun Float.formatValue(): String = numberFormat().format(this)
+
+fun Double.percentage(): String = (this * PERCENTAGE).formatDecimals()
 
 fun Double.percentage(value: Double): String =
     "${(this / value * PERCENTAGE).formatDecimals()}%"
