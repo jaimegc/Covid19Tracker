@@ -69,6 +69,7 @@ object Versions {
 
     object Test {
         const val JUNIT = "4.13"
+        const val MOCKITO_KOTLIN = "2.2.0"
     }
 
     object Detekt {
