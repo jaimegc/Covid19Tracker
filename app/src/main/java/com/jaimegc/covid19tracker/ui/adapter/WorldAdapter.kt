@@ -13,8 +13,13 @@ import com.jaimegc.covid19tracker.ui.model.WorldStatsUI
 class WorldAdapter : ListAdapter<WorldStatsUI, WorldAdapter.WorldViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        WorldViewHolder(ItemTotalBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false))
+        WorldViewHolder(
+            ItemTotalBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
 
     override fun onBindViewHolder(holder: WorldViewHolder, position: Int) =
         holder.bind(getItem(position))
@@ -28,17 +33,31 @@ class WorldAdapter : ListAdapter<WorldStatsUI, WorldAdapter.WorldViewHolder>(DIF
             binding.textRecovered.text = worldStatsUI.stats.recovered
             binding.textDeaths.text = worldStatsUI.stats.deaths
 
-            binding.textNewConfirmed.text = itemView.context.getString(R.string.text_trending,
-                worldStatsUI.stats.newConfirmed, (worldStatsUI.stats.vsYesterdayConfirmed))
-            binding.textNewOpenCases.text = itemView.context.getString(R.string.text_trending,
-                worldStatsUI.stats.newOpenCases, (worldStatsUI.stats.vsYesterdayOpenCases))
-            binding.textNewRecovered.text = itemView.context.getString(R.string.text_trending,
-                worldStatsUI.stats.newRecovered, (worldStatsUI.stats.vsYesterdayRecovered))
-            binding.textNewDeaths.text = itemView.context.getString(R.string.text_trending,
-                worldStatsUI.stats.newDeaths, (worldStatsUI.stats.vsYesterdayDeaths))
+            binding.textNewConfirmed.text = itemView.context.getString(
+                R.string.text_trending,
+                worldStatsUI.stats.newConfirmed,
+                (worldStatsUI.stats.vsYesterdayConfirmed)
+            )
+            binding.textNewOpenCases.text = itemView.context.getString(
+                R.string.text_trending,
+                worldStatsUI.stats.newOpenCases,
+                (worldStatsUI.stats.vsYesterdayOpenCases)
+            )
+            binding.textNewRecovered.text = itemView.context.getString(
+                R.string.text_trending,
+                worldStatsUI.stats.newRecovered,
+                (worldStatsUI.stats.vsYesterdayRecovered)
+            )
+            binding.textNewDeaths.text = itemView.context.getString(
+                R.string.text_trending,
+                worldStatsUI.stats.newDeaths,
+                (worldStatsUI.stats.vsYesterdayDeaths)
+            )
 
-            binding.textLastUpdatedSource.text = itemView.context.getString(R.string.last_updated,
-                worldStatsUI.updatedAt.toLastUpdated())
+            binding.textLastUpdatedSource.text = itemView.context.getString(
+                R.string.last_updated,
+                worldStatsUI.updatedAt.toLastUpdated()
+            )
         }
     }
 

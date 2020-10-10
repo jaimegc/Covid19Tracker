@@ -82,7 +82,7 @@ object Dependencies {
     const val DETEKT = Versions.Detekt.DETEKT
     const val DETEKT_PLUGIN = "io.gitlab.arturbosch.detekt"
     const val DETEKT_FORMATTING =
-        "io.gitlab.arturbosch.detekt:detekt-formatting:${Versions.Detekt.DETEKT}"
+        "io.gitlab.arturbosch.detekt:detekt-formatting:${Versions.Detekt.DETEKT_FORMATTING}"
 
     const val ARROW_CORE = "io.arrow-kt:arrow-core-data:${Versions.Arrow.ARROW}"
     const val ARROW_FX = "io.arrow-kt:arrow-fx:${Versions.Arrow.ARROW}"

@@ -31,16 +31,19 @@ interface BaseRepository<E : DomainError, T> {
                     fetchFromRemote()
                 is Datasource.Local ->
                     fetchFromLocal().collect { value ->
-                        value.fold({ error ->
-                            when (error) {
-                                is DomainError.DatabaseEmptyData ->
-                                    emit(Either.right(State.EmptyData()))
-                                else ->
-                                    emit(Either.left(StateError.Error(error)))
+                        value.fold(
+                            { error ->
+                                when (error) {
+                         is DomainError.DatabaseEmptyData ->
+                             emit(Either.right(State.EmptyData()))
+                         else ->
+                             emit(Either.left(StateError.Error(error)))
+                     }
+                            },
+                            { success ->
+                                emit(Either.right(State.Success(success)))
                             }
-                        }, { success ->
-                            emit(Either.right(State.Success(success)))
-                        })
+                        )
                 }
             }
         }

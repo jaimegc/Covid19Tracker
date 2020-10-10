@@ -21,8 +21,13 @@ class WorldLineChartAdapter :
     WorldLineChartAdapter.WorldLineChartViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        WorldLineChartViewHolder(ItemLineChartTotalBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false))
+        WorldLineChartViewHolder(
+            ItemLineChartTotalBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
 
     override fun onBindViewHolder(holder: WorldLineChartViewHolder, position: Int) =
         holder.bind(getItem(position))
@@ -48,26 +53,42 @@ class WorldLineChartAdapter :
                 when (type) {
                     is MenuItemViewType.LineChartMostConfirmed ->
                         configureLineChart(
-                            ctx, binding.chartConfirmed,
-                            mapCountriesStatsChartUI.getValue(type), type, minAxisOther).also {
+                            ctx,
+                            binding.chartConfirmed,
+                            mapCountriesStatsChartUI.getValue(type),
+                            type,
+                            minAxisOther
+                        ).also {
                                 binding.loadingConfirmed.hide()
                             }
                     is MenuItemViewType.LineChartMostDeaths ->
                         configureLineChart(
-                            ctx, binding.chartDeaths,
-                            mapCountriesStatsChartUI.getValue(type), type, minAxisDeaths).also {
+                            ctx,
+                            binding.chartDeaths,
+                            mapCountriesStatsChartUI.getValue(type),
+                            type,
+                            minAxisDeaths
+                        ).also {
                                 binding.loadingDeaths.hide()
                             }
                     is MenuItemViewType.LineChartMostRecovered ->
                         configureLineChart(
-                            ctx, binding.chartRecovered,
-                            mapCountriesStatsChartUI.getValue(type), type, minAxisOther).also {
+                            ctx,
+                            binding.chartRecovered,
+                            mapCountriesStatsChartUI.getValue(type),
+                            type,
+                            minAxisOther
+                        ).also {
                                 binding.loadingRecovered.hide()
                             }
                     is MenuItemViewType.LineChartMostOpenCases ->
                         configureLineChart(
-                            ctx, binding.chartOpenCases,
-                            mapCountriesStatsChartUI.getValue(type), type, minAxisOther).also {
+                            ctx,
+                            binding.chartOpenCases,
+                            mapCountriesStatsChartUI.getValue(type),
+                            type,
+                            minAxisOther
+                        ).also {
                                 binding.loadingOpenCases.hide()
                             }
                 }
@@ -91,9 +112,10 @@ class WorldLineChartAdapter :
             minAxisLeftValue: Float
         ) {
 
-            val countryStatsMaxDays = listCountriesStatsChartUI.maxBy { it.stats.size }
+            val countryStatsMaxDays = listCountriesStatsChartUI.maxByOrNull { it.stats.size }
             chart.configure(
-                countryStatsMaxDays!!.stats.sortedBy { it.date }.map { it.date }, minAxisLeftValue
+                countryStatsMaxDays!!.stats.sortedBy { it.date }.map { it.date },
+                minAxisLeftValue
             )
 
             val countryStatsValues = mutableListOf<List<Float>>()
@@ -116,9 +138,20 @@ class WorldLineChartAdapter :
                 countryStatsValues.add(listCountryStats)
             }
 
-            chart.setValues(ctx, countryStatsValues, listOf(
-                R.color.dark_purple, R.color.dark_blue, R.color.dark_green, R.color.dark_orange, R.color.dark_red),
-                listCountriesStatsChartUI.map { it.country.name }, countryStatsMaxDays.stats.size, chart.legend)
+            chart.setValues(
+                ctx,
+                countryStatsValues,
+                listOf(
+                    R.color.dark_purple,
+                    R.color.dark_blue,
+                    R.color.dark_green,
+                    R.color.dark_orange,
+                    R.color.dark_red
+                ),
+                listCountriesStatsChartUI.map { it.country.name },
+                countryStatsMaxDays.stats.size,
+                chart.legend
+            )
         }
     }
 

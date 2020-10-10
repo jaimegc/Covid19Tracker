@@ -13,7 +13,9 @@ import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.jaimegc.covid19tracker.common.extensions.chart.formatter.ChartDayMonthFormatter
 
-fun BarChart.configure(xAxisValues: List<String>, minAxisLeftValue: Float = 0f) {
+fun BarChart.configure(xAxisValues: List<String>, minAxisLeftValue: Float?) {
+    val minAxisLeftNumber = minAxisLeftValue ?: 0f
+
     with(this) {
         setDrawBarShadow(false)
         setDrawValueAboveBar(false)
@@ -32,7 +34,7 @@ fun BarChart.configure(xAxisValues: List<String>, minAxisLeftValue: Float = 0f) 
 
         with(axisLeft) {
             setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
-            axisMinimum = if (minAxisLeftValue >= 0) 0f else minAxisLeftValue
+            axisMinimum = if (minAxisLeftNumber >= 0) 0f else minAxisLeftNumber
         }
 
         with(legend) {

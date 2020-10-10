@@ -15,8 +15,13 @@ class PlaceTotalBarChartAdapter :
     ListAdapter<List<StatsChartUI>, PlaceTotalBarChartAdapter.PlaceTotalBarChartViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        PlaceTotalBarChartViewHolder(ItemBarChartTotalBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false))
+        PlaceTotalBarChartViewHolder(
+            ItemBarChartTotalBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
 
     override fun onBindViewHolder(holder: PlaceTotalBarChartViewHolder, position: Int) =
         holder.bind(getItem(position))
@@ -35,39 +40,95 @@ class PlaceTotalBarChartAdapter :
             val chartNewDeaths = binding.chartNewDeaths
             val chartNewOpenCases = binding.chartNewOpenCases
 
-            chartConfirmed.configure(placeStatsChartUI.map { placeStats -> placeStats.date },
-                placeStatsChartUI.minBy { placeStats -> placeStats.confirmed }!!.confirmed)
-            chartRecovered.configure(placeStatsChartUI.map { placeStats -> placeStats.date },
-                placeStatsChartUI.minBy { placeStats -> placeStats.recovered }!!.recovered)
-            chartDeaths.configure(placeStatsChartUI.map { placeStats -> placeStats.date },
-                placeStatsChartUI.minBy { placeStats -> placeStats.deaths }!!.deaths)
-            chartOpenCases.configure(placeStatsChartUI.map { placeStats -> placeStats.date },
-                placeStatsChartUI.minBy { placeStats -> placeStats.openCases }!!.openCases)
-            chartNewConfirmed.configure(placeStatsChartUI.map { placeStats -> placeStats.date },
-                placeStatsChartUI.minBy { placeStats -> placeStats.newConfirmed }!!.newConfirmed)
-            chartNewRecovered.configure(placeStatsChartUI.map { placeStats -> placeStats.date },
-                placeStatsChartUI.minBy { placeStats -> placeStats.newRecovered }!!.newRecovered)
-            chartNewDeaths.configure(placeStatsChartUI.map { placeStats -> placeStats.date },
-                placeStatsChartUI.minBy { placeStats -> placeStats.newDeaths }!!.newDeaths)
-            chartNewOpenCases.configure(placeStatsChartUI.map { placeStats -> placeStats.date },
-                placeStatsChartUI.minBy { placeStats -> placeStats.newOpenCases }!!.newOpenCases)
+            chartConfirmed.configure(
+                placeStatsChartUI.map { placeStats -> placeStats.date },
+                placeStatsChartUI.minByOrNull { placeStats -> placeStats.confirmed }?.confirmed
+            )
+            chartRecovered.configure(
+                placeStatsChartUI.map { placeStats -> placeStats.date },
+                placeStatsChartUI.minByOrNull { placeStats -> placeStats.recovered }?.recovered
+            )
+            chartDeaths.configure(
+                placeStatsChartUI.map { placeStats -> placeStats.date },
+                placeStatsChartUI.minByOrNull { placeStats -> placeStats.deaths }?.deaths
+            )
+            chartOpenCases.configure(
+                placeStatsChartUI.map { placeStats -> placeStats.date },
+                placeStatsChartUI.minByOrNull { placeStats -> placeStats.openCases }?.openCases
+            )
+            chartNewConfirmed.configure(
+                placeStatsChartUI.map { placeStats -> placeStats.date },
+                placeStatsChartUI.minByOrNull { placeStats -> placeStats.newConfirmed }?.newConfirmed
+            )
+            chartNewRecovered.configure(
+                placeStatsChartUI.map { placeStats -> placeStats.date },
+                placeStatsChartUI.minByOrNull { placeStats -> placeStats.newRecovered }?.newRecovered
+            )
+            chartNewDeaths.configure(
+                placeStatsChartUI.map { placeStats -> placeStats.date },
+                placeStatsChartUI.minByOrNull { placeStats -> placeStats.newDeaths }?.newDeaths
+            )
+            chartNewOpenCases.configure(
+                placeStatsChartUI.map { placeStats -> placeStats.date },
+                placeStatsChartUI.minByOrNull { placeStats -> placeStats.newOpenCases }?.newOpenCases
+            )
 
-            chartConfirmed.setValues(ctx, placeStatsChartUI.map { placeStats ->
-                placeStats.confirmed }, R.string.total_confirmed, R.color.dark_red)
-            chartDeaths.setValues(ctx, placeStatsChartUI.map { placeStats ->
-                placeStats.deaths }, R.string.total_deaths, R.color.dark_grey)
-            chartOpenCases.setValues(ctx, placeStatsChartUI.map { placeStats ->
-                placeStats.openCases }, R.string.total_open_cases, R.color.dark_blue)
-            chartRecovered.setValues(ctx, placeStatsChartUI.map { placeStats ->
-                placeStats.recovered }, R.string.total_recovered, R.color.dark_green)
-            chartNewConfirmed.setValues(ctx, placeStatsChartUI.map { placeStats ->
-                placeStats.newConfirmed }, R.string.total_new_confirmed, R.color.dark_red)
-            chartNewDeaths.setValues(ctx, placeStatsChartUI.map { placeStats ->
-                placeStats.newDeaths }, R.string.total_new_deaths, R.color.dark_grey)
-            chartNewOpenCases.setValues(ctx, placeStatsChartUI.map { placeStats ->
-                placeStats.newOpenCases }, R.string.total_new_open_cases, R.color.dark_blue)
-            chartNewRecovered.setValues(ctx, placeStatsChartUI.map { placeStats ->
-                placeStats.newRecovered }, R.string.total_new_recovered, R.color.dark_green)
+            chartConfirmed.setValues(
+                ctx,
+                placeStatsChartUI.map { placeStats ->
+                    placeStats.confirmed },
+                R.string.total_confirmed,
+                R.color.dark_red
+            )
+            chartDeaths.setValues(
+                ctx,
+                placeStatsChartUI.map { placeStats ->
+                    placeStats.deaths },
+                R.string.total_deaths,
+                R.color.dark_grey
+            )
+            chartOpenCases.setValues(
+                ctx,
+                placeStatsChartUI.map { placeStats ->
+                    placeStats.openCases },
+                R.string.total_open_cases,
+                R.color.dark_blue
+            )
+            chartRecovered.setValues(
+                ctx,
+                placeStatsChartUI.map { placeStats ->
+                    placeStats.recovered },
+                R.string.total_recovered,
+                R.color.dark_green
+            )
+            chartNewConfirmed.setValues(
+                ctx,
+                placeStatsChartUI.map { placeStats ->
+                    placeStats.newConfirmed },
+                R.string.total_new_confirmed,
+                R.color.dark_red
+            )
+            chartNewDeaths.setValues(
+                ctx,
+                placeStatsChartUI.map { placeStats ->
+                    placeStats.newDeaths },
+                R.string.total_new_deaths,
+                R.color.dark_grey
+            )
+            chartNewOpenCases.setValues(
+                ctx,
+                placeStatsChartUI.map { placeStats ->
+                    placeStats.newOpenCases },
+                R.string.total_new_open_cases,
+                R.color.dark_blue
+            )
+            chartNewRecovered.setValues(
+                ctx,
+                placeStatsChartUI.map { placeStats ->
+                    placeStats.newRecovered },
+                R.string.total_new_recovered,
+                R.color.dark_green
+            )
         }
     }
 

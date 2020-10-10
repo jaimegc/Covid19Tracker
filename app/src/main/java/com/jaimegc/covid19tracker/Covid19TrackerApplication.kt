@@ -10,13 +10,9 @@ import com.jaimegc.covid19tracker.di.preferenceModule
 import com.jaimegc.covid19tracker.di.repositoryModule
 import com.jaimegc.covid19tracker.di.useCaseModule
 import com.jaimegc.covid19tracker.di.viewModelModule
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
-@FlowPreview
-@ExperimentalCoroutinesApi
 class Covid19TrackerApplication : Application() {
 
     override fun onCreate() {

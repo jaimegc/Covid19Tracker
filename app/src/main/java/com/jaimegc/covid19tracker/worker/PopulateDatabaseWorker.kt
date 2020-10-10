@@ -12,7 +12,6 @@ import com.jaimegc.covid19tracker.domain.model.toDomain
 import com.jaimegc.covid19tracker.utils.FileUtils
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
@@ -20,7 +19,6 @@ import org.koin.core.KoinComponent
 import org.koin.core.inject
 import retrofit2.Response
 
-@ExperimentalCoroutinesApi
 class PopulateDatabaseWorker(
     val context: Context,
     workerParams: WorkerParameters
@@ -92,8 +90,11 @@ class PopulateDatabaseWorker(
         // You can see another way of concurrent requests using Arrow in UpdatebaseWorker class
         allRequests.awaitAll().mapIndexed { index, response ->
             if (response.isSuccessful && response.body() != null) {
-                fileUtils.writeFileToInternalStorage(moshi.toJson(response.body()),
-                    "${listDates[index]}$JSON_FILE_EXTENSION", FOLDER_DOWNLOAD)
+                fileUtils.writeFileToInternalStorage(
+                    moshi.toJson(response.body()),
+                    "${listDates[index]}$JSON_FILE_EXTENSION",
+                    FOLDER_DOWNLOAD
+                )
             }
         }
     }
