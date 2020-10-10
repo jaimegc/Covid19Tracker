@@ -1,5 +1,6 @@
 package com.jaimegc.covid19tracker.ui.model
 
+import com.jaimegc.covid19tracker.common.extensions.formatCompactValue
 import com.jaimegc.covid19tracker.common.extensions.formatValue
 import com.jaimegc.covid19tracker.common.extensions.percentage
 import com.jaimegc.covid19tracker.domain.model.Country
@@ -46,6 +47,10 @@ fun WorldStats.toUI(): WorldStatsUI =
             newRecovered = stats.newRecovered.formatValue(),
             openCases = stats.openCases.formatValue(),
             recovered = stats.recovered.formatValue(),
+            confirmedCompact = stats.confirmed.formatCompactValue(),
+            deathsCompact = stats.deaths.formatCompactValue(),
+            openCasesCompact = stats.openCases.formatCompactValue(),
+            recoveredCompact = stats.recovered.formatCompactValue(),
             vsYesterdayConfirmed = stats.vsYesterdayConfirmed.percentage(),
             vsYesterdayDeaths = stats.vsYesterdayDeaths.percentage(),
             vsYesterdayOpenCases = stats.vsYesterdayOpenCases.percentage(),
@@ -65,6 +70,10 @@ fun Stats.toUI(): StatsUI =
         newRecovered = newRecovered.formatValue(),
         openCases = openCases.formatValue(),
         recovered = recovered.formatValue(),
+        confirmedCompact = confirmed.formatCompactValue(),
+        deathsCompact = deaths.formatCompactValue(),
+        openCasesCompact = openCases.formatCompactValue(),
+        recoveredCompact = recovered.formatCompactValue(),
         vsYesterdayConfirmed = vsYesterdayConfirmed.percentage(),
         vsYesterdayDeaths = vsYesterdayDeaths.percentage(),
         vsYesterdayOpenCases = vsYesterdayOpenCases.percentage(),

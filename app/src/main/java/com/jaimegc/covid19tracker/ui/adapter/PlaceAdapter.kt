@@ -45,10 +45,7 @@ class PlaceAdapter : ListAdapter<PlaceStatsUI, PlaceAdapter.PlaceStatsViewHolder
                 constraintSetCollapse.clone(itemView.context, R.layout.item_place_total)
                 constraintSetExpand.clone(itemView.context, R.layout.item_place_total_expanded)
                 textPlace.text = placeStatsUI.name
-                textConfirmed.text = placeStatsUI.stats.confirmed
-                textOpenCases.text = placeStatsUI.stats.openCases
-                textRecovered.text = placeStatsUI.stats.recovered
-                textDeaths.text = placeStatsUI.stats.deaths
+                setStats(placeStatsUI, placeStatsUI.isExpanded)
 
                 textPosition.text = "${layoutPosition}º"
 
@@ -94,32 +91,57 @@ class PlaceAdapter : ListAdapter<PlaceStatsUI, PlaceAdapter.PlaceStatsViewHolder
                     if (placeStatsUI.isExpanded.not()) {
                         icExpandCollapse.rotateLeftAnimation()
                         constraintSetExpand.applyTo(layoutCard)
-                        applyTextSizes(
-                            textConfirmed,
-                            textOpenCases,
-                            textRecovered,
-                            textDeaths,
-                            size = TEXT_SIZE_EXPANDED
-                        )
                     } else {
                         icExpandCollapse.rotateRightAnimation()
                         constraintSetCollapse.applyTo(layoutCard)
-                        applyTextSizes(
-                            textConfirmed,
-                            textOpenCases,
-                            textRecovered,
-                            textDeaths,
-                            size = TEXT_SIZE_COLLAPSED
-                        )
                     }
 
                     placeStatsUI.isExpanded = placeStatsUI.isExpanded.not()
+                    setStats(placeStatsUI, placeStatsUI.isExpanded)
                 }
             }
         }
 
         private fun applyTextSizes(vararg textViews: TextView, size: Float) =
             textViews.map { text -> text.setTextSizeSp(size) }
+
+        private fun setStats(placeStatsUI: PlaceStatsUI, isExpanded: Boolean = false) {
+            val confirmed: String
+            val openCases: String
+            val recovered: String
+            val deaths: String
+            val textSize: Float
+
+            when (isExpanded) {
+                false -> {
+                    confirmed = placeStatsUI.stats.confirmedCompact
+                    openCases = placeStatsUI.stats.openCasesCompact
+                    recovered = placeStatsUI.stats.recoveredCompact
+                    deaths = placeStatsUI.stats.deathsCompact
+                    textSize = TEXT_SIZE_COLLAPSED
+                }
+                true -> {
+                    confirmed = placeStatsUI.stats.confirmed
+                    openCases = placeStatsUI.stats.openCases
+                    recovered = placeStatsUI.stats.recovered
+                    deaths = placeStatsUI.stats.deaths
+                    textSize = TEXT_SIZE_EXPANDED
+                }
+            }
+
+            binding.textConfirmed.text = confirmed
+            binding.textOpenCases.text = openCases
+            binding.textRecovered.text = recovered
+            binding.textDeaths.text = deaths
+
+            applyTextSizes(
+                binding.textConfirmed,
+                binding.textOpenCases,
+                binding.textRecovered,
+                binding.textDeaths,
+                size = textSize
+            )
+        }
     }
 
     companion object {
