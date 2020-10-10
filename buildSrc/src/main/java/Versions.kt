@@ -19,8 +19,8 @@ object Versions {
 
     object Gradle {
         const val FIREBASE_CRASHLYTICS = "2.3.0"
-        const val FIREBASE_PERFORMANCE_PLUGIN = "1.3.1"
-        const val GRADLE_ANDROID = "4.0.1"
+        const val FIREBASE_PERFORMANCE_PLUGIN = "1.3.2"
+        const val GRADLE_ANDROID = "4.0.2"
         const val KOTLIN = "1.4.10"
         const val MAVEN_PLUGIN = "2.1"
         const val GOOGLE_SERVICES = "4.3.4"
@@ -34,7 +34,7 @@ object Versions {
     object Google {
         object Androidx {
             const val APP_COMPAT = "1.2.0"
-            const val CONSTRAINT_LAYOUT = "2.0.1"
+            const val CONSTRAINT_LAYOUT = "2.0.2"
             const val CORE_KTX = "1.3.2"
             const val ESPRESSO = "3.3.0"
             const val JUNIT_EXT = "1.1.2"
@@ -46,7 +46,7 @@ object Versions {
         }
 
         object Firebase {
-            const val ANALYTICS = "17.5.0"
+            const val ANALYTICS = "17.6.0"
             const val CRASHLYTICS = "17.2.2"
             const val PERFORMANCE = "19.0.9"
         }
@@ -57,7 +57,7 @@ object Versions {
     }
 
     object Square {
-        const val MOSHI = "1.10.0"
+        const val MOSHI = "1.11.0"
         const val OK_HTTP = "4.9.0"
         const val RETROFIT = "2.9.0"
         const val RETROFIT_CONVERTER_MOSHI = "2.9.0"
