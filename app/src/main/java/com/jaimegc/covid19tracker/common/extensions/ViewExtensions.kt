@@ -79,10 +79,9 @@ fun TextView.setEmojiCountry(emojiCountryCharacters: String) {
             Character.codePointAt(emojiCountryCharacters, 1) - 0x41 + 0x1F1E6
         String(Character.toChars(firstLetter)) + String(Character.toChars(secondLetter))
     } else {
-        if (emojiCountryCharacters.isNotEmpty()) {
-            EmojiParser.parseToUnicode(emojiCountryCharacters)
-        } else {
-            ""
+        when (emojiCountryCharacters.isNotEmpty()) {
+            true -> EmojiParser.parseToUnicode(emojiCountryCharacters)
+            false -> EmojiParser.parseToUnicode(":question:")
         }
     }
 }

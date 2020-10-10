@@ -46,10 +46,7 @@ class WorldCountryAdapter : ListAdapter<CountryStatsUI, WorldCountryAdapter.Worl
                 constraintSetCollapse.clone(itemView.context, R.layout.item_place_total)
                 constraintSetExpand.clone(itemView.context, R.layout.item_place_total_expanded)
                 textPlace.text = totalStatsUI.country.name
-                textConfirmed.text = totalStatsUI.stats.confirmed
-                textOpenCases.text = totalStatsUI.stats.openCases
-                textRecovered.text = totalStatsUI.stats.recovered
-                textDeaths.text = totalStatsUI.stats.deaths
+                setStats(totalStatsUI, totalStatsUI.isExpanded)
 
                 textPosition.text = "${layoutPosition}º"
 
@@ -96,32 +93,57 @@ class WorldCountryAdapter : ListAdapter<CountryStatsUI, WorldCountryAdapter.Worl
                     if (totalStatsUI.isExpanded.not()) {
                         icExpandCollapse.rotateLeftAnimation()
                         constraintSetExpand.applyTo(layoutCard)
-                        applyTextSizes(
-                            textConfirmed,
-                            textOpenCases,
-                            textRecovered,
-                            textDeaths,
-                            size = TEXT_SIZE_EXPANDED
-                        )
                     } else {
                         icExpandCollapse.rotateRightAnimation()
                         constraintSetCollapse.applyTo(layoutCard)
-                        applyTextSizes(
-                            textConfirmed,
-                            textOpenCases,
-                            textRecovered,
-                            textDeaths,
-                            size = TEXT_SIZE_COLLAPSED
-                        )
                     }
 
                     totalStatsUI.isExpanded = totalStatsUI.isExpanded.not()
+                    setStats(totalStatsUI, totalStatsUI.isExpanded)
                 }
             }
         }
 
         private fun applyTextSizes(vararg textViews: TextView, size: Float) =
             textViews.map { text -> text.setTextSizeSp(size) }
+
+        private fun setStats(totalStatsUI: CountryStatsUI, isExpanded: Boolean = false) {
+            val confirmed: String
+            val openCases: String
+            val recovered: String
+            val deaths: String
+            val textSize: Float
+
+            when (isExpanded) {
+                false -> {
+                    confirmed = totalStatsUI.stats.confirmedCompact
+                    openCases = totalStatsUI.stats.openCasesCompact
+                    recovered = totalStatsUI.stats.recoveredCompact
+                    deaths = totalStatsUI.stats.deathsCompact
+                    textSize = TEXT_SIZE_COLLAPSED
+                }
+                true -> {
+                    confirmed = totalStatsUI.stats.confirmed
+                    openCases = totalStatsUI.stats.openCases
+                    recovered = totalStatsUI.stats.recovered
+                    deaths = totalStatsUI.stats.deaths
+                    textSize = TEXT_SIZE_EXPANDED
+                }
+            }
+
+            binding.textConfirmed.text = confirmed
+            binding.textOpenCases.text = openCases
+            binding.textRecovered.text = recovered
+            binding.textDeaths.text = deaths
+
+            applyTextSizes(
+                binding.textConfirmed,
+                binding.textOpenCases,
+                binding.textRecovered,
+                binding.textDeaths,
+                size = textSize
+            )
+        }
     }
 
     companion object {
