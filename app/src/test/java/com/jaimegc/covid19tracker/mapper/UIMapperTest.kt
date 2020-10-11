@@ -338,16 +338,6 @@ class UIMapperTest {
             )
         )
 
-    private val listRegionAndStatsPlaceListStatsChartUI =
-        listOf(
-            placeListStatsChartUI
-        )
-
-    private val listSubRegionAndStatsPlaceListStatsChartUI =
-        listOf(
-            placeListStatsChartUI
-        )
-
     @Before
     fun setup() {
         Locale.setDefault(Locale.US)
@@ -364,6 +354,11 @@ class UIMapperTest {
     }
 
     @Test
+    fun countryModelToUI() {
+        assertEquals(country.toUI(), countryUI)
+    }
+
+    @Test
     fun statsModelToUI() {
         assertEquals(stats.toUI(), statsUI)
     }
@@ -371,6 +366,11 @@ class UIMapperTest {
     @Test
     fun statsModelToChartUI() {
         assertEquals(stats.toChartUI(), statsChartUI)
+    }
+
+    @Test
+    fun countryOneStatsModelToChartUI() {
+        assertEquals(countryOneStats.toChartUI(), countryOneStatsChartUI)
     }
 
     @Test
@@ -384,18 +384,8 @@ class UIMapperTest {
     }
 
     @Test
-    fun countryOneStatsModelToChartUI() {
-        assertEquals(countryOneStats.toChartUI(), countryOneStatsChartUI)
-    }
-
-    @Test
     fun covidTrackerModelToListChartUI() {
         assertEquals(covidTracker.toListChartUI(), listWorldCountryStatsUI)
-    }
-
-    @Test
-    fun countryModelToUI() {
-        assertEquals(country.toUI(), countryUI)
     }
 
     @Test
@@ -429,6 +419,26 @@ class UIMapperTest {
     }
 
     @Test
+    fun listCountryOnlyStatsModelToPlaceUI() {
+        assertEquals(listCountryOnlyStats.toPlaceUI(), listCountryOnlyStatsPlaceUI)
+    }
+
+    @Test
+    fun listRegionOnlyStatsModelToPlaceUI() {
+        assertEquals(listRegionOnlyStats.toPlaceUI(), listRegionOnlyStatsPlaceUI)
+    }
+
+    @Test
+    fun listRegionAndStatsModelToPlaceUI() {
+        assertEquals(listRegionAndStats.toPlaceUI(), placeListStatsChartUI)
+    }
+
+    @Test
+    fun listSubRegionAndStatsModelToPlaceUI() {
+        assertEquals(listSubRegionAndStats.toPlaceUI(), placeListStatsChartUI)
+    }
+
+    @Test
     fun listRegionStatsModelToPlaceChartUI() {
         assertEquals(listRegionStats.toPlaceChartUI(), listRegionPlaceStatsChartUI)
     }
@@ -436,26 +446,6 @@ class UIMapperTest {
     @Test
     fun listSubRegionStatsModelToPlaceChartUI() {
         assertEquals(listSubRegionStats.toPlaceChartUI(), listSubRegionPlaceStatsChartUI)
-    }
-
-    @Test
-    fun listCountryOnlyStatsModelToPlaceChartUI() {
-        assertEquals(listCountryOnlyStats.toPlaceUI(), listCountryOnlyStatsPlaceUI)
-    }
-
-    @Test
-    fun listRegionOnlyStatsModelToPlaceChartUI() {
-        assertEquals(listRegionOnlyStats.toPlaceUI(), listRegionOnlyStatsPlaceUI)
-    }
-
-    @Test
-    fun listRegionAndStatsModelToPlaceChartUI() {
-        assertEquals(listRegionAndStats.toPlaceUI(), placeListStatsChartUI)
-    }
-
-    @Test
-    fun listSubRegionAndStatsModelToPlaceChartUI() {
-        assertEquals(listSubRegionAndStats.toPlaceUI(), placeListStatsChartUI)
     }
 
     @Test
