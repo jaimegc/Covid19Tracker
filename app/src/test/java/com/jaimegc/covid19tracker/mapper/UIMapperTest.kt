@@ -344,112 +344,112 @@ class UIMapperTest {
     }
 
     @Test
-    fun covidTrackerModelToUI() {
+    fun covidTrackerDomainToUI() {
         assertEquals(covidTracker.toUI(), covidTrackerUI)
     }
 
     @Test
-    fun worldStatsModelToUI() {
+    fun worldStatsDomainToUI() {
         assertEquals(worldStats.toUI(), worldStatsUI)
     }
 
     @Test
-    fun countryModelToUI() {
+    fun countryDomainToUI() {
         assertEquals(country.toUI(), countryUI)
     }
 
     @Test
-    fun statsModelToUI() {
+    fun statsDomainToUI() {
         assertEquals(stats.toUI(), statsUI)
     }
 
     @Test
-    fun statsModelToChartUI() {
+    fun statsDomainToChartUI() {
         assertEquals(stats.toChartUI(), statsChartUI)
     }
 
     @Test
-    fun countryOneStatsModelToChartUI() {
+    fun countryOneStatsDomainToChartUI() {
         assertEquals(countryOneStats.toChartUI(), countryOneStatsChartUI)
     }
 
     @Test
-    fun worldStatsModelToListChartUI() {
+    fun worldStatsDomainToListChartUI() {
         assertEquals(worldStats.toListChartUI(), worldStatsChartUI)
     }
 
     @Test
-    fun countryAndStatsModelToListChartUI() {
+    fun countryAndStatsDomainToListChartUI() {
         assertEquals(countryAndStats.toListChartUI(), countryListStatsChartUI)
     }
 
     @Test
-    fun covidTrackerModelToListChartUI() {
+    fun covidTrackerDomainToListChartUI() {
         assertEquals(covidTracker.toListChartUI(), listWorldCountryStatsUI)
     }
 
     @Test
-    fun regionModelToPlaceUI() {
+    fun regionDomainToPlaceUI() {
         assertEquals(region.toPlaceUI(), placeUI)
     }
 
     @Test
-    fun subRegionModelToPlaceUI() {
+    fun subRegionDomainToPlaceUI() {
         assertEquals(subRegion.toPlaceUI(), placeUI)
     }
 
     @Test
-    fun countryOneStatsModelToPlaceUI() {
+    fun countryOneStatsDomainToPlaceUI() {
         assertEquals(countryOneStats.toPlaceUI(), countryPlaceStatsUI)
     }
 
     @Test
-    fun regionOneStatsModelToPlaceUI() {
+    fun regionOneStatsDomainToPlaceUI() {
         assertEquals(regionOneStats.toPlaceUI(), placeStatsUI)
     }
 
     @Test
-    fun listRegionStatsModelToPlaceUI() {
+    fun listRegionStatsDomainToPlaceUI() {
         assertEquals(listRegionStats.toPlaceUI(), listRegionStatsPlaceUI)
     }
 
     @Test
-    fun listSubRegionStatsModelToPlaceUI() {
+    fun listSubRegionStatsDomainToPlaceUI() {
         assertEquals(listSubRegionStats.toPlaceUI(), listSubRegionStatsPlaceUI)
     }
 
     @Test
-    fun listCountryOnlyStatsModelToPlaceUI() {
+    fun listCountryOnlyStatsDomainToPlaceUI() {
         assertEquals(listCountryOnlyStats.toPlaceUI(), listCountryOnlyStatsPlaceUI)
     }
 
     @Test
-    fun listRegionOnlyStatsModelToPlaceUI() {
+    fun listRegionOnlyStatsDomainToPlaceUI() {
         assertEquals(listRegionOnlyStats.toPlaceUI(), listRegionOnlyStatsPlaceUI)
     }
 
     @Test
-    fun listRegionAndStatsModelToPlaceUI() {
+    fun listRegionAndStatsDomainToPlaceUI() {
         assertEquals(listRegionAndStats.toPlaceUI(), placeListStatsChartUI)
     }
 
     @Test
-    fun listSubRegionAndStatsModelToPlaceUI() {
+    fun listSubRegionAndStatsDomainToPlaceUI() {
         assertEquals(listSubRegionAndStats.toPlaceUI(), placeListStatsChartUI)
     }
 
     @Test
-    fun listRegionStatsModelToPlaceChartUI() {
+    fun listRegionStatsDomainToPlaceChartUI() {
         assertEquals(listRegionStats.toPlaceChartUI(), listRegionPlaceStatsChartUI)
     }
 
     @Test
-    fun listSubRegionStatsModelToPlaceChartUI() {
+    fun listSubRegionStatsDomainToPlaceChartUI() {
         assertEquals(listSubRegionStats.toPlaceChartUI(), listSubRegionPlaceStatsChartUI)
     }
 
     @Test
-    fun errorModelToUI() {
+    fun errorDomainToUI() {
         val domainError: DomainError = mock()
 
         val uiError = ErrorUI.SomeError
