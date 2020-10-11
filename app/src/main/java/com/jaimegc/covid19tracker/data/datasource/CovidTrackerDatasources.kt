@@ -25,9 +25,7 @@ import com.jaimegc.covid19tracker.data.room.mapper.mapEntityMenuValid
 import com.jaimegc.covid19tracker.data.room.mapper.mapEntityValid
 import com.jaimegc.covid19tracker.data.room.mapper.toEntity
 import com.jaimegc.covid19tracker.data.room.mapper.toPojoCountriesOrdered
-import com.jaimegc.covid19tracker.data.room.mapper.toPojoRegionDomain
 import com.jaimegc.covid19tracker.data.room.mapper.toPojoRegionsOrdered
-import com.jaimegc.covid19tracker.data.room.mapper.toPojoSubRegionDomain
 import com.jaimegc.covid19tracker.data.room.mapper.toPojoSubRegionsOrdered
 import com.jaimegc.covid19tracker.domain.model.CountryOneStats
 import com.jaimegc.covid19tracker.domain.model.CovidTracker
@@ -44,6 +42,8 @@ import com.jaimegc.covid19tracker.domain.model.ListSubRegionStats
 import com.jaimegc.covid19tracker.domain.model.ListWorldStats
 import com.jaimegc.covid19tracker.domain.model.RegionOneStats
 import com.jaimegc.covid19tracker.domain.model.toDomain
+import com.jaimegc.covid19tracker.domain.model.toPojoRegionDomain
+import com.jaimegc.covid19tracker.domain.model.toPojoSubRegionDomain
 import com.jaimegc.covid19tracker.domain.model.toStatsDomain
 import com.jaimegc.covid19tracker.ui.base.states.MenuItemViewType
 import kotlinx.coroutines.flow.Flow
