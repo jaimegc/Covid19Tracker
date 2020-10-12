@@ -210,7 +210,7 @@ The data for any other day, from the last one in the local database until the cu
 ### Unit Tests
 
 - Mappers: 63 ✅
-- Extensions: 8 ✅
+- Extensions: 9 ✅
 
 ### GitHub Actions
 
