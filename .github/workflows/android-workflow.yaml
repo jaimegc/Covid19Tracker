@@ -1,13 +1,13 @@
 name: Covid19 Tracker CI Workflow
-on: [push]
-  #push:
-    #branches:
-      #- master
-      #- dev
-  #pull_request:
-    #branches:
-      #- master
-      #- dev
+on:
+  push:
+    branches:
+      - master
+      - dev
+  pull_request:
+    branches:
+      - master
+      - dev
 
 env:
   GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false -Dkotlin.incremental=false"
