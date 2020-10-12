@@ -78,6 +78,7 @@ object Dependencies {
     const val KOIN_VIEWMODEL = "org.koin:koin-android-viewmodel:${Versions.Koin.KOIN}"
 
     const val TEST_JUNIT = "junit:junit:${Versions.Test.JUNIT}"
+    const val TEST_MOCKITO_KOTLIN = "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.Test.MOCKITO_KOTLIN}"
 
     const val DETEKT = Versions.Detekt.DETEKT
     const val DETEKT_PLUGIN = "io.gitlab.arturbosch.detekt"
@@ -159,6 +160,7 @@ fun DependencyHandler.test() {
     androidTestImplementation(Dependencies.ANDROID_ESPRESSO_CORE)
 
     testImplementation(Dependencies.TEST_JUNIT)
+    testImplementation(Dependencies.TEST_MOCKITO_KOTLIN)
 }
 
 fun DependencyHandler.detektFormatting() {
