@@ -1,5 +1,6 @@
 package com.jaimegc.covid19tracker.extension
 
+import com.jaimegc.covid19tracker.common.extensions.formatCompactValue
 import com.jaimegc.covid19tracker.common.extensions.formatDecimals
 import com.jaimegc.covid19tracker.common.extensions.formatValue
 import com.jaimegc.covid19tracker.common.extensions.percentage
@@ -57,6 +58,22 @@ class NumberExtensionTest {
         assertEquals("88.5", 88.4999999f.formatValue())
         assertEquals("100", 99.99999f.formatValue())
         assertEquals("200.001", 200.001111111f.formatValue())
+    }
+
+    @Test
+    fun longToCompactString() {
+        assertEquals("1", 1L.formatCompactValue())
+        assertEquals("10", 10L.formatCompactValue())
+        assertEquals("100", 100L.formatCompactValue())
+        assertEquals("1,000", 1000L.formatCompactValue())
+        assertEquals("10,000", 10000L.formatCompactValue())
+        assertEquals("100,000", 100000L.formatCompactValue())
+        assertEquals("1.00M", 1000000L.formatCompactValue())
+        assertEquals("10.00M", 10000000L.formatCompactValue())
+        assertEquals("100.00M", 100000000L.formatCompactValue())
+        assertEquals("1,000.00M", 1000000000L.formatCompactValue())
+        assertEquals("10,000.00M", 10000000000L.formatCompactValue())
+        assertEquals("100,000.00M", 100000000000L.formatCompactValue())
     }
 
     @Test
