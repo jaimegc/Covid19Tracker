@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.common.extensions.chart.configure
 import com.jaimegc.covid19tracker.common.extensions.chart.setValues
-import com.jaimegc.covid19tracker.common.extensions.percentage
+import com.jaimegc.covid19tracker.common.extensions.percentageSymbol
 import com.jaimegc.covid19tracker.databinding.ItemPieChartPlaceTotalBinding
 import com.jaimegc.covid19tracker.ui.model.PlaceStatsChartUI
 
@@ -50,13 +50,13 @@ class PlacePieChartAdapter :
 
             placeStatsChart.statsParent?.let { statsParent ->
                 binding.percentageConfirmed.text =
-                    placeStatsChart.stats.confirmed.percentage(statsParent.confirmed)
+                    placeStatsChart.stats.confirmed.percentageSymbol(statsParent.confirmed)
                 binding.percentageDeaths.text =
-                    placeStatsChart.stats.deaths.percentage(statsParent.deaths)
+                    placeStatsChart.stats.deaths.percentageSymbol(statsParent.deaths)
                 binding.percentageRecovered.text =
-                    placeStatsChart.stats.recovered.percentage(statsParent.recovered)
+                    placeStatsChart.stats.recovered.percentageSymbol(statsParent.recovered)
                 binding.percentageOpenCases.text =
-                    placeStatsChart.stats.openCases.percentage(statsParent.openCases)
+                    placeStatsChart.stats.openCases.percentageSymbol(statsParent.openCases)
             }
 
             binding.textPlace.text = placeStatsChart.place.name

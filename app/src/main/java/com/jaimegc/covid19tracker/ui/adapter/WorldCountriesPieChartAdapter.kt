@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.common.extensions.chart.configure
 import com.jaimegc.covid19tracker.common.extensions.chart.setValues
-import com.jaimegc.covid19tracker.common.extensions.percentage
+import com.jaimegc.covid19tracker.common.extensions.percentageSymbol
 import com.jaimegc.covid19tracker.common.extensions.setEmojiCountry
 import com.jaimegc.covid19tracker.databinding.ItemPieChartPlaceTotalBinding
 import com.jaimegc.covid19tracker.ui.model.WorldCountryStatsUI
@@ -50,19 +50,19 @@ class WorldCountriesPieChartAdapter :
             )
 
             binding.percentageConfirmed.text =
-                worldCountryStatsUI.countryStats.stats.confirmed.percentage(
+                worldCountryStatsUI.countryStats.stats.confirmed.percentageSymbol(
                     worldCountryStatsUI.worldStats.stats.confirmed
                 )
             binding.percentageDeaths.text =
-                worldCountryStatsUI.countryStats.stats.deaths.percentage(
+                worldCountryStatsUI.countryStats.stats.deaths.percentageSymbol(
                     worldCountryStatsUI.worldStats.stats.deaths
                 )
             binding.percentageRecovered.text =
-                worldCountryStatsUI.countryStats.stats.recovered.percentage(
+                worldCountryStatsUI.countryStats.stats.recovered.percentageSymbol(
                     worldCountryStatsUI.worldStats.stats.recovered
                 )
             binding.percentageOpenCases.text =
-                worldCountryStatsUI.countryStats.stats.openCases.percentage(
+                worldCountryStatsUI.countryStats.stats.openCases.percentageSymbol(
                     worldCountryStatsUI.worldStats.stats.openCases
                 )
 

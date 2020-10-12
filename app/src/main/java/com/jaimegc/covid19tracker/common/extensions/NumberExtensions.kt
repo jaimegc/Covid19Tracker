@@ -19,10 +19,7 @@ fun Long.formatCompactValue(): String = compactValue(this)
 
 fun Double.percentage(): String = (this * PERCENTAGE).formatDecimals()
 
-fun Double.percentage(value: Double): String =
-    "${(this / value * PERCENTAGE).formatDecimals()}%"
-
-fun Float.percentage(value: Float): String =
+fun Float.percentageSymbol(value: Float): String =
     "${(this / value * PERCENTAGE).toDouble().formatDecimals()}%"
 
 private fun numberFormatDecimals(value: Double, totalDecimals: Int = 2): NumberFormat {
