@@ -150,7 +150,10 @@ fun CountryOneStats.toChartUI(): CountryStatsChartUI =
 
 fun CovidTracker.toListChartUI(): List<WorldCountryStatsUI> =
     countriesStats.map { country ->
-        WorldCountryStatsUI(country.toChartUI(), worldStats.toListChartUI())
+        WorldCountryStatsUI(
+            countryStats = country.toChartUI(),
+            worldStats = worldStats.toListChartUI()
+        )
     }
 
 fun Country.toUI(): CountryUI =

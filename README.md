@@ -61,6 +61,7 @@ Covid19 Tracker is a sample Android application focused on displaying statistics
 - [Detekt](https://github.com/detekt/detekt): A static code analysis tool for the Kotlin programming language. It operates on the abstract syntax tree provided by the Kotlin compiler.
 - [Kotlin Gradle DSL](https://docs.gradle.org/current/userguide/kotlin_dsl.html): Gradle's Kotlin DSL provides an alternative syntax to the traditional Groovy DSL with an enhanced editing experience in supported IDEs, with superior content assist, refactoring, documentation, and more.
 - [Remal check dependency update](https://plugins.gradle.org/plugin/name.remal.check-dependency-updates): Plugin that provides task for discovering dependency updates.
+- [GitHub Actions](https://github.com/features/actions): Automate, customize, and execute your software development workflows right in your repository. Discover, create, and share actions to perform any job, including CI/CD, and combine actions in a completely customized workflow.
 
 ## Screens
 
@@ -202,7 +203,18 @@ The data for any other day, from the last one in the local database until the cu
 ## TODO List
 
 - Add unit tests, integration tests, UI tests, etc.
-- Add GitHub Actions
+- Add GitHub Actions.
+
+## Working on... 👨🏻‍💻🧑🏿‍💻
+
+### Unit Tests
+
+- Mappers: 63 ✅
+- Extensions: 9 ✅
+
+### GitHub Actions
+
+For now, only configured for unit tests. You can see the config file [here](./.github/workflows/android-workflow.yaml).
 
 ## Credits
 

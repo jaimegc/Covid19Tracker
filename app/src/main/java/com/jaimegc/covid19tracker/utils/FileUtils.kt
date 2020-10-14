@@ -3,6 +3,7 @@ package com.jaimegc.covid19tracker.utils
 import android.content.Context
 import android.util.Log
 import com.jaimegc.covid19tracker.common.extensions.DATE_FORMATTER
+import com.jaimegc.covid19tracker.common.extensions.SimpleDateFormatUTC
 import com.jaimegc.covid19tracker.data.room.Covid19TrackerDatabase
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
@@ -10,8 +11,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.FileWriter
 import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.Calendar
+import java.util.*
 import java.util.zip.ZipInputStream
 
 class FileUtils(private val context: Context) {
@@ -79,7 +79,7 @@ class FileUtils(private val context: Context) {
         startDateTriple: Triple<Int, Int, Int>,
         endDateTriple: Triple<Int, Int, Int>
     ): List<String> {
-        val formatter = SimpleDateFormat(DATE_FORMATTER)
+        val formatter = SimpleDateFormatUTC(DATE_FORMATTER, Locale.US)
         val dates = mutableListOf<String>()
         val startDate = Calendar.getInstance()
         val endDate = Calendar.getInstance()
