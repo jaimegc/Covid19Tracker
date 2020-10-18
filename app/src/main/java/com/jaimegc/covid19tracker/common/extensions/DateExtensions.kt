@@ -1,7 +1,8 @@
 package com.jaimegc.covid19tracker.common.extensions
 
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
+import java.util.TimeZone
 
 const val DATE_FORMATTER = "yyyy-MM-dd"
 
