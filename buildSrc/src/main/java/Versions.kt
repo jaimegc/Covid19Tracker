@@ -20,11 +20,11 @@ object Versions {
     object Gradle {
         const val FIREBASE_CRASHLYTICS = "2.3.0"
         const val FIREBASE_PERFORMANCE_PLUGIN = "1.3.2"
-        const val GRADLE_ANDROID = "4.0.2"
+        const val GRADLE_ANDROID = "4.1.0"
         const val KOTLIN = "1.4.10"
         const val MAVEN_PLUGIN = "2.1"
         const val GOOGLE_SERVICES = "4.3.4"
-        const val REMAL_PLUGIN = "1.0.211"
+        const val REMAL_PLUGIN = "1.1.1"
     }
 
     object Kotlin {
@@ -39,8 +39,10 @@ object Versions {
             const val ESPRESSO = "3.3.0"
             const val JUNIT_EXT = "1.1.2"
             const val LIFECYCLE = "2.2.0"
-            const val NAVIGATION = "2.3.0"
+            const val NAVIGATION = "2.3.1"
             const val RECYCLERVIEW = "1.2.0-alpha04"
+            const val TEST_RULES = "1.3.0"
+            const val TEST_RUNNER = "1.2.0"
             const val ROOM = "2.2.5"
             const val WORK_MANAGER = "2.4.0"
         }
@@ -77,8 +79,6 @@ object Versions {
         const val FLOW_TEST_OBSERVER = "1.4.1"
         const val JUNIT = "4.13.1"
         const val MOCKITO_KOTLIN = "2.2.0"
-        const val RULES = "1.2.0"
-        const val RUNNER = "1.2.0"
     }
 
     object Detekt {
