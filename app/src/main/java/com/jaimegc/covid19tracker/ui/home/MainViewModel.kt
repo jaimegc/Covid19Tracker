@@ -18,7 +18,7 @@ class MainViewModel(
             getCovidTracker.getCovidTrackerByDate(
                 System.currentTimeMillis().millisecondsToDate()
             ).collect { result ->
-                    result.mapLeft { handleError(it) }
+                result.mapLeft { handleError(it) }
             }
         }
 
