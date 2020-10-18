@@ -58,6 +58,7 @@ dependencies {
     google()
     firebase()
     square()
+    coroutines()
     koin()
     arrow()
     others()

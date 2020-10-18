@@ -63,13 +63,22 @@ object Versions {
         const val RETROFIT_CONVERTER_MOSHI = "2.9.0"
     }
 
+    object Coroutines {
+        const val CORE = "1.4.0-M1"
+        const val ANDROID = "1.4.0-M1"
+    }
+
     object Koin {
         const val KOIN = "2.1.6"
     }
 
     object Test {
+        const val COROUTINES = "1.4.0-M1"
+        const val FLOW_TEST_OBSERVER = "1.4.1"
         const val JUNIT = "4.13.1"
         const val MOCKITO_KOTLIN = "2.2.0"
+        const val RULES = "1.2.0"
+        const val RUNNER = "1.2.0"
     }
 
     object Detekt {
