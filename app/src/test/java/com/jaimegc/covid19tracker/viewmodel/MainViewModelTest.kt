@@ -41,9 +41,13 @@ class MainViewModelTest {
         mainViewModel = MainViewModel(getCovidTracker)
     }
 
+    /*********************
+     *  Mockito Kotlin 2 *
+     *********************/
+
     @Test
-    fun getCovidTrackerByDateReturnLoadingAndSuccessIfDateExists() = runBlockingTest {
-        val useCase = mock<GetCovidTracker>() {
+    fun `get covid tracker by date should return loading and success if date exists`() = runBlockingTest {
+        val useCase = mock<GetCovidTracker> {
             onBlocking { getCovidTrackerByDate() } doReturn flow {
                 emit(Either.right(stateLoading))
                 delay(10)
@@ -62,8 +66,8 @@ class MainViewModelTest {
     }
 
     @Test
-    fun getCovidTrackerByDateReturnLoadingAndErrorDatabaseEmptyIfDoesntDateExist() = runBlockingTest {
-        val useCase = mock<GetCovidTracker>() {
+    fun `get covid tracker by date should return loading and error database empty if date doesnt exist`() = runBlockingTest {
+        val useCase = mock<GetCovidTracker> {
             onBlocking { getCovidTrackerByDate() } doReturn flow {
                 emit(Either.right(stateLoading))
                 delay(10)
@@ -82,7 +86,18 @@ class MainViewModelTest {
     }
 
     @Test
-    fun getCovidTrackerByDateReturnLoadingAndSuccessIfDateExistsUsingFlowTest() = runBlockingTest {
+    fun `get covid tracker by date should call repository`() = runBlockingTest {
+        getCovidTracker.getCovidTrackerByDate()
+
+        verify(repository).getCovidTrackerByDate(any())
+    }
+
+    /**************
+     *  Flow Test *
+     **************/
+
+    @Test
+    fun `get covid tracker by date should return loading and success if date exists using flow test`() = runBlockingTest {
         val flow: Flow<Either<StateError<DomainError>, State<CovidTracker>>> = flow {
             emit(Either.right(stateLoading))
             delay(10)
@@ -99,7 +114,7 @@ class MainViewModelTest {
     }
 
     @Test
-    fun getCovidTrackerByDateReturnLoadingAndErrorDatabaseEmptyIfDoesntDateExistUsingFlowTest() = runBlockingTest {
+    fun `get covid tracker by date should return loading and error database empty if date doesnt exist using flow test`() = runBlockingTest {
         val flow: Flow<Either<StateError<DomainError>, State<CovidTracker>>> = flow {
             emit(Either.right(stateLoading))
             delay(10)
@@ -113,12 +128,5 @@ class MainViewModelTest {
             assertValueCount(2)
             assertComplete()
         }
-    }
-
-    @Test
-    fun getCovidTrackerByDateShouldCallRepository() = runBlockingTest {
-        getCovidTracker.getCovidTrackerByDate()
-
-        verify(repository).getCovidTrackerByDate(any())
     }
 }
