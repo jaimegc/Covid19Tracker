@@ -36,6 +36,7 @@ object Versions {
             const val APP_COMPAT = "1.2.0"
             const val CONSTRAINT_LAYOUT = "2.0.2"
             const val CORE_KTX = "1.3.2"
+            const val CORE_TESTING = "2.1.0"
             const val ESPRESSO = "3.3.0"
             const val JUNIT_EXT = "1.1.2"
             const val LIFECYCLE = "2.2.0"

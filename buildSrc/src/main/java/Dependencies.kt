@@ -24,6 +24,8 @@ object Dependencies {
     const val ANDROID_CONSTRAINT_LAYOUT =
         "androidx.constraintlayout:constraintlayout:${Versions.Google.Androidx.CONSTRAINT_LAYOUT}"
     const val ANDROID_CORE_KTX = "androidx.core:core-ktx:${Versions.Google.Androidx.CORE_KTX}"
+    const val ANDROID_CORE_TESTING =
+        "androidx.arch.core:core-testing:${Versions.Google.Androidx.CORE_TESTING}"
     const val ANDROID_JUNIT_EXT = "androidx.test.ext:junit:${Versions.Google.Androidx.JUNIT_EXT}"
     const val ANDROID_ESPRESSO_CORE =
         "androidx.test.espresso:espresso-core:${Versions.Google.Androidx.ESPRESSO}"
@@ -173,12 +175,14 @@ fun DependencyHandler.koin() {
 }
 
 fun DependencyHandler.test() {
+    androidTestImplementation(Dependencies.ANDROID_CORE_TESTING)
     androidTestImplementation(Dependencies.ANDROID_JUNIT_EXT)
     androidTestImplementation(Dependencies.ANDROID_ESPRESSO_CORE)
     androidTestImplementation(Dependencies.ANDROID_TEST_RULES)
     androidTestImplementation(Dependencies.ANDROID_TEST_RUNNER)
     androidTestImplementation(Dependencies.TEST_COROUTINES)
 
+    testImplementation(Dependencies.ANDROID_CORE_TESTING)
     testImplementation(Dependencies.TEST_COROUTINES)
     testImplementation(Dependencies.TEST_FLOW_OBSERVER)
     testImplementation(Dependencies.TEST_JUNIT)
