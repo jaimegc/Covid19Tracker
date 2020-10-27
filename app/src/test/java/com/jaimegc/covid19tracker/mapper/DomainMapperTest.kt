@@ -67,154 +67,154 @@ class DomainMapperTest {
     }
 
     @Test
-    fun covidTrackerDtoToDomain() {
+    fun `covidTrackerDto to domain`() {
         assertEquals(covidTracker, covidTrackerDto.toDomain(worldStats.date))
     }
 
     @Test
-    fun covidTrackerTotalDtoToDomain() {
+    fun `covidTrackerTotalDto to domain`() {
         assertEquals(worldStats, covidTrackerTotalDto.toDomain(worldStats.date, worldStats.updatedAt))
     }
 
     @Test
-    fun worldAndCountriesStatsPojoToDomain() {
+    fun `worldAndCountriesStatsPojo to domain`() {
         assertEquals(covidTracker.copy(listOf(covidTracker.countriesStats.first().copy(regionStats = null))),
             worldAndCountriesStatsPojo.toDomain())
     }
 
     @Test
-    fun listCountryEntityToDomain() {
+    fun `listCountryEntity to domain`() {
         assertEquals(listCountry, listCountryEntity.toDomain())
     }
 
     @Test
-    fun listRegionEntityToDomain() {
+    fun `listRegionEntity to domain`() {
         assertEquals(listRegion, listRegionEntity.toDomain())
     }
 
     @Test
-    fun countryAndStatsPojoToDomain() {
+    fun `countryAndStatsPojo to domain`() {
         assertEquals(countryAndStats, countryAndStatsPojo.toDomain())
     }
 
     @Test
-    fun regionAndStatsPojoToDomain() {
+    fun `regionAndStatsPojo to domain`() {
         assertEquals(regionAndStats, regionAndStatsPojo.toDomain())
     }
 
     @Test
-    fun subRegionAndStatsPojoToDomain() {
+    fun `subRegionAndStatsPojo to domain`() {
         assertEquals(subRegionAndStats, subRegionAndStatsPojo.toDomain())
     }
 
     @Test
-    fun countryAndOneStatsPojoToDomain() {
+    fun `countryAndOneStatsPojo to domain`() {
         assertEquals(countryOneStats.copy(regionStats = null), countryAndOneStatsPojo.toDomain())
     }
 
     @Test
-    fun regionAndOneStatsPojoToDomain() {
+    fun `regionAndOneStatsPojo to domain`() {
         assertEquals(regionOneStats, regionAndOneStatsPojo.toDomain())
     }
 
     @Test
-    fun listWorldStatsEntityToDomain() {
+    fun `listWorldStatsEntity to domain`() {
         assertEquals(listWorldStats, listWorldStatsEntity.toDomain())
     }
 
     @Test
-    fun worldStatsEntityToDomain() {
+    fun `worldStatsEntity to domain`() {
         assertEquals(worldStats, worldStatsEntity.toDomain())
     }
 
     @Test
-    fun listCountryAndStatsPojoToDomain() {
+    fun `listCountryAndStatsPojo to domain`() {
         assertEquals(listCountryAndStats, listCountryAndStatsPojo.toDomain())
     }
 
     @Test
-    fun listRegionAndStatsPojoToDomain() {
+    fun `listRegionAndStatsPojo to domain`() {
         assertEquals(listRegionAndStats, listRegionAndStatsPojo.toDomain())
     }
 
     @Test
-    fun listSubRegionAndStatsPojoToDomain() {
+    fun `listSubRegionAndStatsPojo to domain`() {
         assertEquals(listSubRegionAndStats, listSubRegionAndStatsPojo.toDomain())
     }
 
     @Test
-    fun listCountryStatsEntityToStatsDomain() {
+    fun `listCountryStatsEntity to stats domain`() {
         assertEquals(listCountryOnlyStats, listCountryStatsEntity.toStatsDomain())
     }
 
     @Test
-    fun listRegionStatsEntityToStatsDomain() {
+    fun `listRegionStatsEntity to stats domain`() {
         assertEquals(listRegionOnlyStats, listRegionStatsEntity.toStatsDomain())
     }
 
     @Test
-    fun listRegionAndStatsDVToDomain() {
+    fun `listRegionAndStatsDV to domain`() {
         assertEquals(listRegionStats.copy(regionStats = listOf(listRegionStats.regionStats.first().copy(subRegionStats = null))),
             listRegionAndStatsDV.toDomain())
     }
 
     @Test
-    fun listSubRegionAndStatsDVToDomain() {
+    fun `listSubRegionAndStatsDV to domain`() {
         assertEquals(listSubRegionStats, listSubRegionAndStatsDV.toDomain())
     }
 
     @Test
-    fun listRegionStatsEntityToRegionDomain() {
+    fun `listRegionStatsEntity to region domain`() {
         assertEquals(listOf(stats), listRegionStatsEntity.toRegionDomain())
     }
 
     @Test
-    fun listSubRegionStatsEntityToSubRegionDomain() {
+    fun `listSubRegionStatsEntity to subregion domain`() {
         assertEquals(listOf(stats), listSubRegionStatsEntity.toSubRegionDomain())
     }
 
     @Test
-    fun regionStatsEntityToDomain() {
+    fun `regionStatsEntity to domain`() {
         assertEquals(stats, regionStatsEntity.toDomain(stats.date))
     }
 
     @Test
-    fun subRegionStatsEntityToDomain() {
+    fun `subRegionStatsEntity to domain`() {
         assertEquals(stats, subRegionStatsEntity.toDomain(stats.date))
     }
 
     @Test
-    fun countryEntityToDomain() {
+    fun `countryEntity to domain`() {
         assertEquals(country, countryEntity.toDomain())
     }
 
     @Test
-    fun regionEntityToDomain() {
+    fun `regionEntity to domain`() {
         assertEquals(region, regionEntity.toDomain())
     }
 
     @Test
-    fun subRegionEntityToDomain() {
+    fun `subRegionEntity to domain`() {
         assertEquals(subRegion, subRegionEntity.toDomain())
     }
 
     @Test
-    fun statsEmbeddedToDomain() {
+    fun `statsEmbedded to domain`() {
         assertEquals(stats, statsEmbedded.toDomain(stats.date))
     }
 
     @Test
-    fun countryStatsEntityToDomain() {
+    fun `countryStatsEntity to domain`() {
         assertEquals(stats, countryStatsEntity.toDomain())
     }
 
     @Test
-    fun listRegionAndStatsPojoToPojoRegionDomain() {
+    fun `listRegionAndStatsPojo to pojo region domain`() {
         assertEquals(listRegionAndStats, listRegionAndStatsPojo.toPojoRegionDomain())
     }
 
     @Test
-    fun listSubRegionAndStatsPojoToPojoSubRegionDomain() {
+    fun `listSubRegionAndStatsPojo to pojo subregion domain`() {
         assertEquals(listSubRegionAndStats, listSubRegionAndStatsPojo.toPojoSubRegionDomain())
     }
 }

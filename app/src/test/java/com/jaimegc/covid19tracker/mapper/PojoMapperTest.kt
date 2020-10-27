@@ -22,17 +22,17 @@ class PojoMapperTest {
     }
 
     @Test
-    fun listCountryAndOneStatsPojoToPojoCountriesOrdered() {
+    fun `listCountryAndOneStatsPojo to pojo countries ordered`() {
         assertEquals(listOf(countryAndStatsPojo), listCountryAndOneStatsPojo.toPojoCountriesOrdered())
     }
 
     @Test
-    fun listRegionAndOneStatsPojoToPojoRegionsOrdered() {
+    fun `listRegionAndOneStatsPojo to pojo regions ordered`() {
         assertEquals(listOf(regionAndStatsPojo), listRegionAndOneStatsPojo.toPojoRegionsOrdered())
     }
 
     @Test
-    fun listSubRegionAndOneStatsPojoToPojoSubRegionsOrdered() {
+    fun `listSubRegionAndOneStatsPojo to pojo subregions ordered`() {
         assertEquals(listOf(subRegionAndStatsPojo), listSubRegionAndOneStatsPojo.toPojoSubRegionsOrdered())
     }
 }
