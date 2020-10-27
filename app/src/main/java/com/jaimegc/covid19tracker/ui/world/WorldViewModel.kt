@@ -184,7 +184,8 @@ class WorldViewModel(
                                     ScreenState.Render(
                                         WorldStateScreen.SuccessCountriesStatsBarCharts(
                                             state.data.countriesStats.map { countryStats ->
-                                                    countryStats.toListChartUI() }
+                                                countryStats.toListChartUI()
+                                            }
                                         )
                                     )
                                 )
