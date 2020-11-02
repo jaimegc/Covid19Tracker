@@ -19,12 +19,12 @@ object Versions {
 
     object Gradle {
         const val FIREBASE_CRASHLYTICS = "2.3.0"
-        const val FIREBASE_PERFORMANCE_PLUGIN = "1.3.2"
+        const val FIREBASE_PERFORMANCE_PLUGIN = "1.3.3"
         const val GRADLE_ANDROID = "4.1.0"
         const val KOTLIN = "1.4.10"
         const val MAVEN_PLUGIN = "2.1"
         const val GOOGLE_SERVICES = "4.3.4"
-        const val REMAL_PLUGIN = "1.1.1"
+        const val REMAL_PLUGIN = "1.1.4"
     }
 
     object Kotlin {
@@ -34,7 +34,7 @@ object Versions {
     object Google {
         object Androidx {
             const val APP_COMPAT = "1.2.0"
-            const val CONSTRAINT_LAYOUT = "2.0.2"
+            const val CONSTRAINT_LAYOUT = "2.0.4"
             const val CORE_KTX = "1.3.2"
             const val CORE_TESTING = "2.1.0"
             const val ESPRESSO = "3.3.0"
@@ -49,7 +49,7 @@ object Versions {
         }
 
         object Firebase {
-            const val ANALYTICS = "17.6.0"
+            const val ANALYTICS = "18.0.0"
             const val CRASHLYTICS = "17.2.2"
             const val PERFORMANCE = "19.0.9"
         }
@@ -67,8 +67,8 @@ object Versions {
     }
 
     object Coroutines {
-        const val CORE = "1.4.0-M1"
-        const val ANDROID = "1.4.0-M1"
+        const val CORE = "1.4.0"
+        const val ANDROID = "1.4.0"
     }
 
     object Koin {
@@ -76,14 +76,14 @@ object Versions {
     }
 
     object Test {
-        const val COROUTINES = "1.4.0-M1"
+        const val COROUTINES = "1.4.0"
         const val FLOW_TEST_OBSERVER = "1.4.1"
         const val JUNIT = "4.13.1"
         const val MOCKITO_KOTLIN = "2.2.0"
     }
 
     object Detekt {
-        const val DETEKT = "1.14.1"
+        const val DETEKT = "1.14.2"
         const val DETEKT_FORMATTING = "1.12.0"
     }
 
