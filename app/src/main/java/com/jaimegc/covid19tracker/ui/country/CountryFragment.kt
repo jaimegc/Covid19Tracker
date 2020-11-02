@@ -67,24 +67,24 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
             viewLifecycleOwner,
             Observer { screenState ->
                 when (screenState) {
-                            ScreenState.Loading ->
-                                if (concatAdapter.adapters.isEmpty()) {
-                                    binding.emptyDatabase.layout.hide()
-                                    binding.loading.layout.show()
-                                }
-                            ScreenState.EmptyData ->
-                                if (currentMenuItem == menuItemLineChart) {
-                                    binding.loading.layout.hide()
-                                    binding.emptyDatabase.layout.show()
-                                }
-                            is ScreenState.Render<PlaceStateScreen> -> {
-                                binding.loading.layout.hide()
-                                handleRenderState(screenState.renderState)
-                            }
-                            is ScreenState.Error<PlaceStateScreen> -> {
-                                // Not implemented
-                            }
+                    ScreenState.Loading ->
+                        if (concatAdapter.adapters.isEmpty()) {
+                            binding.emptyDatabase.layout.hide()
+                            binding.loading.layout.show()
                         }
+                    ScreenState.EmptyData ->
+                         if (currentMenuItem == menuItemLineChart) {
+                            binding.loading.layout.hide()
+                            binding.emptyDatabase.layout.show()
+                         }
+                    is ScreenState.Render<PlaceStateScreen> -> {
+                         binding.loading.layout.hide()
+                         handleRenderState(screenState.renderState)
+                    }
+                    is ScreenState.Error<PlaceStateScreen> -> {
+                        // Not implemented
+                    }
+                }
             }
         )
 

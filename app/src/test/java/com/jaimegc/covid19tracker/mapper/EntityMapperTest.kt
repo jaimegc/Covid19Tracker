@@ -31,42 +31,42 @@ class EntityMapperTest {
     }
 
     @Test
-    fun countryOneStatsToEntity() {
+    fun `countryOneStats to entity`() {
         assertEquals(countryEntity, countryOneStats.toEntity())
     }
 
     @Test
-    fun worldStatsToEntity() {
+    fun `worldStats to entity`() {
         assertEquals(worldStatsEntity, worldStats.toEntity())
     }
 
     @Test
-    fun statsToEmbedded() {
+    fun `stats to embedded`() {
         assertEquals(stats, statsEmbedded.toDomain(stats.date))
     }
 
     @Test
-    fun countryStatsToEntity() {
+    fun `countryStats to entity`() {
         assertEquals(countryStatsEntity, stats.toEntity(country.id))
     }
 
     @Test
-    fun regionToEntity() {
+    fun `region to entity`() {
         assertEquals(regionEntity, region.toEntity(country.id))
     }
 
     @Test
-    fun subRegionToEntity() {
+    fun `subRegion to entity`() {
         assertEquals(subRegionEntity, subRegion.toEntity(region.id, country.id))
     }
 
     @Test
-    fun regionStatsToEntity() {
+    fun `regionStats to entity`() {
         assertEquals(regionStatsEntity, regionStats.toEntity(region.id, country.id))
     }
 
     @Test
-    fun subRegionStatsToEntity() {
+    fun `subRegionStats to entity`() {
         assertEquals(subRegionStatsEntity, subRegionStats.toEntity(subRegion.id, region.id))
     }
 }

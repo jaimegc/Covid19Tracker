@@ -209,8 +209,17 @@ The data for any other day, from the last one in the local database until the cu
 
 ### Unit Tests
 
+- ViewModels: 14 ✅
+  - WorldViewModel: 9 ✔️
+  - MainViewModel: 5 ✔️
 - Mappers: 63 ✅
+  - DomainMapper: 30 ✔️
+  - UIMapper: 22 ✔️
+  - EntityMapper: 8 ✔️
+  - PojoMapper: 3 ✔️
 - Extensions: 9 ✅
+  - NumberExtension: 6 ✔️
+  - DateExtension: 3 ✔️
 
 ### GitHub Actions
 

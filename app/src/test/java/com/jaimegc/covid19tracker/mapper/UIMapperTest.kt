@@ -55,112 +55,112 @@ class UIMapperTest {
     }
 
     @Test
-    fun covidTrackerDomainToUI() {
+    fun `covidTrackerDomain to ui`() {
         assertEquals(covidTrackerUI, covidTracker.toUI())
     }
 
     @Test
-    fun worldStatsDomainToUI() {
+    fun `worldStatsDomain to ui`() {
         assertEquals(worldStatsUI, worldStats.toUI())
     }
 
     @Test
-    fun countryDomainToUI() {
+    fun `countryDomain to ui`() {
         assertEquals(countryUI, country.toUI())
     }
 
     @Test
-    fun statsDomainToUI() {
+    fun `statsDomain to ui`() {
         assertEquals(statsUI, stats.toUI())
     }
 
     @Test
-    fun statsDomainToChartUI() {
+    fun `statsDomain to chart ui`() {
         assertEquals(statsChartUI, stats.toChartUI())
     }
 
     @Test
-    fun countryOneStatsDomainToChartUI() {
+    fun `countryOneStatsDomain to chart ui`() {
         assertEquals(countryOneStatsChartUI, countryOneStats.toChartUI())
     }
 
     @Test
-    fun worldStatsDomainToListChartUI() {
+    fun `worldStatsDomain to list chart ui`() {
         assertEquals(worldStatsChartUI, worldStats.toListChartUI())
     }
 
     @Test
-    fun countryAndStatsDomainToListChartUI() {
+    fun `countryAndStatsDomain to list chart ui`() {
         assertEquals(countryListStatsChartUI, countryAndStats.toListChartUI())
     }
 
     @Test
-    fun covidTrackerDomainToListChartUI() {
+    fun `covidTrackerDomain to list chart ui`() {
         assertEquals(listWorldCountryStatsUI, covidTracker.toListChartUI())
     }
 
     @Test
-    fun regionDomainToPlaceUI() {
+    fun `regionDomain to place ui`() {
         assertEquals(placeUI, region.toPlaceUI())
     }
 
     @Test
-    fun subRegionDomainToPlaceUI() {
+    fun `subRegionDomain to place ui`() {
         assertEquals(placeUI, subRegion.toPlaceUI())
     }
 
     @Test
-    fun countryOneStatsDomainToPlaceUI() {
+    fun `countryOneStatsDomain to place ui`() {
         assertEquals(countryPlaceStatsUI, countryOneStats.toPlaceUI())
     }
 
     @Test
-    fun regionOneStatsDomainToPlaceUI() {
+    fun `regionOneStatsDomain to place ui`() {
         assertEquals(placeStatsUI, regionOneStats.toPlaceUI())
     }
 
     @Test
-    fun listRegionStatsDomainToPlaceUI() {
+    fun `listRegionStatsDomain to place ui`() {
         assertEquals(listRegionStatsPlaceUI, listRegionStats.toPlaceUI())
     }
 
     @Test
-    fun listSubRegionStatsDomainToPlaceUI() {
+    fun `listSubRegionStatsDomain to place ui`() {
         assertEquals(listSubRegionStatsPlaceUI, listSubRegionStats.toPlaceUI())
     }
 
     @Test
-    fun listCountryOnlyStatsDomainToPlaceUI() {
+    fun `listCountryOnlyStatsDomain to place ui`() {
         assertEquals(listCountryOnlyStatsPlaceUI, listCountryOnlyStats.toPlaceUI())
     }
 
     @Test
-    fun listRegionOnlyStatsDomainToPlaceUI() {
+    fun `listRegionOnlyStatsDomain to place ui`() {
         assertEquals(listRegionOnlyStatsPlaceUI, listRegionOnlyStats.toPlaceUI())
     }
 
     @Test
-    fun listRegionAndStatsDomainToPlaceUI() {
+    fun `listRegionAndStatsDomain to place ui`() {
         assertEquals(placeListStatsChartUI, listRegionAndStats.toPlaceUI())
     }
 
     @Test
-    fun listSubRegionAndStatsDomainToPlaceUI() {
+    fun `listSubRegionAndStatsDomain to place ui`() {
         assertEquals(placeListStatsChartUI, listSubRegionAndStats.toPlaceUI())
     }
 
     @Test
-    fun listRegionStatsDomainToPlaceChartUI() {
+    fun `listRegionStatsDomain to place chart ui`() {
         assertEquals(listRegionPlaceStatsChartUI, listRegionStats.toPlaceChartUI())
     }
 
     @Test
-    fun listSubRegionStatsDomainToPlaceChartUI() {
+    fun `listSubRegionStatsDomain to place chart ui`() {
         assertEquals(listSubRegionPlaceStatsChartUI, listSubRegionStats.toPlaceChartUI())
     }
 
     @Test
-    fun errorDomainToUI() {
+    fun `errorDomain to ui`() {
         val domainError: DomainError = mock()
 
         val uiError = ErrorUI.SomeError
