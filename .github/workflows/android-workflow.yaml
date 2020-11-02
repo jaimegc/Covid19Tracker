@@ -25,6 +25,9 @@ jobs:
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1
 
+      - name: Run code analysis
+        run: ./gradlew detektAll --stacktrace
+
       - name: Run unit tests
         run: ./gradlew testDebugUnitTest --stacktrace
 
