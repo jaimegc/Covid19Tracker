@@ -8,7 +8,9 @@ import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.domain.states.StateError
 import com.jaimegc.covid19tracker.domain.usecase.GetCovidTracker
 import com.jaimegc.covid19tracker.ui.home.MainViewModel
-import com.jaimegc.covid19tracker.utils.ModelBuilder.covidTracker
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCovidSuccess
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateErrorDatabaseEmpty
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCovidTrackerLoading
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
@@ -30,11 +32,6 @@ class MainViewModelTest {
     private lateinit var getCovidTracker: GetCovidTracker
     private val repository: CovidTrackerRepository = mock()
 
-    private val stateLoading: State<CovidTracker> = State.Loading()
-    private val stateErrorDatabaseEmpty: StateError<DomainError> =
-        StateError.Error(DomainError.DatabaseEmptyData)
-    private val stateSuccess: State<CovidTracker> = State.Success(covidTracker)
-
     @Before
     fun setup() {
         getCovidTracker = GetCovidTracker(repository)
@@ -49,9 +46,9 @@ class MainViewModelTest {
     fun `get covid tracker by date should return loading and success if date exists`() = runBlockingTest {
         val useCase = mock<GetCovidTracker> {
             onBlocking { getCovidTrackerByDate() } doReturn flow {
-                emit(Either.right(stateLoading))
+                emit(Either.right(stateCovidTrackerLoading))
                 delay(10)
-                emit(Either.right(stateSuccess))
+                emit(Either.right(stateCovidSuccess))
             }
         }
 
@@ -59,8 +56,8 @@ class MainViewModelTest {
 
         flow.collectIndexed { index, data ->
             when (index) {
-                0 -> assertEquals(data, Either.right(stateLoading))
-                1 -> assertEquals(data, Either.right(stateSuccess))
+                0 -> assertEquals(data, Either.right(stateCovidTrackerLoading))
+                1 -> assertEquals(data, Either.right(stateCovidSuccess))
             }
         }
     }
@@ -69,7 +66,7 @@ class MainViewModelTest {
     fun `get covid tracker by date should return loading and error database empty if date doesnt exist`() = runBlockingTest {
         val useCase = mock<GetCovidTracker> {
             onBlocking { getCovidTrackerByDate() } doReturn flow {
-                emit(Either.right(stateLoading))
+                emit(Either.right(stateCovidTrackerLoading))
                 delay(10)
                 emit(Either.left(stateErrorDatabaseEmpty))
             }
@@ -79,7 +76,7 @@ class MainViewModelTest {
 
         flow.collectIndexed { index, data ->
             when (index) {
-                0 -> assertEquals(data, Either.right(stateLoading))
+                0 -> assertEquals(data, Either.right(stateCovidTrackerLoading))
                 1 -> assertEquals(data, Either.left(stateErrorDatabaseEmpty))
             }
         }
@@ -99,15 +96,15 @@ class MainViewModelTest {
     @Test
     fun `get covid tracker by date should return loading and success if date exists using flow test`() = runBlockingTest {
         val flow: Flow<Either<StateError<DomainError>, State<CovidTracker>>> = flow {
-            emit(Either.right(stateLoading))
+            emit(Either.right(stateCovidTrackerLoading))
             delay(10)
-            emit(Either.right(stateSuccess))
+            emit(Either.right(stateCovidSuccess))
         }
 
         whenever(getCovidTracker.getCovidTrackerByDate()).thenReturn(flow)
 
         getCovidTracker.getCovidTrackerByDate().test(this) {
-            assertValues(Either.right(stateLoading), Either.right(stateSuccess))
+            assertValues(Either.right(stateCovidTrackerLoading), Either.right(stateCovidSuccess))
             assertValueCount(2)
             assertComplete()
         }
@@ -116,7 +113,7 @@ class MainViewModelTest {
     @Test
     fun `get covid tracker by date should return loading and error database empty if date doesnt exist using flow test`() = runBlockingTest {
         val flow: Flow<Either<StateError<DomainError>, State<CovidTracker>>> = flow {
-            emit(Either.right(stateLoading))
+            emit(Either.right(stateCovidTrackerLoading))
             delay(10)
             emit(Either.left(stateErrorDatabaseEmpty))
         }
@@ -124,7 +121,7 @@ class MainViewModelTest {
         whenever(getCovidTracker.getCovidTrackerByDate()).thenReturn(flow)
 
         getCovidTracker.getCovidTrackerByDate().test(this) {
-            assertValues(Either.right(stateLoading), Either.left(stateErrorDatabaseEmpty))
+            assertValues(Either.right(stateCovidTrackerLoading), Either.left(stateErrorDatabaseEmpty))
             assertValueCount(2)
             assertComplete()
         }
