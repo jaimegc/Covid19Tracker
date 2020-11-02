@@ -1,4 +1,4 @@
-package com.jaimegc.covid19tracker.extension
+package com.jaimegc.covid19tracker.utils
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer

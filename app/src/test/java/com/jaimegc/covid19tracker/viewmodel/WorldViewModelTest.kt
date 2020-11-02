@@ -6,8 +6,8 @@ import arrow.core.Either
 import com.jaimegc.covid19tracker.domain.usecase.GetCountryStats
 import com.jaimegc.covid19tracker.domain.usecase.GetWorldAndCountries
 import com.jaimegc.covid19tracker.domain.usecase.GetWorldStats
-import com.jaimegc.covid19tracker.extension.getOrAwaitValue
-import com.jaimegc.covid19tracker.extension.observeForTesting
+import com.jaimegc.covid19tracker.utils.getOrAwaitValue
+import com.jaimegc.covid19tracker.utils.observeForTesting
 import com.jaimegc.covid19tracker.ui.base.states.MenuItemViewType
 import com.jaimegc.covid19tracker.ui.base.states.ScreenState
 import com.jaimegc.covid19tracker.ui.base.states.WorldStateScreen
