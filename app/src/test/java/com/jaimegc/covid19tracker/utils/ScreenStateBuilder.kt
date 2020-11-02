@@ -2,17 +2,23 @@ package com.jaimegc.covid19tracker.utils
 
 import com.jaimegc.covid19tracker.domain.model.CovidTracker
 import com.jaimegc.covid19tracker.domain.model.DomainError
+import com.jaimegc.covid19tracker.domain.model.ListCountry
 import com.jaimegc.covid19tracker.domain.model.ListCountryAndStats
+import com.jaimegc.covid19tracker.domain.model.ListRegion
 import com.jaimegc.covid19tracker.domain.model.ListWorldStats
 import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.domain.states.StateError
 import com.jaimegc.covid19tracker.ui.base.states.MenuItemViewType
+import com.jaimegc.covid19tracker.ui.base.states.PlaceStateScreen
 import com.jaimegc.covid19tracker.ui.base.states.ScreenState
 import com.jaimegc.covid19tracker.ui.base.states.WorldStateScreen
 import com.jaimegc.covid19tracker.ui.model.toListChartUI
+import com.jaimegc.covid19tracker.ui.model.toPlaceUI
 import com.jaimegc.covid19tracker.ui.model.toUI
 import com.jaimegc.covid19tracker.utils.ModelBuilder.covidTracker
+import com.jaimegc.covid19tracker.utils.ModelBuilder.listCountry
 import com.jaimegc.covid19tracker.utils.ModelBuilder.listCountryAndStats
+import com.jaimegc.covid19tracker.utils.ModelBuilder.listRegion
 import com.jaimegc.covid19tracker.utils.ModelBuilder.listWorldStats
 
 object ScreenStateBuilder {
@@ -22,9 +28,19 @@ object ScreenStateBuilder {
 
     val stateListCountryAndStatsLoading: State<ListCountryAndStats> = State.Loading()
 
+    val stateListCountryStatsLoading: State<ListCountry> = State.Loading()
+
+    val stateListRegionStatsLoading: State<ListRegion> = State.Loading()
+
     val stateCovidSuccess: State<CovidTracker> = State.Success(covidTracker)
 
     val stateListWorldStatsSuccess: State<ListWorldStats> = State.Success(listWorldStats)
+
+    val stateListCountrySuccess: State<ListCountry> = State.Success(listCountry)
+
+    val stateListRegionSuccess: State<ListRegion> = State.Success(listRegion)
+
+    val stateListRegionEmptySuccess: State<ListRegion> = State.Success(ListRegion(regions = listOf()))
 
     val stateListCountryAndStatsSuccess: State<ListCountryAndStats> =
         State.Success(listCountryAndStats)
@@ -127,6 +143,27 @@ object ScreenStateBuilder {
                     }
                 )
             )
+        ).renderState.data
+
+    val stateScreenListCountrySuccessData =
+        ScreenState.Render(
+            PlaceStateScreen.SuccessSpinnerCountries((stateListCountrySuccess as State.Success).data.countries.map {
+                country -> country.toUI()
+            })
+        ).renderState.data
+
+    val stateScreenListRegionSuccessData =
+        ScreenState.Render(
+            PlaceStateScreen.SuccessSpinnerRegions((stateListRegionSuccess as State.Success).data.regions.map {
+                region -> region.toPlaceUI()
+            })
+        ).renderState.data
+
+    val stateScreenListRegionEmptySuccessData =
+        ScreenState.Render(
+            PlaceStateScreen.SuccessSpinnerRegions((stateListRegionEmptySuccess as State.Success).data.regions.map {
+                    region -> region.toPlaceUI()
+            })
         ).renderState.data
 
     val stateScreenErrorDatabaseEmptyData =
