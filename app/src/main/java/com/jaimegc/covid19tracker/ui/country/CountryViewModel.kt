@@ -182,28 +182,16 @@ class CountryViewModel(
                 allRequests.add(getRegionStats.getRegionsAndStatsWithMostOpenCases(idCountry))
             } else {
                 allRequests.add(
-                    getSubRegionStats.getSubRegionsAndStatsWithMostConfirmed(
-                        idCountry,
-                        idRegion
-                    )
+                    getSubRegionStats.getSubRegionsAndStatsWithMostConfirmed(idCountry, idRegion)
                 )
                 allRequests.add(
-                    getSubRegionStats.getSubRegionsAndStatsWithMostDeaths(
-                        idCountry,
-                        idRegion
-                    )
+                    getSubRegionStats.getSubRegionsAndStatsWithMostDeaths(idCountry, idRegion)
                 )
                 allRequests.add(
-                    getSubRegionStats.getSubRegionsAndStatsWithMostRecovered(
-                        idCountry,
-                        idRegion
-                    )
+                    getSubRegionStats.getSubRegionsAndStatsWithMostRecovered(idCountry, idRegion)
                 )
                 allRequests.add(
-                    getSubRegionStats.getSubRegionsAndStatsWithMostOpenCases(
-                        idCountry,
-                        idRegion
-                    )
+                    getSubRegionStats.getSubRegionsAndStatsWithMostOpenCases(idCountry, idRegion)
                 )
             }
 
