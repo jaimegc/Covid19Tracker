@@ -151,7 +151,7 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
                     menu.enableItem(menuItemLineChart)
                     currentMenuItem = menuItemLineChart
                     concatAdapter.removeAllAdapters()
-                    viewModel.getLineChartStats()
+                    viewModel.getLineChartsStats()
                 }
                 true
             }
