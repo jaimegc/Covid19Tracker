@@ -24,6 +24,8 @@ object Dependencies {
     const val ANDROID_CONSTRAINT_LAYOUT =
         "androidx.constraintlayout:constraintlayout:${Versions.Google.Androidx.CONSTRAINT_LAYOUT}"
     const val ANDROID_CORE_KTX = "androidx.core:core-ktx:${Versions.Google.Androidx.CORE_KTX}"
+    const val ANDROID_CORE_TESTING =
+        "androidx.arch.core:core-testing:${Versions.Google.Androidx.CORE_TESTING}"
     const val ANDROID_JUNIT_EXT = "androidx.test.ext:junit:${Versions.Google.Androidx.JUNIT_EXT}"
     const val ANDROID_ESPRESSO_CORE =
         "androidx.test.espresso:espresso-core:${Versions.Google.Androidx.ESPRESSO}"
@@ -47,6 +49,8 @@ object Dependencies {
         "androidx.navigation:navigation-ui-ktx:${Versions.Google.Androidx.NAVIGATION}"
     const val ANDROID_RECYCLERVIEW =
         "androidx.recyclerview:recyclerview:${Versions.Google.Androidx.RECYCLERVIEW}"
+    const val ANDROID_TEST_RULES = "androidx.test:rules:${Versions.Google.Androidx.TEST_RULES}"
+    const val ANDROID_TEST_RUNNER = "androidx.test:runner:${Versions.Google.Androidx.TEST_RUNNER}"
     const val ANDROID_ROOM_COMPILER = "androidx.room:room-compiler:${Versions.Google.Androidx.ROOM}"
     const val ANDROID_ROOM_KTX = "androidx.room:room-ktx:${Versions.Google.Androidx.ROOM}"
     const val ANDROID_ROOM_RUNTIME = "androidx.room:room-runtime:${Versions.Google.Androidx.ROOM}"
@@ -72,13 +76,23 @@ object Dependencies {
     const val SQUARE_RETROFIT_CONVERTER_MOSHI =
         "com.squareup.retrofit2:converter-moshi:${Versions.Square.RETROFIT_CONVERTER_MOSHI}"
 
+    const val COROUTINES_CORE =
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.Coroutines.CORE}"
+    const val COROUTINES_ANDROID =
+        "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.Coroutines.ANDROID}"
+
     const val KOIN = "org.koin:koin-android:${Versions.Koin.KOIN}"
     const val KOIN_CORE = "org.koin:koin-core:${Versions.Koin.KOIN}"
     const val KOIN_SCOPE = "org.koin:koin-android-scope:${Versions.Koin.KOIN}"
     const val KOIN_VIEWMODEL = "org.koin:koin-android-viewmodel:${Versions.Koin.KOIN}"
 
+    const val TEST_COROUTINES =
+        "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.Test.COROUTINES}"
+    const val TEST_FLOW_OBSERVER =
+        "com.github.ologe:flow-test-observer:${Versions.Test.FLOW_TEST_OBSERVER}"
     const val TEST_JUNIT = "junit:junit:${Versions.Test.JUNIT}"
-    const val TEST_MOCKITO_KOTLIN = "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.Test.MOCKITO_KOTLIN}"
+    const val TEST_MOCKITO_KOTLIN =
+        "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.Test.MOCKITO_KOTLIN}"
 
     const val DETEKT = Versions.Detekt.DETEKT
     const val DETEKT_PLUGIN = "io.gitlab.arturbosch.detekt"
@@ -148,6 +162,11 @@ fun DependencyHandler.square() {
     kapt(Dependencies.SQUARE_MOSHI_CODEGEN)
 }
 
+fun DependencyHandler.coroutines() {
+    implementation(Dependencies.COROUTINES_CORE)
+    implementation(Dependencies.COROUTINES_ANDROID)
+}
+
 fun DependencyHandler.koin() {
     implementation(Dependencies.KOIN)
     implementation(Dependencies.KOIN_CORE)
@@ -156,9 +175,16 @@ fun DependencyHandler.koin() {
 }
 
 fun DependencyHandler.test() {
+    androidTestImplementation(Dependencies.ANDROID_CORE_TESTING)
     androidTestImplementation(Dependencies.ANDROID_JUNIT_EXT)
     androidTestImplementation(Dependencies.ANDROID_ESPRESSO_CORE)
+    androidTestImplementation(Dependencies.ANDROID_TEST_RULES)
+    androidTestImplementation(Dependencies.ANDROID_TEST_RUNNER)
+    androidTestImplementation(Dependencies.TEST_COROUTINES)
 
+    testImplementation(Dependencies.ANDROID_CORE_TESTING)
+    testImplementation(Dependencies.TEST_COROUTINES)
+    testImplementation(Dependencies.TEST_FLOW_OBSERVER)
     testImplementation(Dependencies.TEST_JUNIT)
     testImplementation(Dependencies.TEST_MOCKITO_KOTLIN)
 }

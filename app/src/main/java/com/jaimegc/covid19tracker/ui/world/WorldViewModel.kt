@@ -91,7 +91,7 @@ class WorldViewModel(
      *  Using four methods.
      *  In CountryViewModel you can see it using zip / combine / flatMapMerge.
      */
-    fun getLineChartStats() {
+    fun getLineChartsStats() {
         cancelAll()
         mapWorldLineStats.clear()
         getCountriesAndStatsWithMostConfirmed()
@@ -184,7 +184,8 @@ class WorldViewModel(
                                     ScreenState.Render(
                                         WorldStateScreen.SuccessCountriesStatsBarCharts(
                                             state.data.countriesStats.map { countryStats ->
-                                                    countryStats.toListChartUI() }
+                                                countryStats.toListChartUI()
+                                            }
                                         )
                                     )
                                 )

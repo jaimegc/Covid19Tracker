@@ -55,16 +55,16 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
             viewLifecycleOwner,
             Observer { screenState ->
                 when (screenState) {
-                            ScreenState.Loading ->
-                                if (concatAdapter.adapters.isEmpty()) binding.loading.layout.show()
-                            is ScreenState.Render<WorldStateScreen> -> {
-                                binding.loading.layout.hide()
-                                handleRenderState(screenState.renderState)
-                            }
-                            is ScreenState.Error<WorldStateScreen> -> {
-                                // Not implemented
-                            }
-                        }
+                    ScreenState.Loading ->
+                        if (concatAdapter.adapters.isEmpty()) binding.loading.layout.show()
+                    is ScreenState.Render<WorldStateScreen> -> {
+                        binding.loading.layout.hide()
+                        handleRenderState(screenState.renderState)
+                    }
+                    is ScreenState.Error<WorldStateScreen> -> {
+                        // Not implemented
+                    }
+                }
             }
         )
 
@@ -151,7 +151,7 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
                     menu.enableItem(menuItemLineChart)
                     currentMenuItem = menuItemLineChart
                     concatAdapter.removeAllAdapters()
-                    viewModel.getLineChartStats()
+                    viewModel.getLineChartsStats()
                 }
                 true
             }
