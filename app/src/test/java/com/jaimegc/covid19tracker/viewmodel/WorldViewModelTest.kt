@@ -117,7 +117,8 @@ class WorldViewModelTest {
             assertEquals(ScreenState.Loading, loading)
             assertNotNull(success)
             assertTrue(success is ScreenState.Render)
-            assertTrue((success as ScreenState.Render).renderState is WorldStateScreen.SuccessCovidTracker)
+            assertTrue((success as ScreenState.Render)
+                .renderState is WorldStateScreen.SuccessCovidTracker)
             assertEquals(stateScreenSuccessCovidTrackerData,
                 (success.renderState as WorldStateScreen.SuccessCovidTracker).data)
         }
@@ -132,7 +133,8 @@ class WorldViewModelTest {
             assertEquals(ScreenState.Loading, loading)
             assertNotNull(success)
             assertTrue(success is ScreenState.Render)
-            assertTrue((success as ScreenState.Render).renderState is WorldStateScreen.SuccessCovidTracker)
+            assertTrue((success as ScreenState.Render)
+                .renderState is WorldStateScreen.SuccessCovidTracker)
             assertEquals(stateScreenSuccessCovidTrackerData,
                 (success.renderState as WorldStateScreen.SuccessCovidTracker).data)
         }
@@ -181,7 +183,8 @@ class WorldViewModelTest {
 
         assertEquals(ScreenState.Loading, loading)
         assertTrue(success is ScreenState.Render)
-        assertTrue((success as ScreenState.Render).renderState is WorldStateScreen.SuccessCountriesStatsPieCharts)
+        assertTrue((success as ScreenState.Render)
+            .renderState is WorldStateScreen.SuccessCountriesStatsPieCharts)
         assertEquals(stateScreenSuccessCountriesStatsPieChartData,
             (success.renderState as WorldStateScreen.SuccessCountriesStatsPieCharts).data)
     }
@@ -236,11 +239,13 @@ class WorldViewModelTest {
         assertEquals(ScreenState.Loading, worldLoading)
         assertEquals(ScreenState.Loading, countriesLoading)
         assertTrue(worldSuccess is ScreenState.Render)
-        assertTrue((worldSuccess as ScreenState.Render).renderState is WorldStateScreen.SuccessWorldStatsBarCharts)
+        assertTrue((worldSuccess as ScreenState.Render)
+            .renderState is WorldStateScreen.SuccessWorldStatsBarCharts)
         assertEquals(stateScreenSuccessListWorldStatsPieChartData,
             (worldSuccess.renderState as WorldStateScreen.SuccessWorldStatsBarCharts).data)
         assertTrue(countriesSuccess is ScreenState.Render)
-        assertTrue((countriesSuccess as ScreenState.Render).renderState is WorldStateScreen.SuccessCountriesStatsBarCharts)
+        assertTrue((countriesSuccess as ScreenState.Render)
+            .renderState is WorldStateScreen.SuccessCountriesStatsBarCharts)
         assertEquals(stateScreenSuccessListCountryAndStatsBarChartData,
             (countriesSuccess.renderState as WorldStateScreen.SuccessCountriesStatsBarCharts).data)
     }
@@ -326,21 +331,29 @@ class WorldViewModelTest {
         assertEquals(ScreenState.Loading, mostOpenCasesLoading)
         assertEquals(ScreenState.Loading, mostRecoveredLoading)
         assertTrue(mostConfirmedSuccess is ScreenState.Render)
-        assertTrue((mostConfirmedSuccess as ScreenState.Render).renderState is WorldStateScreen.SuccessCountriesStatsLineCharts)
+        assertTrue((mostConfirmedSuccess as ScreenState.Render)
+            .renderState is WorldStateScreen.SuccessCountriesStatsLineCharts)
         assertEquals(stateScreenSuccessListCountryAndStatsLineChartMostConfirmedData[MenuItemViewType.LineChartMostConfirmed],
-            (mostConfirmedSuccess.renderState as WorldStateScreen.SuccessCountriesStatsLineCharts).data[MenuItemViewType.LineChartMostConfirmed])
+            (mostConfirmedSuccess.renderState as WorldStateScreen.SuccessCountriesStatsLineCharts)
+                .data[MenuItemViewType.LineChartMostConfirmed])
         assertTrue(mostDeathsSuccess is ScreenState.Render)
-        assertTrue((mostDeathsSuccess as ScreenState.Render).renderState is WorldStateScreen.SuccessCountriesStatsLineCharts)
+        assertTrue((mostDeathsSuccess as ScreenState.Render)
+            .renderState is WorldStateScreen.SuccessCountriesStatsLineCharts)
         assertEquals(stateScreenSuccessListCountryAndStatsLineChartMostDeathsData[MenuItemViewType.LineChartMostDeaths],
-            (mostDeathsSuccess.renderState as WorldStateScreen.SuccessCountriesStatsLineCharts).data[MenuItemViewType.LineChartMostDeaths])
+            (mostDeathsSuccess.renderState as WorldStateScreen.SuccessCountriesStatsLineCharts)
+                .data[MenuItemViewType.LineChartMostDeaths])
         assertTrue(mostOpenCasesSuccess is ScreenState.Render)
-        assertTrue((mostOpenCasesSuccess as ScreenState.Render).renderState is WorldStateScreen.SuccessCountriesStatsLineCharts)
+        assertTrue((mostOpenCasesSuccess as ScreenState.Render)
+            .renderState is WorldStateScreen.SuccessCountriesStatsLineCharts)
         assertEquals(stateScreenSuccessListCountryAndStatsLineChartMostOpenCasesData[MenuItemViewType.LineChartMostOpenCases],
-            (mostOpenCasesSuccess.renderState as WorldStateScreen.SuccessCountriesStatsLineCharts).data[MenuItemViewType.LineChartMostOpenCases])
+            (mostOpenCasesSuccess.renderState as WorldStateScreen.SuccessCountriesStatsLineCharts)
+                .data[MenuItemViewType.LineChartMostOpenCases])
         assertTrue(mostRecoveredSuccess is ScreenState.Render)
-        assertTrue((mostRecoveredSuccess as ScreenState.Render).renderState is WorldStateScreen.SuccessCountriesStatsLineCharts)
+        assertTrue((mostRecoveredSuccess as ScreenState.Render)
+            .renderState is WorldStateScreen.SuccessCountriesStatsLineCharts)
         assertEquals(stateScreenSuccessListCountryAndStatsLineChartMostRecoveredData[MenuItemViewType.LineChartMostRecovered],
-            (mostRecoveredSuccess.renderState as WorldStateScreen.SuccessCountriesStatsLineCharts).data[MenuItemViewType.LineChartMostRecovered])
+            (mostRecoveredSuccess.renderState as WorldStateScreen.SuccessCountriesStatsLineCharts)
+                .data[MenuItemViewType.LineChartMostRecovered])
     }
 
     @Test
