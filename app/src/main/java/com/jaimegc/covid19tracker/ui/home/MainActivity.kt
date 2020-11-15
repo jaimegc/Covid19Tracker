@@ -2,7 +2,6 @@ package com.jaimegc.covid19tracker.ui.home
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.plusAssign
@@ -89,25 +88,21 @@ class MainActivity : BaseActivity() {
         WorkManager.getInstance(this).getWorkInfoByIdLiveData(periodicWorkRequest.id)
             .observe(
                 this,
-                Observer { workInfo ->
+                { workInfo ->
                     if (workInfo != null) {
-                                    if (workInfo.state == WorkInfo.State.RUNNING) {
-                                        when (workInfo.progress.getString(UpdateDatabaseWorker.DATA_PROGRESS)) {
-                                            this.getString(R.string.worker_start) ->
-                                                dialog.open(supportFragmentManager)
-                                            this.getString(R.string.worker_finish) ->
-                                                dialog.close()
-                                            else ->
-                                                dialog.updateInfoStatus(
-                                                    workInfo.progress.getString(
-                                                        UpdateDatabaseWorker.DATA_PROGRESS
-                                                    ) ?: ""
-                                                )
-                                        }
-                                    } else if (workInfo.state == WorkInfo.State.ENQUEUED) {
-                                        dialog.close()
-                                    }
-                                }
+                        if (workInfo.state == WorkInfo.State.RUNNING) {
+                            when (workInfo.progress.getString(UpdateDatabaseWorker.DATA_PROGRESS)) {
+                                this.getString(R.string.worker_start) -> dialog.open(supportFragmentManager)
+                                this.getString(R.string.worker_finish) -> dialog.close()
+                                else ->
+                                    dialog.updateInfoStatus(
+                                        workInfo.progress.getString(
+                                        UpdateDatabaseWorker.DATA_PROGRESS) ?: "")
+                            }
+                         } else if (workInfo.state == WorkInfo.State.ENQUEUED) {
+                             dialog.close()
+                         }
+                    }
                 }
             )
     }

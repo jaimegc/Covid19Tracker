@@ -53,7 +53,7 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
 
         viewModel.screenState.observe(
             viewLifecycleOwner,
-            Observer { screenState ->
+            { screenState ->
                 when (screenState) {
                     ScreenState.Loading ->
                         if (concatAdapter.adapters.isEmpty()) binding.loading.layout.show()
