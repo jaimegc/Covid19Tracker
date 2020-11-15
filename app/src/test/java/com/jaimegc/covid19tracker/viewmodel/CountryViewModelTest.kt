@@ -12,17 +12,34 @@ import com.jaimegc.covid19tracker.ui.base.states.PlaceStateScreen
 import com.jaimegc.covid19tracker.ui.base.states.ScreenState
 import com.jaimegc.covid19tracker.ui.country.CountryViewModel
 import com.jaimegc.covid19tracker.utils.MainCoroutineRule
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.placeStateScreenErrorDatabaseEmptyData
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCountryOneStatsLoading
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCountryOneStatsSuccess
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCountryOneStatsSuccessData
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateErrorDatabaseEmpty
-import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListCountryStatsLoading
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListCountryLoading
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListCountrySuccess
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListRegionEmptySuccess
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListRegionLoading
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListRegionStatsEmptySuccess
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListRegionStatsLoading
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListRegionStatsSuccess
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListRegionStatsSuccessData
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListRegionSuccess
-import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateScreenErrorDatabaseEmptyData
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListSubRegionStatsEmptySuccess
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListSubRegionStatsLoading
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListSubRegionStatsSuccess
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListSubRegionStatsSuccessData
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateRegionOneStatsLoading
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateRegionOneStatsSuccess
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateRegionOneStatsSuccessData
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateScreenListCountrySuccessData
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateScreenListRegionEmptySuccessData
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateScreenListRegionStatsEmptySuccessData
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateScreenListRegionSuccessData
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateScreenListSubRegionStatsEmptySuccessData
 import com.jaimegc.covid19tracker.utils.getOrAwaitValue
+import com.jaimegc.covid19tracker.utils.observeForTesting
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.mock
@@ -66,7 +83,7 @@ class CountryViewModelTest {
     @Test
     fun `get countries should return loading and success`() {
         val flow = flow {
-            emit(Either.right(stateListCountryStatsLoading))
+            emit(Either.right(stateListCountryLoading))
             emit(Either.right(stateListCountrySuccess))
         }
 
@@ -93,7 +110,7 @@ class CountryViewModelTest {
     @Test
     fun `get countries should return loading and success using getOrAwaitValue & observeForTesting`() {
         val flow = flow {
-            emit(Either.right(stateListCountryStatsLoading))
+            emit(Either.right(stateListCountryLoading))
             delay(10)
             emit(Either.right(stateListCountrySuccess))
         }
@@ -114,6 +131,21 @@ class CountryViewModelTest {
             assertEquals(stateScreenListCountrySuccessData,
                 (success.renderState as PlaceStateScreen.SuccessSpinnerCountries).data)
         }
+
+        countryViewModel.getCountries()
+
+        countryViewModel.screenState.observeForTesting {
+            val loading = countryViewModel.screenState.value
+            coroutineScope.advanceUntilIdle()
+            val success = countryViewModel.screenState.value
+
+            assertEquals(ScreenState.Loading, loading)
+            assertTrue(success is ScreenState.Render)
+            assertTrue((success as ScreenState.Render)
+                .renderState is PlaceStateScreen.SuccessSpinnerCountries)
+            assertEquals(stateScreenListCountrySuccessData,
+                (success.renderState as PlaceStateScreen.SuccessSpinnerCountries).data)
+        }
     }
 
     /***********************************************************************************************/
@@ -121,7 +153,7 @@ class CountryViewModelTest {
     @Test
     fun `get countries should return loading and error if database is empty`() {
         val flow = flow {
-            emit(Either.right(stateListCountryStatsLoading))
+            emit(Either.right(stateListCountryLoading))
             emit(Either.left(stateErrorDatabaseEmpty))
         }
 
@@ -137,14 +169,14 @@ class CountryViewModelTest {
         assertEquals(ScreenState.Loading, loading)
         assertTrue(error is ScreenState.Error)
         assertTrue((error as ScreenState.Error).errorState is PlaceStateScreen.SomeError)
-        assertEquals(stateScreenErrorDatabaseEmptyData,
+        assertEquals(placeStateScreenErrorDatabaseEmptyData,
             (error.errorState as PlaceStateScreen.SomeError).data)
     }
 
     @Test
     fun `get regions by country should return loading and success`() {
         val flow = flow {
-            emit(Either.right(stateListRegionStatsLoading))
+            emit(Either.right(stateListRegionLoading))
             emit(Either.right(stateListRegionSuccess))
         }
 
@@ -167,7 +199,7 @@ class CountryViewModelTest {
     @Test
     fun `get regions by country with empty data should return loading and success`() {
         val flow = flow {
-            emit(Either.right(stateListRegionStatsLoading))
+            emit(Either.right(stateListRegionLoading))
             emit(Either.right(stateListRegionEmptySuccess))
         }
 
@@ -185,5 +217,253 @@ class CountryViewModelTest {
         assertTrue((success as ScreenState.Render).renderState is PlaceStateScreen.SuccessSpinnerRegions)
         assertEquals(stateScreenListRegionEmptySuccessData,
             (success.renderState as PlaceStateScreen.SuccessSpinnerRegions).data)
+    }
+
+    @Test
+    fun `get list chart stats for a country with no region selected should return loading and success`() {
+        val countryStatsFlow = flow {
+            emit(Either.right(stateCountryOneStatsLoading))
+            emit(Either.right(stateCountryOneStatsSuccess))
+        }
+
+        val regionStatsFlow = flow {
+            emit(Either.right(stateListRegionStatsLoading))
+            emit(Either.right(stateListRegionStatsSuccess))
+        }
+
+        whenever(getCountryStats.getCountryAndStatsByDate(any(), any())).thenReturn(countryStatsFlow)
+        whenever(getRegionStats.getRegionsStatsOrderByConfirmed(any(), any())).thenReturn(regionStatsFlow)
+
+        countryViewModel.getListStats("id_country")
+
+        verify(stateObserver, Mockito.times(4)).onChanged(captor.capture())
+
+        val countryStatsLoading = captor.firstValue
+        val countryStatsSuccess = captor.thirdValue
+        val regionStatsLoading = captor.secondValue
+        val regionStatsSuccess = captor.lastValue
+
+        assertEquals(ScreenState.Loading, countryStatsLoading)
+        assertEquals(ScreenState.Loading, regionStatsLoading)
+        assertTrue(countryStatsSuccess is ScreenState.Render)
+        assertTrue((countryStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceAndStats)
+        assertEquals(stateCountryOneStatsSuccessData,
+            (countryStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceAndStats).data)
+        assertTrue(regionStatsSuccess is ScreenState.Render)
+        assertTrue((regionStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceStats)
+        assertEquals(stateListRegionStatsSuccessData,
+            (regionStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceStats).data)
+    }
+
+    @Test
+    fun `get list chart stats for a country with empty regions should return loading and success`() {
+        val countryStatsFlow = flow {
+            emit(Either.right(stateCountryOneStatsLoading))
+            emit(Either.right(stateCountryOneStatsSuccess))
+        }
+
+        val regionStatsFlow = flow {
+            emit(Either.right(stateListRegionStatsLoading))
+            emit(Either.right(stateListRegionStatsEmptySuccess))
+        }
+
+        whenever(getCountryStats.getCountryAndStatsByDate(any(), any())).thenReturn(countryStatsFlow)
+        whenever(getRegionStats.getRegionsStatsOrderByConfirmed(any(), any())).thenReturn(regionStatsFlow)
+
+        countryViewModel.getListStats("id_country")
+
+        verify(stateObserver, Mockito.times(4)).onChanged(captor.capture())
+
+        val countryStatsLoading = captor.firstValue
+        val countryStatsSuccess = captor.thirdValue
+        val regionStatsLoading = captor.secondValue
+        val regionStatsSuccess = captor.lastValue
+
+        assertEquals(ScreenState.Loading, countryStatsLoading)
+        assertEquals(ScreenState.Loading, regionStatsLoading)
+        assertTrue(countryStatsSuccess is ScreenState.Render)
+        assertTrue((countryStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceAndStats)
+        assertEquals(stateCountryOneStatsSuccessData,
+            (countryStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceAndStats).data)
+        assertTrue(regionStatsSuccess is ScreenState.Render)
+        assertTrue((regionStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceStats)
+        assertEquals(stateScreenListRegionStatsEmptySuccessData,
+            (regionStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceStats).data)
+    }
+
+    @Test
+    fun `get list chart stats for a country should return loading and error if database is empty`() {
+        val countryStatsFlow = flow {
+            emit(Either.right(stateCountryOneStatsLoading))
+            emit(Either.left(stateErrorDatabaseEmpty))
+        }
+
+        val regionStatsFlow = flow {
+            emit(Either.right(stateListRegionStatsLoading))
+            emit(Either.right(stateListRegionStatsEmptySuccess))
+        }
+
+        whenever(getCountryStats.getCountryAndStatsByDate(any(), any())).thenReturn(countryStatsFlow)
+        whenever(getRegionStats.getRegionsStatsOrderByConfirmed(any(), any())).thenReturn(regionStatsFlow)
+
+        countryViewModel.getListStats("id_country")
+
+        verify(stateObserver, Mockito.times(4)).onChanged(captor.capture())
+
+        val loading = captor.firstValue
+        val error = captor.thirdValue
+
+        assertEquals(ScreenState.Loading, loading)
+        assertTrue(error is ScreenState.Error)
+        assertTrue((error as ScreenState.Error).errorState is PlaceStateScreen.SomeError)
+        assertEquals(placeStateScreenErrorDatabaseEmptyData,
+            (error.errorState as PlaceStateScreen.SomeError).data)
+    }
+
+    @Test
+    fun `get list chart stats for a region with subregions should return loading and success`() {
+        val countryStatsFlow = flow {
+            emit(Either.right(stateRegionOneStatsLoading))
+            emit(Either.right(stateRegionOneStatsSuccess))
+        }
+
+        val regionStatsFlow = flow {
+            emit(Either.right(stateListSubRegionStatsLoading))
+            emit(Either.right(stateListSubRegionStatsSuccess))
+        }
+
+        whenever(getRegionStats.getRegionAndStatsByDate(any(), any(), any())).thenReturn(countryStatsFlow)
+        whenever(getSubRegionStats.getSubRegionsStatsOrderByConfirmed(any(), any(), any())).thenReturn(regionStatsFlow)
+
+        countryViewModel.getListStats("id_country", "id_region")
+
+        verify(stateObserver, Mockito.times(4)).onChanged(captor.capture())
+
+        val countryStatsLoading = captor.firstValue
+        val countryStatsSuccess = captor.thirdValue
+        val regionStatsLoading = captor.secondValue
+        val regionStatsSuccess = captor.lastValue
+
+        assertEquals(ScreenState.Loading, countryStatsLoading)
+        assertEquals(ScreenState.Loading, regionStatsLoading)
+        assertTrue(countryStatsSuccess is ScreenState.Render)
+        assertTrue((countryStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceAndStats)
+        assertEquals(stateRegionOneStatsSuccessData,
+            (countryStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceAndStats).data)
+        assertTrue(regionStatsSuccess is ScreenState.Render)
+        assertTrue((regionStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceStats)
+        assertEquals(stateListSubRegionStatsSuccessData,
+            (regionStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceStats).data)
+    }
+
+    @Test
+    fun `get list chart stats for a region with empty subregions should return loading and success`() {
+        val countryStatsFlow = flow {
+            emit(Either.right(stateRegionOneStatsLoading))
+            emit(Either.right(stateRegionOneStatsSuccess))
+        }
+
+        val regionStatsFlow = flow {
+            emit(Either.right(stateListSubRegionStatsLoading))
+            emit(Either.right(stateListSubRegionStatsEmptySuccess))
+        }
+
+        whenever(getRegionStats.getRegionAndStatsByDate(any(), any(), any())).thenReturn(countryStatsFlow)
+        whenever(getSubRegionStats.getSubRegionsStatsOrderByConfirmed(any(), any(), any())).thenReturn(regionStatsFlow)
+
+        countryViewModel.getListStats("id_country", "id_region")
+
+        verify(stateObserver, Mockito.times(4)).onChanged(captor.capture())
+
+        val countryStatsLoading = captor.firstValue
+        val countryStatsSuccess = captor.thirdValue
+        val regionStatsLoading = captor.secondValue
+        val regionStatsSuccess = captor.lastValue
+
+        assertEquals(ScreenState.Loading, countryStatsLoading)
+        assertEquals(ScreenState.Loading, regionStatsLoading)
+        assertTrue(countryStatsSuccess is ScreenState.Render)
+        assertTrue((countryStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceAndStats)
+        assertEquals(stateRegionOneStatsSuccessData,
+            (countryStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceAndStats).data)
+        assertTrue(regionStatsSuccess is ScreenState.Render)
+        assertTrue((regionStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceStats)
+        assertEquals(stateScreenListSubRegionStatsEmptySuccessData,
+            (regionStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceStats).data)
+    }
+
+    @Test
+    fun `get bar chart stats for a country with no region selected should return loading and success`() {
+
+    }
+
+    @Test
+    fun `get bar chart stats for a country with empty regions should return loading and success`() {
+
+    }
+
+    @Test
+    fun `get bar chart stats for a country should return loading and error if database is empty`() {
+
+    }
+
+    @Test
+    fun `get bar chart stats for a region with subregions should return loading and success`() {
+
+    }
+
+    @Test
+    fun `get bar chart stats for a region with empty subregions should return loading and success`() {
+
+    }
+
+    @Test
+    fun `get pie chart stats for a country with no region selected should return loading and success`() {
+
+    }
+
+    @Test
+    fun `get pie chart stats for a country with empty regions should return loading and success`() {
+
+    }
+
+    @Test
+    fun `get pie chart stats for a country should return loading and error if database is empty`() {
+
+    }
+
+    @Test
+    fun `get pie chart stats for a region with subregions should return loading and success`() {
+
+    }
+
+    @Test
+    fun `get pie chart stats for a region with empty subregions should return loading and success`() {
+
+    }
+
+    @Test
+    fun `get line chart stats for a country with no region selected should return loading and success`() {
+
+    }
+
+    @Test
+    fun `get line chart stats for a country with empty regions should return loading and success`() {
+
+    }
+
+    @Test
+    fun `get line chart stats for a country should return loading and error if database is empty`() {
+
+    }
+
+    @Test
+    fun `get line chart stats for a region with subregions should return loading and success`() {
+
+    }
+
+    @Test
+    fun `get line chart stats for a region with empty subregions should return loading and empty data`() {
+
     }
 }

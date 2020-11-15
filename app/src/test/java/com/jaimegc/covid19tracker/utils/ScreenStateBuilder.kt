@@ -1,11 +1,15 @@
 package com.jaimegc.covid19tracker.utils
 
+import com.jaimegc.covid19tracker.domain.model.CountryOneStats
 import com.jaimegc.covid19tracker.domain.model.CovidTracker
 import com.jaimegc.covid19tracker.domain.model.DomainError
 import com.jaimegc.covid19tracker.domain.model.ListCountry
 import com.jaimegc.covid19tracker.domain.model.ListCountryAndStats
 import com.jaimegc.covid19tracker.domain.model.ListRegion
+import com.jaimegc.covid19tracker.domain.model.ListRegionStats
+import com.jaimegc.covid19tracker.domain.model.ListSubRegionStats
 import com.jaimegc.covid19tracker.domain.model.ListWorldStats
+import com.jaimegc.covid19tracker.domain.model.RegionOneStats
 import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.domain.states.StateError
 import com.jaimegc.covid19tracker.ui.base.states.MenuItemViewType
@@ -15,11 +19,15 @@ import com.jaimegc.covid19tracker.ui.base.states.WorldStateScreen
 import com.jaimegc.covid19tracker.ui.model.toListChartUI
 import com.jaimegc.covid19tracker.ui.model.toPlaceUI
 import com.jaimegc.covid19tracker.ui.model.toUI
+import com.jaimegc.covid19tracker.utils.ModelBuilder.countryOneStats
 import com.jaimegc.covid19tracker.utils.ModelBuilder.covidTracker
 import com.jaimegc.covid19tracker.utils.ModelBuilder.listCountry
 import com.jaimegc.covid19tracker.utils.ModelBuilder.listCountryAndStats
 import com.jaimegc.covid19tracker.utils.ModelBuilder.listRegion
+import com.jaimegc.covid19tracker.utils.ModelBuilder.listRegionStats
+import com.jaimegc.covid19tracker.utils.ModelBuilder.listSubRegionStats
 import com.jaimegc.covid19tracker.utils.ModelBuilder.listWorldStats
+import com.jaimegc.covid19tracker.utils.ModelBuilder.regionOneStats
 
 object ScreenStateBuilder {
     val stateCovidTrackerLoading: State<CovidTracker> = State.Loading()
@@ -28,9 +36,17 @@ object ScreenStateBuilder {
 
     val stateListCountryAndStatsLoading: State<ListCountryAndStats> = State.Loading()
 
-    val stateListCountryStatsLoading: State<ListCountry> = State.Loading()
+    val stateListCountryLoading: State<ListCountry> = State.Loading()
 
-    val stateListRegionStatsLoading: State<ListRegion> = State.Loading()
+    val stateListRegionLoading: State<ListRegion> = State.Loading()
+
+    val stateCountryOneStatsLoading: State<CountryOneStats> = State.Loading()
+
+    val stateRegionOneStatsLoading: State<RegionOneStats> = State.Loading()
+
+    val stateListRegionStatsLoading: State<ListRegionStats> = State.Loading()
+
+    val stateListSubRegionStatsLoading: State<ListSubRegionStats> = State.Loading()
 
     val stateCovidSuccess: State<CovidTracker> = State.Success(covidTracker)
 
@@ -40,7 +56,22 @@ object ScreenStateBuilder {
 
     val stateListRegionSuccess: State<ListRegion> = State.Success(listRegion)
 
-    val stateListRegionEmptySuccess: State<ListRegion> = State.Success(ListRegion(regions = listOf()))
+    val stateCountryOneStatsSuccess: State<CountryOneStats> = State.Success(countryOneStats)
+
+    val stateRegionOneStatsSuccess: State<RegionOneStats> = State.Success(regionOneStats)
+
+    val stateListRegionStatsSuccess: State<ListRegionStats> = State.Success(listRegionStats)
+
+    val stateListSubRegionStatsSuccess: State<ListSubRegionStats> = State.Success(listSubRegionStats)
+
+    val stateListRegionEmptySuccess: State<ListRegion> =
+        State.Success(ListRegion(regions = listOf()))
+
+    val stateListRegionStatsEmptySuccess: State<ListRegionStats> =
+        State.Success(ListRegionStats(regionStats = listOf()))
+
+    val stateListSubRegionStatsEmptySuccess: State<ListSubRegionStats> =
+        State.Success(ListSubRegionStats(subRegionStats = listOf()))
 
     val stateListCountryAndStatsSuccess: State<ListCountryAndStats> =
         State.Success(listCountryAndStats)
@@ -159,15 +190,50 @@ object ScreenStateBuilder {
             })
         ).renderState.data
 
+    val stateCountryOneStatsSuccessData =
+        ScreenState.Render(
+            PlaceStateScreen.SuccessPlaceAndStats((stateCountryOneStatsSuccess as State.Success).data.toPlaceUI()
+        )).renderState.data
+
+    val stateRegionOneStatsSuccessData =
+        ScreenState.Render(
+            PlaceStateScreen.SuccessPlaceAndStats((stateRegionOneStatsSuccess as State.Success).data.toPlaceUI()
+        )).renderState.data
+
+    val stateListRegionStatsSuccessData =
+        ScreenState.Render(
+            PlaceStateScreen.SuccessPlaceStats((stateListRegionStatsSuccess as State.Success).data.toPlaceUI()
+        )).renderState.data
+
+    val stateListSubRegionStatsSuccessData =
+        ScreenState.Render(
+            PlaceStateScreen.SuccessPlaceStats((stateListSubRegionStatsSuccess as State.Success).data.toPlaceUI()
+        )).renderState.data
+
     val stateScreenListRegionEmptySuccessData =
         ScreenState.Render(
             PlaceStateScreen.SuccessSpinnerRegions((stateListRegionEmptySuccess as State.Success).data.regions.map {
-                    region -> region.toPlaceUI()
+                region -> region.toPlaceUI()
             })
         ).renderState.data
 
-    val stateScreenErrorDatabaseEmptyData =
+    val stateScreenListRegionStatsEmptySuccessData =
+        ScreenState.Render(
+            PlaceStateScreen.SuccessPlaceStats((stateListRegionStatsEmptySuccess as State.Success).data.toPlaceUI()
+        )).renderState.data
+
+    val stateScreenListSubRegionStatsEmptySuccessData =
+        ScreenState.Render(
+            PlaceStateScreen.SuccessPlaceStats((stateListSubRegionStatsEmptySuccess as State.Success).data.toPlaceUI()
+        )).renderState.data
+
+    val worldStateScreenErrorDatabaseEmptyData =
         ScreenState.Error(
             WorldStateScreen.SomeError((stateErrorDatabaseEmpty as StateError.Error).error.toUI())
+        ).errorState.data
+
+    val placeStateScreenErrorDatabaseEmptyData =
+        ScreenState.Error(
+            PlaceStateScreen.SomeError((stateErrorDatabaseEmpty as StateError.Error).error.toUI())
         ).errorState.data
 }
