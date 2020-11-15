@@ -16,7 +16,9 @@ import com.jaimegc.covid19tracker.ui.base.states.MenuItemViewType
 import com.jaimegc.covid19tracker.ui.base.states.PlaceStateScreen
 import com.jaimegc.covid19tracker.ui.base.states.ScreenState
 import com.jaimegc.covid19tracker.ui.base.states.WorldStateScreen
+import com.jaimegc.covid19tracker.ui.model.toChartUI
 import com.jaimegc.covid19tracker.ui.model.toListChartUI
+import com.jaimegc.covid19tracker.ui.model.toPlaceChartUI
 import com.jaimegc.covid19tracker.ui.model.toPlaceUI
 import com.jaimegc.covid19tracker.ui.model.toUI
 import com.jaimegc.covid19tracker.utils.ModelBuilder.countryOneStats
@@ -195,9 +197,19 @@ object ScreenStateBuilder {
             PlaceStateScreen.SuccessPlaceAndStats((stateCountryOneStatsSuccess as State.Success).data.toPlaceUI()
         )).renderState.data
 
+    val stateCountryOneStatsPieChartSuccessData =
+        ScreenState.Render(
+            PlaceStateScreen.SuccessPlaceTotalStatsPieChart((stateCountryOneStatsSuccess as State.Success).data.stats.toChartUI()
+        )).renderState.data
+
     val stateRegionOneStatsSuccessData =
         ScreenState.Render(
             PlaceStateScreen.SuccessPlaceAndStats((stateRegionOneStatsSuccess as State.Success).data.toPlaceUI()
+        )).renderState.data
+
+    val stateRegionOneStatsPieChartSuccessData =
+        ScreenState.Render(
+            PlaceStateScreen.SuccessPlaceTotalStatsPieChart((stateRegionOneStatsSuccess as State.Success).data.stats.toChartUI()
         )).renderState.data
 
     val stateListRegionStatsSuccessData =
@@ -205,9 +217,19 @@ object ScreenStateBuilder {
             PlaceStateScreen.SuccessPlaceStats((stateListRegionStatsSuccess as State.Success).data.toPlaceUI()
         )).renderState.data
 
+    val stateListRegionStatsPieChartSuccessData =
+        ScreenState.Render(
+            PlaceStateScreen.SuccessPlaceAndStatsPieChart((stateListRegionStatsSuccess as State.Success).data.toPlaceChartUI()
+        )).renderState.data
+
     val stateListSubRegionStatsSuccessData =
         ScreenState.Render(
             PlaceStateScreen.SuccessPlaceStats((stateListSubRegionStatsSuccess as State.Success).data.toPlaceUI()
+        )).renderState.data
+
+    val stateListSubRegionStatsPieChartSuccessData =
+        ScreenState.Render(
+            PlaceStateScreen.SuccessPlaceAndStatsPieChart((stateListSubRegionStatsSuccess as State.Success).data.toPlaceChartUI()
         )).renderState.data
 
     val stateScreenListRegionEmptySuccessData =
@@ -222,9 +244,19 @@ object ScreenStateBuilder {
             PlaceStateScreen.SuccessPlaceStats((stateListRegionStatsEmptySuccess as State.Success).data.toPlaceUI()
         )).renderState.data
 
+    val stateScreenListRegionStatsPieChartEmptySuccessData =
+        ScreenState.Render(
+            PlaceStateScreen.SuccessPlaceAndStatsPieChart((stateListRegionStatsEmptySuccess as State.Success).data.toPlaceChartUI()
+        )).renderState.data
+
     val stateScreenListSubRegionStatsEmptySuccessData =
         ScreenState.Render(
             PlaceStateScreen.SuccessPlaceStats((stateListSubRegionStatsEmptySuccess as State.Success).data.toPlaceUI()
+        )).renderState.data
+
+    val stateScreenListSubRegionStatsEmptyPieChartSuccessData =
+        ScreenState.Render(
+            PlaceStateScreen.SuccessPlaceAndStatsPieChart((stateListSubRegionStatsEmptySuccess as State.Success).data.toPlaceChartUI()
         )).renderState.data
 
     val worldStateScreenErrorDatabaseEmptyData =
