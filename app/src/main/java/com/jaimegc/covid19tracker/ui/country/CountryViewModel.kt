@@ -83,12 +83,12 @@ class CountryViewModel(
     }
 
     fun getListStats(idCountry: String, idRegion: String = "") =
-        listOrPieChartStats(idCountry, idRegion, MenuItemViewType.List)
+        listAndPieChartStats(idCountry, idRegion, MenuItemViewType.List)
 
     fun getPieChartStats(idCountry: String, idRegion: String = "") =
-        listOrPieChartStats(idCountry, idRegion, MenuItemViewType.PieChart)
+        listAndPieChartStats(idCountry, idRegion, MenuItemViewType.PieChart)
 
-    private fun listOrPieChartStats(idCountry: String, idRegion: String, viewType: MenuItemViewType) {
+    private fun listAndPieChartStats(idCountry: String, idRegion: String, viewType: MenuItemViewType) {
         cancelAllCharts()
         jobListOrPieChart = viewModelScope.launch {
             val date = "" // Empty to get the last date or use yyyy-MM-dd
