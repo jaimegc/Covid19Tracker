@@ -126,16 +126,14 @@ class LocalCovidTrackerDatasource(
                     regionStatsDao.getRegionAndStatsByCountryAndLastDateOrderByConfirmed(
                         idCountry
                     )
-                )
-                { regionsListStats -> Pair(regionsListStats.isNotEmpty(), regionsListStats.toDomain()) }
+                ) { regionsListStats -> Pair(regionsListStats.isNotEmpty(), regionsListStats.toDomain()) }
             else ->
                 mapEntityValid(
                     regionStatsDao.getRegionAndStatsByCountryAndDateOrderByConfirmed(
                         idCountry,
                         date.dateToMilliseconds()
                     )
-                )
-                { regionsListStats -> Pair(regionsListStats.isNotEmpty(), regionsListStats.toDomain()) }
+                ) { regionsListStats -> Pair(regionsListStats.isNotEmpty(), regionsListStats.toDomain()) }
         }.distinctUntilChanged()
 
     fun getSubRegionsStatsOrderByConfirmed(
@@ -158,8 +156,7 @@ class LocalCovidTrackerDatasource(
                         idRegion,
                         date.dateToMilliseconds()
                     )
-                )
-                { regionsListStats -> Pair(regionsListStats.isNotEmpty(), regionsListStats.toDomain()) }
+                ) { regionsListStats -> Pair(regionsListStats.isNotEmpty(), regionsListStats.toDomain()) }
         }.distinctUntilChanged()
 
     fun getRegionsAllStatsOrderByConfirmed(
@@ -332,8 +329,7 @@ class LocalCovidTrackerDatasource(
                         idCountry,
                         date.dateToMilliseconds()
                     )
-                )
-                { country -> Pair(country.isValid(), country.toDomain()) }
+                ) { country -> Pair(country.isValid(), country.toDomain()) }
         }.distinctUntilChanged()
 
     fun getRegionAndStatsByDate(
@@ -353,8 +349,7 @@ class LocalCovidTrackerDatasource(
                         idRegion,
                         date.dateToMilliseconds()
                     )
-                )
-                { region -> Pair(region.isValid(), region.toDomain()) }
+                ) { region -> Pair(region.isValid(), region.toDomain()) }
         }.distinctUntilChanged()
 
     suspend fun save(covidTracker: CovidTracker) = populateDatabase(listOf(covidTracker))
