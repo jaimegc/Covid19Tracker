@@ -97,7 +97,9 @@ class MainActivity : BaseActivity() {
                                 else ->
                                     dialog.updateInfoStatus(
                                         workInfo.progress.getString(
-                                        UpdateDatabaseWorker.DATA_PROGRESS) ?: "")
+                                            UpdateDatabaseWorker.DATA_PROGRESS
+                                        ) ?: ""
+                                    )
                             }
                          } else if (workInfo.state == WorkInfo.State.ENQUEUED) {
                              dialog.close()
