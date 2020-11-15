@@ -71,7 +71,7 @@ class WorldViewModelTest {
     }
 
     @Test
-    fun `get list chart stats should return loading and success if date exists`() {
+    fun `get list stats should return loading and success if date exists`() {
         val flow = flow {
             emit(Either.right(stateCovidTrackerLoading))
             emit(Either.right(stateCovidSuccess))
@@ -79,7 +79,7 @@ class WorldViewModelTest {
 
         whenever(getWorldAndCountries.getWorldAndCountriesByDate()).thenReturn(flow)
 
-        worldViewModel.getListChartStats()
+        worldViewModel.getListStats()
 
         verify(stateObserver, Mockito.times(2)).onChanged(captor.capture())
 
@@ -98,7 +98,7 @@ class WorldViewModelTest {
      *****************************************************************/
 
     @Test
-    fun `get list chart stats should return loading and success if date exists using getOrAwaitValue & observeForTesting`() {
+    fun `get list stats should return loading and success if date exists using getOrAwaitValue & observeForTesting`() {
         val flow = flow {
             emit(Either.right(stateCovidTrackerLoading))
             delay(10)
@@ -107,7 +107,7 @@ class WorldViewModelTest {
 
         whenever(getWorldAndCountries.getWorldAndCountriesByDate()).thenReturn(flow)
 
-        worldViewModel.getListChartStats()
+        worldViewModel.getListStats()
 
         worldViewModel.screenState.getOrAwaitValue {
             val loading = worldViewModel.screenState.value
@@ -123,7 +123,7 @@ class WorldViewModelTest {
                 (success.renderState as WorldStateScreen.SuccessCovidTracker).data)
         }
 
-        worldViewModel.getListChartStats()
+        worldViewModel.getListStats()
 
         worldViewModel.screenState.observeForTesting {
             val loading = worldViewModel.screenState.value
@@ -143,7 +143,7 @@ class WorldViewModelTest {
     /***********************************************************************************************/
 
     @Test
-    fun `get list chart stats should return loading and error database empty if date doesnt exist`() {
+    fun `get list stats should return loading and error database empty if date doesnt exist`() {
         val flow = flow {
             emit(Either.right(stateCovidTrackerLoading))
             emit(Either.left(stateErrorDatabaseEmpty))
@@ -151,7 +151,7 @@ class WorldViewModelTest {
 
         whenever(getWorldAndCountries.getWorldAndCountriesByDate()).thenReturn(flow)
 
-        worldViewModel.getListChartStats()
+        worldViewModel.getListStats()
 
         verify(stateObserver, Mockito.times(2)).onChanged(captor.capture())
 

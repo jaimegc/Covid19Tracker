@@ -220,7 +220,7 @@ class CountryViewModelTest {
     }
 
     @Test
-    fun `get list chart stats for a country with no region selected should return loading and success`() {
+    fun `get list stats for a country with no region selected should return loading and success`() {
         val countryStatsFlow = flow {
             emit(Either.right(stateCountryOneStatsLoading))
             emit(Either.right(stateCountryOneStatsSuccess))
@@ -256,7 +256,7 @@ class CountryViewModelTest {
     }
 
     @Test
-    fun `get list chart stats for a country with empty regions should return loading and success`() {
+    fun `get list stats for a country with empty regions should return loading and success`() {
         val countryStatsFlow = flow {
             emit(Either.right(stateCountryOneStatsLoading))
             emit(Either.right(stateCountryOneStatsSuccess))
@@ -292,7 +292,7 @@ class CountryViewModelTest {
     }
 
     @Test
-    fun `get list chart stats for a country should return loading and error if database is empty`() {
+    fun `get list stats for a country should return loading and error if database is empty`() {
         val countryStatsFlow = flow {
             emit(Either.right(stateCountryOneStatsLoading))
             emit(Either.left(stateErrorDatabaseEmpty))
@@ -321,7 +321,7 @@ class CountryViewModelTest {
     }
 
     @Test
-    fun `get list chart stats for a region with subregions should return loading and success`() {
+    fun `get list stats for a region with subregions should return loading and success`() {
         val countryStatsFlow = flow {
             emit(Either.right(stateRegionOneStatsLoading))
             emit(Either.right(stateRegionOneStatsSuccess))
@@ -357,7 +357,7 @@ class CountryViewModelTest {
     }
 
     @Test
-    fun `get list chart stats for a region with empty subregions should return loading and success`() {
+    fun `get list stats for a region with empty subregions should return loading and success`() {
         val countryStatsFlow = flow {
             emit(Either.right(stateRegionOneStatsLoading))
             emit(Either.right(stateRegionOneStatsSuccess))
@@ -419,7 +419,38 @@ class CountryViewModelTest {
 
     @Test
     fun `get pie chart stats for a country with no region selected should return loading and success`() {
+        val countryStatsFlow = flow {
+            emit(Either.right(stateCountryOneStatsLoading))
+            emit(Either.right(stateCountryOneStatsSuccess))
+        }
 
+        val regionStatsFlow = flow {
+            emit(Either.right(stateListRegionStatsLoading))
+            emit(Either.right(stateListRegionStatsSuccess))
+        }
+
+        whenever(getCountryStats.getCountryAndStatsByDate(any(), any())).thenReturn(countryStatsFlow)
+        whenever(getRegionStats.getRegionsStatsOrderByConfirmed(any(), any())).thenReturn(regionStatsFlow)
+
+        countryViewModel.getListStats("id_country")
+
+        verify(stateObserver, Mockito.times(4)).onChanged(captor.capture())
+
+        val countryStatsLoading = captor.firstValue
+        val countryStatsSuccess = captor.thirdValue
+        val regionStatsLoading = captor.secondValue
+        val regionStatsSuccess = captor.lastValue
+
+        assertEquals(ScreenState.Loading, countryStatsLoading)
+        assertEquals(ScreenState.Loading, regionStatsLoading)
+        assertTrue(countryStatsSuccess is ScreenState.Render)
+        assertTrue((countryStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceAndStats)
+        assertEquals(stateCountryOneStatsSuccessData,
+            (countryStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceAndStats).data)
+        assertTrue(regionStatsSuccess is ScreenState.Render)
+        assertTrue((regionStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceStats)
+        assertEquals(stateListRegionStatsSuccessData,
+            (regionStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceStats).data)
     }
 
     @Test

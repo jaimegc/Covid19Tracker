@@ -68,7 +68,7 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
             }
         )
 
-        viewModel.getListChartStats()
+        viewModel.getListStats()
         setHasOptionsMenu(true)
     }
 
@@ -133,7 +133,7 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
                     menu.enableItem(menuItemList)
                     currentMenuItem = menuItemList
                     concatAdapter.removeAllAdapters()
-                    viewModel.getListChartStats()
+                    viewModel.getListStats()
                 }
                 true
             }

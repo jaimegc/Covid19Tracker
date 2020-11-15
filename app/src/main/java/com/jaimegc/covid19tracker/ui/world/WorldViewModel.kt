@@ -43,7 +43,7 @@ class WorldViewModel(
     private var jobMostOpenCases: Job? = null
     private var jobMostRecovered: Job? = null
 
-    fun getListChartStats() =
+    fun getListStats() =
         listAndPieChartStats(MenuItemViewType.List)
 
     fun getPieChartStats() =
