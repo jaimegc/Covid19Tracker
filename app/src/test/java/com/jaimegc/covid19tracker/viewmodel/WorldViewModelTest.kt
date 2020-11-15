@@ -24,7 +24,7 @@ import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListCountryAndSt
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListCountryAndStatsSuccess
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListWorldStatsLoading
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListWorldStatsSuccess
-import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateScreenErrorDatabaseEmptyData
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.worldStateScreenErrorDatabaseEmptyData
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateScreenSuccessCountriesStatsPieChartData
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateScreenSuccessCovidTrackerData
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateScreenSuccessListCountryAndStatsBarChartData
@@ -161,7 +161,7 @@ class WorldViewModelTest {
         assertEquals(ScreenState.Loading, loading)
         assertTrue(error is ScreenState.Error)
         assertTrue((error as ScreenState.Error).errorState is WorldStateScreen.SomeError)
-        assertEquals(stateScreenErrorDatabaseEmptyData,
+        assertEquals(worldStateScreenErrorDatabaseEmptyData,
             (error.errorState as WorldStateScreen.SomeError).data)
     }
 
@@ -208,7 +208,7 @@ class WorldViewModelTest {
         assertEquals(ScreenState.Loading, loading)
         assertTrue(error is ScreenState.Error)
         assertTrue((error as ScreenState.Error).errorState is WorldStateScreen.SomeError)
-        assertEquals(stateScreenErrorDatabaseEmptyData,
+        assertEquals(worldStateScreenErrorDatabaseEmptyData,
             (error.errorState as WorldStateScreen.SomeError).data)
     }
 
@@ -278,11 +278,11 @@ class WorldViewModelTest {
         assertEquals(ScreenState.Loading, countriesLoading)
         assertTrue(worldError is ScreenState.Error)
         assertTrue((worldError as ScreenState.Error).errorState is WorldStateScreen.SomeError)
-        assertEquals(stateScreenErrorDatabaseEmptyData,
+        assertEquals(worldStateScreenErrorDatabaseEmptyData,
             (worldError.errorState as WorldStateScreen.SomeError).data)
         assertTrue(countriesError is ScreenState.Error)
         assertTrue((countriesError as ScreenState.Error).errorState is WorldStateScreen.SomeError)
-        assertEquals(stateScreenErrorDatabaseEmptyData,
+        assertEquals(worldStateScreenErrorDatabaseEmptyData,
             (countriesError.errorState as WorldStateScreen.SomeError).data)
     }
 
@@ -402,19 +402,19 @@ class WorldViewModelTest {
         assertEquals(ScreenState.Loading, mostRecoveredLoading)
         assertTrue(mostConfirmedError is ScreenState.Error)
         assertTrue((mostConfirmedError as ScreenState.Error).errorState is WorldStateScreen.SomeError)
-        assertEquals(stateScreenErrorDatabaseEmptyData,
+        assertEquals(worldStateScreenErrorDatabaseEmptyData,
             (mostConfirmedError.errorState as WorldStateScreen.SomeError).data)
         assertTrue(mostDeathsError is ScreenState.Error)
         assertTrue((mostDeathsError as ScreenState.Error).errorState is WorldStateScreen.SomeError)
-        assertEquals(stateScreenErrorDatabaseEmptyData,
+        assertEquals(worldStateScreenErrorDatabaseEmptyData,
             (mostDeathsError.errorState as WorldStateScreen.SomeError).data)
         assertTrue(mostOpenCasesError is ScreenState.Error)
         assertTrue((mostOpenCasesError as ScreenState.Error).errorState is WorldStateScreen.SomeError)
-        assertEquals(stateScreenErrorDatabaseEmptyData,
+        assertEquals(worldStateScreenErrorDatabaseEmptyData,
             (mostOpenCasesError.errorState as WorldStateScreen.SomeError).data)
         assertTrue(mostRecoveredError is ScreenState.Error)
         assertTrue((mostRecoveredError as ScreenState.Error).errorState is WorldStateScreen.SomeError)
-        assertEquals(stateScreenErrorDatabaseEmptyData,
+        assertEquals(worldStateScreenErrorDatabaseEmptyData,
             (mostRecoveredError.errorState as WorldStateScreen.SomeError).data)
     }
 }
