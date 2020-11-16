@@ -207,11 +207,12 @@ The data for any other day, from the last one in the local database until the cu
 
 ## Working on... 👨🏻‍💻🧑🏿‍💻
 
-### Unit Tests
+### Unit Tests (110 ✅)
 
-- ViewModels: 14 ✅
+- ViewModels: 38 ✅
+  - CountryViewModel: 25 ✔️
   - WorldViewModel: 9 ✔️
-  - MainViewModel: 5 ✔️
+  - MainViewModel: 4 ✔️
 - Mappers: 63 ✅
   - DomainMapper: 30 ✔️
   - UIMapper: 22 ✔️
