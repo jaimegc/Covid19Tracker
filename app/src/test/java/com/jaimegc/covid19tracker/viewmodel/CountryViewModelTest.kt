@@ -8,6 +8,7 @@ import com.jaimegc.covid19tracker.domain.usecase.GetCountryStats
 import com.jaimegc.covid19tracker.domain.usecase.GetRegion
 import com.jaimegc.covid19tracker.domain.usecase.GetRegionStats
 import com.jaimegc.covid19tracker.domain.usecase.GetSubRegionStats
+import com.jaimegc.covid19tracker.ui.base.states.MenuItemViewType
 import com.jaimegc.covid19tracker.ui.base.states.PlaceStateScreen
 import com.jaimegc.covid19tracker.ui.base.states.ScreenState
 import com.jaimegc.covid19tracker.ui.country.CountryViewModel
@@ -18,6 +19,30 @@ import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCountryOneStatsS
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCountryOneStatsSuccessData
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCountryOneStatsPieChartSuccessData
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateErrorDatabaseEmpty
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostConfirmedListRegionAndStatsEmptySuccess
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostConfirmedListRegionAndStatsSuccess
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostConfirmedListRegionAndStatsSuccessData
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostConfirmedListSubRegionAndStatsEmptySuccess
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostConfirmedListSubRegionAndStatsSuccess
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostConfirmedListSubRegionAndStatsSuccessData
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostDeathsListRegionAndStatsEmptySuccess
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostDeathsListRegionAndStatsSuccess
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostDeathsListRegionAndStatsSuccessData
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostDeathsListSubRegionAndStatsEmptySuccess
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostDeathsListSubRegionAndStatsSuccess
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostDeathsListSubRegionAndStatsSuccessData
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostOpenCasesListRegionAndStatsEmptySuccess
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostOpenCasesListRegionAndStatsSuccess
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostOpenCasesListRegionAndStatsSuccessData
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostOpenCasesListSubRegionAndStatsEmptySuccess
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostOpenCasesListSubRegionAndStatsSuccess
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostOpenCasesListSubRegionAndStatsSuccessData
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostRecoveredListRegionAndStatsEmptySuccess
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostRecoveredListRegionAndStatsSuccess
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostRecoveredListRegionAndStatsSuccessData
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostRecoveredListSubRegionAndStatsEmptySuccess
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostRecoveredListSubRegionAndStatsSuccess
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostRecoveredListSubRegionAndStatsSuccessData
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListCountryLoading
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListCountryOnlyStatsBarChartSuccessData
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListCountryOnlyStatsLoading
@@ -48,6 +73,8 @@ import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListSubRegionSta
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListSubRegionStatsPieChartSuccessData
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListSubRegionStatsSuccess
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListSubRegionStatsSuccessData
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateMenuItemViewTypeListRegionAndStatsLoading
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateMenuItemViewTypeListSubRegionAndStatsLoading
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateRegionOneStatsLoading
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateRegionOneStatsPieChartSuccessData
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateRegionOneStatsSuccess
@@ -268,11 +295,13 @@ class CountryViewModelTest {
         assertEquals(ScreenState.Loading, countryStatsLoading)
         assertEquals(ScreenState.Loading, regionStatsLoading)
         assertTrue(countryStatsSuccess is ScreenState.Render)
-        assertTrue((countryStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceAndStats)
+        assertTrue((countryStatsSuccess as ScreenState.Render)
+            .renderState is PlaceStateScreen.SuccessPlaceAndStats)
         assertEquals(stateCountryOneStatsSuccessData,
             (countryStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceAndStats).data)
         assertTrue(regionStatsSuccess is ScreenState.Render)
-        assertTrue((regionStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceStats)
+        assertTrue((regionStatsSuccess as ScreenState.Render)
+            .renderState is PlaceStateScreen.SuccessPlaceStats)
         assertEquals(stateListRegionStatsSuccessData,
             (regionStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceStats).data)
     }
@@ -304,11 +333,13 @@ class CountryViewModelTest {
         assertEquals(ScreenState.Loading, countryStatsLoading)
         assertEquals(ScreenState.Loading, regionStatsLoading)
         assertTrue(countryStatsSuccess is ScreenState.Render)
-        assertTrue((countryStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceAndStats)
+        assertTrue((countryStatsSuccess as ScreenState.Render)
+            .renderState is PlaceStateScreen.SuccessPlaceAndStats)
         assertEquals(stateCountryOneStatsSuccessData,
             (countryStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceAndStats).data)
         assertTrue(regionStatsSuccess is ScreenState.Render)
-        assertTrue((regionStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceStats)
+        assertTrue((regionStatsSuccess as ScreenState.Render)
+            .renderState is PlaceStateScreen.SuccessPlaceStats)
         assertEquals(stateScreenListRegionStatsEmptySuccessData,
             (regionStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceStats).data)
     }
@@ -369,11 +400,13 @@ class CountryViewModelTest {
         assertEquals(ScreenState.Loading, regionStatsLoading)
         assertEquals(ScreenState.Loading, subRegionStatsLoading)
         assertTrue(regionStatsSuccess is ScreenState.Render)
-        assertTrue((regionStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceAndStats)
+        assertTrue((regionStatsSuccess as ScreenState.Render)
+            .renderState is PlaceStateScreen.SuccessPlaceAndStats)
         assertEquals(stateRegionOneStatsSuccessData,
             (regionStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceAndStats).data)
         assertTrue(subRegionStatsSuccess is ScreenState.Render)
-        assertTrue((subRegionStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceStats)
+        assertTrue((subRegionStatsSuccess as ScreenState.Render)
+            .renderState is PlaceStateScreen.SuccessPlaceStats)
         assertEquals(stateListSubRegionStatsSuccessData,
             (subRegionStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceStats).data)
     }
@@ -405,11 +438,13 @@ class CountryViewModelTest {
         assertEquals(ScreenState.Loading, regionStatsLoading)
         assertEquals(ScreenState.Loading, subRegionStatsLoading)
         assertTrue(regionStatsSuccess is ScreenState.Render)
-        assertTrue((regionStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceAndStats)
+        assertTrue((regionStatsSuccess as ScreenState.Render)
+            .renderState is PlaceStateScreen.SuccessPlaceAndStats)
         assertEquals(stateRegionOneStatsSuccessData,
             (regionStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceAndStats).data)
         assertTrue(subRegionStatsSuccess is ScreenState.Render)
-        assertTrue((subRegionStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceStats)
+        assertTrue((subRegionStatsSuccess as ScreenState.Render)
+            .renderState is PlaceStateScreen.SuccessPlaceStats)
         assertEquals(stateScreenListSubRegionStatsEmptySuccessData,
             (subRegionStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceStats).data)
     }
@@ -438,11 +473,13 @@ class CountryViewModelTest {
         val regionStatsSuccess = captor.secondValue
 
         assertTrue(countryStatsSuccess is ScreenState.Render)
-        assertTrue((countryStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceTotalStatsBarChart)
+        assertTrue((countryStatsSuccess as ScreenState.Render)
+            .renderState is PlaceStateScreen.SuccessPlaceTotalStatsBarChart)
         assertEquals(stateListCountryOnlyStatsBarChartSuccessData,
             (countryStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceTotalStatsBarChart).data)
         assertTrue(regionStatsSuccess is ScreenState.Render)
-        assertTrue((regionStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceStatsBarChart)
+        assertTrue((regionStatsSuccess as ScreenState.Render)
+            .renderState is PlaceStateScreen.SuccessPlaceStatsBarChart)
         assertEquals(stateListRegionAndStatsBarChartSuccessData,
             (regionStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceStatsBarChart).data)
     }
@@ -471,11 +508,13 @@ class CountryViewModelTest {
         val regionStatsSuccess = captor.secondValue
 
         assertTrue(countryStatsSuccess is ScreenState.Render)
-        assertTrue((countryStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceTotalStatsBarChart)
+        assertTrue((countryStatsSuccess as ScreenState.Render)
+            .renderState is PlaceStateScreen.SuccessPlaceTotalStatsBarChart)
         assertEquals(stateListCountryOnlyStatsBarChartSuccessData,
             (countryStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceTotalStatsBarChart).data)
         assertTrue(regionStatsSuccess is ScreenState.Render)
-        assertTrue((regionStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceStatsBarChart)
+        assertTrue((regionStatsSuccess as ScreenState.Render)
+            .renderState is PlaceStateScreen.SuccessPlaceStatsBarChart)
         assertEquals(stateScreenListSubRegionStatsBarChartEmptySuccessData,
             (regionStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceStatsBarChart).data)
     }
@@ -532,11 +571,13 @@ class CountryViewModelTest {
         val subRegionStatsSuccess = captor.secondValue
 
         assertTrue(regionStatsSuccess is ScreenState.Render)
-        assertTrue((regionStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceTotalStatsBarChart)
+        assertTrue((regionStatsSuccess as ScreenState.Render)
+            .renderState is PlaceStateScreen.SuccessPlaceTotalStatsBarChart)
         assertEquals(stateListRegionOnlyStatsBarChartSuccessData,
             (regionStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceTotalStatsBarChart).data)
         assertTrue(subRegionStatsSuccess is ScreenState.Render)
-        assertTrue((subRegionStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceStatsBarChart)
+        assertTrue((subRegionStatsSuccess as ScreenState.Render)
+            .renderState is PlaceStateScreen.SuccessPlaceStatsBarChart)
         assertEquals(stateListSubRegionAndStatsBarChartSuccessData,
             (subRegionStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceStatsBarChart).data)
     }
@@ -565,11 +606,13 @@ class CountryViewModelTest {
         val subRegionStatsSuccess = captor.secondValue
 
         assertTrue(regionStatsSuccess is ScreenState.Render)
-        assertTrue((regionStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceTotalStatsBarChart)
+        assertTrue((regionStatsSuccess as ScreenState.Render)
+            .renderState is PlaceStateScreen.SuccessPlaceTotalStatsBarChart)
         assertEquals(stateListRegionOnlyStatsBarChartSuccessData,
             (regionStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceTotalStatsBarChart).data)
         assertTrue(subRegionStatsSuccess is ScreenState.Render)
-        assertTrue((subRegionStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceStatsBarChart)
+        assertTrue((subRegionStatsSuccess as ScreenState.Render)
+            .renderState is PlaceStateScreen.SuccessPlaceStatsBarChart)
         assertEquals(stateListSubRegionAndStatsBarChartEmptySuccessData,
             (subRegionStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceStatsBarChart).data)
     }
@@ -601,11 +644,13 @@ class CountryViewModelTest {
         assertEquals(ScreenState.Loading, countryStatsLoading)
         assertEquals(ScreenState.Loading, regionStatsLoading)
         assertTrue(countryStatsSuccess is ScreenState.Render)
-        assertTrue((countryStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceTotalStatsPieChart)
+        assertTrue((countryStatsSuccess as ScreenState.Render)
+            .renderState is PlaceStateScreen.SuccessPlaceTotalStatsPieChart)
         assertEquals(stateCountryOneStatsPieChartSuccessData,
             (countryStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceTotalStatsPieChart).data)
         assertTrue(regionStatsSuccess is ScreenState.Render)
-        assertTrue((regionStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceAndStatsPieChart)
+        assertTrue((regionStatsSuccess as ScreenState.Render)
+            .renderState is PlaceStateScreen.SuccessPlaceAndStatsPieChart)
         assertEquals(stateListRegionStatsPieChartSuccessData,
             (regionStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceAndStatsPieChart).data)
     }
@@ -637,11 +682,13 @@ class CountryViewModelTest {
         assertEquals(ScreenState.Loading, countryStatsLoading)
         assertEquals(ScreenState.Loading, regionStatsLoading)
         assertTrue(countryStatsSuccess is ScreenState.Render)
-        assertTrue((countryStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceTotalStatsPieChart)
+        assertTrue((countryStatsSuccess as ScreenState.Render)
+            .renderState is PlaceStateScreen.SuccessPlaceTotalStatsPieChart)
         assertEquals(stateCountryOneStatsPieChartSuccessData,
             (countryStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceTotalStatsPieChart).data)
         assertTrue(regionStatsSuccess is ScreenState.Render)
-        assertTrue((regionStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceAndStatsPieChart)
+        assertTrue((regionStatsSuccess as ScreenState.Render)
+            .renderState is PlaceStateScreen.SuccessPlaceAndStatsPieChart)
         assertEquals(stateScreenListRegionStatsPieChartEmptySuccessData,
             (regionStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceAndStatsPieChart).data)
     }
@@ -702,11 +749,13 @@ class CountryViewModelTest {
         assertEquals(ScreenState.Loading, regionStatsLoading)
         assertEquals(ScreenState.Loading, subRegionStatsLoading)
         assertTrue(regionStatsSuccess is ScreenState.Render)
-        assertTrue((regionStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceTotalStatsPieChart)
+        assertTrue((regionStatsSuccess as ScreenState.Render)
+            .renderState is PlaceStateScreen.SuccessPlaceTotalStatsPieChart)
         assertEquals(stateRegionOneStatsPieChartSuccessData,
             (regionStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceTotalStatsPieChart).data)
         assertTrue(subRegionStatsSuccess is ScreenState.Render)
-        assertTrue((subRegionStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceAndStatsPieChart)
+        assertTrue((subRegionStatsSuccess as ScreenState.Render)
+            .renderState is PlaceStateScreen.SuccessPlaceAndStatsPieChart)
         assertEquals(stateListSubRegionStatsPieChartSuccessData,
             (subRegionStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceAndStatsPieChart).data)
     }
@@ -738,37 +787,319 @@ class CountryViewModelTest {
         assertEquals(ScreenState.Loading, regionStatsLoading)
         assertEquals(ScreenState.Loading, subRegionStatsLoading)
         assertTrue(regionStatsSuccess is ScreenState.Render)
-        assertTrue((regionStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceTotalStatsPieChart)
+        assertTrue((regionStatsSuccess as ScreenState.Render)
+            .renderState is PlaceStateScreen.SuccessPlaceTotalStatsPieChart)
         assertEquals(stateRegionOneStatsPieChartSuccessData,
             (regionStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceTotalStatsPieChart).data)
         assertTrue(subRegionStatsSuccess is ScreenState.Render)
-        assertTrue((subRegionStatsSuccess as ScreenState.Render).renderState is PlaceStateScreen.SuccessPlaceAndStatsPieChart)
+        assertTrue((subRegionStatsSuccess as ScreenState.Render)
+            .renderState is PlaceStateScreen.SuccessPlaceAndStatsPieChart)
         assertEquals(stateScreenListSubRegionStatsPieChartEmptySuccessData,
             (subRegionStatsSuccess.renderState as PlaceStateScreen.SuccessPlaceAndStatsPieChart).data)
     }
 
     @Test
     fun `get line chart stats for a country with no region selected should return loading and success`() {
+        val regionStatsMostConfirmedFlow = flow {
+            emit(Either.right(stateMenuItemViewTypeListRegionAndStatsLoading))
+            emit(Either.right(stateLineChartMostConfirmedListRegionAndStatsSuccess))
+        }
 
+        val regionStatsMostDeathsFlow = flow {
+            emit(Either.right(stateMenuItemViewTypeListRegionAndStatsLoading))
+            emit(Either.right(stateLineChartMostDeathsListRegionAndStatsSuccess))
+        }
+
+        val regionStatsMostRecoveredFlow = flow {
+            emit(Either.right(stateMenuItemViewTypeListRegionAndStatsLoading))
+            emit(Either.right(stateLineChartMostRecoveredListRegionAndStatsSuccess))
+        }
+
+        val regionStatsMostOpenCasesFlow = flow {
+            emit(Either.right(stateMenuItemViewTypeListRegionAndStatsLoading))
+            emit(Either.right(stateLineChartMostOpenCasesListRegionAndStatsSuccess))
+        }
+
+        whenever(getRegionStats.getRegionsAndStatsWithMostConfirmed(any())).thenReturn(regionStatsMostConfirmedFlow)
+        whenever(getRegionStats.getRegionsAndStatsWithMostDeaths(any())).thenReturn(regionStatsMostDeathsFlow)
+        whenever(getRegionStats.getRegionsAndStatsWithMostRecovered(any())).thenReturn(regionStatsMostRecoveredFlow)
+        whenever(getRegionStats.getRegionsAndStatsWithMostOpenCases(any())).thenReturn(regionStatsMostOpenCasesFlow)
+
+        countryViewModel.getLineChartStats("id_country")
+
+        verify(stateObserver, Mockito.times(8)).onChanged(captor.capture())
+
+        val regionStatsMostConfirmedLoading = captor.allValues[0]
+        val regionStatsMostConfirmedSuccess = captor.allValues[1]
+        val regionStatsMostDeathsLoading = captor.allValues[2]
+        val regionStatsMostDeathsSuccess = captor.allValues[3]
+        val regionStatsMostRecoveredLoading = captor.allValues[4]
+        val regionStatsMostRecoveredSuccess = captor.allValues[5]
+        val regionStatsMostOpenCasesLoading = captor.allValues[6]
+        val regionStatsMostOpenCasesSuccess = captor.allValues[7]
+
+        assertEquals(ScreenState.Loading, regionStatsMostConfirmedLoading)
+        assertEquals(ScreenState.Loading, regionStatsMostDeathsLoading)
+        assertEquals(ScreenState.Loading, regionStatsMostRecoveredLoading)
+        assertEquals(ScreenState.Loading, regionStatsMostOpenCasesLoading)
+        assertTrue(regionStatsMostConfirmedSuccess is ScreenState.Render)
+        assertTrue((regionStatsMostConfirmedSuccess as ScreenState.Render)
+            .renderState is PlaceStateScreen.SuccessPlaceStatsLineCharts)
+        assertEquals(stateLineChartMostConfirmedListRegionAndStatsSuccessData[MenuItemViewType.LineChartMostConfirmed],
+            (regionStatsMostConfirmedSuccess.renderState as PlaceStateScreen.SuccessPlaceStatsLineCharts)
+                .data[MenuItemViewType.LineChartMostConfirmed])
+        assertTrue(regionStatsMostDeathsSuccess is ScreenState.Render)
+        assertTrue((regionStatsMostDeathsSuccess as ScreenState.Render)
+            .renderState is PlaceStateScreen.SuccessPlaceStatsLineCharts)
+        assertEquals(stateLineChartMostDeathsListRegionAndStatsSuccessData[MenuItemViewType.LineChartMostDeaths],
+            (regionStatsMostDeathsSuccess.renderState as PlaceStateScreen.SuccessPlaceStatsLineCharts)
+                .data[MenuItemViewType.LineChartMostDeaths])
+        assertTrue(regionStatsMostRecoveredSuccess is ScreenState.Render)
+        assertTrue((regionStatsMostRecoveredSuccess as ScreenState.Render)
+            .renderState is PlaceStateScreen.SuccessPlaceStatsLineCharts)
+        assertEquals(stateLineChartMostRecoveredListRegionAndStatsSuccessData[MenuItemViewType.LineChartMostRecovered],
+            (regionStatsMostRecoveredSuccess.renderState as PlaceStateScreen.SuccessPlaceStatsLineCharts)
+                .data[MenuItemViewType.LineChartMostRecovered])
+        assertTrue(regionStatsMostOpenCasesSuccess is ScreenState.Render)
+        assertTrue((regionStatsMostOpenCasesSuccess as ScreenState.Render)
+            .renderState is PlaceStateScreen.SuccessPlaceStatsLineCharts)
+        assertEquals(stateLineChartMostOpenCasesListRegionAndStatsSuccessData[MenuItemViewType.LineChartMostOpenCases],
+            (regionStatsMostOpenCasesSuccess.renderState as PlaceStateScreen.SuccessPlaceStatsLineCharts)
+                .data[MenuItemViewType.LineChartMostOpenCases])
     }
 
     @Test
-    fun `get line chart stats for a country with empty regions should return loading and success`() {
+    fun `get line chart stats for a country with empty regions should return loading and empty data success`() {
+        val regionStatsMostConfirmedFlow = flow {
+            emit(Either.right(stateMenuItemViewTypeListRegionAndStatsLoading))
+            emit(Either.right(stateLineChartMostConfirmedListRegionAndStatsEmptySuccess))
+        }
 
+        val regionStatsMostDeathsFlow = flow {
+            emit(Either.right(stateMenuItemViewTypeListRegionAndStatsLoading))
+            emit(Either.right(stateLineChartMostDeathsListRegionAndStatsEmptySuccess))
+        }
+
+        val regionStatsMostRecoveredFlow = flow {
+            emit(Either.right(stateMenuItemViewTypeListRegionAndStatsLoading))
+            emit(Either.right(stateLineChartMostRecoveredListRegionAndStatsEmptySuccess))
+        }
+
+        val regionStatsMostOpenCasesFlow = flow {
+            emit(Either.right(stateMenuItemViewTypeListRegionAndStatsLoading))
+            emit(Either.right(stateLineChartMostOpenCasesListRegionAndStatsEmptySuccess))
+        }
+
+        whenever(getRegionStats.getRegionsAndStatsWithMostConfirmed(any())).thenReturn(regionStatsMostConfirmedFlow)
+        whenever(getRegionStats.getRegionsAndStatsWithMostDeaths(any())).thenReturn(regionStatsMostDeathsFlow)
+        whenever(getRegionStats.getRegionsAndStatsWithMostRecovered(any())).thenReturn(regionStatsMostRecoveredFlow)
+        whenever(getRegionStats.getRegionsAndStatsWithMostOpenCases(any())).thenReturn(regionStatsMostOpenCasesFlow)
+
+        countryViewModel.getLineChartStats("id_country")
+
+        verify(stateObserver, Mockito.times(8)).onChanged(captor.capture())
+
+        val regionStatsMostConfirmedLoading = captor.allValues[0]
+        val regionStatsMostConfirmedEmptyDataSuccess = captor.allValues[1]
+        val regionStatsMostDeathsLoading = captor.allValues[2]
+        val regionStatsMostDeathsEmptyDataSuccess = captor.allValues[3]
+        val regionStatsMostRecoveredLoading = captor.allValues[4]
+        val regionStatsMostRecoveredEmptyDataSuccess = captor.allValues[5]
+        val regionStatsMostOpenCasesLoading = captor.allValues[6]
+        val regionStatsMostOpenCasesEmptyDataSuccess = captor.allValues[7]
+
+        assertEquals(ScreenState.Loading, regionStatsMostConfirmedLoading)
+        assertEquals(ScreenState.Loading, regionStatsMostDeathsLoading)
+        assertEquals(ScreenState.Loading, regionStatsMostRecoveredLoading)
+        assertEquals(ScreenState.Loading, regionStatsMostOpenCasesLoading)
+        assertTrue(regionStatsMostConfirmedEmptyDataSuccess is ScreenState.EmptyData)
+        assertTrue(regionStatsMostDeathsEmptyDataSuccess is ScreenState.EmptyData)
+        assertTrue(regionStatsMostRecoveredEmptyDataSuccess is ScreenState.EmptyData)
+        assertTrue(regionStatsMostOpenCasesEmptyDataSuccess is ScreenState.EmptyData)
     }
 
     @Test
     fun `get line chart stats for a country should return loading and error if database is empty`() {
+        val regionStatsMostConfirmedFlow = flow {
+            emit(Either.right(stateMenuItemViewTypeListRegionAndStatsLoading))
+            emit(Either.left(stateErrorDatabaseEmpty))
+        }
 
+        val regionStatsMostDeathsFlow = flow {
+            emit(Either.right(stateMenuItemViewTypeListRegionAndStatsLoading))
+            emit(Either.left(stateErrorDatabaseEmpty))
+        }
+
+        val regionStatsMostRecoveredFlow = flow {
+            emit(Either.right(stateMenuItemViewTypeListRegionAndStatsLoading))
+            emit(Either.left(stateErrorDatabaseEmpty))
+        }
+
+        val regionStatsMostOpenCasesFlow = flow {
+            emit(Either.right(stateMenuItemViewTypeListRegionAndStatsLoading))
+            emit(Either.left(stateErrorDatabaseEmpty))
+        }
+
+        whenever(getRegionStats.getRegionsAndStatsWithMostConfirmed(any())).thenReturn(regionStatsMostConfirmedFlow)
+        whenever(getRegionStats.getRegionsAndStatsWithMostDeaths(any())).thenReturn(regionStatsMostDeathsFlow)
+        whenever(getRegionStats.getRegionsAndStatsWithMostRecovered(any())).thenReturn(regionStatsMostRecoveredFlow)
+        whenever(getRegionStats.getRegionsAndStatsWithMostOpenCases(any())).thenReturn(regionStatsMostOpenCasesFlow)
+
+        countryViewModel.getLineChartStats("id_country")
+
+        verify(stateObserver, Mockito.times(8)).onChanged(captor.capture())
+
+        val regionStatsMostConfirmedLoading = captor.allValues[0]
+        val regionStatsMostConfirmedError = captor.allValues[1]
+        val regionStatsMostDeathsLoading = captor.allValues[2]
+        val regionStatsMostDeathsError = captor.allValues[3]
+        val regionStatsMostRecoveredLoading = captor.allValues[4]
+        val regionStatsMostRecoveredError = captor.allValues[5]
+        val regionStatsMostOpenCasesLoading = captor.allValues[6]
+        val regionStatsMostOpenCasesError = captor.allValues[7]
+
+        assertEquals(ScreenState.Loading, regionStatsMostConfirmedLoading)
+        assertEquals(ScreenState.Loading, regionStatsMostDeathsLoading)
+        assertEquals(ScreenState.Loading, regionStatsMostRecoveredLoading)
+        assertEquals(ScreenState.Loading, regionStatsMostOpenCasesLoading)
+        assertTrue(regionStatsMostConfirmedError is ScreenState.Error)
+        assertTrue((regionStatsMostConfirmedError as ScreenState.Error).errorState is PlaceStateScreen.SomeError)
+        assertEquals(placeStateScreenErrorDatabaseEmptyData,
+            (regionStatsMostConfirmedError.errorState as PlaceStateScreen.SomeError).data)
+
+        assertTrue(regionStatsMostDeathsError is ScreenState.Error)
+        assertTrue((regionStatsMostDeathsError as ScreenState.Error).errorState is PlaceStateScreen.SomeError)
+        assertEquals(placeStateScreenErrorDatabaseEmptyData,
+            (regionStatsMostDeathsError.errorState as PlaceStateScreen.SomeError).data)
+
+        assertTrue(regionStatsMostRecoveredError is ScreenState.Error)
+        assertTrue((regionStatsMostRecoveredError as ScreenState.Error).errorState is PlaceStateScreen.SomeError)
+        assertEquals(placeStateScreenErrorDatabaseEmptyData,
+            (regionStatsMostRecoveredError.errorState as PlaceStateScreen.SomeError).data)
+
+        assertTrue(regionStatsMostOpenCasesError is ScreenState.Error)
+        assertTrue((regionStatsMostOpenCasesError as ScreenState.Error).errorState is PlaceStateScreen.SomeError)
+        assertEquals(placeStateScreenErrorDatabaseEmptyData,
+            (regionStatsMostOpenCasesError.errorState as PlaceStateScreen.SomeError).data)
     }
 
     @Test
     fun `get line chart stats for a region with subregions should return loading and success`() {
+        val subRegionStatsMostConfirmedFlow = flow {
+            emit(Either.right(stateMenuItemViewTypeListSubRegionAndStatsLoading))
+            emit(Either.right(stateLineChartMostConfirmedListSubRegionAndStatsSuccess))
+        }
 
+        val subRegionStatsMostDeathsFlow = flow {
+            emit(Either.right(stateMenuItemViewTypeListSubRegionAndStatsLoading))
+            emit(Either.right(stateLineChartMostDeathsListSubRegionAndStatsSuccess))
+        }
+
+        val subRegionStatsMostRecoveredFlow = flow {
+            emit(Either.right(stateMenuItemViewTypeListSubRegionAndStatsLoading))
+            emit(Either.right(stateLineChartMostRecoveredListSubRegionAndStatsSuccess))
+        }
+
+        val subRegionStatsMostOpenCasesFlow = flow {
+            emit(Either.right(stateMenuItemViewTypeListSubRegionAndStatsLoading))
+            emit(Either.right(stateLineChartMostOpenCasesListSubRegionAndStatsSuccess))
+        }
+
+        whenever(getSubRegionStats.getSubRegionsAndStatsWithMostConfirmed(any(), any())).thenReturn(subRegionStatsMostConfirmedFlow)
+        whenever(getSubRegionStats.getSubRegionsAndStatsWithMostDeaths(any(), any())).thenReturn(subRegionStatsMostDeathsFlow)
+        whenever(getSubRegionStats.getSubRegionsAndStatsWithMostRecovered(any(), any())).thenReturn(subRegionStatsMostRecoveredFlow)
+        whenever(getSubRegionStats.getSubRegionsAndStatsWithMostOpenCases(any(), any())).thenReturn(subRegionStatsMostOpenCasesFlow)
+
+        countryViewModel.getLineChartStats("id_country", "id_region")
+
+        verify(stateObserver, Mockito.times(8)).onChanged(captor.capture())
+
+        val subRegionStatsMostConfirmedLoading = captor.allValues[0]
+        val subRegionStatsMostConfirmedSuccess = captor.allValues[1]
+        val subRegionStatsMostDeathsLoading = captor.allValues[2]
+        val subRegionStatsMostDeathsSuccess = captor.allValues[3]
+        val subRegionStatsMostRecoveredLoading = captor.allValues[4]
+        val subRegionStatsMostRecoveredSuccess = captor.allValues[5]
+        val subRegionStatsMostOpenCasesLoading = captor.allValues[6]
+        val subRegionStatsMostOpenCasesSuccess = captor.allValues[7]
+
+        assertEquals(ScreenState.Loading, subRegionStatsMostConfirmedLoading)
+        assertEquals(ScreenState.Loading, subRegionStatsMostDeathsLoading)
+        assertEquals(ScreenState.Loading, subRegionStatsMostRecoveredLoading)
+        assertEquals(ScreenState.Loading, subRegionStatsMostOpenCasesLoading)
+        assertTrue(subRegionStatsMostConfirmedSuccess is ScreenState.Render)
+        assertTrue((subRegionStatsMostConfirmedSuccess as ScreenState.Render)
+            .renderState is PlaceStateScreen.SuccessPlaceStatsLineCharts)
+        assertEquals(stateLineChartMostConfirmedListSubRegionAndStatsSuccessData[MenuItemViewType.LineChartMostConfirmed],
+            (subRegionStatsMostConfirmedSuccess.renderState as PlaceStateScreen.SuccessPlaceStatsLineCharts)
+                .data[MenuItemViewType.LineChartMostConfirmed])
+        assertTrue(subRegionStatsMostDeathsSuccess is ScreenState.Render)
+        assertTrue((subRegionStatsMostDeathsSuccess as ScreenState.Render)
+            .renderState is PlaceStateScreen.SuccessPlaceStatsLineCharts)
+        assertEquals(stateLineChartMostDeathsListSubRegionAndStatsSuccessData[MenuItemViewType.LineChartMostDeaths],
+            (subRegionStatsMostDeathsSuccess.renderState as PlaceStateScreen.SuccessPlaceStatsLineCharts)
+                .data[MenuItemViewType.LineChartMostDeaths])
+        assertTrue(subRegionStatsMostRecoveredSuccess is ScreenState.Render)
+        assertTrue((subRegionStatsMostRecoveredSuccess as ScreenState.Render)
+            .renderState is PlaceStateScreen.SuccessPlaceStatsLineCharts)
+        assertEquals(stateLineChartMostRecoveredListSubRegionAndStatsSuccessData[MenuItemViewType.LineChartMostRecovered],
+            (subRegionStatsMostRecoveredSuccess.renderState as PlaceStateScreen.SuccessPlaceStatsLineCharts)
+                .data[MenuItemViewType.LineChartMostRecovered])
+        assertTrue(subRegionStatsMostOpenCasesSuccess is ScreenState.Render)
+        assertTrue((subRegionStatsMostOpenCasesSuccess as ScreenState.Render)
+            .renderState is PlaceStateScreen.SuccessPlaceStatsLineCharts)
+        assertEquals(stateLineChartMostOpenCasesListSubRegionAndStatsSuccessData[MenuItemViewType.LineChartMostOpenCases],
+            (subRegionStatsMostOpenCasesSuccess.renderState as PlaceStateScreen.SuccessPlaceStatsLineCharts)
+                .data[MenuItemViewType.LineChartMostOpenCases])
     }
 
     @Test
-    fun `get line chart stats for a region with empty subregions should return loading and empty data`() {
+    fun `get line chart stats for a region with empty subregions should return loading and empty data success`() {
+        val subRegionStatsMostConfirmedFlow = flow {
+            emit(Either.right(stateMenuItemViewTypeListSubRegionAndStatsLoading))
+            emit(Either.right(stateLineChartMostConfirmedListSubRegionAndStatsEmptySuccess))
+        }
 
+        val subRegionStatsMostDeathsFlow = flow {
+            emit(Either.right(stateMenuItemViewTypeListSubRegionAndStatsLoading))
+            emit(Either.right(stateLineChartMostDeathsListSubRegionAndStatsEmptySuccess))
+        }
+
+        val subRegionStatsMostRecoveredFlow = flow {
+            emit(Either.right(stateMenuItemViewTypeListSubRegionAndStatsLoading))
+            emit(Either.right(stateLineChartMostRecoveredListSubRegionAndStatsEmptySuccess))
+        }
+
+        val subRegionStatsMostOpenCasesFlow = flow {
+            emit(Either.right(stateMenuItemViewTypeListSubRegionAndStatsLoading))
+            emit(Either.right(stateLineChartMostOpenCasesListSubRegionAndStatsEmptySuccess))
+        }
+
+        whenever(getSubRegionStats.getSubRegionsAndStatsWithMostConfirmed(any(), any())).thenReturn(subRegionStatsMostConfirmedFlow)
+        whenever(getSubRegionStats.getSubRegionsAndStatsWithMostDeaths(any(), any())).thenReturn(subRegionStatsMostDeathsFlow)
+        whenever(getSubRegionStats.getSubRegionsAndStatsWithMostRecovered(any(), any())).thenReturn(subRegionStatsMostRecoveredFlow)
+        whenever(getSubRegionStats.getSubRegionsAndStatsWithMostOpenCases(any(), any())).thenReturn(subRegionStatsMostOpenCasesFlow)
+
+        countryViewModel.getLineChartStats("id_country", "id_region")
+
+        verify(stateObserver, Mockito.times(8)).onChanged(captor.capture())
+
+        val subRegionStatsMostConfirmedLoading = captor.allValues[0]
+        val subRegionStatsMostConfirmedEmptyDataSuccess = captor.allValues[1]
+        val subRegionStatsMostDeathsLoading = captor.allValues[2]
+        val subRegionStatsMostDeathsEmptyDataSuccess = captor.allValues[3]
+        val subRegionStatsMostRecoveredLoading = captor.allValues[4]
+        val subRegionStatsMostRecoveredEmptyDataSuccess = captor.allValues[5]
+        val subRegionStatsMostOpenCasesLoading = captor.allValues[6]
+        val subRegionStatsMostOpenCasesEmptyDataSuccess = captor.allValues[7]
+
+        assertEquals(ScreenState.Loading, subRegionStatsMostConfirmedLoading)
+        assertEquals(ScreenState.Loading, subRegionStatsMostDeathsLoading)
+        assertEquals(ScreenState.Loading, subRegionStatsMostRecoveredLoading)
+        assertEquals(ScreenState.Loading, subRegionStatsMostOpenCasesLoading)
+        assertTrue(subRegionStatsMostConfirmedEmptyDataSuccess is ScreenState.EmptyData)
+        assertTrue(subRegionStatsMostDeathsEmptyDataSuccess is ScreenState.EmptyData)
+        assertTrue(subRegionStatsMostRecoveredEmptyDataSuccess is ScreenState.EmptyData)
+        assertTrue(subRegionStatsMostOpenCasesEmptyDataSuccess is ScreenState.EmptyData)
     }
 }

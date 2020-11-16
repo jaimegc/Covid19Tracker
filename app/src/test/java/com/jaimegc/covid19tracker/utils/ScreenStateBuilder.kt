@@ -62,6 +62,12 @@ object ScreenStateBuilder {
 
     val stateListRegionAndStatsLoading: State<ListRegionAndStats> = State.Loading()
 
+    val stateMenuItemViewTypeListRegionAndStatsLoading: State<Pair<MenuItemViewType, ListRegionAndStats>> =
+        State.Loading()
+
+    val stateMenuItemViewTypeListSubRegionAndStatsLoading: State<Pair<MenuItemViewType, ListSubRegionAndStats>> =
+        State.Loading()
+
     val stateListRegionOnlyStatsLoading: State<ListRegionOnlyStats> = State.Loading()
 
     val stateListSubRegionAndStatsLoading: State<ListSubRegionAndStats> = State.Loading()
@@ -115,6 +121,30 @@ object ScreenStateBuilder {
     val stateListRegionAndStatsSuccess: State<ListRegionAndStats> =
         State.Success(listRegionAndStats)
 
+    val stateLineChartMostConfirmedListRegionAndStatsSuccess: State<Pair<MenuItemViewType, ListRegionAndStats>> =
+        State.Success(Pair(MenuItemViewType.LineChartMostConfirmed, listRegionAndStats))
+
+    val stateLineChartMostDeathsListRegionAndStatsSuccess: State<Pair<MenuItemViewType, ListRegionAndStats>> =
+        State.Success(Pair(MenuItemViewType.LineChartMostDeaths, listRegionAndStats))
+
+    val stateLineChartMostRecoveredListRegionAndStatsSuccess: State<Pair<MenuItemViewType, ListRegionAndStats>> =
+        State.Success(Pair(MenuItemViewType.LineChartMostRecovered, listRegionAndStats))
+
+    val stateLineChartMostOpenCasesListRegionAndStatsSuccess: State<Pair<MenuItemViewType, ListRegionAndStats>> =
+        State.Success(Pair(MenuItemViewType.LineChartMostOpenCases, listRegionAndStats))
+
+    val stateLineChartMostConfirmedListSubRegionAndStatsSuccess: State<Pair<MenuItemViewType, ListSubRegionAndStats>> =
+        State.Success(Pair(MenuItemViewType.LineChartMostConfirmed, listSubRegionAndStats))
+
+    val stateLineChartMostDeathsListSubRegionAndStatsSuccess: State<Pair<MenuItemViewType, ListSubRegionAndStats>> =
+        State.Success(Pair(MenuItemViewType.LineChartMostDeaths, listSubRegionAndStats))
+
+    val stateLineChartMostRecoveredListSubRegionAndStatsSuccess: State<Pair<MenuItemViewType, ListSubRegionAndStats>> =
+        State.Success(Pair(MenuItemViewType.LineChartMostRecovered, listSubRegionAndStats))
+
+    val stateLineChartMostOpenCasesListSubRegionAndStatsSuccess: State<Pair<MenuItemViewType, ListSubRegionAndStats>> =
+        State.Success(Pair(MenuItemViewType.LineChartMostOpenCases, listSubRegionAndStats))
+
     val stateListRegionOnlyStatsSuccess: State<ListRegionOnlyStats> =
         State.Success(listRegionOnlyStats)
 
@@ -135,6 +165,30 @@ object ScreenStateBuilder {
 
     val stateListSubRegionAndStatsEmptySuccess: State<ListSubRegionAndStats> =
         State.Success(ListSubRegionAndStats(subRegionStats = listOf()))
+
+    val stateLineChartMostConfirmedListRegionAndStatsEmptySuccess: State<Pair<MenuItemViewType, ListRegionAndStats>> =
+        State.EmptyData()
+
+    val stateLineChartMostDeathsListRegionAndStatsEmptySuccess: State<Pair<MenuItemViewType, ListRegionAndStats>> =
+        State.EmptyData()
+
+    val stateLineChartMostRecoveredListRegionAndStatsEmptySuccess: State<Pair<MenuItemViewType, ListRegionAndStats>> =
+        State.EmptyData()
+
+    val stateLineChartMostOpenCasesListRegionAndStatsEmptySuccess: State<Pair<MenuItemViewType, ListRegionAndStats>> =
+        State.EmptyData()
+
+    val stateLineChartMostConfirmedListSubRegionAndStatsEmptySuccess: State<Pair<MenuItemViewType, ListSubRegionAndStats>> =
+        State.EmptyData()
+
+    val stateLineChartMostDeathsListSubRegionAndStatsEmptySuccess: State<Pair<MenuItemViewType, ListSubRegionAndStats>> =
+        State.EmptyData()
+
+    val stateLineChartMostRecoveredListSubRegionAndStatsEmptySuccess: State<Pair<MenuItemViewType, ListSubRegionAndStats>> =
+        State.EmptyData()
+
+    val stateLineChartMostOpenCasesListSubRegionAndStatsEmptySuccess: State<Pair<MenuItemViewType, ListSubRegionAndStats>> =
+        State.EmptyData()
 
     val stateErrorDatabaseEmpty: StateError<DomainError> =
         StateError.Error(DomainError.DatabaseEmptyData)
@@ -277,6 +331,67 @@ object ScreenStateBuilder {
         ScreenState.Render(
             PlaceStateScreen.SuccessPlaceStatsBarChart((stateListRegionAndStatsSuccess as State.Success).data.toPlaceUI()
         )).renderState.data
+
+    val stateLineChartMostConfirmedListRegionAndStatsSuccessData =
+        (stateLineChartMostConfirmedListRegionAndStatsSuccess as State.Success).let { state ->
+            ScreenState.Render(
+                PlaceStateScreen.SuccessPlaceStatsLineCharts(mapOf(state.data.first to state.data.second.toPlaceUI()))
+            ).renderState.data
+        }
+
+    val stateLineChartMostDeathsListRegionAndStatsSuccessData =
+        (stateLineChartMostDeathsListRegionAndStatsSuccess as State.Success).let { state ->
+            ScreenState.Render(
+                PlaceStateScreen.SuccessPlaceStatsLineCharts(mapOf(state.data.first to state.data.second.toPlaceUI()))
+            ).renderState.data
+        }
+
+    val stateLineChartMostRecoveredListRegionAndStatsSuccessData =
+        (stateLineChartMostRecoveredListRegionAndStatsSuccess as State.Success).let { state ->
+            ScreenState.Render(
+                PlaceStateScreen.SuccessPlaceStatsLineCharts(mapOf(state.data.first to state.data.second.toPlaceUI()))
+            ).renderState.data
+        }
+
+    val stateLineChartMostOpenCasesListRegionAndStatsSuccessData =
+        (stateLineChartMostOpenCasesListRegionAndStatsSuccess as State.Success).let { state ->
+            ScreenState.Render(
+                PlaceStateScreen.SuccessPlaceStatsLineCharts(mapOf(state.data.first to state.data.second.toPlaceUI()))
+            ).renderState.data
+        }
+
+
+
+
+
+
+    val stateLineChartMostConfirmedListSubRegionAndStatsSuccessData =
+        (stateLineChartMostConfirmedListSubRegionAndStatsSuccess as State.Success).let { state ->
+            ScreenState.Render(
+                PlaceStateScreen.SuccessPlaceStatsLineCharts(mapOf(state.data.first to state.data.second.toPlaceUI()))
+            ).renderState.data
+        }
+
+    val stateLineChartMostDeathsListSubRegionAndStatsSuccessData =
+        (stateLineChartMostDeathsListSubRegionAndStatsSuccess as State.Success).let { state ->
+            ScreenState.Render(
+                PlaceStateScreen.SuccessPlaceStatsLineCharts(mapOf(state.data.first to state.data.second.toPlaceUI()))
+            ).renderState.data
+        }
+
+    val stateLineChartMostRecoveredListSubRegionAndStatsSuccessData =
+        (stateLineChartMostRecoveredListSubRegionAndStatsSuccess as State.Success).let { state ->
+            ScreenState.Render(
+                PlaceStateScreen.SuccessPlaceStatsLineCharts(mapOf(state.data.first to state.data.second.toPlaceUI()))
+            ).renderState.data
+        }
+
+    val stateLineChartMostOpenCasesListSubRegionAndStatsSuccessData =
+        (stateLineChartMostOpenCasesListSubRegionAndStatsSuccess as State.Success).let { state ->
+            ScreenState.Render(
+                PlaceStateScreen.SuccessPlaceStatsLineCharts(mapOf(state.data.first to state.data.second.toPlaceUI()))
+            ).renderState.data
+        }
 
     val stateListRegionOnlyStatsBarChartSuccessData =
         ScreenState.Render(
