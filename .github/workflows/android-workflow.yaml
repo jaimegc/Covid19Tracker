@@ -28,7 +28,7 @@ jobs:
       - name: Detekt code analysis
         uses: natiginfo/action-detekt-all@1.15.0-RC1
         with:
-          args: --fail-fast --config detekt.yml
+          args: --fail-fast --config /detekt.yml
 
       - name: Run unit tests
         run: ./gradlew testDebugUnitTest --stacktrace
