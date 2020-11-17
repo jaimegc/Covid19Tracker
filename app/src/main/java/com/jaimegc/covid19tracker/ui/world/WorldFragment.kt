@@ -5,7 +5,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ConcatAdapter
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.common.extensions.containsAdapter
@@ -53,7 +52,7 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
 
         viewModel.screenState.observe(
             viewLifecycleOwner,
-            Observer { screenState ->
+            { screenState ->
                 when (screenState) {
                     ScreenState.Loading ->
                         if (concatAdapter.adapters.isEmpty()) binding.loading.layout.show()
@@ -68,7 +67,7 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
             }
         )
 
-        viewModel.getListChartStats()
+        viewModel.getListStats()
         setHasOptionsMenu(true)
     }
 
@@ -133,7 +132,7 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
                     menu.enableItem(menuItemList)
                     currentMenuItem = menuItemList
                     concatAdapter.removeAllAdapters()
-                    viewModel.getListChartStats()
+                    viewModel.getListStats()
                 }
                 true
             }

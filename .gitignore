@@ -47,16 +47,11 @@ proguard/
 captures/
  
 # Intellij
-*.iml
 /.idea
  
 # Keystore files
 *.jks
  
-# External native build folder generated in Android Studio 2.2 and later
-.externalNativeBuild
- 
 # Others
-.DS_Store
 /keystore.properties
 app/google-services.json

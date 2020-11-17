@@ -5,7 +5,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ConcatAdapter
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.common.extensions.containsAdapter
@@ -65,7 +64,7 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
 
         viewModel.screenState.observe(
             viewLifecycleOwner,
-            Observer { screenState ->
+            { screenState ->
                 when (screenState) {
                     ScreenState.Loading ->
                         if (concatAdapter.adapters.isEmpty()) {

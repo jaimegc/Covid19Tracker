@@ -43,13 +43,13 @@ class WorldViewModel(
     private var jobMostOpenCases: Job? = null
     private var jobMostRecovered: Job? = null
 
-    fun getListChartStats() =
-        listOrPieChartStats(MenuItemViewType.List)
+    fun getListStats() =
+        listAndPieChartStats(MenuItemViewType.List)
 
     fun getPieChartStats() =
-        listOrPieChartStats(MenuItemViewType.PieChart)
+        listAndPieChartStats(MenuItemViewType.PieChart)
 
-    private fun listOrPieChartStats(viewType: MenuItemViewType) {
+    private fun listAndPieChartStats(viewType: MenuItemViewType) {
         cancelAll()
         jobWorldAndContries = viewModelScope.launch {
             val date = "" // Empty to get the last date or use yyyy-MM-dd
