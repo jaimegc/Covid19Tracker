@@ -246,6 +246,5 @@ class CovidTrackerRepository(
                 local.getRegionAndStatsByDate(idCountry, idRegion, date)
         }.asFlow().flowOn(Dispatchers.IO)
 
-    suspend fun getAllDates(): Either<DomainError, List<String>> =
-        local.getAllDates()
+    suspend fun getAllDates(): Either<DomainError, List<String>> = local.getAllDates()
 }

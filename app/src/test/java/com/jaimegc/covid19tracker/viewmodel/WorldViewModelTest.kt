@@ -24,7 +24,7 @@ import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListCountryAndSt
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListCountryAndStatsSuccess
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListWorldStatsLoading
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListWorldStatsSuccess
-import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateScreenErrorDatabaseEmptyData
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.worldStateScreenErrorDatabaseEmptyData
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateScreenSuccessCountriesStatsPieChartData
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateScreenSuccessCovidTrackerData
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateScreenSuccessListCountryAndStatsBarChartData
@@ -71,7 +71,7 @@ class WorldViewModelTest {
     }
 
     @Test
-    fun `get list chart stats should return loading and success if date exists`() {
+    fun `get list stats should return loading and success if date exists`() {
         val flow = flow {
             emit(Either.right(stateCovidTrackerLoading))
             emit(Either.right(stateCovidSuccess))
@@ -79,7 +79,7 @@ class WorldViewModelTest {
 
         whenever(getWorldAndCountries.getWorldAndCountriesByDate()).thenReturn(flow)
 
-        worldViewModel.getListChartStats()
+        worldViewModel.getListStats()
 
         verify(stateObserver, Mockito.times(2)).onChanged(captor.capture())
 
@@ -98,7 +98,7 @@ class WorldViewModelTest {
      *****************************************************************/
 
     @Test
-    fun `get list chart stats should return loading and success if date exists using getOrAwaitValue & observeForTesting`() {
+    fun `get list stats should return loading and success if date exists using getOrAwaitValue & observeForTesting`() {
         val flow = flow {
             emit(Either.right(stateCovidTrackerLoading))
             delay(10)
@@ -107,7 +107,7 @@ class WorldViewModelTest {
 
         whenever(getWorldAndCountries.getWorldAndCountriesByDate()).thenReturn(flow)
 
-        worldViewModel.getListChartStats()
+        worldViewModel.getListStats()
 
         worldViewModel.screenState.getOrAwaitValue {
             val loading = worldViewModel.screenState.value
@@ -117,12 +117,13 @@ class WorldViewModelTest {
             assertEquals(ScreenState.Loading, loading)
             assertNotNull(success)
             assertTrue(success is ScreenState.Render)
-            assertTrue((success as ScreenState.Render).renderState is WorldStateScreen.SuccessCovidTracker)
+            assertTrue((success as ScreenState.Render)
+                .renderState is WorldStateScreen.SuccessCovidTracker)
             assertEquals(stateScreenSuccessCovidTrackerData,
                 (success.renderState as WorldStateScreen.SuccessCovidTracker).data)
         }
 
-        worldViewModel.getListChartStats()
+        worldViewModel.getListStats()
 
         worldViewModel.screenState.observeForTesting {
             val loading = worldViewModel.screenState.value
@@ -132,7 +133,8 @@ class WorldViewModelTest {
             assertEquals(ScreenState.Loading, loading)
             assertNotNull(success)
             assertTrue(success is ScreenState.Render)
-            assertTrue((success as ScreenState.Render).renderState is WorldStateScreen.SuccessCovidTracker)
+            assertTrue((success as ScreenState.Render)
+                .renderState is WorldStateScreen.SuccessCovidTracker)
             assertEquals(stateScreenSuccessCovidTrackerData,
                 (success.renderState as WorldStateScreen.SuccessCovidTracker).data)
         }
@@ -141,7 +143,7 @@ class WorldViewModelTest {
     /***********************************************************************************************/
 
     @Test
-    fun `get list chart stats should return loading and error database empty if date doesnt exist`() {
+    fun `get list stats should return loading and error database empty if date doesnt exist`() {
         val flow = flow {
             emit(Either.right(stateCovidTrackerLoading))
             emit(Either.left(stateErrorDatabaseEmpty))
@@ -149,7 +151,7 @@ class WorldViewModelTest {
 
         whenever(getWorldAndCountries.getWorldAndCountriesByDate()).thenReturn(flow)
 
-        worldViewModel.getListChartStats()
+        worldViewModel.getListStats()
 
         verify(stateObserver, Mockito.times(2)).onChanged(captor.capture())
 
@@ -159,7 +161,7 @@ class WorldViewModelTest {
         assertEquals(ScreenState.Loading, loading)
         assertTrue(error is ScreenState.Error)
         assertTrue((error as ScreenState.Error).errorState is WorldStateScreen.SomeError)
-        assertEquals(stateScreenErrorDatabaseEmptyData,
+        assertEquals(worldStateScreenErrorDatabaseEmptyData,
             (error.errorState as WorldStateScreen.SomeError).data)
     }
 
@@ -181,7 +183,8 @@ class WorldViewModelTest {
 
         assertEquals(ScreenState.Loading, loading)
         assertTrue(success is ScreenState.Render)
-        assertTrue((success as ScreenState.Render).renderState is WorldStateScreen.SuccessCountriesStatsPieCharts)
+        assertTrue((success as ScreenState.Render)
+            .renderState is WorldStateScreen.SuccessCountriesStatsPieCharts)
         assertEquals(stateScreenSuccessCountriesStatsPieChartData,
             (success.renderState as WorldStateScreen.SuccessCountriesStatsPieCharts).data)
     }
@@ -205,7 +208,7 @@ class WorldViewModelTest {
         assertEquals(ScreenState.Loading, loading)
         assertTrue(error is ScreenState.Error)
         assertTrue((error as ScreenState.Error).errorState is WorldStateScreen.SomeError)
-        assertEquals(stateScreenErrorDatabaseEmptyData,
+        assertEquals(worldStateScreenErrorDatabaseEmptyData,
             (error.errorState as WorldStateScreen.SomeError).data)
     }
 
@@ -236,11 +239,13 @@ class WorldViewModelTest {
         assertEquals(ScreenState.Loading, worldLoading)
         assertEquals(ScreenState.Loading, countriesLoading)
         assertTrue(worldSuccess is ScreenState.Render)
-        assertTrue((worldSuccess as ScreenState.Render).renderState is WorldStateScreen.SuccessWorldStatsBarCharts)
+        assertTrue((worldSuccess as ScreenState.Render)
+            .renderState is WorldStateScreen.SuccessWorldStatsBarCharts)
         assertEquals(stateScreenSuccessListWorldStatsPieChartData,
             (worldSuccess.renderState as WorldStateScreen.SuccessWorldStatsBarCharts).data)
         assertTrue(countriesSuccess is ScreenState.Render)
-        assertTrue((countriesSuccess as ScreenState.Render).renderState is WorldStateScreen.SuccessCountriesStatsBarCharts)
+        assertTrue((countriesSuccess as ScreenState.Render)
+            .renderState is WorldStateScreen.SuccessCountriesStatsBarCharts)
         assertEquals(stateScreenSuccessListCountryAndStatsBarChartData,
             (countriesSuccess.renderState as WorldStateScreen.SuccessCountriesStatsBarCharts).data)
     }
@@ -273,11 +278,11 @@ class WorldViewModelTest {
         assertEquals(ScreenState.Loading, countriesLoading)
         assertTrue(worldError is ScreenState.Error)
         assertTrue((worldError as ScreenState.Error).errorState is WorldStateScreen.SomeError)
-        assertEquals(stateScreenErrorDatabaseEmptyData,
+        assertEquals(worldStateScreenErrorDatabaseEmptyData,
             (worldError.errorState as WorldStateScreen.SomeError).data)
         assertTrue(countriesError is ScreenState.Error)
         assertTrue((countriesError as ScreenState.Error).errorState is WorldStateScreen.SomeError)
-        assertEquals(stateScreenErrorDatabaseEmptyData,
+        assertEquals(worldStateScreenErrorDatabaseEmptyData,
             (countriesError.errorState as WorldStateScreen.SomeError).data)
     }
 
@@ -326,21 +331,29 @@ class WorldViewModelTest {
         assertEquals(ScreenState.Loading, mostOpenCasesLoading)
         assertEquals(ScreenState.Loading, mostRecoveredLoading)
         assertTrue(mostConfirmedSuccess is ScreenState.Render)
-        assertTrue((mostConfirmedSuccess as ScreenState.Render).renderState is WorldStateScreen.SuccessCountriesStatsLineCharts)
+        assertTrue((mostConfirmedSuccess as ScreenState.Render)
+            .renderState is WorldStateScreen.SuccessCountriesStatsLineCharts)
         assertEquals(stateScreenSuccessListCountryAndStatsLineChartMostConfirmedData[MenuItemViewType.LineChartMostConfirmed],
-            (mostConfirmedSuccess.renderState as WorldStateScreen.SuccessCountriesStatsLineCharts).data[MenuItemViewType.LineChartMostConfirmed])
+            (mostConfirmedSuccess.renderState as WorldStateScreen.SuccessCountriesStatsLineCharts)
+                .data[MenuItemViewType.LineChartMostConfirmed])
         assertTrue(mostDeathsSuccess is ScreenState.Render)
-        assertTrue((mostDeathsSuccess as ScreenState.Render).renderState is WorldStateScreen.SuccessCountriesStatsLineCharts)
+        assertTrue((mostDeathsSuccess as ScreenState.Render)
+            .renderState is WorldStateScreen.SuccessCountriesStatsLineCharts)
         assertEquals(stateScreenSuccessListCountryAndStatsLineChartMostDeathsData[MenuItemViewType.LineChartMostDeaths],
-            (mostDeathsSuccess.renderState as WorldStateScreen.SuccessCountriesStatsLineCharts).data[MenuItemViewType.LineChartMostDeaths])
+            (mostDeathsSuccess.renderState as WorldStateScreen.SuccessCountriesStatsLineCharts)
+                .data[MenuItemViewType.LineChartMostDeaths])
         assertTrue(mostOpenCasesSuccess is ScreenState.Render)
-        assertTrue((mostOpenCasesSuccess as ScreenState.Render).renderState is WorldStateScreen.SuccessCountriesStatsLineCharts)
+        assertTrue((mostOpenCasesSuccess as ScreenState.Render)
+            .renderState is WorldStateScreen.SuccessCountriesStatsLineCharts)
         assertEquals(stateScreenSuccessListCountryAndStatsLineChartMostOpenCasesData[MenuItemViewType.LineChartMostOpenCases],
-            (mostOpenCasesSuccess.renderState as WorldStateScreen.SuccessCountriesStatsLineCharts).data[MenuItemViewType.LineChartMostOpenCases])
+            (mostOpenCasesSuccess.renderState as WorldStateScreen.SuccessCountriesStatsLineCharts)
+                .data[MenuItemViewType.LineChartMostOpenCases])
         assertTrue(mostRecoveredSuccess is ScreenState.Render)
-        assertTrue((mostRecoveredSuccess as ScreenState.Render).renderState is WorldStateScreen.SuccessCountriesStatsLineCharts)
+        assertTrue((mostRecoveredSuccess as ScreenState.Render)
+            .renderState is WorldStateScreen.SuccessCountriesStatsLineCharts)
         assertEquals(stateScreenSuccessListCountryAndStatsLineChartMostRecoveredData[MenuItemViewType.LineChartMostRecovered],
-            (mostRecoveredSuccess.renderState as WorldStateScreen.SuccessCountriesStatsLineCharts).data[MenuItemViewType.LineChartMostRecovered])
+            (mostRecoveredSuccess.renderState as WorldStateScreen.SuccessCountriesStatsLineCharts)
+                .data[MenuItemViewType.LineChartMostRecovered])
     }
 
     @Test
@@ -389,19 +402,19 @@ class WorldViewModelTest {
         assertEquals(ScreenState.Loading, mostRecoveredLoading)
         assertTrue(mostConfirmedError is ScreenState.Error)
         assertTrue((mostConfirmedError as ScreenState.Error).errorState is WorldStateScreen.SomeError)
-        assertEquals(stateScreenErrorDatabaseEmptyData,
+        assertEquals(worldStateScreenErrorDatabaseEmptyData,
             (mostConfirmedError.errorState as WorldStateScreen.SomeError).data)
         assertTrue(mostDeathsError is ScreenState.Error)
         assertTrue((mostDeathsError as ScreenState.Error).errorState is WorldStateScreen.SomeError)
-        assertEquals(stateScreenErrorDatabaseEmptyData,
+        assertEquals(worldStateScreenErrorDatabaseEmptyData,
             (mostDeathsError.errorState as WorldStateScreen.SomeError).data)
         assertTrue(mostOpenCasesError is ScreenState.Error)
         assertTrue((mostOpenCasesError as ScreenState.Error).errorState is WorldStateScreen.SomeError)
-        assertEquals(stateScreenErrorDatabaseEmptyData,
+        assertEquals(worldStateScreenErrorDatabaseEmptyData,
             (mostOpenCasesError.errorState as WorldStateScreen.SomeError).data)
         assertTrue(mostRecoveredError is ScreenState.Error)
         assertTrue((mostRecoveredError as ScreenState.Error).errorState is WorldStateScreen.SomeError)
-        assertEquals(stateScreenErrorDatabaseEmptyData,
+        assertEquals(worldStateScreenErrorDatabaseEmptyData,
             (mostRecoveredError.errorState as WorldStateScreen.SomeError).data)
     }
 }

@@ -1,20 +1,19 @@
 package com.jaimegc.covid19tracker.viewmodel
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import arrow.core.Either
-import com.jaimegc.covid19tracker.data.repository.CovidTrackerRepository
 import com.jaimegc.covid19tracker.domain.model.CovidTracker
 import com.jaimegc.covid19tracker.domain.model.DomainError
 import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.domain.states.StateError
 import com.jaimegc.covid19tracker.domain.usecase.GetCovidTracker
 import com.jaimegc.covid19tracker.ui.home.MainViewModel
+import com.jaimegc.covid19tracker.utils.MainCoroutineRule
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCovidSuccess
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateErrorDatabaseEmpty
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCovidTrackerLoading
-import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import dev.olog.flow.test.observer.test
 import kotlinx.coroutines.delay
@@ -24,17 +23,22 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
 class MainViewModelTest {
 
+    @get:Rule
+    val instantExecutorRule = InstantTaskExecutorRule()
+
+    @get:Rule
+    val coroutineScope = MainCoroutineRule()
+
     private lateinit var mainViewModel: MainViewModel
-    private lateinit var getCovidTracker: GetCovidTracker
-    private val repository: CovidTrackerRepository = mock()
+    private val getCovidTracker: GetCovidTracker = mock()
 
     @Before
     fun setup() {
-        getCovidTracker = GetCovidTracker(repository)
         mainViewModel = MainViewModel(getCovidTracker)
     }
 
@@ -80,13 +84,6 @@ class MainViewModelTest {
                 1 -> assertEquals(data, Either.left(stateErrorDatabaseEmpty))
             }
         }
-    }
-
-    @Test
-    fun `get covid tracker by date should call repository`() = runBlockingTest {
-        getCovidTracker.getCovidTrackerByDate()
-
-        verify(repository).getCovidTrackerByDate(any())
     }
 
     /**************
