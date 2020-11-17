@@ -15,7 +15,7 @@ env:
 jobs:
   test:
     name: Build and run tests
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
     steps:
