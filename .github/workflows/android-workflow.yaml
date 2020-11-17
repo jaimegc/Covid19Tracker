@@ -15,7 +15,7 @@ env:
 jobs:
   test:
     name: Build and run tests
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     strategy:
       fail-fast: false
     steps:
@@ -25,10 +25,10 @@ jobs:
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1
 
-      - name: Detekt code analysis
-        uses: natiginfo/action-detekt-all@1.15.0-RC1
-        with:
-          args: --fail-fast --config /detekt.yml
+      #- name: Detekt code analysis
+      #  uses: natiginfo/action-detekt-all@1.15.0-RC1
+      #  with:
+      #    args: --fail-fast --config /detekt.yml
 
       - name: Run unit tests
         run: ./gradlew testDebugUnitTest --stacktrace
