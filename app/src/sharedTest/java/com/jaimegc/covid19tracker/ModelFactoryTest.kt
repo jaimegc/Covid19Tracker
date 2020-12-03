@@ -1,4 +1,4 @@
-package com.jaimegc.covid19tracker.utils
+package com.jaimegc.covid19tracker
 
 import com.jaimegc.covid19tracker.data.api.model.CovidTrackerDateCountryDto
 import com.jaimegc.covid19tracker.data.api.model.CovidTrackerDateDto
@@ -60,7 +60,7 @@ import com.jaimegc.covid19tracker.ui.model.WorldCountryStatsUI
 import com.jaimegc.covid19tracker.ui.model.WorldStatsChartUI
 import com.jaimegc.covid19tracker.ui.model.WorldStatsUI
 
-object ModelBuilder {
+object ModelFactoryTest {
     val stats =
         Stats(
             dateTimestamp = 1601596800000L,
