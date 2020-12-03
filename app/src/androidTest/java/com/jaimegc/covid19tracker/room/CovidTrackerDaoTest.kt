@@ -37,7 +37,8 @@ class CovidTrackerDaoTest : DatabaseTest() {
     @Test
     fun getWorldAndCountriesStatsByDate_shouldReturnPojo() = runBlocking {
         covidTrackerDao.getWorldAndCountriesStatsByDate(
-            worldAndCountriesStatsPojo.worldStats!!.dateTimestamp).take(1).collect {
+            worldAndCountriesStatsPojo.worldStats!!.dateTimestamp
+        ).take(1).collect {
                 assertThat(it).isEqualTo(worldAndCountriesStatsPojo)
         }
     }
