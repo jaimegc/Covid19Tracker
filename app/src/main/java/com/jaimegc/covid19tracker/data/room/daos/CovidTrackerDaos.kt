@@ -25,7 +25,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 abstract class CovidTrackerDao {
-
     @Transaction
     @Query("SELECT * FROM world_stats WHERE date_timestamp = :dateTimestamp")
     abstract fun getWorldAndCountriesStatsByDate(dateTimestamp: Long): Flow<WorldAndCountriesStatsPojo>
@@ -84,7 +83,6 @@ abstract class CovidTrackerDao {
 
 @Dao
 abstract class WorldStatsDao {
-
     @Query("SELECT * FROM world_stats ORDER BY date_timestamp ASC")
     abstract fun getAll(): Flow<List<WorldStatsEntity>>
 
@@ -94,7 +92,6 @@ abstract class WorldStatsDao {
 
 @Dao
 abstract class CountryStatsDao {
-
     @Query("SELECT * FROM country_stats ORDER BY date_timestamp ASC")
     abstract fun getAll(): Flow<List<CountryStatsEntity>>
 
@@ -210,14 +207,12 @@ abstract class CountryStatsDao {
 
 @Dao
 abstract class CountryDao {
-
     @Query("SELECT * FROM country ORDER BY name ASC")
     abstract fun getAll(): Flow<List<CountryEntity>>
 }
 
 @Dao
 abstract class RegionDao {
-
     @Query("SELECT * FROM region ORDER BY name ASC")
     abstract fun getAll(): Flow<List<RegionEntity>>
 

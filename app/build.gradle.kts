@@ -1,7 +1,6 @@
 plugins {
     id("com.android.application")
     kotlin("android")
-    kotlin("android.extensions")
     kotlin("kapt")
     id("name.remal.check-dependency-updates")
     // Uncomment this line and add your own google-services file to use Firebase
@@ -47,6 +46,15 @@ android {
 
     buildFeatures {
         viewBinding = true
+    }
+
+    packagingOptions {
+        exclude("META-INF/AL2.0")
+        exclude("META-INF/LGPL2.1")
+    }
+
+    sourceSets["main"].java {
+        srcDir("src/sharedTest/java")
     }
 }
 
