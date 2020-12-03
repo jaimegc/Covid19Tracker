@@ -24,7 +24,7 @@ object Versions {
         const val KOTLIN = "1.4.20"
         const val MAVEN_PLUGIN = "2.1"
         const val GOOGLE_SERVICES = "4.3.4"
-        const val REMAL_PLUGIN = "1.1.4"
+        const val REMAL_PLUGIN = "1.1.5"
     }
 
     object Kotlin {
@@ -40,7 +40,7 @@ object Versions {
             const val ESPRESSO = "3.3.0"
             const val JUNIT_EXT = "1.1.2"
             const val LIFECYCLE = "2.2.0"
-            const val NAVIGATION = "2.3.1"
+            const val NAVIGATION = "2.3.2"
             const val RECYCLERVIEW = "1.2.0-alpha04"
             const val TEST_RULES = "1.3.0"
             const val TEST_RUNNER = "1.2.0"
@@ -88,7 +88,7 @@ object Versions {
 
     object Detekt {
         const val DETEKT = "1.14.2"
-        const val DETEKT_FORMATTING = "1.13.0"
+        const val DETEKT_FORMATTING = "1.12.0"
     }
 
     object Arrow {
