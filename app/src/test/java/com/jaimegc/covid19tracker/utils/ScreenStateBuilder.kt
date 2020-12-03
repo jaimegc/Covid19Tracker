@@ -25,19 +25,19 @@ import com.jaimegc.covid19tracker.ui.model.toListChartUI
 import com.jaimegc.covid19tracker.ui.model.toPlaceChartUI
 import com.jaimegc.covid19tracker.ui.model.toPlaceUI
 import com.jaimegc.covid19tracker.ui.model.toUI
-import com.jaimegc.covid19tracker.utils.ModelBuilder.countryOneStats
-import com.jaimegc.covid19tracker.utils.ModelBuilder.covidTracker
-import com.jaimegc.covid19tracker.utils.ModelBuilder.listCountry
-import com.jaimegc.covid19tracker.utils.ModelBuilder.listCountryAndStats
-import com.jaimegc.covid19tracker.utils.ModelBuilder.listCountryOnlyStats
-import com.jaimegc.covid19tracker.utils.ModelBuilder.listRegion
-import com.jaimegc.covid19tracker.utils.ModelBuilder.listRegionAndStats
-import com.jaimegc.covid19tracker.utils.ModelBuilder.listRegionOnlyStats
-import com.jaimegc.covid19tracker.utils.ModelBuilder.listRegionStats
-import com.jaimegc.covid19tracker.utils.ModelBuilder.listSubRegionAndStats
-import com.jaimegc.covid19tracker.utils.ModelBuilder.listSubRegionStats
-import com.jaimegc.covid19tracker.utils.ModelBuilder.listWorldStats
-import com.jaimegc.covid19tracker.utils.ModelBuilder.regionOneStats
+import com.jaimegc.covid19tracker.ModelFactoryTest.countryOneStats
+import com.jaimegc.covid19tracker.ModelFactoryTest.covidTracker
+import com.jaimegc.covid19tracker.ModelFactoryTest.listCountry
+import com.jaimegc.covid19tracker.ModelFactoryTest.listCountryAndStats
+import com.jaimegc.covid19tracker.ModelFactoryTest.listCountryOnlyStats
+import com.jaimegc.covid19tracker.ModelFactoryTest.listRegion
+import com.jaimegc.covid19tracker.ModelFactoryTest.listRegionAndStats
+import com.jaimegc.covid19tracker.ModelFactoryTest.listRegionOnlyStats
+import com.jaimegc.covid19tracker.ModelFactoryTest.listRegionStats
+import com.jaimegc.covid19tracker.ModelFactoryTest.listSubRegionAndStats
+import com.jaimegc.covid19tracker.ModelFactoryTest.listSubRegionStats
+import com.jaimegc.covid19tracker.ModelFactoryTest.listWorldStats
+import com.jaimegc.covid19tracker.ModelFactoryTest.regionOneStats
 
 object ScreenStateBuilder {
     val stateCovidTrackerLoading: State<CovidTracker> = State.Loading()
