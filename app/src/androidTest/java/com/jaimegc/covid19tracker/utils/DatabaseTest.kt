@@ -16,7 +16,7 @@ import org.junit.runner.RunWith
 import java.util.concurrent.Executors
 
 @RunWith(AndroidJUnit4::class)
-open class DatabaseTest {
+abstract class DatabaseTest {
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
 
