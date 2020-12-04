@@ -2,6 +2,7 @@ package com.jaimegc.covid19tracker.room
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
+import com.jaimegc.covid19tracker.ModelFactoryTest.listWorldStatsEntity
 import com.jaimegc.covid19tracker.ModelFactoryTest.worldStatsEntity
 import com.jaimegc.covid19tracker.data.room.daos.WorldStatsDao
 import com.jaimegc.covid19tracker.utils.DatabaseTest
@@ -30,7 +31,7 @@ class WorldStatsDaoTest : DatabaseTest() {
     @Test
     fun getAll_shouldReturnWorldStats() = runBlocking {
         worldStatsDao.getAll().take(1).collect {
-            assertThat(it).isEqualTo(listOf(worldStatsEntity))
+            assertThat(it).isEqualTo(listWorldStatsEntity)
         }
     }
 
