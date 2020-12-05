@@ -46,7 +46,7 @@ class CountryStatsDaoTest : DatabaseTest() {
     }
 
     @Test
-    fun getById_shouldReturnRegionsByCountry() = runBlocking {
+    fun getById_shouldReturnStatsByCountry() = runBlocking {
         countryStats.getById(
             country.id
         ).take(1).collect {
