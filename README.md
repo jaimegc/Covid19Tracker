@@ -222,6 +222,17 @@ The data for any other day, from the last one in the local database until the cu
   - NumberExtension: 6 ✔️
   - DateExtension: 3 ✔️
 
+### Integration Tests (42 ✅)
+
+- Daos: 42 ✅
+  - RegionStatsDao: 15 ✔️
+  - SubRegionStatsDao: 12 ✔️
+  - CountryStatsDao: 8 ✔️
+  - CovidTrackerDao: 2 ✔️
+  - RegionDao: 2 ✔️
+  - WorldStatsDao: 2 ✔️
+  - CountryDao: 1 ✔️
+
 ### GitHub Actions
 
 For now, only configured for unit tests. You can see the config file [here](./.github/workflows/android-workflow.yaml).
