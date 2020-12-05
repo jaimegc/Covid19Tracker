@@ -106,7 +106,10 @@ class UIMapperTest {
 
     @Test
     fun `subRegionDomain to place ui`() {
-        assertEquals(placeUI, subRegion.toPlaceUI())
+        assertEquals(
+            placeUI.copy(id = subRegion.id, name = subRegion.name, nameEs = subRegion.nameEs),
+            subRegion.toPlaceUI()
+        )
     }
 
     @Test
@@ -126,7 +129,10 @@ class UIMapperTest {
 
     @Test
     fun `listSubRegionStatsDomain to place ui`() {
-        assertEquals(listSubRegionStatsPlaceUI, listSubRegionStats.toPlaceUI())
+        assertEquals(listOf(listSubRegionStatsPlaceUI[0].copy(
+            id = subRegion.id, name = subRegion.name, nameEs = subRegion.nameEs)),
+            listSubRegionStats.toPlaceUI()
+        )
     }
 
     @Test
@@ -146,7 +152,9 @@ class UIMapperTest {
 
     @Test
     fun `listSubRegionAndStatsDomain to place ui`() {
-        assertEquals(placeListStatsChartUI, listSubRegionAndStats.toPlaceUI())
+        assertEquals(listOf(placeListStatsChartUI[0].copy(
+            place = placeUI.copy(subRegion.id, name = subRegion.name, nameEs = subRegion.nameEs))
+        ), listSubRegionAndStats.toPlaceUI())
     }
 
     @Test
@@ -156,7 +164,9 @@ class UIMapperTest {
 
     @Test
     fun `listSubRegionStatsDomain to place chart ui`() {
-        assertEquals(listSubRegionPlaceStatsChartUI, listSubRegionStats.toPlaceChartUI())
+        assertEquals(listOf(listSubRegionPlaceStatsChartUI[0].copy(
+            place = placeUI.copy(id = subRegion.id, name = subRegion.name, nameEs = subRegion.nameEs))
+        ), listSubRegionStats.toPlaceChartUI())
     }
 
     @Test

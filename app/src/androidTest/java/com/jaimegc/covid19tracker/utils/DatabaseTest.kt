@@ -20,7 +20,7 @@ abstract class DatabaseTest {
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var covidTrackerDao: CovidTrackerDao
+    internal lateinit var covidTrackerDao: CovidTrackerDao
     internal lateinit var database: Covid19TrackerDatabase
 
     @Before

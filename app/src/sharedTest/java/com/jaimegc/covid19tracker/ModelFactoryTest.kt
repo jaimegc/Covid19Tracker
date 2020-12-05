@@ -149,9 +149,9 @@ object ModelFactoryTest {
 
     val subRegion =
         SubRegion(
-            id = "andalucia",
-            name = "Andalucia",
-            nameEs = "Andalucía"
+            id = "sevilla",
+            name = "Sevilla",
+            nameEs = "Sevilla"
         )
 
     val regionOneStats =
@@ -378,9 +378,9 @@ object ModelFactoryTest {
                     regions = null,
                     subRegions = listOf(
                         CovidTrackerDateCountryDto(
-                            id = region.id,
-                            name = region.name,
-                            nameEs = region.nameEs,
+                            id = subRegion.id,
+                            name = subRegion.name,
+                            nameEs = subRegion.nameEs,
                             source = "John Hopkins University",
                             todayConfirmed = stats.confirmed,
                             todayDeaths = stats.deaths,
@@ -458,9 +458,9 @@ object ModelFactoryTest {
 
     val subRegionEntity =
         SubRegionEntity(
-            id = region.id,
-            name = region.name,
-            nameEs = region.nameEs,
+            id = subRegion.id,
+            name = subRegion.name,
+            nameEs = subRegion.nameEs,
             idRegionFk = region.id,
             idCountryFk = country.id
         )
