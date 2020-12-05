@@ -275,7 +275,12 @@ class RegionStatsDaoTest : DatabaseTest() {
         val cataluna =
             regionEntity.copy(id = "cataluna", name = "Cataluña", nameEs = "Cataluña", idCountryFk = country.id)
         val extremadura =
-            regionEntity.copy(id = "extremadura", name = "Extremadura", nameEs = "Extremadura", idCountryFk = country.id)
+            regionEntity.copy(
+                id = "extremadura",
+                name = "Extremadura",
+                nameEs = "Extremadura",
+                idCountryFk = country.id
+            )
         val galicia =
             regionEntity.copy(id = "galicia", name = "Galicia", nameEs = "Galicia", idCountryFk = country.id)
         val madrid =
@@ -285,35 +290,50 @@ class RegionStatsDaoTest : DatabaseTest() {
             idCountryFk = country.id,
             idRegionFk = asturias.id,
             stats = regionStatsEntity.stats.copy(
-                confirmed = 8000L, deaths = 4000L, openCases = 8000L, recovered = 4000L
+                confirmed = 8000L,
+                deaths = 4000L,
+                openCases = 8000L,
+                recovered = 4000L
             )
         )
         val catalunaStats = regionStatsEntity.copy(
             idCountryFk = country.id,
             idRegionFk = cataluna.id,
             stats = regionStatsEntity.stats.copy(
-                confirmed = 7000L, deaths = 5000L, openCases = 7000L, recovered = 5000L
+                confirmed = 7000L,
+                deaths = 5000L,
+                openCases = 7000L,
+                recovered = 5000L
             )
         )
         val extremaduraStats = regionStatsEntity.copy(
             idCountryFk = country.id,
             idRegionFk = extremadura.id,
             stats = regionStatsEntity.stats.copy(
-                confirmed = 6000L, deaths = 6000L, openCases = 6000L, recovered = 6000L
+                confirmed = 6000L,
+                deaths = 6000L,
+                openCases = 6000L,
+                recovered = 6000L
             )
         )
         val galiciaStats = regionStatsEntity.copy(
             idCountryFk = country.id,
             idRegionFk = galicia.id,
             stats = regionStatsEntity.stats.copy(
-                confirmed = 5000L, deaths = 7000L, openCases = 5000L, recovered = 7000L
+                confirmed = 5000L,
+                deaths = 7000L,
+                openCases = 5000L,
+                recovered = 7000L
             )
         )
         val madridStats = regionStatsEntity.copy(
             idCountryFk = country.id,
             idRegionFk = madrid.id,
             stats = regionStatsEntity.stats.copy(
-                confirmed = 4000L, deaths = 8000L, openCases = 4000L, recovered = 8000L
+                confirmed = 4000L,
+                deaths = 8000L,
+                openCases = 4000L,
+                recovered = 8000L
             )
         )
 

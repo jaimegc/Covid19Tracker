@@ -247,59 +247,94 @@ class SubRegionStatsDaoTest : DatabaseTest() {
 
     private fun generateSubRegionsAndStats() = runBlocking {
         val almeria =
-            subRegionEntity.copy(id = "almeria", name = "Almeria", nameEs = "Almeria",
-                idRegionFk = region.id, idCountryFk = country.id
+            subRegionEntity.copy(
+                id = "almeria",
+                name = "Almeria",
+                nameEs = "Almeria",
+                idRegionFk = region.id,
+                idCountryFk = country.id
             )
         val cordoba =
-            subRegionEntity.copy(id = "cordoba", name = "Cordoba", nameEs = "Cordoba",
-                idRegionFk = region.id, idCountryFk = country.id
+            subRegionEntity.copy(
+                id = "cordoba",
+                name = "Cordoba",
+                nameEs = "Cordoba",
+                idRegionFk = region.id,
+                idCountryFk = country.id
             )
         val granada =
-            subRegionEntity.copy(id = "granada", name = "Granada", nameEs = "Granada",
-                idRegionFk = region.id, idCountryFk = country.id
+            subRegionEntity.copy(
+                id = "granada",
+                name = "Granada",
+                nameEs = "Granada",
+                idRegionFk = region.id,
+                idCountryFk = country.id
             )
         val huelva =
-            subRegionEntity.copy(id = "huelva", name = "Huelva", nameEs = "Huelva",
-                idRegionFk = region.id, idCountryFk = country.id
+            subRegionEntity.copy(
+                id = "huelva",
+                name = "Huelva",
+                nameEs = "Huelva",
+                idRegionFk = region.id,
+                idCountryFk = country.id
             )
         val malaga =
-            subRegionEntity.copy(id = "malaga", name = "Malaga", nameEs = "Malaga",
-                idRegionFk = region.id, idCountryFk = country.id
+            subRegionEntity.copy(
+                id = "malaga",
+                name = "Malaga",
+                nameEs = "Malaga",
+                idRegionFk = region.id,
+                idCountryFk = country.id
             )
 
         val almeriaStats = subRegionStatsEntity.copy(
             idRegionFk = region.id,
             idSubRegionFk = almeria.id,
             stats = subRegionStatsEntity.stats.copy(
-                confirmed = 8000L, deaths = 4000L, openCases = 8000L, recovered = 4000L
+                confirmed = 8000L,
+                deaths = 4000L,
+                openCases = 8000L,
+                recovered = 4000L
             )
         )
         val cordobaStats = subRegionStatsEntity.copy(
             idRegionFk = region.id,
             idSubRegionFk = cordoba.id,
             stats = subRegionStatsEntity.stats.copy(
-                confirmed = 7000L, deaths = 5000L, openCases = 7000L, recovered = 5000L
+                confirmed = 7000L,
+                deaths = 5000L,
+                openCases = 7000L,
+                recovered = 5000L
             )
         )
         val granadaStats = subRegionStatsEntity.copy(
             idRegionFk = region.id,
             idSubRegionFk = granada.id,
             stats = subRegionStatsEntity.stats.copy(
-                confirmed = 6000L, deaths = 6000L, openCases = 6000L, recovered = 6000L
+                confirmed = 6000L,
+                deaths = 6000L,
+                openCases = 6000L,
+                recovered = 6000L
             )
         )
         val huelvaStats = subRegionStatsEntity.copy(
             idRegionFk = region.id,
             idSubRegionFk = huelva.id,
             stats = subRegionStatsEntity.stats.copy(
-                confirmed = 5000L, deaths = 7000L, openCases = 5000L, recovered = 7000L
+                confirmed = 5000L,
+                deaths = 7000L,
+                openCases = 5000L,
+                recovered = 7000L
             )
         )
         val malagaStats = subRegionStatsEntity.copy(
             idRegionFk = region.id,
             idSubRegionFk = malaga.id,
             stats = subRegionStatsEntity.stats.copy(
-                confirmed = 4000L, deaths = 8000L, openCases = 4000L, recovered = 8000L
+                confirmed = 4000L,
+                deaths = 8000L,
+                openCases = 4000L,
+                recovered = 8000L
             )
         )
 
