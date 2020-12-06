@@ -72,7 +72,7 @@ object ScreenStateBuilder {
 
     val stateListSubRegionAndStatsLoading: State<ListSubRegionAndStats> = State.Loading()
 
-    val stateCovidSuccess: State<CovidTracker> = State.Success(covidTracker)
+    val stateCovidTrackerSuccess: State<CovidTracker> = State.Success(covidTracker)
 
     val stateListWorldStatsSuccess: State<ListWorldStats> = State.Success(listWorldStats)
 
@@ -195,13 +195,13 @@ object ScreenStateBuilder {
 
     val stateScreenSuccessCovidTrackerData =
         ScreenState.Render(
-            WorldStateScreen.SuccessCovidTracker((stateCovidSuccess as State.Success).data.toUI())
+            WorldStateScreen.SuccessCovidTracker((stateCovidTrackerSuccess as State.Success).data.toUI())
         ).renderState.data
 
     val stateScreenSuccessCountriesStatsPieChartData =
         ScreenState.Render(
             WorldStateScreen.SuccessCountriesStatsPieCharts(
-                (stateCovidSuccess as State.Success).data.toListChartUI())
+                (stateCovidTrackerSuccess as State.Success).data.toListChartUI())
         ).renderState.data
 
     val stateScreenSuccessListWorldStatsPieChartData =

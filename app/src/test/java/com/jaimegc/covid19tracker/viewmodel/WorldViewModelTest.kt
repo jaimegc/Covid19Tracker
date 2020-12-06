@@ -13,7 +13,7 @@ import com.jaimegc.covid19tracker.ui.base.states.ScreenState
 import com.jaimegc.covid19tracker.ui.base.states.WorldStateScreen
 import com.jaimegc.covid19tracker.ui.world.WorldViewModel
 import com.jaimegc.covid19tracker.utils.MainCoroutineRule
-import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCovidSuccess
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCovidTrackerSuccess
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateErrorDatabaseEmpty
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCovidTrackerLoading
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListCountryAndStatsLoading
@@ -74,7 +74,7 @@ class WorldViewModelTest {
     fun `get list stats should return loading and success if date exists`() {
         val flow = flow {
             emit(Either.right(stateCovidTrackerLoading))
-            emit(Either.right(stateCovidSuccess))
+            emit(Either.right(stateCovidTrackerSuccess))
         }
 
         whenever(getWorldAndCountries.getWorldAndCountriesByDate()).thenReturn(flow)
@@ -102,7 +102,7 @@ class WorldViewModelTest {
         val flow = flow {
             emit(Either.right(stateCovidTrackerLoading))
             delay(10)
-            emit(Either.right(stateCovidSuccess))
+            emit(Either.right(stateCovidTrackerSuccess))
         }
 
         whenever(getWorldAndCountries.getWorldAndCountriesByDate()).thenReturn(flow)
@@ -169,7 +169,7 @@ class WorldViewModelTest {
     fun `get pie chart stats should return loading and success if date exists`() {
         val flow = flow {
             emit(Either.right(stateCovidTrackerLoading))
-            emit(Either.right(stateCovidSuccess))
+            emit(Either.right(stateCovidTrackerSuccess))
         }
 
         whenever(getWorldAndCountries.getWorldAndCountriesByDate()).thenReturn(flow)
