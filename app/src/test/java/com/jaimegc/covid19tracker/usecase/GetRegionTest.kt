@@ -18,6 +18,10 @@ import org.junit.Test
 
 class GetRegionTest : UseCaseTest() {
 
+    companion object {
+        private const val ID_COUNTRY = "id_country"
+    }
+
     private lateinit var getRegion: GetRegion
 
     @Before
@@ -39,7 +43,7 @@ class GetRegionTest : UseCaseTest() {
 
         every { repository.getRegionsByCountry(any()) } returns flow
 
-        val flowUseCase = getRegion.getRegionsByCountry("id_country")
+        val flowUseCase = getRegion.getRegionsByCountry(ID_COUNTRY)
 
         verify { repository.getRegionsByCountry(any()) }
         flowUseCase.collectIndexed { index, data ->
@@ -59,7 +63,7 @@ class GetRegionTest : UseCaseTest() {
 
         every { repository.getRegionsByCountry(any()) } returns flow
 
-        val flowUseCase = getRegion.getRegionsByCountry("id_country")
+        val flowUseCase = getRegion.getRegionsByCountry(ID_COUNTRY)
 
         verify { repository.getRegionsByCountry(any()) }
         flowUseCase.collectIndexed { index, data ->
@@ -83,7 +87,7 @@ class GetRegionTest : UseCaseTest() {
 
         every { repository.getRegionsByCountry(any()) } returns flow
 
-        val flowUseCase = getRegion.getRegionsByCountry("id_country")
+        val flowUseCase = getRegion.getRegionsByCountry(ID_COUNTRY)
 
         verify { repository.getRegionsByCountry(any()) }
         flowUseCase.test(this) {
@@ -94,7 +98,7 @@ class GetRegionTest : UseCaseTest() {
     }
 
     @Test
-    fun `get regions by country with empty data should return loading and success using flow`() = runBlockingTest {
+    fun `get regions by country with empty data should return loading and success using flow test`() = runBlockingTest {
         val flow = flow {
             emit(Either.right(stateListRegionLoading))
             emit(Either.right(stateListRegionEmptySuccess))
@@ -102,7 +106,7 @@ class GetRegionTest : UseCaseTest() {
 
         every { repository.getRegionsByCountry(any()) } returns flow
 
-        val flowUseCase = getRegion.getRegionsByCountry("id_country")
+        val flowUseCase = getRegion.getRegionsByCountry(ID_COUNTRY)
 
         verify { repository.getRegionsByCountry(any()) }
         flowUseCase.test(this) {
