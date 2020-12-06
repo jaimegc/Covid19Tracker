@@ -42,6 +42,48 @@ class MainViewModelTest {
         mainViewModel = MainViewModel(getCovidTracker)
     }
 
+    /**************
+     *  Flow Test *
+     **************/
+
+    @Test
+    fun `get covid tracker by date should return loading and success if date exists using flow test`() = runBlockingTest {
+        val flow: Flow<Either<StateError<DomainError>, State<CovidTracker>>> = flow {
+            emit(Either.right(stateCovidTrackerLoading))
+            delay(10)
+            emit(Either.right(stateCovidSuccess))
+        }
+
+        whenever(getCovidTracker.getCovidTrackerByDate()).thenReturn(flow)
+
+        mainViewModel.getCovidTracker()
+
+        getCovidTracker.getCovidTrackerByDate().test(this) {
+            assertValues(Either.right(stateCovidTrackerLoading), Either.right(stateCovidSuccess))
+            assertValueCount(2)
+            assertComplete()
+        }
+    }
+
+    @Test
+    fun `get covid tracker by date should return loading and error database empty if date doesnt exist using flow test`() = runBlockingTest {
+        val flow: Flow<Either<StateError<DomainError>, State<CovidTracker>>> = flow {
+            emit(Either.right(stateCovidTrackerLoading))
+            delay(10)
+            emit(Either.left(stateErrorDatabaseEmpty))
+        }
+
+        whenever(getCovidTracker.getCovidTrackerByDate()).thenReturn(flow)
+
+        mainViewModel.getCovidTracker()
+
+        getCovidTracker.getCovidTrackerByDate().test(this) {
+            assertValues(Either.right(stateCovidTrackerLoading), Either.left(stateErrorDatabaseEmpty))
+            assertValueCount(2)
+            assertComplete()
+        }
+    }
+
     /*********************
      *  Mockito Kotlin 2 *
      *********************/
@@ -83,44 +125,6 @@ class MainViewModelTest {
                 0 -> assertEquals(data, Either.right(stateCovidTrackerLoading))
                 1 -> assertEquals(data, Either.left(stateErrorDatabaseEmpty))
             }
-        }
-    }
-
-    /**************
-     *  Flow Test *
-     **************/
-
-    @Test
-    fun `get covid tracker by date should return loading and success if date exists using flow test`() = runBlockingTest {
-        val flow: Flow<Either<StateError<DomainError>, State<CovidTracker>>> = flow {
-            emit(Either.right(stateCovidTrackerLoading))
-            delay(10)
-            emit(Either.right(stateCovidSuccess))
-        }
-
-        whenever(getCovidTracker.getCovidTrackerByDate()).thenReturn(flow)
-
-        getCovidTracker.getCovidTrackerByDate().test(this) {
-            assertValues(Either.right(stateCovidTrackerLoading), Either.right(stateCovidSuccess))
-            assertValueCount(2)
-            assertComplete()
-        }
-    }
-
-    @Test
-    fun `get covid tracker by date should return loading and error database empty if date doesnt exist using flow test`() = runBlockingTest {
-        val flow: Flow<Either<StateError<DomainError>, State<CovidTracker>>> = flow {
-            emit(Either.right(stateCovidTrackerLoading))
-            delay(10)
-            emit(Either.left(stateErrorDatabaseEmpty))
-        }
-
-        whenever(getCovidTracker.getCovidTrackerByDate()).thenReturn(flow)
-
-        getCovidTracker.getCovidTrackerByDate().test(this) {
-            assertValues(Either.right(stateCovidTrackerLoading), Either.left(stateErrorDatabaseEmpty))
-            assertValueCount(2)
-            assertComplete()
         }
     }
 }
