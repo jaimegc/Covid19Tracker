@@ -2,12 +2,8 @@ package com.jaimegc.covid19tracker.usecase
 
 import arrow.core.Either
 import com.google.common.truth.Truth.assertThat
-import com.jaimegc.covid19tracker.domain.usecase.GetCountry
 import com.jaimegc.covid19tracker.domain.usecase.GetRegion
-import com.jaimegc.covid19tracker.utils.ScreenStateBuilder
-import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateErrorDatabaseEmpty
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListRegionLoading
-import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListCountrySuccess
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListRegionEmptySuccess
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListRegionSuccess
 import com.jaimegc.covid19tracker.utils.UseCaseTest
