@@ -86,7 +86,6 @@ class GetCountryTest : UseCaseTest() {
         val flowUseCase = getCountry.getCountries()
 
         verify { repository.getCountries() }
-
         flowUseCase.test(this) {
             assertValues(Either.right(stateListCountryLoading), Either.right(stateListCountrySuccess))
             assertValueCount(2)
@@ -106,7 +105,6 @@ class GetCountryTest : UseCaseTest() {
         val flowUseCase = getCountry.getCountries()
 
         verify { repository.getCountries() }
-
         flowUseCase.test(this) {
             assertValues(Either.right(stateListCountryLoading), Either.left(stateErrorDatabaseEmpty))
             assertValueCount(2)
