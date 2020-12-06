@@ -9,7 +9,7 @@ import com.jaimegc.covid19tracker.domain.states.StateError
 import com.jaimegc.covid19tracker.domain.usecase.GetCovidTracker
 import com.jaimegc.covid19tracker.ui.home.MainViewModel
 import com.jaimegc.covid19tracker.utils.MainCoroutineRule
-import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCovidSuccess
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCovidTrackerSuccess
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateErrorDatabaseEmpty
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCovidTrackerLoading
 import com.nhaarman.mockitokotlin2.doReturn
@@ -51,7 +51,7 @@ class MainViewModelTest {
         val flow: Flow<Either<StateError<DomainError>, State<CovidTracker>>> = flow {
             emit(Either.right(stateCovidTrackerLoading))
             delay(10)
-            emit(Either.right(stateCovidSuccess))
+            emit(Either.right(stateCovidTrackerSuccess))
         }
 
         whenever(getCovidTracker.getCovidTrackerByDate()).thenReturn(flow)
@@ -59,7 +59,7 @@ class MainViewModelTest {
         mainViewModel.getCovidTracker()
 
         getCovidTracker.getCovidTrackerByDate().test(this) {
-            assertValues(Either.right(stateCovidTrackerLoading), Either.right(stateCovidSuccess))
+            assertValues(Either.right(stateCovidTrackerLoading), Either.right(stateCovidTrackerSuccess))
             assertValueCount(2)
             assertComplete()
         }
@@ -94,7 +94,7 @@ class MainViewModelTest {
             onBlocking { getCovidTrackerByDate() } doReturn flow {
                 emit(Either.right(stateCovidTrackerLoading))
                 delay(10)
-                emit(Either.right(stateCovidSuccess))
+                emit(Either.right(stateCovidTrackerSuccess))
             }
         }
 
@@ -103,7 +103,7 @@ class MainViewModelTest {
         flow.collectIndexed { index, data ->
             when (index) {
                 0 -> assertEquals(data, Either.right(stateCovidTrackerLoading))
-                1 -> assertEquals(data, Either.right(stateCovidSuccess))
+                1 -> assertEquals(data, Either.right(stateCovidTrackerSuccess))
             }
         }
     }
