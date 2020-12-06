@@ -84,6 +84,7 @@ object Versions {
         const val FLOW_TEST_OBSERVER = "1.5.0"
         const val JUNIT = "4.13.1"
         const val MOCKITO_KOTLIN = "2.2.0"
+        const val MOCKK = "1.10.3"
     }
 
     object Detekt {

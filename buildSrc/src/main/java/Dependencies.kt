@@ -95,6 +95,7 @@ object Dependencies {
     internal const val TEST_JUNIT = "junit:junit:${Versions.Test.JUNIT}"
     internal const val TEST_MOCKITO_KOTLIN =
         "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.Test.MOCKITO_KOTLIN}"
+    internal const val TEST_MOCKK = "io.mockk:mockk:${Versions.Test.MOCKK}"
 
     const val DETEKT = Versions.Detekt.DETEKT
     const val DETEKT_PLUGIN = "io.gitlab.arturbosch.detekt"
@@ -190,6 +191,7 @@ fun DependencyHandler.test() {
     testImplementation(Dependencies.TEST_FLOW_OBSERVER)
     testImplementation(Dependencies.TEST_JUNIT)
     testImplementation(Dependencies.TEST_MOCKITO_KOTLIN)
+    testImplementation(Dependencies.TEST_MOCKK)
 }
 
 fun DependencyHandler.detektFormatting() {
