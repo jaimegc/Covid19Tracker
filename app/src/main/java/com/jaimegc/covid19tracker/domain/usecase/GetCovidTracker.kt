@@ -1,6 +1,7 @@
 package com.jaimegc.covid19tracker.domain.usecase
 
 import arrow.core.Either
+import com.jaimegc.covid19tracker.common.extensions.millisecondsToDate
 import com.jaimegc.covid19tracker.data.repository.CovidTrackerRepository
 import com.jaimegc.covid19tracker.domain.model.CovidTracker
 import com.jaimegc.covid19tracker.domain.model.DomainError
@@ -13,7 +14,7 @@ class GetCovidTracker(
 ) {
 
     fun getCovidTrackerByDate(
-        date: String = ""
+        date: String = System.currentTimeMillis().millisecondsToDate()
     ): Flow<Either<StateError<DomainError>, State<CovidTracker>>> =
         repository.getCovidTrackerByDate(date)
 }
