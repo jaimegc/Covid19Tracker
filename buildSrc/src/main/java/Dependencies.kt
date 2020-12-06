@@ -187,6 +187,7 @@ fun DependencyHandler.test() {
     androidTestImplementation(Dependencies.TEST_COROUTINES)
 
     testImplementation(Dependencies.ANDROID_CORE_TESTING)
+    testImplementation(Dependencies.ANDROID_TEST_TRUTH)
     testImplementation(Dependencies.TEST_COROUTINES)
     testImplementation(Dependencies.TEST_FLOW_OBSERVER)
     testImplementation(Dependencies.TEST_JUNIT)
