@@ -23,7 +23,7 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
 
-class GetSubSubRegionStatsTest : UseCaseTest() {
+class GetSubRegionStatsTest : UseCaseTest() {
 
     companion object {
         private const val ID_COUNTRY = "id_country"
