@@ -2,6 +2,7 @@ package com.jaimegc.covid19tracker.data.preference
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.jaimegc.covid19tracker.utils.TimeProvider
 import java.util.concurrent.TimeUnit
 
 open class BasePreferences(context: Context) {
@@ -20,10 +21,11 @@ class CovidTrackerPreferences(
     }
 
     fun saveTime() =
-        settings.edit().putLong(KEY_COVID_TRACKER_LAST_UPDATE_TIME, System.currentTimeMillis()).apply()
+        settings.edit()
+            .putLong(KEY_COVID_TRACKER_LAST_UPDATE_TIME, TimeProvider().getCurrentTimeMillis()).apply()
 
     fun isCacheExpired(): Boolean =
-        System.currentTimeMillis() - getLastUpdateTime() > CACHE_TIME
+        TimeProvider().getCurrentTimeMillis() - getLastUpdateTime() > CACHE_TIME
 
     private fun getLastUpdateTime(): Long =
         settings.getLong(KEY_COVID_TRACKER_LAST_UPDATE_TIME, KEY_COUNTRY_LAST_UPDATE_DEFAULT)
