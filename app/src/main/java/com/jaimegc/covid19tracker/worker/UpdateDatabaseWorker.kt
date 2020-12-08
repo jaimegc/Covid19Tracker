@@ -8,10 +8,10 @@ import arrow.fx.IO
 import arrow.fx.extensions.io.concurrent.parTraverse
 import arrow.fx.fix
 import com.jaimegc.covid19tracker.R
-import com.jaimegc.covid19tracker.data.datasource.LocalCovidTrackerDatasource
 import com.jaimegc.covid19tracker.data.datasource.RemoteCovidTrackerDatasource
 import com.jaimegc.covid19tracker.data.preference.CovidTrackerPreferences
 import com.jaimegc.covid19tracker.domain.model.CovidTracker
+import com.jaimegc.covid19tracker.domain.usecase.AddCovidTrackers
 import com.jaimegc.covid19tracker.domain.usecase.GetDates
 import com.jaimegc.covid19tracker.utils.FileUtils
 import kotlinx.coroutines.delay
@@ -67,8 +67,8 @@ class UpdateDatabaseWorker(
             )
         }
 
-        val localDs: LocalCovidTrackerDatasource by inject()
-        localDs.populateDatabase(covidTrackers)
+        val useCase: AddCovidTrackers by inject()
+        useCase.addCovidTrackers(covidTrackers)
         // Sometimes this progress is not called
         setProgress(workDataOf(DATA_PROGRESS to context.getString(R.string.worker_finish)))
 

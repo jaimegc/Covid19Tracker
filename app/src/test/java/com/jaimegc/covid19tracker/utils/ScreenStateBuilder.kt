@@ -62,6 +62,30 @@ object ScreenStateBuilder {
 
     val stateListRegionAndStatsLoading: State<ListRegionAndStats> = State.Loading()
 
+    val stateCovidTrackerEmptyData: State<CovidTracker> = State.EmptyData()
+
+    val stateListWorldStatsEmptyData: State<ListWorldStats> = State.EmptyData()
+
+    val stateListCountryAndStatsEmptyData: State<ListCountryAndStats> = State.EmptyData()
+
+    val stateListCountryEmptyData: State<ListCountry> = State.EmptyData()
+
+    val stateListRegionEmptyData: State<ListRegion> = State.EmptyData()
+
+    val stateCountryOneStatsEmptyData: State<CountryOneStats> = State.EmptyData()
+
+    val stateRegionOneStatsEmptyData: State<RegionOneStats> = State.EmptyData()
+
+    val stateListRegionStatsEmptyData: State<ListRegionStats> = State.EmptyData()
+
+    val stateListSubRegionStatsEmptyData: State<ListSubRegionStats> = State.EmptyData()
+
+    val stateListSubRegionAndStatsEmptyData: State<ListSubRegionAndStats> = State.EmptyData()
+
+    val stateListCountryOnlyStatsEmptyData: State<ListCountryOnlyStats> = State.EmptyData()
+
+    val stateListRegionAndStatsEmptyData: State<ListRegionAndStats> = State.EmptyData()
+
     val stateMenuItemViewTypeListRegionAndStatsLoading: State<Pair<MenuItemViewType, ListRegionAndStats>> =
         State.Loading()
 
@@ -120,6 +144,12 @@ object ScreenStateBuilder {
 
     val stateListRegionAndStatsSuccess: State<ListRegionAndStats> =
         State.Success(listRegionAndStats)
+
+    val stateLineChartMostConfirmedListRegionAndStats: Pair<MenuItemViewType, ListRegionAndStats> =
+        Pair(MenuItemViewType.LineChartMostConfirmed, listRegionAndStats)
+
+    val stateLineChartMostConfirmedListSubRegionAndStats: Pair<MenuItemViewType, ListSubRegionAndStats> =
+        Pair(MenuItemViewType.LineChartMostConfirmed, listSubRegionAndStats)
 
     val stateLineChartMostConfirmedListRegionAndStatsSuccess: State<Pair<MenuItemViewType, ListRegionAndStats>> =
         State.Success(Pair(MenuItemViewType.LineChartMostConfirmed, listRegionAndStats))

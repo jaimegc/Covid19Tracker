@@ -45,7 +45,7 @@ class GetDatesTest : UseCaseTest() {
 
         coVerify { repository.getAllDates() }
         eitherUseCase.map { dates ->
-            assertThat(dates).hasSize(0)
+            assertThat(dates).isEmpty()
         }
     }
 }

@@ -14,18 +14,22 @@ interface BaseRepository<E : DomainError, T> {
         policy: CachePolicy = CachePolicy.LocalOnly,
         loading: Boolean = true
     ) = flow<Either<StateError<E>, State<T>>> {
-        if (loading || policy is CachePolicy.LocalFirst) emit(Either.right(State.Loading()))
+        if (loading || policy is CachePolicy.NetworkOnly || policy is CachePolicy.NetworkFirst) {
+            emit(Either.right(State.Loading()))
+        }
 
         val datasources = mutableListOf<Datasource>()
 
         when (policy) {
-            CachePolicy.LocalOnly ->
+            is CachePolicy.LocalOnly ->
                 datasources.add(Datasource.Local)
-            is CachePolicy.LocalFirst ->
+            is CachePolicy.NetworkOnly ->
+                if (policy.isCacheExpired) datasources.add(Datasource.Network)
+            is CachePolicy.NetworkFirst ->
                 if (policy.isCacheExpired) datasources.addAll(listOf(Datasource.Network, Datasource.Local))
         }
 
-        datasources.map { ds ->
+        datasources.forEach { ds ->
             when (ds) {
                 is Datasource.Network ->
                     fetchFromRemote()

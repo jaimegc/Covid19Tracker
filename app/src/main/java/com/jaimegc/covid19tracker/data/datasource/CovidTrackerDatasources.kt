@@ -51,14 +51,12 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 
 class RemoteCovidTrackerDatasource(
     private val apiClient: CovidTrackerApiClient,
-    private val covidTrackerPreferences: CovidTrackerPreferences
+    private val preferences: CovidTrackerPreferences
 ) {
     suspend fun getCovidTrackerByDate(date: String): Either<DomainError, CovidTracker> =
         try {
             mapResponse(apiClient.getCovidTrackerByDate(date)) { covidTracker ->
-                covidTracker.toDomain(date).also {
-                    covidTrackerPreferences.saveTime()
-                }
+                covidTracker.toDomain(date).also { preferences.saveTime() }
             }
         } catch (exception: Exception) {
             Either.left(exception.apiException())
