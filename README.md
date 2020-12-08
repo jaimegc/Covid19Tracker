@@ -213,8 +213,6 @@ The data for any other day, from the last one in the local database until the cu
   - CountryViewModel: 25 ✔️
   - WorldViewModel: 9 ✔️
   - MainViewModel: 4 ✔️
-- Repository: 56 ✅
-  - CovidTrackerRepository: 56 ✔️
 - UseCases: 65 ✅
   - GetRegionStats: 16 ✔️
   - GetCountryStats: 14 ✔️
@@ -226,6 +224,8 @@ The data for any other day, from the last one in the local database until the cu
   - GetWorldStats: 4 ✔️
   - GetDates: 2 ✔️
   - AddCovidTrackers: 1 ✔️
+- Repository: 56 ✅
+  - CovidTrackerRepository: 56 ✔️
 - Mappers: 63 ✅
   - DomainMapper: 30 ✔️
   - UIMapper: 22 ✔️
