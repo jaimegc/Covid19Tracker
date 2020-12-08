@@ -14,7 +14,7 @@ import com.jaimegc.covid19tracker.ui.base.states.WorldStateScreen
 import com.jaimegc.covid19tracker.ui.world.WorldViewModel
 import com.jaimegc.covid19tracker.utils.MainCoroutineRule
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCovidTrackerSuccess
-import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateErrorDatabaseEmpty
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateErrorUnknownDatabase
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCovidTrackerLoading
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListCountryAndStatsLoading
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListCountryAndStatsMostConfirmedSuccess
@@ -24,7 +24,7 @@ import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListCountryAndSt
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListCountryAndStatsSuccess
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListWorldStatsLoading
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListWorldStatsSuccess
-import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.worldStateScreenErrorDatabaseEmptyData
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.worldStateScreenErrorUnknownDatatabase
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateScreenSuccessCountriesStatsPieChartData
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateScreenSuccessCovidTrackerData
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateScreenSuccessListCountryAndStatsBarChartData
@@ -143,10 +143,10 @@ class WorldViewModelTest {
     /***********************************************************************************************/
 
     @Test
-    fun `get list stats should return loading and error database empty if date doesnt exist`() {
+    fun `get list stats with database problem should return loading and unknown database error`() {
         val flow = flow {
             emit(Either.right(stateCovidTrackerLoading))
-            emit(Either.left(stateErrorDatabaseEmpty))
+            emit(Either.left(stateErrorUnknownDatabase))
         }
 
         whenever(getWorldAndCountries.getWorldAndCountriesByDate()).thenReturn(flow)
@@ -161,7 +161,7 @@ class WorldViewModelTest {
         assertEquals(ScreenState.Loading, loading)
         assertTrue(error is ScreenState.Error)
         assertTrue((error as ScreenState.Error).errorState is WorldStateScreen.SomeError)
-        assertEquals(worldStateScreenErrorDatabaseEmptyData,
+        assertEquals(worldStateScreenErrorUnknownDatatabase,
             (error.errorState as WorldStateScreen.SomeError).data)
     }
 
@@ -190,10 +190,10 @@ class WorldViewModelTest {
     }
 
     @Test
-    fun `get pie chart stats should return loading and error database empty if date doesnt exist`() {
+    fun `get pie chart stats with database problem should return loading and unknown database error`() {
         val flow = flow {
             emit(Either.right(stateCovidTrackerLoading))
-            emit(Either.left(stateErrorDatabaseEmpty))
+            emit(Either.left(stateErrorUnknownDatabase))
         }
 
         whenever(getWorldAndCountries.getWorldAndCountriesByDate()).thenReturn(flow)
@@ -208,7 +208,7 @@ class WorldViewModelTest {
         assertEquals(ScreenState.Loading, loading)
         assertTrue(error is ScreenState.Error)
         assertTrue((error as ScreenState.Error).errorState is WorldStateScreen.SomeError)
-        assertEquals(worldStateScreenErrorDatabaseEmptyData,
+        assertEquals(worldStateScreenErrorUnknownDatatabase,
             (error.errorState as WorldStateScreen.SomeError).data)
     }
 
@@ -251,15 +251,15 @@ class WorldViewModelTest {
     }
 
     @Test
-    fun `get bar chart stats should return loading and error database empty if date doesnt exist`() {
+    fun `get bar chart stats with database problem should return loading and unknown database error`() {
         val worldFlow = flow {
             emit(Either.right(stateListWorldStatsLoading))
-            emit(Either.left(stateErrorDatabaseEmpty))
+            emit(Either.left(stateErrorUnknownDatabase))
         }
 
         val countriesFlow = flow {
             emit(Either.right(stateListCountryAndStatsLoading))
-            emit(Either.left(stateErrorDatabaseEmpty))
+            emit(Either.left(stateErrorUnknownDatabase))
         }
 
         whenever(getWorldStats.getWorldAllStats()).thenReturn(worldFlow)
@@ -278,11 +278,11 @@ class WorldViewModelTest {
         assertEquals(ScreenState.Loading, countriesLoading)
         assertTrue(worldError is ScreenState.Error)
         assertTrue((worldError as ScreenState.Error).errorState is WorldStateScreen.SomeError)
-        assertEquals(worldStateScreenErrorDatabaseEmptyData,
+        assertEquals(worldStateScreenErrorUnknownDatatabase,
             (worldError.errorState as WorldStateScreen.SomeError).data)
         assertTrue(countriesError is ScreenState.Error)
         assertTrue((countriesError as ScreenState.Error).errorState is WorldStateScreen.SomeError)
-        assertEquals(worldStateScreenErrorDatabaseEmptyData,
+        assertEquals(worldStateScreenErrorUnknownDatatabase,
             (countriesError.errorState as WorldStateScreen.SomeError).data)
     }
 
@@ -357,25 +357,25 @@ class WorldViewModelTest {
     }
 
     @Test
-    fun `get line charts stats should return loading and error database empty if date doesnt exist`() {
+    fun `get line charts stats with database problem should return loading and unknown database error`() {
         val mostConfirmedFlow = flow {
             emit(Either.right(stateListCountryAndStatsLoading))
-            emit(Either.left(stateErrorDatabaseEmpty))
+            emit(Either.left(stateErrorUnknownDatabase))
         }
 
         val mostDeathsFlow = flow {
             emit(Either.right(stateListCountryAndStatsLoading))
-            emit(Either.left(stateErrorDatabaseEmpty))
+            emit(Either.left(stateErrorUnknownDatabase))
         }
 
         val mostOpenCasesFlow = flow {
             emit(Either.right(stateListCountryAndStatsLoading))
-            emit(Either.left(stateErrorDatabaseEmpty))
+            emit(Either.left(stateErrorUnknownDatabase))
         }
 
         val mostRecoveredFlow = flow {
             emit(Either.right(stateListCountryAndStatsLoading))
-            emit(Either.left(stateErrorDatabaseEmpty))
+            emit(Either.left(stateErrorUnknownDatabase))
         }
 
         whenever(getCountryStats.getCountriesAndStatsWithMostConfirmed()).thenReturn(mostConfirmedFlow)
@@ -402,19 +402,19 @@ class WorldViewModelTest {
         assertEquals(ScreenState.Loading, mostRecoveredLoading)
         assertTrue(mostConfirmedError is ScreenState.Error)
         assertTrue((mostConfirmedError as ScreenState.Error).errorState is WorldStateScreen.SomeError)
-        assertEquals(worldStateScreenErrorDatabaseEmptyData,
+        assertEquals(worldStateScreenErrorUnknownDatatabase,
             (mostConfirmedError.errorState as WorldStateScreen.SomeError).data)
         assertTrue(mostDeathsError is ScreenState.Error)
         assertTrue((mostDeathsError as ScreenState.Error).errorState is WorldStateScreen.SomeError)
-        assertEquals(worldStateScreenErrorDatabaseEmptyData,
+        assertEquals(worldStateScreenErrorUnknownDatatabase,
             (mostDeathsError.errorState as WorldStateScreen.SomeError).data)
         assertTrue(mostOpenCasesError is ScreenState.Error)
         assertTrue((mostOpenCasesError as ScreenState.Error).errorState is WorldStateScreen.SomeError)
-        assertEquals(worldStateScreenErrorDatabaseEmptyData,
+        assertEquals(worldStateScreenErrorUnknownDatatabase,
             (mostOpenCasesError.errorState as WorldStateScreen.SomeError).data)
         assertTrue(mostRecoveredError is ScreenState.Error)
         assertTrue((mostRecoveredError as ScreenState.Error).errorState is WorldStateScreen.SomeError)
-        assertEquals(worldStateScreenErrorDatabaseEmptyData,
+        assertEquals(worldStateScreenErrorUnknownDatatabase,
             (mostRecoveredError.errorState as WorldStateScreen.SomeError).data)
     }
 }
