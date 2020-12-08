@@ -18,7 +18,7 @@ import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCountryOneStatsL
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCountryOneStatsSuccess
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCountryOneStatsSuccessData
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCountryOneStatsPieChartSuccessData
-import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateErrorDatabaseEmpty
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateErrorUnknownDatabase
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostConfirmedListRegionAndStatsEmptySuccess
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostConfirmedListRegionAndStatsSuccess
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostConfirmedListRegionAndStatsSuccessData
@@ -200,10 +200,10 @@ class CountryViewModelTest {
     /***********************************************************************************************/
 
     @Test
-    fun `get countries should return loading and error if database is empty`() {
+    fun `get countries with database problem should return loading and unknown database error`() {
         val flow = flow {
             emit(Either.right(stateListCountryLoading))
-            emit(Either.left(stateErrorDatabaseEmpty))
+            emit(Either.left(stateErrorUnknownDatabase))
         }
 
         whenever(getCountry.getCountries()).thenReturn(flow)
@@ -345,10 +345,10 @@ class CountryViewModelTest {
     }
 
     @Test
-    fun `get list stats for a country should return loading and error if database is empty`() {
+    fun `get list stats for a country with database problem should return loading and unknown database error`() {
         val countryStatsFlow = flow {
             emit(Either.right(stateCountryOneStatsLoading))
-            emit(Either.left(stateErrorDatabaseEmpty))
+            emit(Either.left(stateErrorUnknownDatabase))
         }
 
         val regionStatsFlow = flow {
@@ -520,10 +520,10 @@ class CountryViewModelTest {
     }
 
     @Test
-    fun `get bar chart stats for a country should return loading and error if database is empty`() {
+    fun `get bar chart stats for a country with database problem should return loading and unknown database error`() {
         val countryStatsFlow = flow {
             emit(Either.right(stateListCountryOnlyStatsLoading))
-            emit(Either.left(stateErrorDatabaseEmpty))
+            emit(Either.left(stateErrorUnknownDatabase))
         }
 
         val regionStatsFlow = flow {
@@ -694,10 +694,10 @@ class CountryViewModelTest {
     }
 
     @Test
-    fun `get pie chart stats for a country should return loading and error if database is empty`() {
+    fun `get pie chart stats for a country with database problem should return loading and unknown database error`() {
         val countryStatsFlow = flow {
             emit(Either.right(stateCountryOneStatsLoading))
-            emit(Either.left(stateErrorDatabaseEmpty))
+            emit(Either.left(stateErrorUnknownDatabase))
         }
 
         val regionStatsFlow = flow {
@@ -919,25 +919,25 @@ class CountryViewModelTest {
     }
 
     @Test
-    fun `get line chart stats for a country should return loading and error if database is empty`() {
+    fun `get line chart stats for a country with database problem should return loading and unknown database error`() {
         val regionStatsMostConfirmedFlow = flow {
             emit(Either.right(stateMenuItemViewTypeListRegionAndStatsLoading))
-            emit(Either.left(stateErrorDatabaseEmpty))
+            emit(Either.left(stateErrorUnknownDatabase))
         }
 
         val regionStatsMostDeathsFlow = flow {
             emit(Either.right(stateMenuItemViewTypeListRegionAndStatsLoading))
-            emit(Either.left(stateErrorDatabaseEmpty))
+            emit(Either.left(stateErrorUnknownDatabase))
         }
 
         val regionStatsMostRecoveredFlow = flow {
             emit(Either.right(stateMenuItemViewTypeListRegionAndStatsLoading))
-            emit(Either.left(stateErrorDatabaseEmpty))
+            emit(Either.left(stateErrorUnknownDatabase))
         }
 
         val regionStatsMostOpenCasesFlow = flow {
             emit(Either.right(stateMenuItemViewTypeListRegionAndStatsLoading))
-            emit(Either.left(stateErrorDatabaseEmpty))
+            emit(Either.left(stateErrorUnknownDatabase))
         }
 
         whenever(getRegionStats.getRegionsAndStatsWithMostConfirmed(any())).thenReturn(regionStatsMostConfirmedFlow)
