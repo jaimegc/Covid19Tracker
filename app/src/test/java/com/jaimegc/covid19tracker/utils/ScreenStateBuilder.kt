@@ -480,7 +480,7 @@ object ScreenStateBuilder {
             WorldStateScreen.SomeError((stateErrorUnknownDatabase as StateError.Error).error.toUI())
         ).errorState.data
 
-    val placeStateScreenErrorDatabaseEmptyData =
+    val placeStateScreenErrorUnknownDatabase =
         ScreenState.Error(
             PlaceStateScreen.SomeError((stateErrorUnknownDatabase as StateError.Error).error.toUI())
         ).errorState.data
