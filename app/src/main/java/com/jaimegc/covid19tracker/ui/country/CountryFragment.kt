@@ -80,9 +80,7 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
                          binding.loading.layout.hide()
                          handleRenderState(screenState.renderState)
                     }
-                    is ScreenState.Error<PlaceStateScreen> -> {
-                        // Not implemented
-                    }
+                    is ScreenState.Error<PlaceStateScreen> -> Unit // Not implemented
                 }
             }
         )

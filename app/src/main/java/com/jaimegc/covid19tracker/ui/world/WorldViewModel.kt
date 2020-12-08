@@ -208,6 +208,8 @@ class WorldViewModel(
             }
             is State.Loading ->
                 screenStateQueue.postValue(ScreenState.Loading)
+            is State.EmptyData ->
+                screenStateQueue.postValue(ScreenState.EmptyData)
         }
     }
 
