@@ -3,16 +3,19 @@ package com.jaimegc.covid19tracker.usecase
 import arrow.core.Either
 import com.google.common.truth.Truth.assertThat
 import com.jaimegc.covid19tracker.domain.usecase.GetSubRegionStats
-import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateErrorDatabaseEmpty
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateErrorUnknownDatabase
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostConfirmedListSubRegionAndStatsSuccess
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostDeathsListSubRegionAndStatsSuccess
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostOpenCasesListSubRegionAndStatsSuccess
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostRecoveredListSubRegionAndStatsSuccess
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListSubRegionAndStatsEmptyData
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListSubRegionAndStatsEmptySuccess
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListSubRegionAndStatsLoading
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListSubRegionAndStatsSuccess
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListSubRegionStatsEmptyData
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListSubRegionStatsLoading
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListSubRegionStatsSuccess
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateMenuItemViewTypeListSubRegionAndStatsEmptyData
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateMenuItemViewTypeListSubRegionAndStatsLoading
 import com.jaimegc.covid19tracker.utils.UseCaseTest
 import io.mockk.every
@@ -60,10 +63,10 @@ class GetSubRegionStatsTest : UseCaseTest() {
     }
 
     @Test
-    fun `get subregion all stats ordered by confirmed with empty data should return loading and success`() = runBlockingTest {
+    fun `get subregion all stats ordered by confirmed with empty data should return loading and empty success`() = runBlockingTest {
         val flow = flow {
             emit(Either.right(stateListSubRegionAndStatsLoading))
-            emit(Either.right(stateListSubRegionAndStatsEmptySuccess))
+            emit(Either.right(stateListSubRegionAndStatsEmptyData))
         }
 
         every { repository.getSubRegionsAllStatsOrderByConfirmed(any(), any()) } returns flow
@@ -74,7 +77,27 @@ class GetSubRegionStatsTest : UseCaseTest() {
         flowUseCase.collectIndexed { index, data ->
             when (index) {
                 0 -> assertThat(data).isEqualTo(Either.right(stateListSubRegionAndStatsLoading))
-                1 -> assertThat(data).isEqualTo(Either.right(stateListSubRegionAndStatsEmptySuccess))
+                1 -> assertThat(data).isEqualTo(Either.right(stateListSubRegionAndStatsEmptyData))
+            }
+        }
+    }
+
+    @Test
+    fun `get subregion all stats ordered by confirmed with database problem should return loading and unknown database error`() = runBlockingTest {
+        val flow = flow {
+            emit(Either.right(stateListSubRegionAndStatsLoading))
+            emit(Either.left(stateErrorUnknownDatabase))
+        }
+
+        every { repository.getSubRegionsAllStatsOrderByConfirmed(any(), any()) } returns flow
+
+        val flowUseCase = getSubRegionStats.getSubRegionsAllStatsOrderByConfirmed(ID_COUNTRY, ID_REGION)
+
+        verify { repository.getSubRegionsAllStatsOrderByConfirmed(any(), any()) }
+        flowUseCase.collectIndexed { index, data ->
+            when (index) {
+                0 -> assertThat(data).isEqualTo(Either.right(stateListSubRegionAndStatsLoading))
+                1 -> assertThat(data).isEqualTo(Either.left(stateErrorUnknownDatabase))
             }
         }
     }
@@ -100,10 +123,10 @@ class GetSubRegionStatsTest : UseCaseTest() {
     }
 
     @Test
-    fun `get subregions stats order by confirmed should return loading and error database empty if date doesnt exist`() = runBlockingTest {
+    fun `get subregions stats order by confirmed with empty data should return loading and empty success`() = runBlockingTest {
         val flow = flow {
             emit(Either.right(stateListSubRegionStatsLoading))
-            emit(Either.left(stateErrorDatabaseEmpty))
+            emit(Either.right(stateListSubRegionStatsEmptyData))
         }
 
         every { repository.getSubRegionsStatsOrderByConfirmed(any(), any(), any()) } returns flow
@@ -114,7 +137,27 @@ class GetSubRegionStatsTest : UseCaseTest() {
         flowUseCase.collectIndexed { index, data ->
             when (index) {
                 0 -> assertThat(data).isEqualTo(Either.right(stateListSubRegionStatsLoading))
-                1 -> assertThat(data).isEqualTo(Either.left(stateErrorDatabaseEmpty))
+                1 -> assertThat(data).isEqualTo(Either.right(stateListSubRegionStatsEmptyData))
+            }
+        }
+    }
+
+    @Test
+    fun `get subregions stats order by confirmed with database problem should return loading and unknown database error`() = runBlockingTest {
+        val flow = flow {
+            emit(Either.right(stateListSubRegionStatsLoading))
+            emit(Either.left(stateErrorUnknownDatabase))
+        }
+
+        every { repository.getSubRegionsStatsOrderByConfirmed(any(), any(), any()) } returns flow
+
+        val flowUseCase = getSubRegionStats.getSubRegionsStatsOrderByConfirmed(ID_COUNTRY, ID_REGION, DATE)
+
+        verify { repository.getSubRegionsStatsOrderByConfirmed(any(), any(), any()) }
+        flowUseCase.collectIndexed { index, data ->
+            when (index) {
+                0 -> assertThat(data).isEqualTo(Either.right(stateListSubRegionStatsLoading))
+                1 -> assertThat(data).isEqualTo(Either.left(stateErrorUnknownDatabase))
             }
         }
     }
@@ -140,10 +183,10 @@ class GetSubRegionStatsTest : UseCaseTest() {
     }
 
     @Test
-    fun `get subregions and stats with most confirmed should return loading and error database empty if date doesnt exist`() = runBlockingTest {
+    fun `get subregions and stats with most confirmed with empty data should return loading and empty success`() = runBlockingTest {
         val flow = flow {
             emit(Either.right(stateMenuItemViewTypeListSubRegionAndStatsLoading))
-            emit(Either.left(stateErrorDatabaseEmpty))
+            emit(Either.right(stateMenuItemViewTypeListSubRegionAndStatsEmptyData))
         }
 
         every { repository.getSubRegionsAndStatsWithMostConfirmed(any(), any()) } returns flow
@@ -154,7 +197,27 @@ class GetSubRegionStatsTest : UseCaseTest() {
         flowUseCase.collectIndexed { index, data ->
             when (index) {
                 0 -> assertThat(data).isEqualTo(Either.right(stateMenuItemViewTypeListSubRegionAndStatsLoading))
-                1 -> assertThat(data).isEqualTo(Either.left(stateErrorDatabaseEmpty))
+                1 -> assertThat(data).isEqualTo(Either.right(stateMenuItemViewTypeListSubRegionAndStatsEmptyData))
+            }
+        }
+    }
+
+    @Test
+    fun `get subregions and stats with most confirmed with database problem should return loading and unknown database error`() = runBlockingTest {
+        val flow = flow {
+            emit(Either.right(stateMenuItemViewTypeListSubRegionAndStatsLoading))
+            emit(Either.left(stateErrorUnknownDatabase))
+        }
+
+        every { repository.getSubRegionsAndStatsWithMostConfirmed(any(), any()) } returns flow
+
+        val flowUseCase = getSubRegionStats.getSubRegionsAndStatsWithMostConfirmed(ID_COUNTRY, ID_REGION)
+
+        verify { repository.getSubRegionsAndStatsWithMostConfirmed(any(), any()) }
+        flowUseCase.collectIndexed { index, data ->
+            when (index) {
+                0 -> assertThat(data).isEqualTo(Either.right(stateMenuItemViewTypeListSubRegionAndStatsLoading))
+                1 -> assertThat(data).isEqualTo(Either.left(stateErrorUnknownDatabase))
             }
         }
     }
@@ -180,10 +243,10 @@ class GetSubRegionStatsTest : UseCaseTest() {
     }
 
     @Test
-    fun `get subregions and stats with most deaths should return loading and error database empty if date doesnt exist`() = runBlockingTest {
+    fun `get subregions and stats with most deaths with empty data should return loading and empty success`() = runBlockingTest {
         val flow = flow {
             emit(Either.right(stateMenuItemViewTypeListSubRegionAndStatsLoading))
-            emit(Either.left(stateErrorDatabaseEmpty))
+            emit(Either.right(stateMenuItemViewTypeListSubRegionAndStatsEmptyData))
         }
 
         every { repository.getSubRegionsAndStatsWithMostDeaths(any(), any()) } returns flow
@@ -194,7 +257,27 @@ class GetSubRegionStatsTest : UseCaseTest() {
         flowUseCase.collectIndexed { index, data ->
             when (index) {
                 0 -> assertThat(data).isEqualTo(Either.right(stateMenuItemViewTypeListSubRegionAndStatsLoading))
-                1 -> assertThat(data).isEqualTo(Either.left(stateErrorDatabaseEmpty))
+                1 -> assertThat(data).isEqualTo(Either.right(stateMenuItemViewTypeListSubRegionAndStatsEmptyData))
+            }
+        }
+    }
+
+    @Test
+    fun `get subregions and stats with most deaths with database problem should return loading and unknown database error`() = runBlockingTest {
+        val flow = flow {
+            emit(Either.right(stateMenuItemViewTypeListSubRegionAndStatsLoading))
+            emit(Either.left(stateErrorUnknownDatabase))
+        }
+
+        every { repository.getSubRegionsAndStatsWithMostDeaths(any(), any()) } returns flow
+
+        val flowUseCase = getSubRegionStats.getSubRegionsAndStatsWithMostDeaths(ID_COUNTRY, ID_REGION)
+
+        verify { repository.getSubRegionsAndStatsWithMostDeaths(any(), any()) }
+        flowUseCase.collectIndexed { index, data ->
+            when (index) {
+                0 -> assertThat(data).isEqualTo(Either.right(stateMenuItemViewTypeListSubRegionAndStatsLoading))
+                1 -> assertThat(data).isEqualTo(Either.left(stateErrorUnknownDatabase))
             }
         }
     }
@@ -220,10 +303,10 @@ class GetSubRegionStatsTest : UseCaseTest() {
     }
 
     @Test
-    fun `get subregions and stats with most open cases should return loading and error database empty if date doesnt exist`() = runBlockingTest {
+    fun `get subregions and stats with most open cases with empty data should return loading and empty success`() = runBlockingTest {
         val flow = flow {
             emit(Either.right(stateMenuItemViewTypeListSubRegionAndStatsLoading))
-            emit(Either.left(stateErrorDatabaseEmpty))
+            emit(Either.right(stateMenuItemViewTypeListSubRegionAndStatsEmptyData))
         }
 
         every { repository.getSubRegionsAndStatsWithMostOpenCases(any(), any()) } returns flow
@@ -234,7 +317,27 @@ class GetSubRegionStatsTest : UseCaseTest() {
         flowUseCase.collectIndexed { index, data ->
             when (index) {
                 0 -> assertThat(data).isEqualTo(Either.right(stateMenuItemViewTypeListSubRegionAndStatsLoading))
-                1 -> assertThat(data).isEqualTo(Either.left(stateErrorDatabaseEmpty))
+                1 -> assertThat(data).isEqualTo(Either.right(stateMenuItemViewTypeListSubRegionAndStatsEmptyData))
+            }
+        }
+    }
+
+    @Test
+    fun `get subregions and stats with most open cases with database problem should return loading and unknown database error`() = runBlockingTest {
+        val flow = flow {
+            emit(Either.right(stateMenuItemViewTypeListSubRegionAndStatsLoading))
+            emit(Either.left(stateErrorUnknownDatabase))
+        }
+
+        every { repository.getSubRegionsAndStatsWithMostOpenCases(any(), any()) } returns flow
+
+        val flowUseCase = getSubRegionStats.getSubRegionsAndStatsWithMostOpenCases(ID_COUNTRY, ID_REGION)
+
+        verify { repository.getSubRegionsAndStatsWithMostOpenCases(any(), any()) }
+        flowUseCase.collectIndexed { index, data ->
+            when (index) {
+                0 -> assertThat(data).isEqualTo(Either.right(stateMenuItemViewTypeListSubRegionAndStatsLoading))
+                1 -> assertThat(data).isEqualTo(Either.left(stateErrorUnknownDatabase))
             }
         }
     }
@@ -260,10 +363,10 @@ class GetSubRegionStatsTest : UseCaseTest() {
     }
 
     @Test
-    fun `get subregions and stats with most recovered should return loading and error database empty if date doesnt exist`() = runBlockingTest {
+    fun `get subregions and stats with most recovered with empty data should return loading and empty success`() = runBlockingTest {
         val flow = flow {
             emit(Either.right(stateMenuItemViewTypeListSubRegionAndStatsLoading))
-            emit(Either.left(stateErrorDatabaseEmpty))
+            emit(Either.right(stateMenuItemViewTypeListSubRegionAndStatsEmptyData))
         }
 
         every { repository.getSubRegionsAndStatsWithMostRecovered(any(), any()) } returns flow
@@ -274,7 +377,27 @@ class GetSubRegionStatsTest : UseCaseTest() {
         flowUseCase.collectIndexed { index, data ->
             when (index) {
                 0 -> assertThat(data).isEqualTo(Either.right(stateMenuItemViewTypeListSubRegionAndStatsLoading))
-                1 -> assertThat(data).isEqualTo(Either.left(stateErrorDatabaseEmpty))
+                1 -> assertThat(data).isEqualTo(Either.right(stateMenuItemViewTypeListSubRegionAndStatsEmptyData))
+            }
+        }
+    }
+
+    @Test
+    fun `get subregions and stats with most recovered with database problem should return loading and unknown database error`() = runBlockingTest {
+        val flow = flow {
+            emit(Either.right(stateMenuItemViewTypeListSubRegionAndStatsLoading))
+            emit(Either.left(stateErrorUnknownDatabase))
+        }
+
+        every { repository.getSubRegionsAndStatsWithMostRecovered(any(), any()) } returns flow
+
+        val flowUseCase = getSubRegionStats.getSubRegionsAndStatsWithMostRecovered(ID_COUNTRY, ID_REGION)
+
+        verify { repository.getSubRegionsAndStatsWithMostRecovered(any(), any()) }
+        flowUseCase.collectIndexed { index, data ->
+            when (index) {
+                0 -> assertThat(data).isEqualTo(Either.right(stateMenuItemViewTypeListSubRegionAndStatsLoading))
+                1 -> assertThat(data).isEqualTo(Either.left(stateErrorUnknownDatabase))
             }
         }
     }

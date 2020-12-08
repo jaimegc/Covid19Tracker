@@ -9,8 +9,9 @@ import com.jaimegc.covid19tracker.domain.states.StateError
 import com.jaimegc.covid19tracker.domain.usecase.GetCovidTracker
 import com.jaimegc.covid19tracker.ui.home.MainViewModel
 import com.jaimegc.covid19tracker.utils.MainCoroutineRule
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCovidTrackerEmptyData
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCovidTrackerSuccess
-import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateErrorDatabaseEmpty
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateErrorUnknownDatabase
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCovidTrackerLoading
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
@@ -66,11 +67,11 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `get covid tracker by date should return loading and error database empty if date doesnt exist using flow test`() = runBlockingTest {
+    fun `get covid tracker by date with empty data should return loading and empty success using flow test`() = runBlockingTest {
         val flow: Flow<Either<StateError<DomainError>, State<CovidTracker>>> = flow {
             emit(Either.right(stateCovidTrackerLoading))
             delay(10)
-            emit(Either.left(stateErrorDatabaseEmpty))
+            emit(Either.right(stateCovidTrackerEmptyData))
         }
 
         whenever(getCovidTracker.getCovidTrackerByDate()).thenReturn(flow)
@@ -78,7 +79,26 @@ class MainViewModelTest {
         mainViewModel.getCovidTracker()
 
         getCovidTracker.getCovidTrackerByDate().test(this) {
-            assertValues(Either.right(stateCovidTrackerLoading), Either.left(stateErrorDatabaseEmpty))
+            assertValues(Either.right(stateCovidTrackerLoading), Either.right(stateCovidTrackerEmptyData))
+            assertValueCount(2)
+            assertComplete()
+        }
+    }
+
+    @Test
+    fun `get covid tracker by date with database problem should return loading and unknown database error using flow test`() = runBlockingTest {
+        val flow: Flow<Either<StateError<DomainError>, State<CovidTracker>>> = flow {
+            emit(Either.right(stateCovidTrackerLoading))
+            delay(10)
+            emit(Either.left(stateErrorUnknownDatabase))
+        }
+
+        whenever(getCovidTracker.getCovidTrackerByDate()).thenReturn(flow)
+
+        mainViewModel.getCovidTracker()
+
+        getCovidTracker.getCovidTrackerByDate().test(this) {
+            assertValues(Either.right(stateCovidTrackerLoading), Either.left(stateErrorUnknownDatabase))
             assertValueCount(2)
             assertComplete()
         }
@@ -109,12 +129,12 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `get covid tracker by date should return loading and error database empty if date doesnt exist`() = runBlockingTest {
+    fun `get covid tracker by date with empty data should return loading and empty success`() = runBlockingTest {
         val useCase = mock<GetCovidTracker> {
             onBlocking { getCovidTrackerByDate() } doReturn flow {
                 emit(Either.right(stateCovidTrackerLoading))
                 delay(10)
-                emit(Either.left(stateErrorDatabaseEmpty))
+                emit(Either.right(stateCovidTrackerEmptyData))
             }
         }
 
@@ -123,7 +143,27 @@ class MainViewModelTest {
         flow.collectIndexed { index, data ->
             when (index) {
                 0 -> assertEquals(data, Either.right(stateCovidTrackerLoading))
-                1 -> assertEquals(data, Either.left(stateErrorDatabaseEmpty))
+                1 -> assertEquals(data, Either.right(stateCovidTrackerEmptyData))
+            }
+        }
+    }
+
+    @Test
+    fun `get covid tracker by date with database problem should return loading and unknown database error`() = runBlockingTest {
+        val useCase = mock<GetCovidTracker> {
+            onBlocking { getCovidTrackerByDate() } doReturn flow {
+                emit(Either.right(stateCovidTrackerLoading))
+                delay(10)
+                emit(Either.left(stateErrorUnknownDatabase))
+            }
+        }
+
+        val flow = useCase.getCovidTrackerByDate()
+
+        flow.collectIndexed { index, data ->
+            when (index) {
+                0 -> assertEquals(data, Either.right(stateCovidTrackerLoading))
+                1 -> assertEquals(data, Either.left(stateErrorUnknownDatabase))
             }
         }
     }

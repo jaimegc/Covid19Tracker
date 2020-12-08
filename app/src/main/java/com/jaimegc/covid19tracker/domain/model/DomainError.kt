@@ -8,6 +8,6 @@ sealed class DomainError {
     object ServerDataDomainError : DomainError()
     object ServerForbiddenDomainError : DomainError()
     data class UnknownDomainError(val errorMessage: String = "Unknown Error") : DomainError()
-    data class DatabaseDomainError(val errorMessage: String = "Database Error") : DomainError()
+    data class UnknownDatabaseError(val errorMessage: String = "Database Error") : DomainError()
     object DatabaseEmptyData : DomainError()
 }

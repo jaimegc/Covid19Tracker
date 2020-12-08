@@ -54,15 +54,14 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
             viewLifecycleOwner,
             { screenState ->
                 when (screenState) {
-                    ScreenState.Loading ->
+                    is ScreenState.Loading ->
                         if (concatAdapter.adapters.isEmpty()) binding.loading.layout.show()
                     is ScreenState.Render<WorldStateScreen> -> {
                         binding.loading.layout.hide()
                         handleRenderState(screenState.renderState)
                     }
-                    is ScreenState.Error<WorldStateScreen> -> {
-                        // Not implemented
-                    }
+                    is ScreenState.EmptyData -> Unit // Not implemented
+                    is ScreenState.Error -> Unit // Not implemented
                 }
             }
         )
