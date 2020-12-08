@@ -62,6 +62,10 @@ object ScreenStateBuilder {
 
     val stateListRegionAndStatsLoading: State<ListRegionAndStats> = State.Loading()
 
+    val stateListRegionOnlyStatsLoading: State<ListRegionOnlyStats> = State.Loading()
+
+    val stateListSubRegionAndStatsLoading: State<ListSubRegionAndStats> = State.Loading()
+
     val stateCovidTrackerEmptyData: State<CovidTracker> = State.EmptyData()
 
     val stateListWorldStatsEmptyData: State<ListWorldStats> = State.EmptyData()
@@ -86,15 +90,19 @@ object ScreenStateBuilder {
 
     val stateListRegionAndStatsEmptyData: State<ListRegionAndStats> = State.EmptyData()
 
+    val stateListRegionOnlyStatsEmptyData: State<ListRegionOnlyStats> = State.EmptyData()
+
     val stateMenuItemViewTypeListRegionAndStatsLoading: State<Pair<MenuItemViewType, ListRegionAndStats>> =
         State.Loading()
 
     val stateMenuItemViewTypeListSubRegionAndStatsLoading: State<Pair<MenuItemViewType, ListSubRegionAndStats>> =
         State.Loading()
 
-    val stateListRegionOnlyStatsLoading: State<ListRegionOnlyStats> = State.Loading()
+    val stateMenuItemViewTypeListRegionAndStatsEmptyData: State<Pair<MenuItemViewType, ListRegionAndStats>> =
+        State.EmptyData()
 
-    val stateListSubRegionAndStatsLoading: State<ListSubRegionAndStats> = State.Loading()
+    val stateMenuItemViewTypeListSubRegionAndStatsEmptyData: State<Pair<MenuItemViewType, ListSubRegionAndStats>> =
+        State.EmptyData()
 
     val stateCovidTrackerSuccess: State<CovidTracker> = State.Success(covidTracker)
 
@@ -220,8 +228,8 @@ object ScreenStateBuilder {
     val stateLineChartMostOpenCasesListSubRegionAndStatsEmptySuccess: State<Pair<MenuItemViewType, ListSubRegionAndStats>> =
         State.EmptyData()
 
-    val stateErrorDatabaseEmpty: StateError<DomainError> =
-        StateError.Error(DomainError.DatabaseEmptyData)
+    val stateErrorUnknownDatabase: StateError<DomainError> =
+        StateError.Error(DomainError.UnknownDatabaseError())
 
     val stateScreenSuccessCovidTrackerData =
         ScreenState.Render(
@@ -390,11 +398,6 @@ object ScreenStateBuilder {
             ).renderState.data
         }
 
-
-
-
-
-
     val stateLineChartMostConfirmedListSubRegionAndStatsSuccessData =
         (stateLineChartMostConfirmedListSubRegionAndStatsSuccess as State.Success).let { state ->
             ScreenState.Render(
@@ -472,13 +475,13 @@ object ScreenStateBuilder {
             PlaceStateScreen.SuccessPlaceStatsBarChart((stateListSubRegionAndStatsEmptySuccess as State.Success).data.toPlaceUI()
         )).renderState.data
 
-    val worldStateScreenErrorDatabaseEmptyData =
+    val worldStateScreenErrorUnknownDatatabase =
         ScreenState.Error(
-            WorldStateScreen.SomeError((stateErrorDatabaseEmpty as StateError.Error).error.toUI())
+            WorldStateScreen.SomeError((stateErrorUnknownDatabase as StateError.Error).error.toUI())
         ).errorState.data
 
     val placeStateScreenErrorDatabaseEmptyData =
         ScreenState.Error(
-            PlaceStateScreen.SomeError((stateErrorDatabaseEmpty as StateError.Error).error.toUI())
+            PlaceStateScreen.SomeError((stateErrorUnknownDatabase as StateError.Error).error.toUI())
         ).errorState.data
 }
