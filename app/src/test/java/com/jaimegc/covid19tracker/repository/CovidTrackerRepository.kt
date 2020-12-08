@@ -1126,6 +1126,15 @@ class CovidTrackerRepository {
         }
     }
 
+    @Test
+    fun `add covid trackers should return unit`() = runBlockingTest {
+        coEvery { local.populateDatabase(any()) } returns Unit
+
+        repository.addCovidTrackers(listOf(covidTracker))
+
+        coVerify { local.populateDatabase(any()) }
+    }
+
     private fun <R, S> assertThatIsEqualToState(
         data: Either<StateError<DomainError>, R>,
         state: State<S>
