@@ -9,6 +9,7 @@ import com.jaimegc.covid19tracker.data.preference.CountryPreferences
 import com.jaimegc.covid19tracker.data.preference.CovidTrackerPreferences
 import com.jaimegc.covid19tracker.data.repository.CovidTrackerRepository
 import com.jaimegc.covid19tracker.data.room.Covid19TrackerDatabase
+import com.jaimegc.covid19tracker.domain.usecase.AddCovidTrackers
 import com.jaimegc.covid19tracker.domain.usecase.GetDates
 import com.jaimegc.covid19tracker.domain.usecase.GetCountry
 import com.jaimegc.covid19tracker.domain.usecase.GetCountryStats
@@ -70,6 +71,10 @@ val useCaseModule = module {
 
     single {
         GetSubRegionStats(get())
+    }
+
+    single {
+        AddCovidTrackers(get())
     }
 }
 

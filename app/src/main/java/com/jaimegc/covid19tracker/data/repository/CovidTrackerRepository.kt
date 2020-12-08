@@ -29,7 +29,7 @@ import kotlinx.coroutines.flow.flowOn
 class CovidTrackerRepository(
     private val local: LocalCovidTrackerDatasource,
     private val remote: RemoteCovidTrackerDatasource,
-    private val covidTrackerPreferences: CovidTrackerPreferences
+    private val preferences: CovidTrackerPreferences
 ) {
 
     fun getCovidTrackerByDate(
@@ -44,7 +44,7 @@ class CovidTrackerRepository(
                     local.save(covidTracker)
                 }
             }
-        }.asFlow(policy = CachePolicy.LocalFirst(covidTrackerPreferences.isCacheExpired()))
+        }.asFlow(policy = CachePolicy.NetworkOnly(preferences.isCacheExpired()))
             .flowOn(Dispatchers.IO)
 
     fun getWorldAndCountriesByDate(
@@ -247,4 +247,7 @@ class CovidTrackerRepository(
         }.asFlow().flowOn(Dispatchers.IO)
 
     suspend fun getAllDates(): Either<DomainError, List<String>> = local.getAllDates()
+
+    suspend fun addCovidTrackers(covidTrackers: List<CovidTracker>) =
+        local.populateDatabase(covidTrackers)
 }
