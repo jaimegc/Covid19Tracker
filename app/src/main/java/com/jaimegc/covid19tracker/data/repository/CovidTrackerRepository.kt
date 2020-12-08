@@ -247,4 +247,7 @@ class CovidTrackerRepository(
         }.asFlow().flowOn(Dispatchers.IO)
 
     suspend fun getAllDates(): Either<DomainError, List<String>> = local.getAllDates()
+
+    suspend fun addCovidTrackers(covidTrackers: List<CovidTracker>) =
+        local.populateDatabase(covidTrackers)
 }

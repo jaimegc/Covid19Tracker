@@ -6,9 +6,9 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.jaimegc.covid19tracker.data.api.client.CovidTrackerApiClient
 import com.jaimegc.covid19tracker.data.api.model.CovidTrackerDto
-import com.jaimegc.covid19tracker.data.datasource.LocalCovidTrackerDatasource
 import com.jaimegc.covid19tracker.domain.model.CovidTracker
 import com.jaimegc.covid19tracker.domain.model.toDomain
+import com.jaimegc.covid19tracker.domain.usecase.AddCovidTrackers
 import com.jaimegc.covid19tracker.utils.FileUtils
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.Deferred
@@ -61,8 +61,8 @@ class PopulateDatabaseWorker(
 
             if (covidTrackers.isNotEmpty()) {
                 // Tips: Use an emulator to generate the database
-                val localDs: LocalCovidTrackerDatasource by inject()
-                localDs.populateDatabase(covidTrackers)
+                val useCase: AddCovidTrackers by inject()
+                useCase.addCovidTrackers(covidTrackers)
             }
 
             if (DOWNLOAD_JSONS_FROM_SERVER) downloadAllJsons()
