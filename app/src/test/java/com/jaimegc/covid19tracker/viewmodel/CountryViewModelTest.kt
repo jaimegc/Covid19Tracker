@@ -13,7 +13,7 @@ import com.jaimegc.covid19tracker.ui.base.states.PlaceStateScreen
 import com.jaimegc.covid19tracker.ui.base.states.ScreenState
 import com.jaimegc.covid19tracker.ui.country.CountryViewModel
 import com.jaimegc.covid19tracker.utils.MainCoroutineRule
-import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.placeStateScreenErrorDatabaseEmptyData
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.placeStateScreenErrorUnknownDatabase
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCountryOneStatsLoading
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCountryOneStatsSuccess
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCountryOneStatsSuccessData
@@ -43,6 +43,7 @@ import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostRec
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostRecoveredListSubRegionAndStatsEmptySuccess
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostRecoveredListSubRegionAndStatsSuccess
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateLineChartMostRecoveredListSubRegionAndStatsSuccessData
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListCountryEmptyData
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListCountryLoading
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListCountryOnlyStatsBarChartSuccessData
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListCountryOnlyStatsLoading
@@ -200,6 +201,26 @@ class CountryViewModelTest {
     /***********************************************************************************************/
 
     @Test
+    fun `get countries with empty data should return loading and empty success`() {
+        val flow = flow {
+            emit(Either.right(stateListCountryLoading))
+            emit(Either.right(stateListCountryEmptyData))
+        }
+
+        whenever(getCountry.getCountries()).thenReturn(flow)
+
+        countryViewModel.getCountries()
+
+        verify(stateObserver, Mockito.times(2)).onChanged(captor.capture())
+
+        val loading = captor.firstValue
+        val empty = captor.secondValue
+
+        assertEquals(ScreenState.Loading, loading)
+        assertEquals(ScreenState.EmptyData, empty)
+    }
+
+    @Test
     fun `get countries with database problem should return loading and unknown database error`() {
         val flow = flow {
             emit(Either.right(stateListCountryLoading))
@@ -218,7 +239,7 @@ class CountryViewModelTest {
         assertEquals(ScreenState.Loading, loading)
         assertTrue(error is ScreenState.Error)
         assertTrue((error as ScreenState.Error).errorState is PlaceStateScreen.SomeError)
-        assertEquals(placeStateScreenErrorDatabaseEmptyData,
+        assertEquals(placeStateScreenErrorUnknownDatabase,
             (error.errorState as PlaceStateScreen.SomeError).data)
     }
 
@@ -369,7 +390,7 @@ class CountryViewModelTest {
         assertEquals(ScreenState.Loading, loading)
         assertTrue(error is ScreenState.Error)
         assertTrue((error as ScreenState.Error).errorState is PlaceStateScreen.SomeError)
-        assertEquals(placeStateScreenErrorDatabaseEmptyData,
+        assertEquals(placeStateScreenErrorUnknownDatabase,
             (error.errorState as PlaceStateScreen.SomeError).data)
     }
 
@@ -543,7 +564,7 @@ class CountryViewModelTest {
 
         assertTrue(error is ScreenState.Error)
         assertTrue((error as ScreenState.Error).errorState is PlaceStateScreen.SomeError)
-        assertEquals(placeStateScreenErrorDatabaseEmptyData,
+        assertEquals(placeStateScreenErrorUnknownDatabase,
             (error.errorState as PlaceStateScreen.SomeError).data)
     }
 
@@ -718,7 +739,7 @@ class CountryViewModelTest {
         assertEquals(ScreenState.Loading, loading)
         assertTrue(error is ScreenState.Error)
         assertTrue((error as ScreenState.Error).errorState is PlaceStateScreen.SomeError)
-        assertEquals(placeStateScreenErrorDatabaseEmptyData,
+        assertEquals(placeStateScreenErrorUnknownDatabase,
             (error.errorState as PlaceStateScreen.SomeError).data)
     }
 
@@ -964,22 +985,22 @@ class CountryViewModelTest {
         assertEquals(ScreenState.Loading, regionStatsMostOpenCasesLoading)
         assertTrue(regionStatsMostConfirmedError is ScreenState.Error)
         assertTrue((regionStatsMostConfirmedError as ScreenState.Error).errorState is PlaceStateScreen.SomeError)
-        assertEquals(placeStateScreenErrorDatabaseEmptyData,
+        assertEquals(placeStateScreenErrorUnknownDatabase,
             (regionStatsMostConfirmedError.errorState as PlaceStateScreen.SomeError).data)
 
         assertTrue(regionStatsMostDeathsError is ScreenState.Error)
         assertTrue((regionStatsMostDeathsError as ScreenState.Error).errorState is PlaceStateScreen.SomeError)
-        assertEquals(placeStateScreenErrorDatabaseEmptyData,
+        assertEquals(placeStateScreenErrorUnknownDatabase,
             (regionStatsMostDeathsError.errorState as PlaceStateScreen.SomeError).data)
 
         assertTrue(regionStatsMostRecoveredError is ScreenState.Error)
         assertTrue((regionStatsMostRecoveredError as ScreenState.Error).errorState is PlaceStateScreen.SomeError)
-        assertEquals(placeStateScreenErrorDatabaseEmptyData,
+        assertEquals(placeStateScreenErrorUnknownDatabase,
             (regionStatsMostRecoveredError.errorState as PlaceStateScreen.SomeError).data)
 
         assertTrue(regionStatsMostOpenCasesError is ScreenState.Error)
         assertTrue((regionStatsMostOpenCasesError as ScreenState.Error).errorState is PlaceStateScreen.SomeError)
-        assertEquals(placeStateScreenErrorDatabaseEmptyData,
+        assertEquals(placeStateScreenErrorUnknownDatabase,
             (regionStatsMostOpenCasesError.errorState as PlaceStateScreen.SomeError).data)
     }
 
