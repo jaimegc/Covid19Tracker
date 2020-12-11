@@ -61,7 +61,7 @@ class GetCountryStatsTest : UseCaseTest() {
     }
 
     @Test
-    fun `get country and all stats should return loading and error database empty if date doesnt exist`() = runBlockingTest {
+    fun `get country and all stats with database problem should return loading and unknown database error`() = runBlockingTest {
         val flow = flow {
             emit(Either.right(stateListCountryOnlyStatsLoading))
             emit(Either.left(stateErrorUnknownDatabase))
