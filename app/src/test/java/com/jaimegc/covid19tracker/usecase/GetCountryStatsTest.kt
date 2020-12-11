@@ -3,9 +3,11 @@ package com.jaimegc.covid19tracker.usecase
 import arrow.core.Either
 import com.google.common.truth.Truth.assertThat
 import com.jaimegc.covid19tracker.domain.usecase.GetCountryStats
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCountryOneStatsEmptyData
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCountryOneStatsLoading
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCountryOneStatsSuccess
-import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateErrorDatabaseEmpty
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateErrorUnknownDatabase
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListCountryAndStatsEmptyData
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListCountryAndStatsLoading
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListCountryAndStatsMostConfirmedSuccess
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListCountryAndStatsMostDeathsSuccess
@@ -62,7 +64,7 @@ class GetCountryStatsTest : UseCaseTest() {
     fun `get country and all stats should return loading and error database empty if date doesnt exist`() = runBlockingTest {
         val flow = flow {
             emit(Either.right(stateListCountryOnlyStatsLoading))
-            emit(Either.left(stateErrorDatabaseEmpty))
+            emit(Either.left(stateErrorUnknownDatabase))
         }
 
         every { repository.getCountryAllStats(any()) } returns flow
@@ -73,7 +75,7 @@ class GetCountryStatsTest : UseCaseTest() {
         flowUseCase.collectIndexed { index, data ->
             when (index) {
                 0 -> assertThat(data).isEqualTo(Either.right(stateListCountryOnlyStatsLoading))
-                1 -> assertThat(data).isEqualTo(Either.left(stateErrorDatabaseEmpty))
+                1 -> assertThat(data).isEqualTo(Either.left(stateErrorUnknownDatabase))
             }
         }
     }
@@ -99,10 +101,10 @@ class GetCountryStatsTest : UseCaseTest() {
     }
 
     @Test
-    fun `get country and stats by date should return loading and error database empty if date doesnt exist`() = runBlockingTest {
+    fun `get country and stats by date with empty data should return loading and empty success`() = runBlockingTest {
         val flow = flow {
             emit(Either.right(stateCountryOneStatsLoading))
-            emit(Either.left(stateErrorDatabaseEmpty))
+            emit(Either.right(stateCountryOneStatsEmptyData))
         }
 
         every { repository.getCountryAndStatsByDate(any(), any()) } returns flow
@@ -113,7 +115,27 @@ class GetCountryStatsTest : UseCaseTest() {
         flowUseCase.collectIndexed { index, data ->
             when (index) {
                 0 -> assertThat(data).isEqualTo(Either.right(stateCountryOneStatsLoading))
-                1 -> assertThat(data).isEqualTo(Either.left(stateErrorDatabaseEmpty))
+                1 -> assertThat(data).isEqualTo(Either.right(stateCountryOneStatsEmptyData))
+            }
+        }
+    }
+
+    @Test
+    fun `get country and stats by date with database problem should return loading and unknown database error`() = runBlockingTest {
+        val flow = flow {
+            emit(Either.right(stateCountryOneStatsLoading))
+            emit(Either.left(stateErrorUnknownDatabase))
+        }
+
+        every { repository.getCountryAndStatsByDate(any(), any()) } returns flow
+
+        val flowUseCase = getCountryStats.getCountryAndStatsByDate(ID_COUNTRY, DATE)
+
+        verify { repository.getCountryAndStatsByDate(any(), any()) }
+        flowUseCase.collectIndexed { index, data ->
+            when (index) {
+                0 -> assertThat(data).isEqualTo(Either.right(stateCountryOneStatsLoading))
+                1 -> assertThat(data).isEqualTo(Either.left(stateErrorUnknownDatabase))
             }
         }
     }
@@ -139,10 +161,10 @@ class GetCountryStatsTest : UseCaseTest() {
     }
 
     @Test
-    fun `get countries stats order by confirmed should return loading and error database empty if date doesnt exist`() = runBlockingTest {
+    fun `get countries stats order by confirmed with empty data should return loading and empty success`() = runBlockingTest {
         val flow = flow {
             emit(Either.right(stateListCountryAndStatsLoading))
-            emit(Either.left(stateErrorDatabaseEmpty))
+            emit(Either.right(stateListCountryAndStatsEmptyData))
         }
 
         every { repository.getCountriesStatsOrderByConfirmed() } returns flow
@@ -153,7 +175,27 @@ class GetCountryStatsTest : UseCaseTest() {
         flowUseCase.collectIndexed { index, data ->
             when (index) {
                 0 -> assertThat(data).isEqualTo(Either.right(stateListCountryAndStatsLoading))
-                1 -> assertThat(data).isEqualTo(Either.left(stateErrorDatabaseEmpty))
+                1 -> assertThat(data).isEqualTo(Either.right(stateListCountryAndStatsEmptyData))
+            }
+        }
+    }
+
+    @Test
+    fun `get countries stats order by confirmed with database problem should return loading and unknown database error`() = runBlockingTest {
+        val flow = flow {
+            emit(Either.right(stateListCountryAndStatsLoading))
+            emit(Either.left(stateErrorUnknownDatabase))
+        }
+
+        every { repository.getCountriesStatsOrderByConfirmed() } returns flow
+
+        val flowUseCase = getCountryStats.getCountriesStatsOrderByConfirmed()
+
+        verify { repository.getCountriesStatsOrderByConfirmed() }
+        flowUseCase.collectIndexed { index, data ->
+            when (index) {
+                0 -> assertThat(data).isEqualTo(Either.right(stateListCountryAndStatsLoading))
+                1 -> assertThat(data).isEqualTo(Either.left(stateErrorUnknownDatabase))
             }
         }
     }
@@ -179,10 +221,10 @@ class GetCountryStatsTest : UseCaseTest() {
     }
 
     @Test
-    fun `get countries and stats with most confirmed should return loading and error database empty if date doesnt exist`() = runBlockingTest {
+    fun `get countries and stats with most confirmed with empty data should return loading and empty success`() = runBlockingTest {
         val flow = flow {
             emit(Either.right(stateListCountryAndStatsLoading))
-            emit(Either.left(stateErrorDatabaseEmpty))
+            emit(Either.right(stateListCountryAndStatsEmptyData))
         }
 
         every { repository.getCountriesAndStatsWithMostConfirmed() } returns flow
@@ -193,7 +235,27 @@ class GetCountryStatsTest : UseCaseTest() {
         flowUseCase.collectIndexed { index, data ->
             when (index) {
                 0 -> assertThat(data).isEqualTo(Either.right(stateListCountryAndStatsLoading))
-                1 -> assertThat(data).isEqualTo(Either.left(stateErrorDatabaseEmpty))
+                1 -> assertThat(data).isEqualTo(Either.right(stateListCountryAndStatsEmptyData))
+            }
+        }
+    }
+
+    @Test
+    fun `get countries and stats with most confirmed with database problem should return loading and unknown database error`() = runBlockingTest {
+        val flow = flow {
+            emit(Either.right(stateListCountryAndStatsLoading))
+            emit(Either.left(stateErrorUnknownDatabase))
+        }
+
+        every { repository.getCountriesAndStatsWithMostConfirmed() } returns flow
+
+        val flowUseCase = getCountryStats.getCountriesAndStatsWithMostConfirmed()
+
+        verify { repository.getCountriesAndStatsWithMostConfirmed() }
+        flowUseCase.collectIndexed { index, data ->
+            when (index) {
+                0 -> assertThat(data).isEqualTo(Either.right(stateListCountryAndStatsLoading))
+                1 -> assertThat(data).isEqualTo(Either.left(stateErrorUnknownDatabase))
             }
         }
     }
@@ -219,10 +281,10 @@ class GetCountryStatsTest : UseCaseTest() {
     }
 
     @Test
-    fun `get countries and stats with most deaths should return loading and error database empty if date doesnt exist`() = runBlockingTest {
+    fun `get countries and stats with most deaths with empty data should return loading and empty success`() = runBlockingTest {
         val flow = flow {
             emit(Either.right(stateListCountryAndStatsLoading))
-            emit(Either.left(stateErrorDatabaseEmpty))
+            emit(Either.right(stateListCountryAndStatsEmptyData))
         }
 
         every { repository.getCountriesAndStatsWithMostDeaths() } returns flow
@@ -233,7 +295,27 @@ class GetCountryStatsTest : UseCaseTest() {
         flowUseCase.collectIndexed { index, data ->
             when (index) {
                 0 -> assertThat(data).isEqualTo(Either.right(stateListCountryAndStatsLoading))
-                1 -> assertThat(data).isEqualTo(Either.left(stateErrorDatabaseEmpty))
+                1 -> assertThat(data).isEqualTo(Either.right(stateListCountryAndStatsEmptyData))
+            }
+        }
+    }
+
+    @Test
+    fun `get countries and stats with most deaths with database problem should return loading and unknown database error`() = runBlockingTest {
+        val flow = flow {
+            emit(Either.right(stateListCountryAndStatsLoading))
+            emit(Either.left(stateErrorUnknownDatabase))
+        }
+
+        every { repository.getCountriesAndStatsWithMostDeaths() } returns flow
+
+        val flowUseCase = getCountryStats.getCountriesAndStatsWithMostDeaths()
+
+        verify { repository.getCountriesAndStatsWithMostDeaths() }
+        flowUseCase.collectIndexed { index, data ->
+            when (index) {
+                0 -> assertThat(data).isEqualTo(Either.right(stateListCountryAndStatsLoading))
+                1 -> assertThat(data).isEqualTo(Either.left(stateErrorUnknownDatabase))
             }
         }
     }
@@ -259,10 +341,10 @@ class GetCountryStatsTest : UseCaseTest() {
     }
 
     @Test
-    fun `get countries and stats with most open cases should return loading and error database empty if date doesnt exist`() = runBlockingTest {
+    fun `get countries and stats with most open cases with empty data should return loading and empty success`() = runBlockingTest {
         val flow = flow {
             emit(Either.right(stateListCountryAndStatsLoading))
-            emit(Either.left(stateErrorDatabaseEmpty))
+            emit(Either.right(stateListCountryAndStatsEmptyData))
         }
 
         every { repository.getCountriesAndStatsWithMostOpenCases() } returns flow
@@ -273,7 +355,27 @@ class GetCountryStatsTest : UseCaseTest() {
         flowUseCase.collectIndexed { index, data ->
             when (index) {
                 0 -> assertThat(data).isEqualTo(Either.right(stateListCountryAndStatsLoading))
-                1 -> assertThat(data).isEqualTo(Either.left(stateErrorDatabaseEmpty))
+                1 -> assertThat(data).isEqualTo(Either.right(stateListCountryAndStatsEmptyData))
+            }
+        }
+    }
+
+    @Test
+    fun `get countries and stats with most open cases with database problem should return loading and unknown database error`() = runBlockingTest {
+        val flow = flow {
+            emit(Either.right(stateListCountryAndStatsLoading))
+            emit(Either.left(stateErrorUnknownDatabase))
+        }
+
+        every { repository.getCountriesAndStatsWithMostOpenCases() } returns flow
+
+        val flowUseCase = getCountryStats.getCountriesAndStatsWithMostOpenCases()
+
+        verify { repository.getCountriesAndStatsWithMostOpenCases() }
+        flowUseCase.collectIndexed { index, data ->
+            when (index) {
+                0 -> assertThat(data).isEqualTo(Either.right(stateListCountryAndStatsLoading))
+                1 -> assertThat(data).isEqualTo(Either.left(stateErrorUnknownDatabase))
             }
         }
     }
@@ -299,10 +401,10 @@ class GetCountryStatsTest : UseCaseTest() {
     }
 
     @Test
-    fun `get countries and stats with most recovered should return loading and error database empty if date doesnt exist`() = runBlockingTest {
+    fun `get countries and stats with most recovered with empty data should return loading and empty success`() = runBlockingTest {
         val flow = flow {
             emit(Either.right(stateListCountryAndStatsLoading))
-            emit(Either.left(stateErrorDatabaseEmpty))
+            emit(Either.right(stateListCountryAndStatsEmptyData))
         }
 
         every { repository.getCountriesAndStatsWithMostRecovered() } returns flow
@@ -313,7 +415,27 @@ class GetCountryStatsTest : UseCaseTest() {
         flowUseCase.collectIndexed { index, data ->
             when (index) {
                 0 -> assertThat(data).isEqualTo(Either.right(stateListCountryAndStatsLoading))
-                1 -> assertThat(data).isEqualTo(Either.left(stateErrorDatabaseEmpty))
+                1 -> assertThat(data).isEqualTo(Either.right(stateListCountryAndStatsEmptyData))
+            }
+        }
+    }
+
+    @Test
+    fun `get countries and stats with most recovered with database problem should return loading and unknown database error`() = runBlockingTest {
+        val flow = flow {
+            emit(Either.right(stateListCountryAndStatsLoading))
+            emit(Either.left(stateErrorUnknownDatabase))
+        }
+
+        every { repository.getCountriesAndStatsWithMostRecovered() } returns flow
+
+        val flowUseCase = getCountryStats.getCountriesAndStatsWithMostRecovered()
+
+        verify { repository.getCountriesAndStatsWithMostRecovered() }
+        flowUseCase.collectIndexed { index, data ->
+            when (index) {
+                0 -> assertThat(data).isEqualTo(Either.right(stateListCountryAndStatsLoading))
+                1 -> assertThat(data).isEqualTo(Either.left(stateErrorUnknownDatabase))
             }
         }
     }

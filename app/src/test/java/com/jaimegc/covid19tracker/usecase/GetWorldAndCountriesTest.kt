@@ -3,9 +3,10 @@ package com.jaimegc.covid19tracker.usecase
 import arrow.core.Either
 import com.google.common.truth.Truth.assertThat
 import com.jaimegc.covid19tracker.domain.usecase.GetWorldAndCountries
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCovidTrackerEmptyData
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCovidTrackerSuccess
 import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCovidTrackerLoading
-import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateErrorDatabaseEmpty
+import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateErrorUnknownDatabase
 import com.jaimegc.covid19tracker.utils.UseCaseTest
 import dev.olog.flow.test.observer.test
 import io.mockk.every
@@ -51,10 +52,10 @@ class GetWorldAndCountriesTest : UseCaseTest() {
     }
 
     @Test
-    fun `get world and countries by date should return loading and error database empty if date doesnt exist`() = runBlockingTest {
+    fun `get world and countries by date with empty data should return loading and empty success`() = runBlockingTest {
         val flow = flow {
             emit(Either.right(stateCovidTrackerLoading))
-            emit(Either.left(stateErrorDatabaseEmpty))
+            emit(Either.right(stateCovidTrackerEmptyData))
         }
 
         every { repository.getWorldAndCountriesByDate(any()) } returns flow
@@ -65,7 +66,27 @@ class GetWorldAndCountriesTest : UseCaseTest() {
         flowUseCase.collectIndexed { index, data ->
             when (index) {
                 0 -> assertThat(data).isEqualTo(Either.right(stateCovidTrackerLoading))
-                1 -> assertThat(data).isEqualTo(Either.left(stateErrorDatabaseEmpty))
+                1 -> assertThat(data).isEqualTo(Either.right(stateCovidTrackerEmptyData))
+            }
+        }
+    }
+
+    @Test
+    fun `get world and countries by date with database problem should return loading and unknown database error`() = runBlockingTest {
+        val flow = flow {
+            emit(Either.right(stateCovidTrackerLoading))
+            emit(Either.left(stateErrorUnknownDatabase))
+        }
+
+        every { repository.getWorldAndCountriesByDate(any()) } returns flow
+
+        val flowUseCase = getWorldAndCountries.getWorldAndCountriesByDate()
+
+        verify { repository.getWorldAndCountriesByDate(any()) }
+        flowUseCase.collectIndexed { index, data ->
+            when (index) {
+                0 -> assertThat(data).isEqualTo(Either.right(stateCovidTrackerLoading))
+                1 -> assertThat(data).isEqualTo(Either.left(stateErrorUnknownDatabase))
             }
         }
     }
@@ -94,10 +115,10 @@ class GetWorldAndCountriesTest : UseCaseTest() {
     }
 
     @Test
-    fun `get world and countries by date should return loading and error database empty if date doesnt exist using flow test`() = runBlockingTest {
+    fun `get world and countries by date with empty data should return loading and empty success using flow test`() = runBlockingTest {
         val flow = flow {
             emit(Either.right(stateCovidTrackerLoading))
-            emit(Either.left(stateErrorDatabaseEmpty))
+            emit(Either.right(stateCovidTrackerEmptyData))
         }
 
         every { repository.getWorldAndCountriesByDate(any()) } returns flow
@@ -106,7 +127,26 @@ class GetWorldAndCountriesTest : UseCaseTest() {
 
         verify { repository.getWorldAndCountriesByDate(any()) }
         flowUseCase.test(this) {
-            assertValues(Either.right(stateCovidTrackerLoading), Either.left(stateErrorDatabaseEmpty))
+            assertValues(Either.right(stateCovidTrackerLoading), Either.right(stateCovidTrackerEmptyData))
+            assertValueCount(2)
+            assertComplete()
+        }
+    }
+
+    @Test
+    fun `get world and countries by date with database problem should return loading and unknown database error using flow test`() = runBlockingTest {
+        val flow = flow {
+            emit(Either.right(stateCovidTrackerLoading))
+            emit(Either.left(stateErrorUnknownDatabase))
+        }
+
+        every { repository.getWorldAndCountriesByDate(any()) } returns flow
+
+        val flowUseCase = getWorldAndCountries.getWorldAndCountriesByDate()
+
+        verify { repository.getWorldAndCountriesByDate(any()) }
+        flowUseCase.test(this) {
+            assertValues(Either.right(stateCovidTrackerLoading), Either.left(stateErrorUnknownDatabase))
             assertValueCount(2)
             assertComplete()
         }

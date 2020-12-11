@@ -207,21 +207,21 @@ The data for any other day, from the last one in the local database until the cu
 
 ## Working on... 👨🏻‍💻🧑🏿‍💻
 
-### Unit Tests (231 ✅)
+### Unit Tests (266 ✅)
 
-- ViewModels: 38 ✅
-  - CountryViewModel: 25 ✔️
-  - WorldViewModel: 9 ✔️
-  - MainViewModel: 4 ✔️
-- UseCases: 65 ✅
-  - GetRegionStats: 16 ✔️
-  - GetCountryStats: 14 ✔️
-  - GetSubRegionStats: 12 ✔️
-  - GetCountry: 4 ✔️
-  - GetCovidTracker: 4 ✔️
+- ViewModels: 45 ✅
+  - CountryViewModel: 26 ✔️
+  - WorldViewModel: 13 ✔️
+  - MainViewModel: 6 ✔️
+- UseCases: 93 ✅
+  - GetRegionStats: 24 ✔️
+  - GetCountryStats: 20 ✔️
+  - GetSubRegionStats: 18 ✔️
+  - GetCountry: 6 ✔️
+  - GetCovidTracker: 6 ✔️
   - GetRegion: 4 ✔️
-  - GetWorldAndCountries: 4 ✔️
-  - GetWorldStats: 4 ✔️
+  - GetWorldAndCountries: 6 ✔️
+  - GetWorldStats: 6 ✔️
   - GetDates: 2 ✔️
   - AddCovidTrackers: 1 ✔️
 - Repository: 56 ✅
