@@ -19,7 +19,5 @@ class MainViewModel(
             }
         }
 
-    private fun handleError(state: StateError<DomainError>) {
-        // Not implemented
-    }
+    private fun handleError(state: StateError<DomainError>) = Unit // Not implemented
 }
