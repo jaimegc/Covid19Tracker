@@ -106,6 +106,11 @@ import org.mockito.Mockito
 
 class CountryViewModelTest {
 
+    companion object {
+        private const val ID_COUNTRY = "id_country"
+        private const val ID_REGION = "id_region"
+    }
+
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
 
@@ -252,7 +257,7 @@ class CountryViewModelTest {
 
         whenever(getRegion.getRegionsByCountry(any())).thenReturn(flow)
 
-        countryViewModel.getRegionsByCountry("id_country")
+        countryViewModel.getRegionsByCountry(ID_COUNTRY)
 
         verify(stateObserver, Mockito.times(2)).onChanged(captor.capture())
 
@@ -275,7 +280,7 @@ class CountryViewModelTest {
 
         whenever(getRegion.getRegionsByCountry(any())).thenReturn(flow)
 
-        countryViewModel.getRegionsByCountry("id_country")
+        countryViewModel.getRegionsByCountry(ID_COUNTRY)
 
         verify(stateObserver, Mockito.times(2)).onChanged(captor.capture())
 
@@ -304,7 +309,7 @@ class CountryViewModelTest {
         whenever(getCountryStats.getCountryAndStatsByDate(any(), any())).thenReturn(countryStatsFlow)
         whenever(getRegionStats.getRegionsStatsOrderByConfirmed(any(), any())).thenReturn(regionStatsFlow)
 
-        countryViewModel.getListStats("id_country")
+        countryViewModel.getListStats(ID_COUNTRY)
 
         verify(stateObserver, Mockito.times(4)).onChanged(captor.capture())
 
@@ -342,7 +347,7 @@ class CountryViewModelTest {
         whenever(getCountryStats.getCountryAndStatsByDate(any(), any())).thenReturn(countryStatsFlow)
         whenever(getRegionStats.getRegionsStatsOrderByConfirmed(any(), any())).thenReturn(regionStatsFlow)
 
-        countryViewModel.getListStats("id_country")
+        countryViewModel.getListStats(ID_COUNTRY)
 
         verify(stateObserver, Mockito.times(4)).onChanged(captor.capture())
 
@@ -380,7 +385,7 @@ class CountryViewModelTest {
         whenever(getCountryStats.getCountryAndStatsByDate(any(), any())).thenReturn(countryStatsFlow)
         whenever(getRegionStats.getRegionsStatsOrderByConfirmed(any(), any())).thenReturn(regionStatsFlow)
 
-        countryViewModel.getListStats("id_country")
+        countryViewModel.getListStats(ID_COUNTRY)
 
         verify(stateObserver, Mockito.times(4)).onChanged(captor.capture())
 
@@ -409,7 +414,7 @@ class CountryViewModelTest {
         whenever(getRegionStats.getRegionAndStatsByDate(any(), any(), any())).thenReturn(regionStatsFlow)
         whenever(getSubRegionStats.getSubRegionsStatsOrderByConfirmed(any(), any(), any())).thenReturn(subRegionStatsFlow)
 
-        countryViewModel.getListStats("id_country", "id_region")
+        countryViewModel.getListStats(ID_COUNTRY, ID_REGION)
 
         verify(stateObserver, Mockito.times(4)).onChanged(captor.capture())
 
@@ -447,7 +452,7 @@ class CountryViewModelTest {
         whenever(getRegionStats.getRegionAndStatsByDate(any(), any(), any())).thenReturn(regionStatsFlow)
         whenever(getSubRegionStats.getSubRegionsStatsOrderByConfirmed(any(), any(), any())).thenReturn(subRegionStatsFlow)
 
-        countryViewModel.getListStats("id_country", "id_region")
+        countryViewModel.getListStats(ID_COUNTRY, ID_REGION)
 
         verify(stateObserver, Mockito.times(4)).onChanged(captor.capture())
 
@@ -485,7 +490,7 @@ class CountryViewModelTest {
         whenever(getCountryStats.getCountryAllStats(any())).thenReturn(countryStatsFlow)
         whenever(getRegionStats.getRegionsAllStatsOrderByConfirmed(any())).thenReturn(regionStatsFlow)
 
-        countryViewModel.getBarChartStats("id_country")
+        countryViewModel.getBarChartStats(ID_COUNTRY)
 
         // We use Flow combine(), so loadings are going to be lost
         verify(stateObserver, Mockito.times(2)).onChanged(captor.capture())
@@ -520,7 +525,7 @@ class CountryViewModelTest {
         whenever(getCountryStats.getCountryAllStats(any())).thenReturn(countryStatsFlow)
         whenever(getRegionStats.getRegionsAllStatsOrderByConfirmed(any())).thenReturn(regionStatsFlow)
 
-        countryViewModel.getBarChartStats("id_country")
+        countryViewModel.getBarChartStats(ID_COUNTRY)
 
         // We use Flow combine(), so loadings are going to be lost
         verify(stateObserver, Mockito.times(2)).onChanged(captor.capture())
@@ -555,7 +560,7 @@ class CountryViewModelTest {
         whenever(getCountryStats.getCountryAllStats(any())).thenReturn(countryStatsFlow)
         whenever(getRegionStats.getRegionsAllStatsOrderByConfirmed(any())).thenReturn(regionStatsFlow)
 
-        countryViewModel.getBarChartStats("id_country")
+        countryViewModel.getBarChartStats(ID_COUNTRY)
 
         // We use Flow combine(), so loadings are going to be lost
         verify(stateObserver, Mockito.times(2)).onChanged(captor.capture())
@@ -583,7 +588,7 @@ class CountryViewModelTest {
         whenever(getRegionStats.getRegionAllStats(any(), any())).thenReturn(regionStatsFlow)
         whenever(getSubRegionStats.getSubRegionsAllStatsOrderByConfirmed(any(), any())).thenReturn(subRegionStatsFlow)
 
-        countryViewModel.getBarChartStats("id_country", "id_region")
+        countryViewModel.getBarChartStats(ID_COUNTRY, ID_REGION)
 
         // We use Flow combine(), so loadings are going to be lost
         verify(stateObserver, Mockito.times(2)).onChanged(captor.capture())
@@ -618,7 +623,7 @@ class CountryViewModelTest {
         whenever(getRegionStats.getRegionAllStats(any(), any())).thenReturn(regionStatsFlow)
         whenever(getSubRegionStats.getSubRegionsAllStatsOrderByConfirmed(any(), any())).thenReturn(subRegionStatsFlow)
 
-        countryViewModel.getBarChartStats("id_country", "id_region")
+        countryViewModel.getBarChartStats(ID_COUNTRY, ID_REGION)
 
         // We use Flow combine(), so loadings are going to be lost
         verify(stateObserver, Mockito.times(2)).onChanged(captor.capture())
@@ -653,7 +658,7 @@ class CountryViewModelTest {
         whenever(getCountryStats.getCountryAndStatsByDate(any(), any())).thenReturn(countryStatsFlow)
         whenever(getRegionStats.getRegionsStatsOrderByConfirmed(any(), any())).thenReturn(regionStatsFlow)
 
-        countryViewModel.getPieChartStats("id_country")
+        countryViewModel.getPieChartStats(ID_COUNTRY)
 
         verify(stateObserver, Mockito.times(4)).onChanged(captor.capture())
 
@@ -691,7 +696,7 @@ class CountryViewModelTest {
         whenever(getCountryStats.getCountryAndStatsByDate(any(), any())).thenReturn(countryStatsFlow)
         whenever(getRegionStats.getRegionsStatsOrderByConfirmed(any(), any())).thenReturn(regionStatsFlow)
 
-        countryViewModel.getPieChartStats("id_country")
+        countryViewModel.getPieChartStats(ID_COUNTRY)
 
         verify(stateObserver, Mockito.times(4)).onChanged(captor.capture())
 
@@ -729,7 +734,7 @@ class CountryViewModelTest {
         whenever(getCountryStats.getCountryAndStatsByDate(any(), any())).thenReturn(countryStatsFlow)
         whenever(getRegionStats.getRegionsStatsOrderByConfirmed(any(), any())).thenReturn(regionStatsFlow)
 
-        countryViewModel.getPieChartStats("id_country")
+        countryViewModel.getPieChartStats(ID_COUNTRY)
 
         verify(stateObserver, Mockito.times(4)).onChanged(captor.capture())
 
@@ -758,7 +763,7 @@ class CountryViewModelTest {
         whenever(getRegionStats.getRegionAndStatsByDate(any(), any(), any())).thenReturn(regionStatsFlow)
         whenever(getSubRegionStats.getSubRegionsStatsOrderByConfirmed(any(), any(), any())).thenReturn(subRegionStatsFlow)
 
-        countryViewModel.getPieChartStats("id_country", "id_region")
+        countryViewModel.getPieChartStats(ID_COUNTRY, ID_REGION)
 
         verify(stateObserver, Mockito.times(4)).onChanged(captor.capture())
 
@@ -796,7 +801,7 @@ class CountryViewModelTest {
         whenever(getRegionStats.getRegionAndStatsByDate(any(), any(), any())).thenReturn(regionStatsFlow)
         whenever(getSubRegionStats.getSubRegionsStatsOrderByConfirmed(any(), any(), any())).thenReturn(subRegionStatsFlow)
 
-        countryViewModel.getPieChartStats("id_country", "id_region")
+        countryViewModel.getPieChartStats(ID_COUNTRY, ID_REGION)
 
         verify(stateObserver, Mockito.times(4)).onChanged(captor.capture())
 
@@ -846,7 +851,7 @@ class CountryViewModelTest {
         whenever(getRegionStats.getRegionsAndStatsWithMostRecovered(any())).thenReturn(regionStatsMostRecoveredFlow)
         whenever(getRegionStats.getRegionsAndStatsWithMostOpenCases(any())).thenReturn(regionStatsMostOpenCasesFlow)
 
-        countryViewModel.getLineChartStats("id_country")
+        countryViewModel.getLineChartStats(ID_COUNTRY)
 
         verify(stateObserver, Mockito.times(8)).onChanged(captor.capture())
 
@@ -916,7 +921,7 @@ class CountryViewModelTest {
         whenever(getRegionStats.getRegionsAndStatsWithMostRecovered(any())).thenReturn(regionStatsMostRecoveredFlow)
         whenever(getRegionStats.getRegionsAndStatsWithMostOpenCases(any())).thenReturn(regionStatsMostOpenCasesFlow)
 
-        countryViewModel.getLineChartStats("id_country")
+        countryViewModel.getLineChartStats(ID_COUNTRY)
 
         verify(stateObserver, Mockito.times(8)).onChanged(captor.capture())
 
@@ -966,7 +971,7 @@ class CountryViewModelTest {
         whenever(getRegionStats.getRegionsAndStatsWithMostRecovered(any())).thenReturn(regionStatsMostRecoveredFlow)
         whenever(getRegionStats.getRegionsAndStatsWithMostOpenCases(any())).thenReturn(regionStatsMostOpenCasesFlow)
 
-        countryViewModel.getLineChartStats("id_country")
+        countryViewModel.getLineChartStats(ID_COUNTRY)
 
         verify(stateObserver, Mockito.times(8)).onChanged(captor.capture())
 
@@ -1031,7 +1036,7 @@ class CountryViewModelTest {
         whenever(getSubRegionStats.getSubRegionsAndStatsWithMostRecovered(any(), any())).thenReturn(subRegionStatsMostRecoveredFlow)
         whenever(getSubRegionStats.getSubRegionsAndStatsWithMostOpenCases(any(), any())).thenReturn(subRegionStatsMostOpenCasesFlow)
 
-        countryViewModel.getLineChartStats("id_country", "id_region")
+        countryViewModel.getLineChartStats(ID_COUNTRY, ID_REGION)
 
         verify(stateObserver, Mockito.times(8)).onChanged(captor.capture())
 
@@ -1101,7 +1106,7 @@ class CountryViewModelTest {
         whenever(getSubRegionStats.getSubRegionsAndStatsWithMostRecovered(any(), any())).thenReturn(subRegionStatsMostRecoveredFlow)
         whenever(getSubRegionStats.getSubRegionsAndStatsWithMostOpenCases(any(), any())).thenReturn(subRegionStatsMostOpenCasesFlow)
 
-        countryViewModel.getLineChartStats("id_country", "id_region")
+        countryViewModel.getLineChartStats(ID_COUNTRY, ID_REGION)
 
         verify(stateObserver, Mockito.times(8)).onChanged(captor.capture())
 

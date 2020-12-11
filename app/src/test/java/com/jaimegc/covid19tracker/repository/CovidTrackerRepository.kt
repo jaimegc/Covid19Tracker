@@ -121,15 +121,60 @@ class CovidTrackerRepository {
     }
 
     @Test
-    fun `get covid tracker by date should return loading and error if the cache is expired and connection is offline`() = runBlocking {
+    fun `get covid tracker by date should return loading and local ds is not called if the cache is expired and date doesnt exist`() = runBlocking {
         every { preferences.isCacheExpired() } returns true
-        coEvery { remote.getCovidTrackerByDate(any()) } returns Either.left(DomainError.NoInternetDomainError)
+        coEvery { remote.getCovidTrackerByDate(any()) } returns Either.left(DomainError.ServerDomainError)
 
         val flowRepository = repository.getCovidTrackerByDate(DATE)
 
         verify { preferences.isCacheExpired() }
         verify { local.getCovidTrackerByDate(any()) wasNot Called }
-        coVerify(exactly = 0) { local.save(covidTracker) }
+        coVerify(exactly = 0) { local.save(any()) }
+        flowRepository.collect { data ->
+            assertThatIsEqualToState(data, stateCovidTrackerLoading)
+        }
+    }
+
+    @Test
+    fun `get covid tracker by date should return loading and local ds is not called if the cache is expired and connection is offline`() = runBlocking {
+        every { preferences.isCacheExpired() } returns true
+        coEvery { remote.getCovidTrackerByDate(any()) } returns Either.left(DomainError.NoInternetError)
+
+        val flowRepository = repository.getCovidTrackerByDate(DATE)
+
+        verify { preferences.isCacheExpired() }
+        verify { local.getCovidTrackerByDate(any()) wasNot Called }
+        coVerify(exactly = 0) { local.save(any()) }
+        flowRepository.collect { data ->
+            assertThatIsEqualToState(data, stateCovidTrackerLoading)
+        }
+    }
+
+    @Test
+    fun `get covid tracker by date should return loading and local ds is not called if the cache is expired and mapper fails`() = runBlocking {
+        every { preferences.isCacheExpired() } returns true
+        coEvery { remote.getCovidTrackerByDate(any()) } returns Either.left(DomainError.MapperDomainError())
+
+        val flowRepository = repository.getCovidTrackerByDate(DATE)
+
+        verify { preferences.isCacheExpired() }
+        verify { local.getCovidTrackerByDate(any()) wasNot Called }
+        coVerify(exactly = 0) { local.save(any()) }
+        flowRepository.collect { data ->
+            assertThatIsEqualToState(data, stateCovidTrackerLoading)
+        }
+    }
+
+    @Test
+    fun `get covid tracker by date should return loading and local ds is not called if the cache is expired and required field is null`() = runBlocking {
+        every { preferences.isCacheExpired() } returns true
+        coEvery { remote.getCovidTrackerByDate(any()) } returns Either.left(DomainError.GenericDomainError)
+
+        val flowRepository = repository.getCovidTrackerByDate(DATE)
+
+        verify { preferences.isCacheExpired() }
+        verify { local.getCovidTrackerByDate(any()) wasNot Called }
+        coVerify(exactly = 0) { local.save(any()) }
         flowRepository.collect { data ->
             assertThatIsEqualToState(data, stateCovidTrackerLoading)
         }

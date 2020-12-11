@@ -18,16 +18,16 @@ private const val RESPONSE_ERROR_403: Int = 403
 fun Exception.apiException(): DomainError =
     when {
         this is HttpException -> toDomainError()
-        this is UnknownHostException -> DomainError.NoInternetDomainError
-        this is ServerConnectionApiException -> DomainError.NoInternetDomainError
+        this is UnknownHostException -> DomainError.NoInternetError
+        this is ServerConnectionApiException -> DomainError.NoInternetError
         this is Server500ApiException -> DomainError.GenericDomainError
         this is Server404ApiException -> DomainError.GenericDomainError
         this is Server403ApiException -> DomainError.ServerForbiddenDomainError
         this is Server403ApiException -> DomainError.ServerForbiddenDomainError
         this is SocketTimeoutException -> DomainError.SocketTimeoutError
-        this is ConnectException -> DomainError.NoInternetDomainError
+        this is ConnectException -> DomainError.NoInternetError
         this is KotlinNullPointerException -> DomainError.ServerDataDomainError
-        this.cause != null && this.cause is ConnectException -> DomainError.NoInternetDomainError
+        this.cause != null && this.cause is ConnectException -> DomainError.NoInternetError
         // For all
         else -> DomainError.GenericDomainError
     }
@@ -44,5 +44,5 @@ fun <T, R> mapResponse(response: T, mapper: (T) -> R): Either<DomainError, R> =
     try {
         Either.right(mapper(response))
     } catch (exception: Exception) {
-        Either.left(DomainError.UnknownDomainError(exception.toString()))
+        Either.left(DomainError.MapperDomainError(exception.toString()))
     }
