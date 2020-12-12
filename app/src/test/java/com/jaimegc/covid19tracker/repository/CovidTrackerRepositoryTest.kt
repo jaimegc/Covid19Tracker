@@ -72,7 +72,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class CovidTrackerRepository {
+class CovidTrackerRepositoryTest {
 
     companion object {
         private val DATES = listOf("date1", "date2", "date3")
