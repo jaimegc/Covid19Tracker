@@ -31,7 +31,7 @@ import com.jaimegc.covid19tracker.ui.model.StatsChartUI
 import com.jaimegc.covid19tracker.ui.base.states.PlaceStateScreen
 import com.jaimegc.covid19tracker.ui.base.states.ScreenState
 import org.koin.android.viewmodel.ext.android.viewModel
-import org.koin.core.get
+import org.koin.core.component.get
 
 class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layout.fragment_country) {
 

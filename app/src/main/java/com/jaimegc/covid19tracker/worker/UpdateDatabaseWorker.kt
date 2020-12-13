@@ -15,8 +15,8 @@ import com.jaimegc.covid19tracker.domain.usecase.AddCovidTrackers
 import com.jaimegc.covid19tracker.domain.usecase.GetDates
 import com.jaimegc.covid19tracker.utils.FileUtils
 import kotlinx.coroutines.delay
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 class UpdateDatabaseWorker(
     val context: Context,
