@@ -3,15 +3,30 @@ package com.jaimegc.covid19tracker.datasource
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import arrow.core.Either
 import com.google.common.truth.Truth.assertThat
+import com.jaimegc.covid19tracker.ModelFactoryTest.countryAndOneStatsPojo
+import com.jaimegc.covid19tracker.ModelFactoryTest.countryOneStats
 import com.jaimegc.covid19tracker.ModelFactoryTest.covidTracker
+import com.jaimegc.covid19tracker.ModelFactoryTest.listCountry
+import com.jaimegc.covid19tracker.ModelFactoryTest.listCountryAndOneStatsPojo
+import com.jaimegc.covid19tracker.ModelFactoryTest.listCountryAndStats
 import com.jaimegc.covid19tracker.ModelFactoryTest.listCountryAndStatsPojo
+import com.jaimegc.covid19tracker.ModelFactoryTest.listCountryEntity
 import com.jaimegc.covid19tracker.ModelFactoryTest.listCountryStatsEntity
+import com.jaimegc.covid19tracker.ModelFactoryTest.listRegion
+import com.jaimegc.covid19tracker.ModelFactoryTest.listRegionAndOneStatsPojo
+import com.jaimegc.covid19tracker.ModelFactoryTest.listRegionAndStats
 import com.jaimegc.covid19tracker.ModelFactoryTest.listRegionAndStatsDV
 import com.jaimegc.covid19tracker.ModelFactoryTest.listRegionAndStatsPojo
+import com.jaimegc.covid19tracker.ModelFactoryTest.listRegionEmpty
+import com.jaimegc.covid19tracker.ModelFactoryTest.listRegionEntity
 import com.jaimegc.covid19tracker.ModelFactoryTest.listRegionStatsEntity
+import com.jaimegc.covid19tracker.ModelFactoryTest.listSubRegionAndOneStatsPojo
+import com.jaimegc.covid19tracker.ModelFactoryTest.listSubRegionAndStats
 import com.jaimegc.covid19tracker.ModelFactoryTest.listSubRegionAndStatsDV
 import com.jaimegc.covid19tracker.ModelFactoryTest.listSubRegionAndStatsPojo
 import com.jaimegc.covid19tracker.ModelFactoryTest.listWorldStatsEntity
+import com.jaimegc.covid19tracker.ModelFactoryTest.regionAndOneStatsPojo
+import com.jaimegc.covid19tracker.ModelFactoryTest.regionOneStats
 import com.jaimegc.covid19tracker.ModelFactoryTest.worldAndCountriesStatsPojo
 import com.jaimegc.covid19tracker.data.datasource.LocalCovidTrackerDatasource
 import com.jaimegc.covid19tracker.data.room.daos.CountryDao
@@ -21,18 +36,27 @@ import com.jaimegc.covid19tracker.data.room.daos.RegionDao
 import com.jaimegc.covid19tracker.data.room.daos.RegionStatsDao
 import com.jaimegc.covid19tracker.data.room.daos.SubRegionStatsDao
 import com.jaimegc.covid19tracker.data.room.daos.WorldStatsDao
+import com.jaimegc.covid19tracker.data.room.entities.CountryEntity
 import com.jaimegc.covid19tracker.data.room.entities.CountryStatsEntity
+import com.jaimegc.covid19tracker.data.room.entities.RegionEntity
 import com.jaimegc.covid19tracker.data.room.entities.RegionStatsEntity
 import com.jaimegc.covid19tracker.data.room.entities.WorldStatsEntity
+import com.jaimegc.covid19tracker.data.room.mapper.toPojoCountriesOrdered
 import com.jaimegc.covid19tracker.data.room.pojos.CountryAndOneStatsPojo
 import com.jaimegc.covid19tracker.data.room.pojos.CountryAndStatsPojo
+import com.jaimegc.covid19tracker.data.room.pojos.RegionAndOneStatsPojo
 import com.jaimegc.covid19tracker.data.room.pojos.RegionAndStatsPojo
+import com.jaimegc.covid19tracker.data.room.pojos.SubRegionAndOneStatsPojo
 import com.jaimegc.covid19tracker.data.room.pojos.SubRegionAndStatsPojo
 import com.jaimegc.covid19tracker.data.room.views.RegionAndStatsDV
 import com.jaimegc.covid19tracker.data.room.views.SubRegionAndStatsDV
 import com.jaimegc.covid19tracker.domain.model.DomainError
+import com.jaimegc.covid19tracker.domain.model.ListCountryAndStats
+import com.jaimegc.covid19tracker.domain.model.ListRegion
+import com.jaimegc.covid19tracker.domain.model.Region
 import com.jaimegc.covid19tracker.domain.model.toDomain
 import com.jaimegc.covid19tracker.domain.model.toStatsDomain
+import com.jaimegc.covid19tracker.ui.base.states.MenuItemViewType
 import com.jaimegc.covid19tracker.utils.MainCoroutineRule
 import io.mockk.Called
 import io.mockk.MockKAnnotations
@@ -356,7 +380,7 @@ class LocalCovidTrackerDatasourceTest {
     }
 
     @Test
-    fun `get regions and stats ordered by confirmed with empty date should return last data if exists`() = runBlocking {
+    fun `get regions and stats ordered by confirmed with empty date should return data if exists`() = runBlocking {
         val flow = flow {
             emit(listRegionAndStatsDV)
         }
@@ -398,7 +422,7 @@ class LocalCovidTrackerDatasourceTest {
     }
 
     @Test
-    fun `get regions and stats ordered by confirmed should return last data if exists`() = runBlocking {
+    fun `get regions and stats ordered by confirmed should return data if exists`() = runBlocking {
         val flow = flow {
             emit(listRegionAndStatsDV)
         }
@@ -440,7 +464,7 @@ class LocalCovidTrackerDatasourceTest {
     }
 
     @Test
-    fun `get subregions and stats ordered by confirmed with empty date should return last data if exists`() = runBlocking {
+    fun `get subregions and stats ordered by confirmed with empty date should return data if exists`() = runBlocking {
         val flow = flow {
             emit(listSubRegionAndStatsDV)
         }
@@ -484,7 +508,7 @@ class LocalCovidTrackerDatasourceTest {
     }
 
     @Test
-    fun `get subregions and stats ordered by confirmed should return last data if exists`() = runBlocking {
+    fun `get subregions and stats ordered by confirmed should return data if exists`() = runBlocking {
         val flow = flow {
             emit(listSubRegionAndStatsDV)
         }
@@ -530,7 +554,7 @@ class LocalCovidTrackerDatasourceTest {
     }
 
     @Test
-    fun `get regions all stats ordered by confirmed with empty date should return last data if exists`() = runBlocking {
+    fun `get regions all stats ordered by confirmed with empty date should return data if exists`() = runBlocking {
         val flow = flow {
             emit(listRegionAndStatsPojo)
         }
@@ -564,7 +588,7 @@ class LocalCovidTrackerDatasourceTest {
     }
 
     @Test
-    fun `get subregions all stats ordered by confirmed with empty date should return last data if exists`() = runBlocking {
+    fun `get subregions all stats ordered by confirmed with empty date should return data if exists`() = runBlocking {
         val flow = flow {
             emit(listSubRegionAndStatsPojo)
         }
@@ -597,11 +621,629 @@ class LocalCovidTrackerDatasourceTest {
         }
     }
 
+    @Test
+    fun `get countries and stats most confirmed should return data if exists`() = runBlocking {
+        val flow = flow {
+            emit(listCountryAndOneStatsPojo)
+        }
 
+        every {
+            countryStatsDao.getCountriesAndStatsWithMostConfirmed()
+        } returns flow
 
+        val flowLocalDs = local.getCountriesAndStatsWithMostConfirmed()
 
+        flowLocalDs.collect { data ->
+            assertThat(data).isEqualTo(Either.right(listCountryAndStats))
+        }
+    }
 
+    @Test
+    fun `get countries and stats most confirmed should return database empty error if data doesn't exists`() = runBlocking {
+        val flow = flow {
+            emit(listOf<CountryAndOneStatsPojo>())
+        }
 
+        every {
+            countryStatsDao.getCountriesAndStatsWithMostConfirmed()
+        } returns flow
+
+        val flowLocalDs = local.getCountriesAndStatsWithMostConfirmed()
+
+        flowLocalDs.collect { data ->
+            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+        }
+    }
+
+    @Test
+    fun `get regions and stats most confirmed should return data if exists`() = runBlocking {
+        val flow = flow {
+            emit(listRegionAndOneStatsPojo)
+        }
+
+        every {
+            regionStatsDao.getRegionsAndStatsWithMostConfirmed(any())
+        } returns flow
+
+        val flowLocalDs = local.getRegionsAndStatsWithMostConfirmed(ID_COUNTRY)
+
+        flowLocalDs.collect { data ->
+            assertThat(data).isEqualTo(
+                Either.right(Pair(MenuItemViewType.LineChartMostConfirmed, listRegionAndStats))
+            )
+        }
+    }
+
+    @Test
+    fun `get regions and stats most confirmed should return database empty error if data doesn't exists`() = runBlocking {
+        val flow = flow {
+            emit(listOf<RegionAndOneStatsPojo>())
+        }
+
+        every {
+            regionStatsDao.getRegionsAndStatsWithMostConfirmed(any())
+        } returns flow
+
+        val flowLocalDs = local.getRegionsAndStatsWithMostConfirmed(ID_COUNTRY)
+
+        flowLocalDs.collect { data ->
+            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+        }
+    }
+
+    @Test
+    fun `get subregions and stats most confirmed should return data if exists`() = runBlocking {
+        val flow = flow {
+            emit(listSubRegionAndOneStatsPojo)
+        }
+
+        every {
+            subRegionStatsDao.getSubRegionsAndStatsWithMostConfirmed(any(), any())
+        } returns flow
+
+        val flowLocalDs = local.getSubRegionsAndStatsWithMostConfirmed(ID_COUNTRY, ID_REGION)
+
+        flowLocalDs.collect { data ->
+            assertThat(data).isEqualTo(
+                Either.right(Pair(MenuItemViewType.LineChartMostConfirmed, listSubRegionAndStats))
+            )
+        }
+    }
+
+    @Test
+    fun `get subregions and stats most confirmed should return database empty error if data doesn't exists`() = runBlocking {
+        val flow = flow {
+            emit(listOf<SubRegionAndOneStatsPojo>())
+        }
+
+        every {
+            subRegionStatsDao.getSubRegionsAndStatsWithMostConfirmed(any(), any())
+        } returns flow
+
+        val flowLocalDs = local.getSubRegionsAndStatsWithMostConfirmed(ID_COUNTRY, ID_REGION)
+
+        flowLocalDs.collect { data ->
+            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+        }
+    }
+
+    @Test
+    fun `get countries and stats most deaths should return data if exists`() = runBlocking {
+        val flow = flow {
+            emit(listCountryAndOneStatsPojo)
+        }
+
+        every {
+            countryStatsDao.getCountriesAndStatsWithMostDeaths()
+        } returns flow
+
+        val flowLocalDs = local.getCountriesAndStatsWithMostDeaths()
+
+        flowLocalDs.collect { data ->
+            assertThat(data).isEqualTo(Either.right(listCountryAndStats))
+        }
+    }
+
+    @Test
+    fun `get countries and stats most deaths should return database empty error if data doesn't exists`() = runBlocking {
+        val flow = flow {
+            emit(listOf<CountryAndOneStatsPojo>())
+        }
+
+        every {
+            countryStatsDao.getCountriesAndStatsWithMostDeaths()
+        } returns flow
+
+        val flowLocalDs = local.getCountriesAndStatsWithMostDeaths()
+
+        flowLocalDs.collect { data ->
+            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+        }
+    }
+
+    @Test
+    fun `get regions and stats most deaths should return data if exists`() = runBlocking {
+        val flow = flow {
+            emit(listRegionAndOneStatsPojo)
+        }
+
+        every {
+            regionStatsDao.getRegionsAndStatsWithMostDeaths(any())
+        } returns flow
+
+        val flowLocalDs = local.getRegionsAndStatsWithMostDeaths(ID_COUNTRY)
+
+        flowLocalDs.collect { data ->
+            assertThat(data).isEqualTo(
+                Either.right(Pair(MenuItemViewType.LineChartMostDeaths, listRegionAndStats))
+            )
+        }
+    }
+
+    @Test
+    fun `get regions and stats most deaths should return database empty error if data doesn't exists`() = runBlocking {
+        val flow = flow {
+            emit(listOf<RegionAndOneStatsPojo>())
+        }
+
+        every {
+            regionStatsDao.getRegionsAndStatsWithMostDeaths(any())
+        } returns flow
+
+        val flowLocalDs = local.getRegionsAndStatsWithMostDeaths(ID_COUNTRY)
+
+        flowLocalDs.collect { data ->
+            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+        }
+    }
+
+    @Test
+    fun `get subregions and stats most deaths should return data if exists`() = runBlocking {
+        val flow = flow {
+            emit(listSubRegionAndOneStatsPojo)
+        }
+
+        every {
+            subRegionStatsDao.getSubRegionsAndStatsWithMostDeaths(any(), any())
+        } returns flow
+
+        val flowLocalDs = local.getSubRegionsAndStatsWithMostDeaths(ID_COUNTRY, ID_REGION)
+
+        flowLocalDs.collect { data ->
+            assertThat(data).isEqualTo(
+                Either.right(Pair(MenuItemViewType.LineChartMostDeaths, listSubRegionAndStats))
+            )
+        }
+    }
+
+    @Test
+    fun `get subregions and stats most deaths should return database empty error if data doesn't exists`() = runBlocking {
+        val flow = flow {
+            emit(listOf<SubRegionAndOneStatsPojo>())
+        }
+
+        every {
+            subRegionStatsDao.getSubRegionsAndStatsWithMostDeaths(any(), any())
+        } returns flow
+
+        val flowLocalDs = local.getSubRegionsAndStatsWithMostDeaths(ID_COUNTRY, ID_REGION)
+
+        flowLocalDs.collect { data ->
+            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+        }
+    }
+
+    @Test
+    fun `get countries and stats most open cases should return data if exists`() = runBlocking {
+        val flow = flow {
+            emit(listCountryAndOneStatsPojo)
+        }
+
+        every {
+            countryStatsDao.getCountriesAndStatsWithMostOpenCases()
+        } returns flow
+
+        val flowLocalDs = local.getCountriesAndStatsWithMostOpenCases()
+
+        flowLocalDs.collect { data ->
+            assertThat(data).isEqualTo(Either.right(listCountryAndStats))
+        }
+    }
+
+    @Test
+    fun `get countries and stats most open cases should return database empty error if data doesn't exists`() = runBlocking {
+        val flow = flow {
+            emit(listOf<CountryAndOneStatsPojo>())
+        }
+
+        every {
+            countryStatsDao.getCountriesAndStatsWithMostOpenCases()
+        } returns flow
+
+        val flowLocalDs = local.getCountriesAndStatsWithMostOpenCases()
+
+        flowLocalDs.collect { data ->
+            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+        }
+    }
+
+    @Test
+    fun `get regions and stats most open cases should return data if exists`() = runBlocking {
+        val flow = flow {
+            emit(listRegionAndOneStatsPojo)
+        }
+
+        every {
+            regionStatsDao.getRegionsAndStatsWithMostOpenCases(any())
+        } returns flow
+
+        val flowLocalDs = local.getRegionsAndStatsWithMostOpenCases(ID_COUNTRY)
+
+        flowLocalDs.collect { data ->
+            assertThat(data).isEqualTo(
+                Either.right(Pair(MenuItemViewType.LineChartMostOpenCases, listRegionAndStats))
+            )
+        }
+    }
+
+    @Test
+    fun `get regions and stats most open cases should return database empty error if data doesn't exists`() = runBlocking {
+        val flow = flow {
+            emit(listOf<RegionAndOneStatsPojo>())
+        }
+
+        every {
+            regionStatsDao.getRegionsAndStatsWithMostOpenCases(any())
+        } returns flow
+
+        val flowLocalDs = local.getRegionsAndStatsWithMostOpenCases(ID_COUNTRY)
+
+        flowLocalDs.collect { data ->
+            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+        }
+    }
+
+    @Test
+    fun `get subregions and stats most open cases should return data if exists`() = runBlocking {
+        val flow = flow {
+            emit(listSubRegionAndOneStatsPojo)
+        }
+
+        every {
+            subRegionStatsDao.getSubRegionsAndStatsWithMostOpenCases(any(), any())
+        } returns flow
+
+        val flowLocalDs = local.getSubRegionsAndStatsWithMostOpenCases(ID_COUNTRY, ID_REGION)
+
+        flowLocalDs.collect { data ->
+            assertThat(data).isEqualTo(
+                Either.right(Pair(MenuItemViewType.LineChartMostOpenCases, listSubRegionAndStats))
+            )
+        }
+    }
+
+    @Test
+    fun `get subregions and stats most open cases should return database empty error if data doesn't exists`() = runBlocking {
+        val flow = flow {
+            emit(listOf<SubRegionAndOneStatsPojo>())
+        }
+
+        every {
+            subRegionStatsDao.getSubRegionsAndStatsWithMostOpenCases(any(), any())
+        } returns flow
+
+        val flowLocalDs = local.getSubRegionsAndStatsWithMostOpenCases(ID_COUNTRY, ID_REGION)
+
+        flowLocalDs.collect { data ->
+            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+        }
+    }
+
+    @Test
+    fun `get countries and stats most recovered should return data if exists`() = runBlocking {
+        val flow = flow {
+            emit(listCountryAndOneStatsPojo)
+        }
+
+        every {
+            countryStatsDao.getCountriesAndStatsWithMostRecovered()
+        } returns flow
+
+        val flowLocalDs = local.getCountriesAndStatsWithMostRecovered()
+
+        flowLocalDs.collect { data ->
+            assertThat(data).isEqualTo(Either.right(listCountryAndStats))
+        }
+    }
+
+    @Test
+    fun `get countries and stats most recovered should return database empty error if data doesn't exists`() = runBlocking {
+        val flow = flow {
+            emit(listOf<CountryAndOneStatsPojo>())
+        }
+
+        every {
+            countryStatsDao.getCountriesAndStatsWithMostRecovered()
+        } returns flow
+
+        val flowLocalDs = local.getCountriesAndStatsWithMostRecovered()
+
+        flowLocalDs.collect { data ->
+            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+        }
+    }
+
+    @Test
+    fun `get regions and stats most recovered should return data if exists`() = runBlocking {
+        val flow = flow {
+            emit(listRegionAndOneStatsPojo)
+        }
+
+        every {
+            regionStatsDao.getRegionsAndStatsWithMostRecovered(any())
+        } returns flow
+
+        val flowLocalDs = local.getRegionsAndStatsWithMostRecovered(ID_COUNTRY)
+
+        flowLocalDs.collect { data ->
+            assertThat(data).isEqualTo(
+                Either.right(Pair(MenuItemViewType.LineChartMostRecovered, listRegionAndStats))
+            )
+        }
+    }
+
+    @Test
+    fun `get regions and stats most recovered should return database empty error if data doesn't exists`() = runBlocking {
+        val flow = flow {
+            emit(listOf<RegionAndOneStatsPojo>())
+        }
+
+        every {
+            regionStatsDao.getRegionsAndStatsWithMostRecovered(any())
+        } returns flow
+
+        val flowLocalDs = local.getRegionsAndStatsWithMostRecovered(ID_COUNTRY)
+
+        flowLocalDs.collect { data ->
+            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+        }
+    }
+
+    @Test
+    fun `get subregions and stats most recovered should return data if exists`() = runBlocking {
+        val flow = flow {
+            emit(listSubRegionAndOneStatsPojo)
+        }
+
+        every {
+            subRegionStatsDao.getSubRegionsAndStatsWithMostRecovered(any(), any())
+        } returns flow
+
+        val flowLocalDs = local.getSubRegionsAndStatsWithMostRecovered(ID_COUNTRY, ID_REGION)
+
+        flowLocalDs.collect { data ->
+            assertThat(data).isEqualTo(
+                Either.right(Pair(MenuItemViewType.LineChartMostRecovered, listSubRegionAndStats))
+            )
+        }
+    }
+
+    @Test
+    fun `get subregions and stats most recovered should return database empty error if data doesn't exists`() = runBlocking {
+        val flow = flow {
+            emit(listOf<SubRegionAndOneStatsPojo>())
+        }
+
+        every {
+            subRegionStatsDao.getSubRegionsAndStatsWithMostRecovered(any(), any())
+        } returns flow
+
+        val flowLocalDs = local.getSubRegionsAndStatsWithMostRecovered(ID_COUNTRY, ID_REGION)
+
+        flowLocalDs.collect { data ->
+            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+        }
+    }
+
+    @Test
+    fun `get countries should return data if exists`() = runBlocking {
+        val flow = flow {
+            emit(listCountryEntity)
+        }
+
+        every { countryDao.getAll() } returns flow
+
+        val flowLocalDs = local.getCountries()
+
+        flowLocalDs.collect { data ->
+            assertThat(data).isEqualTo(Either.right(listCountry))
+        }
+    }
+
+    @Test
+    fun `get countries should return database empty error if data doesn't exists`() = runBlocking {
+        val flow = flow {
+            emit(listOf<CountryEntity>())
+        }
+
+        every { countryDao.getAll() } returns flow
+
+        val flowLocalDs = local.getCountries()
+
+        flowLocalDs.collect { data ->
+            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+        }
+    }
+
+    @Test
+    fun `get regions by country should return data if exists`() = runBlocking {
+        val flow = flow {
+            emit(listRegionEntity)
+        }
+
+        every { regionDao.getByCountry(any()) } returns flow
+
+        val flowLocalDs = local.getRegionsByCountry(ID_COUNTRY)
+
+        flowLocalDs.collect { data ->
+            assertThat(data).isEqualTo(Either.right(listRegion))
+        }
+    }
+
+    @Test
+    fun `get regions by country should return empty list if data doesn't exists`() = runBlocking {
+        val flow = flow {
+            emit(listOf<RegionEntity>())
+        }
+
+        every { regionDao.getByCountry(any()) } returns flow
+
+        val flowLocalDs = local.getRegionsByCountry(ID_COUNTRY)
+
+        flowLocalDs.collect { data ->
+            assertThat(data).isEqualTo(Either.right(listRegionEmpty))
+        }
+    }
+
+    @Test
+    fun `get country and stats by empty date should return last data if exists`() = runBlocking {
+        val flow = flow {
+            emit(countryAndOneStatsPojo)
+        }
+
+        every { countryStatsDao.getCountryAndStatsByLastDate(any()) } returns flow
+
+        val flowLocalDs = local.getCountryAndStatsByDate(ID_COUNTRY, EMPTY_DATE)
+
+        flowLocalDs.collect { data ->
+            assertThat(data).isEqualTo(Either.right(countryOneStats.copy(regionStats = null)))
+        }
+        verify { countryStatsDao.getCountryAndStatsByLastDate(any()) }
+        verify { countryStatsDao.getCountryAndStatsByDate(any(), any()) wasNot Called }
+    }
+
+    @Test
+    fun `get country and stats by empty date should return database mapper error if data doesn't exists`() = runBlocking {
+        val flow = flow {
+            emit(countryAndOneStatsPojo.copy(country = null))
+        }
+
+        every { countryStatsDao.getCountryAndStatsByLastDate(any()) } returns flow
+
+        val flowLocalDs = local.getCountryAndStatsByDate(ID_COUNTRY, EMPTY_DATE)
+
+        flowLocalDs.collect { data ->
+            assertThat(data.isLeft()).isTrue()
+            data.mapLeft { assertThat(it).isInstanceOf(DomainError.MapperDatabaseError::class.java) }
+        }
+        verify { countryStatsDao.getCountryAndStatsByLastDate(any()) }
+        verify { countryStatsDao.getCountryAndStatsByDate(any(), any()) wasNot Called }
+    }
+
+    @Test
+    fun `get country and stats by date should return last data if exists`() = runBlocking {
+        val flow = flow {
+            emit(countryAndOneStatsPojo)
+        }
+
+        every { countryStatsDao.getCountryAndStatsByDate(any(), any()) } returns flow
+
+        val flowLocalDs = local.getCountryAndStatsByDate(ID_COUNTRY, DATE)
+
+        flowLocalDs.collect { data ->
+            assertThat(data).isEqualTo(Either.right(countryOneStats.copy(regionStats = null)))
+        }
+        verify { countryStatsDao.getCountryAndStatsByDate(any(), any()) }
+        verify { countryStatsDao.getCountryAndStatsByLastDate(any()) wasNot Called }
+    }
+
+    @Test
+    fun `get country and stats by date should return database mapper error if data doesn't exists`() = runBlocking {
+        val flow = flow {
+            emit(countryAndOneStatsPojo.copy(country = null))
+        }
+
+        every { countryStatsDao.getCountryAndStatsByDate(any(), any()) } returns flow
+
+        val flowLocalDs = local.getCountryAndStatsByDate(ID_COUNTRY, DATE)
+
+        flowLocalDs.collect { data ->
+            assertThat(data.isLeft()).isTrue()
+            data.mapLeft { assertThat(it).isInstanceOf(DomainError.MapperDatabaseError::class.java) }
+        }
+        verify { countryStatsDao.getCountryAndStatsByDate(any(), any()) }
+        verify { countryStatsDao.getCountryAndStatsByLastDate(any()) wasNot Called }
+    }
+
+    @Test
+    fun `get region and stats by empty date should return last data if exists`() = runBlocking {
+        val flow = flow {
+            emit(regionAndOneStatsPojo)
+        }
+
+        every { regionStatsDao.getRegionAndStatsByLastDate(any(), any()) } returns flow
+
+        val flowLocalDs = local.getRegionAndStatsByDate(ID_COUNTRY, ID_REGION, EMPTY_DATE)
+
+        flowLocalDs.collect { data ->
+            assertThat(data).isEqualTo(Either.right(regionOneStats))
+        }
+        verify { regionStatsDao.getRegionAndStatsByLastDate(any(), any()) }
+        verify { regionStatsDao.getRegionAndStatsByDate(any(), any(), any()) wasNot Called }
+    }
+
+    @Test
+    fun `get region and stats by empty date should return database mapper error if data doesn't exists`() = runBlocking {
+        val flow = flow {
+            emit(regionAndOneStatsPojo.copy(region = null))
+        }
+
+        every { regionStatsDao.getRegionAndStatsByLastDate(any(), any()) } returns flow
+
+        val flowLocalDs = local.getRegionAndStatsByDate(ID_COUNTRY, ID_REGION, EMPTY_DATE)
+
+        flowLocalDs.collect { data ->
+            assertThat(data.isLeft()).isTrue()
+            data.mapLeft { assertThat(it).isInstanceOf(DomainError.MapperDatabaseError::class.java) }
+        }
+        verify { regionStatsDao.getRegionAndStatsByLastDate(any(), any()) }
+        verify { regionStatsDao.getRegionAndStatsByDate(any(), any(), any()) wasNot Called }
+    }
+
+    @Test
+    fun `get region and stats by date should return last data if exists`() = runBlocking {
+        val flow = flow {
+            emit(regionAndOneStatsPojo)
+        }
+
+        every { regionStatsDao.getRegionAndStatsByDate(any(), any(), any()) } returns flow
+
+        val flowLocalDs = local.getRegionAndStatsByDate(ID_COUNTRY, ID_REGION, DATE)
+
+        flowLocalDs.collect { data ->
+            assertThat(data).isEqualTo(Either.right(regionOneStats))
+        }
+        verify { regionStatsDao.getRegionAndStatsByDate(any(), any(), any()) }
+        verify { regionStatsDao.getRegionAndStatsByLastDate(any(), any()) wasNot Called }
+    }
+
+    @Test
+    fun `get region and stats by date should return database mapper error if data doesn't exists`() = runBlocking {
+        val flow = flow {
+            emit(regionAndOneStatsPojo.copy(region = null))
+        }
+
+        every { regionStatsDao.getRegionAndStatsByDate(any(), any(), any()) } returns flow
+
+        val flowLocalDs = local.getRegionAndStatsByDate(ID_COUNTRY, ID_REGION, DATE)
+
+        flowLocalDs.collect { data ->
+            assertThat(data.isLeft()).isTrue()
+            data.mapLeft { assertThat(it).isInstanceOf(DomainError.MapperDatabaseError::class.java) }
+        }
+        verify { regionStatsDao.getRegionAndStatsByDate(any(), any(), any()) }
+        verify { regionStatsDao.getRegionAndStatsByLastDate(any(), any()) wasNot Called }
+    }
 
     @Test
     fun `populate database with covid tracker list should call populate database method`() = runBlockingTest {
