@@ -40,7 +40,8 @@ android {
             "-Xinline-classes",
             "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
             "-Xopt-in=kotlinx.coroutines.ObsoleteCoroutinesApi",
-            "-Xopt-in=kotlinx.coroutines.FlowPreview"
+            "-Xopt-in=kotlinx.coroutines.FlowPreview",
+            "-Xopt-in=org.koin.core.component.KoinApiExtension"
         )
     }
 

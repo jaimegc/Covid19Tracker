@@ -3,7 +3,7 @@ package com.jaimegc.covid19tracker.ui.base
 import android.content.Context
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
-import org.koin.core.KoinComponent
+import org.koin.core.component.KoinComponent
 
 abstract class BaseActivity : AppCompatActivity(), KoinComponent {
 

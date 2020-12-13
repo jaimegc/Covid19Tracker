@@ -7,7 +7,8 @@ sealed class DomainError {
     object ServerDomainError : DomainError()
     object ServerDataDomainError : DomainError()
     object ServerForbiddenDomainError : DomainError()
-    data class MapperDomainError(val errorMessage: String = "Unknown Error") : DomainError()
-    data class UnknownDatabaseError(val errorMessage: String = "Database Error") : DomainError()
+    data class MapperDomainError(val errorMessage: String = "Mapper Domain Error") : DomainError()
+    data class UnknownDatabaseError(val errorMessage: String = "Unknown Database Error") : DomainError()
+    data class MapperDatabaseError(val errorMessage: String = "Mapper Database Error") : DomainError()
     object DatabaseEmptyData : DomainError()
 }

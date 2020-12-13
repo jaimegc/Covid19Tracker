@@ -31,6 +31,7 @@ class GetDatesTest : UseCaseTest() {
         val eitherUseCase = getDates.getAllDates()
 
         coVerify { repository.getAllDates() }
+        assertThat(eitherUseCase.isRight()).isTrue()
         eitherUseCase.map { dates ->
             assertThat(dates).hasSize(3)
             assertThat(dates).isEqualTo(DATES)
@@ -44,6 +45,7 @@ class GetDatesTest : UseCaseTest() {
         val eitherUseCase = getDates.getAllDates()
 
         coVerify { repository.getAllDates() }
+        assertThat(eitherUseCase.isRight()).isTrue()
         eitherUseCase.map { dates ->
             assertThat(dates).isEmpty()
         }

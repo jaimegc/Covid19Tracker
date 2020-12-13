@@ -143,9 +143,13 @@ fun <T, R> mapEntityValid(parse: Flow<T?>, mapper: (T) -> Pair<Boolean, R>): Flo
     try {
         parse.map {
             it?.let {
-                when (mapper(it).first) {
-                    true -> Either.right(mapper(it).second)
-                    else -> Either.left(DomainError.DatabaseEmptyData)
+                try {
+                    when (mapper(it).first) {
+                        true -> Either.right(mapper(it).second)
+                        else -> Either.left(DomainError.DatabaseEmptyData)
+                    }
+                } catch (exception: Exception) {
+                    Either.left(DomainError.MapperDatabaseError(exception.toString()))
                 }
             } ?: Either.left(DomainError.DatabaseEmptyData)
         }
@@ -160,9 +164,13 @@ fun <T, S, R> mapEntityMenuValid(
     try {
         parse.map {
             it?.let {
-                when (mapper(it).first) {
-                    true -> Either.right(mapper(it).second)
-                    else -> Either.left(DomainError.DatabaseEmptyData)
+                try {
+                    when (mapper(it).first) {
+                        true -> Either.right(mapper(it).second)
+                        else -> Either.left(DomainError.DatabaseEmptyData)
+                    }
+                } catch (exception: Exception) {
+                    Either.left(DomainError.MapperDatabaseError(exception.toString()))
                 }
             } ?: Either.left(DomainError.DatabaseEmptyData)
         }
