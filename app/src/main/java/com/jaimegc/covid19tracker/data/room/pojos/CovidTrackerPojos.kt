@@ -28,7 +28,7 @@ data class CountryAndStatsPojo(
     val stats: List<CountryStatsEntity>
 )
 
-class CountryAndOneStatsPojo(
+data class CountryAndOneStatsPojo(
     @Embedded
     val country: CountryEntity?,
     @Embedded
@@ -52,7 +52,7 @@ data class SubRegionAndStatsPojo(
     val stats: List<SubRegionStatsEntity>
 )
 
-class RegionAndOneStatsPojo(
+data class RegionAndOneStatsPojo(
     @Embedded
     val region: RegionEntity?,
     @Embedded
@@ -62,7 +62,7 @@ class RegionAndOneStatsPojo(
         region != null && regionStats != null
 }
 
-class SubRegionAndOneStatsPojo(
+data class SubRegionAndOneStatsPojo(
     @Embedded
     val subRegion: SubRegionEntity?,
     @Embedded
