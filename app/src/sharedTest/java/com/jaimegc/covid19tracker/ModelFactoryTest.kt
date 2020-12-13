@@ -596,6 +596,8 @@ object ModelFactoryTest {
             regions = listOf(region)
         )
 
+    val listRegionEmpty: ListRegion = ListRegion(regions = listOf())
+
     val listWorldStatsEntity = listOf(worldStatsEntity)
 
     val listCountryAndStatsPojo = listOf(countryAndStatsPojo)

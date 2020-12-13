@@ -8,15 +8,15 @@ import com.jaimegc.covid19tracker.data.api.client.CovidTrackerApiClient
 import com.jaimegc.covid19tracker.data.api.model.CovidTrackerDto
 import com.jaimegc.covid19tracker.domain.model.CovidTracker
 import com.jaimegc.covid19tracker.domain.model.toDomain
-import com.jaimegc.covid19tracker.domain.usecase.AddCovidTrackers
+import com.jaimegc.covid19tracker.domain.usecase.AddCovidTracker
 import com.jaimegc.covid19tracker.utils.FileUtils
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import retrofit2.Response
 
 class PopulateDatabaseWorker(
@@ -61,7 +61,7 @@ class PopulateDatabaseWorker(
 
             if (covidTrackers.isNotEmpty()) {
                 // Tips: Use an emulator to generate the database
-                val useCase: AddCovidTrackers by inject()
+                val useCase: AddCovidTracker by inject()
                 useCase.addCovidTrackers(covidTrackers)
             }
 

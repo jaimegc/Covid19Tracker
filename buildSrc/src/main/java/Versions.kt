@@ -21,7 +21,7 @@ object Versions {
         const val FIREBASE_CRASHLYTICS = "2.4.1"
         const val FIREBASE_PERFORMANCE_PLUGIN = "1.3.4"
         const val GRADLE_ANDROID = "4.1.1"
-        const val KOTLIN = "1.4.20"
+        const val KOTLIN = "1.4.21"
         const val MAVEN_PLUGIN = "2.1"
         const val GOOGLE_SERVICES = "4.3.4"
         const val REMAL_PLUGIN = "1.1.5"
@@ -76,7 +76,7 @@ object Versions {
     }
 
     object Koin {
-        const val KOIN = "2.1.6"
+        const val KOIN = "2.2.1"
     }
 
     object Test {

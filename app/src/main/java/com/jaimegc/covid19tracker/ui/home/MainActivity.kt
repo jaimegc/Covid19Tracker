@@ -24,7 +24,7 @@ import com.jaimegc.covid19tracker.utils.FileUtils
 import com.jaimegc.covid19tracker.worker.UpdateDatabaseWorker
 import com.jaimegc.covid19tracker.worker.UpdateDatabaseWorker.Companion.UPDATE_TIME_HOURS
 import org.koin.android.viewmodel.ext.android.viewModel
-import org.koin.core.inject
+import org.koin.core.component.inject
 import java.util.concurrent.TimeUnit
 
 class MainActivity : BaseActivity() {

@@ -159,15 +159,15 @@ Covid19 Tracker is a sample Android application focused on displaying statistics
   <img src="./art/uml_database.png" width="600">
 </p>  
 
-### Database rows from 2020/01/23 until 2020/10/02
+### Database rows from 2020/01/23 until 2020/12/13
 
-- country: 191
-- region: 406
+- country: 193
+- region: 418
 - sub_region: 3.208
-- world_stats: 254
-- country_stats: 48.514
-- region_stats: 103.124
-- sub_region_stats: 814.832
+- world_stats: 326
+- country_stats: 62.308
+- region_stats: 132.719
+- sub_region_stats: 1.045.808
 
 ## Initialize Database
 
@@ -207,7 +207,7 @@ The data for any other day, from the last one in the local database until the cu
 
 ## Working on... 👨🏻‍💻🧑🏿‍💻
 
-### Unit Tests (274 ✅)
+### Unit Tests (341 ✅)
 
 - ViewModels: 45 ✅
   - CountryViewModel: 26 ✔️
@@ -226,7 +226,8 @@ The data for any other day, from the last one in the local database until the cu
   - AddCovidTrackers: 1 ✔️
 - Repositories: 59 ✅
   - CovidTrackerRepository: 59 ✔️
-- Datasources: 5 ✅
+- Datasources: 72 ✅
+    - LocalCovidTrackerDatasource: 67 ✔️
     - RemoteCovidTrackerDatasource: 5 ✔️
 - Mappers: 63 ✅
   - DomainMapper: 30 ✔️
