@@ -8,7 +8,7 @@ import com.jaimegc.covid19tracker.data.api.client.CovidTrackerApiClient
 import com.jaimegc.covid19tracker.data.api.model.CovidTrackerDto
 import com.jaimegc.covid19tracker.domain.model.CovidTracker
 import com.jaimegc.covid19tracker.domain.model.toDomain
-import com.jaimegc.covid19tracker.domain.usecase.AddCovidTrackers
+import com.jaimegc.covid19tracker.domain.usecase.AddCovidTracker
 import com.jaimegc.covid19tracker.utils.FileUtils
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.Deferred
@@ -61,7 +61,7 @@ class PopulateDatabaseWorker(
 
             if (covidTrackers.isNotEmpty()) {
                 // Tips: Use an emulator to generate the database
-                val useCase: AddCovidTrackers by inject()
+                val useCase: AddCovidTracker by inject()
                 useCase.addCovidTrackers(covidTrackers)
             }
 

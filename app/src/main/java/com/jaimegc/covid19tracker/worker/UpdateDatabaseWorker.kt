@@ -11,7 +11,7 @@ import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.data.datasource.RemoteCovidTrackerDatasource
 import com.jaimegc.covid19tracker.data.preference.CovidTrackerPreferences
 import com.jaimegc.covid19tracker.domain.model.CovidTracker
-import com.jaimegc.covid19tracker.domain.usecase.AddCovidTrackers
+import com.jaimegc.covid19tracker.domain.usecase.AddCovidTracker
 import com.jaimegc.covid19tracker.domain.usecase.GetDates
 import com.jaimegc.covid19tracker.utils.FileUtils
 import kotlinx.coroutines.delay
@@ -67,7 +67,7 @@ class UpdateDatabaseWorker(
             )
         }
 
-        val useCase: AddCovidTrackers by inject()
+        val useCase: AddCovidTracker by inject()
         useCase.addCovidTrackers(covidTrackers)
         // Sometimes this progress is not called
         setProgress(workDataOf(DATA_PROGRESS to context.getString(R.string.worker_finish)))
