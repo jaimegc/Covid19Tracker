@@ -207,7 +207,7 @@ The data for any other day, from the last one in the local database until the cu
 
 ## Working on... 👨🏻‍💻🧑🏿‍💻
 
-### Unit Tests (341 ✅)
+### Unit Tests (351 ✅)
 
 - ViewModels: 45 ✅
   - CountryViewModel: 26 ✔️
@@ -229,6 +229,8 @@ The data for any other day, from the last one in the local database until the cu
 - Datasources: 72 ✅
     - LocalCovidTrackerDatasource: 67 ✔️
     - RemoteCovidTrackerDatasource: 5 ✔️
+- ApiClients: 10 ✅
+    - CovidTrackerDatasourceApiClient: 10 ✔️
 - Mappers: 63 ✅
   - DomainMapper: 30 ✔️
   - UIMapper: 22 ✔️
