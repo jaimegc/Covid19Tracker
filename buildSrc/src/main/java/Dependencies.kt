@@ -88,6 +88,8 @@ object Dependencies {
     internal const val KOIN_SCOPE = "org.koin:koin-android-scope:${Versions.Koin.KOIN}"
     internal const val KOIN_VIEWMODEL = "org.koin:koin-android-viewmodel:${Versions.Koin.KOIN}"
 
+    internal const val TEST_APACHE_COMMONS =
+        "commons-io:commons-io:${Versions.Test.APACHE_COMMONS}"
     internal const val TEST_COROUTINES =
         "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.Test.COROUTINES}"
     internal const val TEST_FLOW_OBSERVER =
@@ -96,6 +98,8 @@ object Dependencies {
     internal const val TEST_MOCKITO_KOTLIN =
         "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.Test.MOCKITO_KOTLIN}"
     internal const val TEST_MOCKK = "io.mockk:mockk:${Versions.Test.MOCKK}"
+    internal const val TEST_MOCK_WEB_SERVER =
+        "com.squareup.okhttp3:mockwebserver:${Versions.Test.MOCK_WEB_SERVER}"
 
     const val DETEKT = Versions.Detekt.DETEKT
     const val DETEKT_PLUGIN = "io.gitlab.arturbosch.detekt"
@@ -188,11 +192,13 @@ fun DependencyHandler.test() {
 
     testImplementation(Dependencies.ANDROID_CORE_TESTING)
     testImplementation(Dependencies.ANDROID_TEST_TRUTH)
+    testImplementation(Dependencies.TEST_APACHE_COMMONS)
     testImplementation(Dependencies.TEST_COROUTINES)
     testImplementation(Dependencies.TEST_FLOW_OBSERVER)
     testImplementation(Dependencies.TEST_JUNIT)
     testImplementation(Dependencies.TEST_MOCKITO_KOTLIN)
     testImplementation(Dependencies.TEST_MOCKK)
+    testImplementation(Dependencies.TEST_MOCK_WEB_SERVER)
 }
 
 fun DependencyHandler.detektFormatting() {

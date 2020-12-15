@@ -24,7 +24,7 @@ object Versions {
         const val KOTLIN = "1.4.21"
         const val MAVEN_PLUGIN = "2.1"
         const val GOOGLE_SERVICES = "4.3.4"
-        const val REMAL_PLUGIN = "1.1.5"
+        const val REMAL_PLUGIN = "1.1.6"
     }
 
     object Kotlin {
@@ -80,11 +80,13 @@ object Versions {
     }
 
     object Test {
+        const val APACHE_COMMONS = "2.6"
         const val COROUTINES = "1.4.2"
         const val FLOW_TEST_OBSERVER = "1.5.0"
         const val JUNIT = "4.13.1"
         const val MOCKITO_KOTLIN = "2.2.0"
         const val MOCKK = "1.10.2"
+        const val MOCK_WEB_SERVER = "4.9.0"
     }
 
     object Detekt {
