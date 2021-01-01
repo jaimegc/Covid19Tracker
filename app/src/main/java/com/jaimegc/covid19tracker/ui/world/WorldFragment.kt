@@ -24,11 +24,11 @@ import com.jaimegc.covid19tracker.ui.adapter.WorldPieChartAdapter
 import com.jaimegc.covid19tracker.ui.base.BaseFragment
 import com.jaimegc.covid19tracker.ui.base.states.ScreenState
 import com.jaimegc.covid19tracker.ui.base.states.WorldStateScreen
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.core.component.inject
 
 class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fragment_world) {
 
-    override val viewModel: WorldViewModel by viewModel()
+    override val viewModel: WorldViewModel by inject()
 
     private val worldAdapter = WorldAdapter()
     private val worldCountryAdapter = WorldCountryAdapter()

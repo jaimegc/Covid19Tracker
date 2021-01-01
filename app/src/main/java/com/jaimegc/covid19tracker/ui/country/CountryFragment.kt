@@ -30,14 +30,13 @@ import com.jaimegc.covid19tracker.ui.base.BaseFragment
 import com.jaimegc.covid19tracker.ui.model.StatsChartUI
 import com.jaimegc.covid19tracker.ui.base.states.PlaceStateScreen
 import com.jaimegc.covid19tracker.ui.base.states.ScreenState
-import org.koin.android.viewmodel.ext.android.viewModel
-import org.koin.core.component.get
+import org.koin.core.component.inject
 
 class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layout.fragment_country) {
 
-    override val viewModel: CountryViewModel by viewModel()
+    override val viewModel: CountryViewModel by inject()
 
-    private val countryPreferences: CountryPreferences = get()
+    private val countryPreferences: CountryPreferences by inject()
     private val placeTotalAdapter = PlaceTotalAdapter()
     private val placeAdapter = PlaceAdapter()
     private val placeTotalBarChartAdapter = PlaceTotalBarChartAdapter()
