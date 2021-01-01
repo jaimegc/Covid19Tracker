@@ -10,7 +10,7 @@ import com.jaimegc.covid19tracker.common.extensions.toLastUpdated
 import com.jaimegc.covid19tracker.databinding.ItemTotalBinding
 import com.jaimegc.covid19tracker.ui.model.WorldStatsUI
 
-class WorldAdapter : ListAdapter<WorldStatsUI, WorldAdapter.WorldViewHolder>(DIFF_CALLBACK) {
+class WorldAdapter : ListAdapter<WorldStatsUI, WorldAdapter.WorldViewHolder>(DiffUtilCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         WorldViewHolder(
@@ -61,13 +61,11 @@ class WorldAdapter : ListAdapter<WorldStatsUI, WorldAdapter.WorldViewHolder>(DIF
         }
     }
 
-    companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<WorldStatsUI>() {
-            override fun areItemsTheSame(oldItem: WorldStatsUI, newItem: WorldStatsUI): Boolean =
-                oldItem.date == newItem.date
+    private object DiffUtilCallback : DiffUtil.ItemCallback<WorldStatsUI>() {
+        override fun areItemsTheSame(oldItem: WorldStatsUI, newItem: WorldStatsUI): Boolean =
+            oldItem.date == newItem.date
 
-            override fun areContentsTheSame(oldItem: WorldStatsUI, newItem: WorldStatsUI): Boolean =
-                oldItem == newItem
-        }
+        override fun areContentsTheSame(oldItem: WorldStatsUI, newItem: WorldStatsUI): Boolean =
+            oldItem == newItem
     }
 }

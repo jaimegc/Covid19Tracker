@@ -19,7 +19,7 @@ import com.jaimegc.covid19tracker.databinding.ItemPlaceTotalBinding
 import com.jaimegc.covid19tracker.databinding.ItemPlaceTotalExpandedBinding
 import com.jaimegc.covid19tracker.ui.model.PlaceStatsUI
 
-class PlaceAdapter : ListAdapter<PlaceStatsUI, PlaceAdapter.PlaceStatsViewHolder>(DIFF_CALLBACK) {
+class PlaceAdapter : ListAdapter<PlaceStatsUI, PlaceAdapter.PlaceStatsViewHolder>(DiffUtilCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         PlaceStatsViewHolder(
@@ -144,15 +144,15 @@ class PlaceAdapter : ListAdapter<PlaceStatsUI, PlaceAdapter.PlaceStatsViewHolder
         }
     }
 
+    private object DiffUtilCallback : DiffUtil.ItemCallback<PlaceStatsUI>() {
+        override fun areItemsTheSame(oldItem: PlaceStatsUI, newItem: PlaceStatsUI): Boolean =
+            oldItem.name == newItem.name && oldItem.isExpanded == newItem.isExpanded
+
+        override fun areContentsTheSame(oldItem: PlaceStatsUI, newItem: PlaceStatsUI): Boolean =
+            oldItem == newItem
+    }
+
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<PlaceStatsUI>() {
-            override fun areItemsTheSame(oldItem: PlaceStatsUI, newItem: PlaceStatsUI): Boolean =
-                oldItem.name == newItem.name && oldItem.isExpanded == newItem.isExpanded
-
-            override fun areContentsTheSame(oldItem: PlaceStatsUI, newItem: PlaceStatsUI): Boolean =
-                oldItem == newItem
-        }
-
         private const val TEXT_SIZE_EXPANDED = 20f
         private const val TEXT_SIZE_COLLAPSED = 15f
     }

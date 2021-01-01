@@ -14,7 +14,7 @@ import com.jaimegc.covid19tracker.databinding.ItemPieChartPlaceTotalBinding
 import com.jaimegc.covid19tracker.ui.model.WorldCountryStatsUI
 
 class WorldCountriesPieChartAdapter :
-    ListAdapter<WorldCountryStatsUI, WorldCountriesPieChartAdapter.CountriesListStatsViewHolder>(DIFF_CALLBACK) {
+    ListAdapter<WorldCountryStatsUI, WorldCountriesPieChartAdapter.CountriesListStatsViewHolder>(DiffUtilCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         CountriesListStatsViewHolder(
@@ -72,13 +72,11 @@ class WorldCountriesPieChartAdapter :
         }
     }
 
-    companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<WorldCountryStatsUI>() {
-            override fun areItemsTheSame(oldItem: WorldCountryStatsUI, newItem: WorldCountryStatsUI): Boolean =
-                oldItem.countryStats.country.id == newItem.countryStats.country.id
+    private object DiffUtilCallback : DiffUtil.ItemCallback<WorldCountryStatsUI>() {
+        override fun areItemsTheSame(oldItem: WorldCountryStatsUI, newItem: WorldCountryStatsUI): Boolean =
+            oldItem.countryStats.country.id == newItem.countryStats.country.id
 
-            override fun areContentsTheSame(oldItem: WorldCountryStatsUI, newItem: WorldCountryStatsUI): Boolean =
-                oldItem == newItem
-        }
+        override fun areContentsTheSame(oldItem: WorldCountryStatsUI, newItem: WorldCountryStatsUI): Boolean =
+            oldItem == newItem
     }
 }

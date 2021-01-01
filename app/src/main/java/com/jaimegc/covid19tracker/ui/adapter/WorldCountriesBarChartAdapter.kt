@@ -13,7 +13,7 @@ import com.jaimegc.covid19tracker.common.extensions.setEmojiCountry
 import com.jaimegc.covid19tracker.ui.model.CountryListStatsChartUI
 
 class WorldCountriesBarChartAdapter :
-    ListAdapter<CountryListStatsChartUI, WorldCountriesBarChartAdapter.CountriesListStatsViewHolder>(DIFF_CALLBACK) {
+    ListAdapter<CountryListStatsChartUI, WorldCountriesBarChartAdapter.CountriesListStatsViewHolder>(DiffUtilCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         CountriesListStatsViewHolder(
@@ -65,16 +65,14 @@ class WorldCountriesBarChartAdapter :
         }
     }
 
-    companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<CountryListStatsChartUI>() {
-            override fun areItemsTheSame(oldItem: CountryListStatsChartUI, newItem: CountryListStatsChartUI): Boolean =
-                oldItem.country.id == newItem.country.id
+    private object DiffUtilCallback : DiffUtil.ItemCallback<CountryListStatsChartUI>() {
+        override fun areItemsTheSame(oldItem: CountryListStatsChartUI, newItem: CountryListStatsChartUI): Boolean =
+            oldItem.country.id == newItem.country.id
 
-            override fun areContentsTheSame(
-                oldItem: CountryListStatsChartUI,
-                newItem: CountryListStatsChartUI
-            ): Boolean =
-                oldItem == newItem
-        }
+        override fun areContentsTheSame(
+            oldItem: CountryListStatsChartUI,
+            newItem: CountryListStatsChartUI
+        ): Boolean =
+            oldItem == newItem
     }
 }
