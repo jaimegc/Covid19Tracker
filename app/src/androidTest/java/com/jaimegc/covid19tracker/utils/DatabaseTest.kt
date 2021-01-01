@@ -5,7 +5,13 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.jaimegc.covid19tracker.ModelFactoryTest
+import com.jaimegc.covid19tracker.ModelFactoryTest.countryEntity
+import com.jaimegc.covid19tracker.ModelFactoryTest.countryStatsEntity
+import com.jaimegc.covid19tracker.ModelFactoryTest.regionEntity
+import com.jaimegc.covid19tracker.ModelFactoryTest.regionStatsEntity
+import com.jaimegc.covid19tracker.ModelFactoryTest.subRegionEntity
+import com.jaimegc.covid19tracker.ModelFactoryTest.subRegionStatsEntity
+import com.jaimegc.covid19tracker.ModelFactoryTest.worldStatsEntity
 import com.jaimegc.covid19tracker.data.room.Covid19TrackerDatabase
 import com.jaimegc.covid19tracker.data.room.daos.CovidTrackerDao
 import kotlinx.coroutines.runBlocking
@@ -32,13 +38,13 @@ abstract class DatabaseTest {
 
         runBlocking {
             covidTrackerDao.populateDatabase(
-                worldsStats = listOf(ModelFactoryTest.worldStatsEntity),
-                countries = listOf(ModelFactoryTest.countryEntity),
-                countriesStats = listOf(ModelFactoryTest.countryStatsEntity),
-                regions = listOf(ModelFactoryTest.regionEntity),
-                regionsStats = listOf(ModelFactoryTest.regionStatsEntity),
-                subRegions = listOf(ModelFactoryTest.subRegionEntity),
-                subRegionsStats = listOf(ModelFactoryTest.subRegionStatsEntity),
+                worldsStats = listOf(worldStatsEntity),
+                countries = listOf(countryEntity),
+                countriesStats = listOf(countryStatsEntity),
+                regions = listOf(regionEntity),
+                regionsStats = listOf(regionStatsEntity),
+                subRegions = listOf(subRegionEntity),
+                subRegionsStats = listOf(subRegionStatsEntity),
             )
         }
     }
