@@ -112,7 +112,7 @@ class CovidTrackerApiClientTest : MockWebServerTest() {
     }
 
     @Test
-    fun `get covid trackers by date as responsse with empty data should have code 404 and null body`(): Unit = runBlocking {
+    fun `get covid trackers by date as response with empty data should have code 404 and null body`(): Unit = runBlocking {
         enqueueMockResponse(
             HttpURLConnection.HTTP_NOT_FOUND, GET_COVID_TRACKER_NO_DATA_ERROR_RESPONSE
         )
