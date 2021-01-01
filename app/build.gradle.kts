@@ -54,8 +54,11 @@ android {
         exclude("META-INF/LGPL2.1")
     }
 
-    sourceSets["main"].java {
-        srcDir("src/sharedTest/java")
+    sourceSets {
+        "src/sharedTest/java".apply {
+            getByName("test").java.srcDirs(this)
+            getByName("androidTest").java.srcDirs(this)
+        }
     }
 }
 
