@@ -20,7 +20,7 @@ import com.jaimegc.covid19tracker.databinding.ItemPlaceTotalBinding
 import com.jaimegc.covid19tracker.databinding.ItemPlaceTotalExpandedBinding
 import com.jaimegc.covid19tracker.ui.model.CountryStatsUI
 
-class WorldCountryAdapter : ListAdapter<CountryStatsUI, WorldCountryAdapter.WorldCountryViewHolder>(DIFF_CALLBACK) {
+class WorldCountryAdapter : ListAdapter<CountryStatsUI, WorldCountryAdapter.WorldCountryViewHolder>(DiffUtilCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         WorldCountryViewHolder(
@@ -146,15 +146,15 @@ class WorldCountryAdapter : ListAdapter<CountryStatsUI, WorldCountryAdapter.Worl
         }
     }
 
+    private object DiffUtilCallback : DiffUtil.ItemCallback<CountryStatsUI>() {
+        override fun areItemsTheSame(oldItem: CountryStatsUI, newItem: CountryStatsUI): Boolean =
+            oldItem.country.name == newItem.country.name && oldItem.isExpanded == newItem.isExpanded
+
+        override fun areContentsTheSame(oldItem: CountryStatsUI, newItem: CountryStatsUI): Boolean =
+            oldItem == newItem
+    }
+
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<CountryStatsUI>() {
-            override fun areItemsTheSame(oldItem: CountryStatsUI, newItem: CountryStatsUI): Boolean =
-                oldItem.country.name == newItem.country.name && oldItem.isExpanded == newItem.isExpanded
-
-            override fun areContentsTheSame(oldItem: CountryStatsUI, newItem: CountryStatsUI): Boolean =
-                oldItem == newItem
-        }
-
         private const val TEXT_SIZE_EXPANDED = 20f
         private const val TEXT_SIZE_COLLAPSED = 15f
     }

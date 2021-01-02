@@ -25,7 +25,9 @@ android {
 
     buildTypes {
         getByName(Versions.Android.BuildTypes.DEBUG) {
-            buildConfigField("String", "BASE_URL", "\"https://api.covid19tracking.narrativa.com/api/\"")
+            buildConfigField(
+                "String", "BASE_URL", "\"https://api.covid19tracking.narrativa.com/api/\""
+            )
         }
     }
 
@@ -54,8 +56,17 @@ android {
         exclude("META-INF/LGPL2.1")
     }
 
-    sourceSets["main"].java {
-        srcDir("src/sharedTest/java")
+    sourceSets {
+        "src/sharedTest/java".apply {
+            getByName("test").java.srcDirs(this)
+            getByName("androidTest").java.srcDirs(this)
+        }
+    }
+
+    testOptions {
+        unitTests {
+            this.isIncludeAndroidResources = true
+        }
     }
 }
 

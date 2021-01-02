@@ -1,12 +1,12 @@
 object Versions {
     object Android {
         const val BUILD_TOOLS = "29.0.3"
-        const val COMPILE_SDK = 29
+        const val COMPILE_SDK = 28
 
         object DefaultConfig {
             const val APPLICATION_ID = "com.jaimegc.covid19tracker"
             const val MIN_ANDROID_SDK = 21
-            const val TARGET_ANDROID_SDK = 29
+            const val TARGET_ANDROID_SDK = 28
             const val VERSION_CODE = 1
             const val VERSION_NAME = "1.0"
             const val TEST_INSTRUMENTATION_RUNNER = "androidx.test.runner.AndroidJUnitRunner"
@@ -21,7 +21,7 @@ object Versions {
         const val FIREBASE_CRASHLYTICS = "2.4.1"
         const val FIREBASE_PERFORMANCE_PLUGIN = "1.3.4"
         const val GRADLE_ANDROID = "4.1.1"
-        const val KOTLIN = "1.4.21"
+        const val KOTLIN = "1.4.21-2"
         const val MAVEN_PLUGIN = "2.1"
         const val GOOGLE_SERVICES = "4.3.4"
         const val REMAL_PLUGIN = "1.1.6"
@@ -44,14 +44,14 @@ object Versions {
             const val RECYCLERVIEW = "1.2.0-alpha04"
             const val TEST_RULES = "1.3.0"
             const val TEST_RUNNER = "1.2.0"
-            const val ROOM = "2.2.5"
+            const val ROOM = "2.2.6"
             const val WORK_MANAGER = "2.4.0"
         }
 
         object Firebase {
             const val ANALYTICS = "18.0.0"
             const val CRASHLYTICS = "17.3.0"
-            const val PERFORMANCE = "19.0.10"
+            const val PERFORMANCE = "19.0.11"
         }
 
         object Material {
@@ -76,22 +76,24 @@ object Versions {
     }
 
     object Koin {
-        const val KOIN = "2.2.1"
+        const val KOIN = "2.2.2"
     }
 
     object Test {
-        const val APACHE_COMMONS = "2.6"
+        const val APACHE_COMMONS = "20030203.000550"
         const val COROUTINES = "1.4.2"
         const val FLOW_TEST_OBSERVER = "1.5.0"
         const val JUNIT = "4.13.1"
+        const val KOIN = Koin.KOIN
         const val MOCKITO_KOTLIN = "2.2.0"
-        const val MOCKK = "1.10.2"
+        const val MOCKK = "1.10.4"
         const val MOCK_WEB_SERVER = "4.9.0"
+        const val ROBOLECTRIC = "4.4"
     }
 
     object Detekt {
-        const val DETEKT = "1.14.2"
-        const val DETEKT_FORMATTING = "1.12.0"
+        const val DETEKT = "1.15.0"
+        const val DETEKT_FORMATTING = "1.15.0"
     }
 
     object Arrow {
@@ -99,7 +101,7 @@ object Versions {
     }
 
     object Other {
-        const val AIRBNB_LOTTIE = "3.5.0"
+        const val AIRBNB_LOTTIE = "3.6.0"
         const val CHART = "v3.1.0"
         const val EMOJI = "5.1.1"
     }

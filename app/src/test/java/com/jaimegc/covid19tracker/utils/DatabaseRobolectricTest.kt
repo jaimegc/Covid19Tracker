@@ -3,8 +3,7 @@ package com.jaimegc.covid19tracker.utils
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import com.jaimegc.covid19tracker.ModelFactoryTest.countryEntity
 import com.jaimegc.covid19tracker.ModelFactoryTest.countryStatsEntity
 import com.jaimegc.covid19tracker.ModelFactoryTest.regionEntity
@@ -19,10 +18,13 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.runner.RunWith
+import org.koin.core.context.stopKoin
+import org.koin.test.KoinTest
+import org.robolectric.RobolectricTestRunner
 import java.util.concurrent.Executors
 
-@RunWith(AndroidJUnit4::class)
-abstract class DatabaseTest {
+@RunWith(RobolectricTestRunner::class)
+abstract class DatabaseRobolectricTest : KoinTest {
 
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
@@ -32,7 +34,7 @@ abstract class DatabaseTest {
 
     @Before
     fun initDb() {
-        database = getDatabase(ApplicationProvider.getApplicationContext())
+        database = getDatabase(InstrumentationRegistry.getInstrumentation().context)
 
         covidTrackerDao = database.covidTrackerDao()
 
@@ -50,7 +52,10 @@ abstract class DatabaseTest {
     }
 
     @After
-    fun closeDb() = database.close()
+    fun closeDb() {
+        database.close()
+        stopKoin()
+    }
 
     private fun getDatabase(context: Context): Covid19TrackerDatabase =
         Room.inMemoryDatabaseBuilder(context, Covid19TrackerDatabase::class.java)

@@ -207,7 +207,7 @@ The data for any other day, from the last one in the local database until the cu
 
 ## Working on... 👨🏻‍💻🧑🏿‍💻
 
-### Unit Tests (351 ✅)
+### Unit Tests (341 ✅)
 
 - ViewModels: 45 ✅
   - CountryViewModel: 26 ✔️
@@ -229,8 +229,6 @@ The data for any other day, from the last one in the local database until the cu
 - Datasources: 72 ✅
     - LocalCovidTrackerDatasource: 67 ✔️
     - RemoteCovidTrackerDatasource: 5 ✔️
-- ApiClients: 10 ✅
-    - CovidTrackerDatasourceApiClient: 10 ✔️
 - Mappers: 63 ✅
   - DomainMapper: 30 ✔️
   - UIMapper: 22 ✔️
@@ -240,7 +238,7 @@ The data for any other day, from the last one in the local database until the cu
   - NumberExtension: 6 ✔️
   - DateExtension: 3 ✔️
 
-### Integration Tests (42 ✅)
+### Integration Tests (94 ✅)
 
 - Daos: 42 ✅
   - RegionStatsDao: 15 ✔️
@@ -250,6 +248,16 @@ The data for any other day, from the last one in the local database until the cu
   - RegionDao: 2 ✔️
   - WorldStatsDao: 2 ✔️
   - CountryDao: 1 ✔️
+- Daos (Robolectric): 42 ✅
+  - RegionStatsDao-Robolectric: 15 ✔️
+  - SubRegionStatsDao-Robolectric: 12 ✔️
+  - CountryStatsDao-Robolectric: 8 ✔️
+  - CovidTrackerDao-Robolectric: 2 ✔️
+  - RegionDao-Robolectric: 2 ✔️
+  - WorldStatsDao-Robolectric: 2 ✔️
+  - CountryDao-Robolectric: 1 ✔️
+- ApiClients: 10 ✅
+  - CovidTrackerDatasourceApiClient: 10 ✔️
 
 ### GitHub Actions
 
