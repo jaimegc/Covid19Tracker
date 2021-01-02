@@ -9,7 +9,7 @@ import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.databinding.ItemTotalBinding
 import com.jaimegc.covid19tracker.ui.model.PlaceStatsUI
 
-class PlaceTotalAdapter : ListAdapter<PlaceStatsUI, PlaceTotalAdapter.PlaceTotalViewHolder>(DIFF_CALLBACK) {
+class PlaceTotalAdapter : ListAdapter<PlaceStatsUI, PlaceTotalAdapter.PlaceTotalViewHolder>(DiffUtilCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         PlaceTotalViewHolder(
@@ -57,13 +57,11 @@ class PlaceTotalAdapter : ListAdapter<PlaceStatsUI, PlaceTotalAdapter.PlaceTotal
         }
     }
 
-    companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<PlaceStatsUI>() {
-            override fun areItemsTheSame(oldItem: PlaceStatsUI, newItem: PlaceStatsUI): Boolean =
-                oldItem.code == newItem.code
+    private object DiffUtilCallback : DiffUtil.ItemCallback<PlaceStatsUI>() {
+        override fun areItemsTheSame(oldItem: PlaceStatsUI, newItem: PlaceStatsUI): Boolean =
+            oldItem.code == newItem.code
 
-            override fun areContentsTheSame(oldItem: PlaceStatsUI, newItem: PlaceStatsUI): Boolean =
-                oldItem == newItem
-        }
+        override fun areContentsTheSame(oldItem: PlaceStatsUI, newItem: PlaceStatsUI): Boolean =
+            oldItem == newItem
     }
 }

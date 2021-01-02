@@ -95,11 +95,14 @@ object Dependencies {
     internal const val TEST_FLOW_OBSERVER =
         "com.github.ologe:flow-test-observer:${Versions.Test.FLOW_TEST_OBSERVER}"
     internal const val TEST_JUNIT = "junit:junit:${Versions.Test.JUNIT}"
+    internal const val TEST_KOIN = "org.koin:koin-test:${Versions.Test.KOIN}"
     internal const val TEST_MOCKITO_KOTLIN =
         "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.Test.MOCKITO_KOTLIN}"
     internal const val TEST_MOCKK = "io.mockk:mockk:${Versions.Test.MOCKK}"
     internal const val TEST_MOCK_WEB_SERVER =
         "com.squareup.okhttp3:mockwebserver:${Versions.Test.MOCK_WEB_SERVER}"
+    internal const val TEST_ROBOLECTRIC =
+        "org.robolectric:robolectric:${Versions.Test.ROBOLECTRIC}"
 
     const val DETEKT = Versions.Detekt.DETEKT
     const val DETEKT_PLUGIN = "io.gitlab.arturbosch.detekt"
@@ -189,6 +192,7 @@ fun DependencyHandler.test() {
     androidTestImplementation(Dependencies.ANDROID_TEST_RUNNER)
     androidTestImplementation(Dependencies.ANDROID_TEST_TRUTH)
     androidTestImplementation(Dependencies.TEST_COROUTINES)
+    androidTestImplementation(Dependencies.TEST_KOIN)
 
     testImplementation(Dependencies.ANDROID_CORE_TESTING)
     testImplementation(Dependencies.ANDROID_TEST_TRUTH)
@@ -196,9 +200,11 @@ fun DependencyHandler.test() {
     testImplementation(Dependencies.TEST_COROUTINES)
     testImplementation(Dependencies.TEST_FLOW_OBSERVER)
     testImplementation(Dependencies.TEST_JUNIT)
+    testImplementation(Dependencies.TEST_KOIN)
     testImplementation(Dependencies.TEST_MOCKITO_KOTLIN)
     testImplementation(Dependencies.TEST_MOCKK)
     testImplementation(Dependencies.TEST_MOCK_WEB_SERVER)
+    testImplementation(Dependencies.TEST_ROBOLECTRIC)
 }
 
 fun DependencyHandler.detektFormatting() {

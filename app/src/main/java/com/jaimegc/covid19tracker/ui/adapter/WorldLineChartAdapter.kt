@@ -18,7 +18,7 @@ import com.jaimegc.covid19tracker.ui.base.states.MenuItemViewType
 
 class WorldLineChartAdapter :
     ListAdapter<Map<MenuItemViewType, List<CountryListStatsChartUI>>,
-    WorldLineChartAdapter.WorldLineChartViewHolder>(DIFF_CALLBACK) {
+    WorldLineChartAdapter.WorldLineChartViewHolder>(DiffUtilCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         WorldLineChartViewHolder(
@@ -155,20 +155,17 @@ class WorldLineChartAdapter :
         }
     }
 
-    companion object {
-        private val DIFF_CALLBACK =
-            object : DiffUtil.ItemCallback<Map<MenuItemViewType, List<CountryListStatsChartUI>>>() {
-                override fun areItemsTheSame(
-                    oldItem: Map<MenuItemViewType, List<CountryListStatsChartUI>>,
-                    newItem: Map<MenuItemViewType, List<CountryListStatsChartUI>>
-                ): Boolean =
-                    oldItem.size == newItem.size
+    private object DiffUtilCallback : DiffUtil.ItemCallback<Map<MenuItemViewType, List<CountryListStatsChartUI>>>() {
+        override fun areItemsTheSame(
+            oldItem: Map<MenuItemViewType, List<CountryListStatsChartUI>>,
+            newItem: Map<MenuItemViewType, List<CountryListStatsChartUI>>
+        ): Boolean =
+            oldItem.size == newItem.size
 
-                override fun areContentsTheSame(
-                    oldItem: Map<MenuItemViewType, List<CountryListStatsChartUI>>,
-                    newItem: Map<MenuItemViewType, List<CountryListStatsChartUI>>
-                ): Boolean =
-                    oldItem == newItem
-        }
+        override fun areContentsTheSame(
+            oldItem: Map<MenuItemViewType, List<CountryListStatsChartUI>>,
+            newItem: Map<MenuItemViewType, List<CountryListStatsChartUI>>
+        ): Boolean =
+            oldItem == newItem
     }
 }

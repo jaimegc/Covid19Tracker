@@ -13,7 +13,7 @@ import com.jaimegc.covid19tracker.databinding.ItemPieChartPlaceTotalBinding
 import com.jaimegc.covid19tracker.ui.model.PlaceStatsChartUI
 
 class PlacePieChartAdapter :
-    ListAdapter<PlaceStatsChartUI, PlacePieChartAdapter.PlaceListStatsViewHolder>(DIFF_CALLBACK) {
+    ListAdapter<PlaceStatsChartUI, PlacePieChartAdapter.PlaceListStatsViewHolder>(DiffUtilCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         PlaceListStatsViewHolder(
@@ -63,13 +63,11 @@ class PlacePieChartAdapter :
         }
     }
 
-    companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<PlaceStatsChartUI>() {
-            override fun areItemsTheSame(oldItem: PlaceStatsChartUI, newItem: PlaceStatsChartUI): Boolean =
-                oldItem.place.id == newItem.place.id
+    private object DiffUtilCallback : DiffUtil.ItemCallback<PlaceStatsChartUI>() {
+        override fun areItemsTheSame(oldItem: PlaceStatsChartUI, newItem: PlaceStatsChartUI): Boolean =
+            oldItem.place.id == newItem.place.id
 
-            override fun areContentsTheSame(oldItem: PlaceStatsChartUI, newItem: PlaceStatsChartUI): Boolean =
-                oldItem == newItem
-        }
+        override fun areContentsTheSame(oldItem: PlaceStatsChartUI, newItem: PlaceStatsChartUI): Boolean =
+            oldItem == newItem
     }
 }
