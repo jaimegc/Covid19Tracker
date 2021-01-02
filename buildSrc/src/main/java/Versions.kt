@@ -1,12 +1,12 @@
 object Versions {
     object Android {
         const val BUILD_TOOLS = "29.0.3"
-        const val COMPILE_SDK = 29
+        const val COMPILE_SDK = 28
 
         object DefaultConfig {
             const val APPLICATION_ID = "com.jaimegc.covid19tracker"
             const val MIN_ANDROID_SDK = 21
-            const val TARGET_ANDROID_SDK = 29
+            const val TARGET_ANDROID_SDK = 28
             const val VERSION_CODE = 1
             const val VERSION_NAME = "1.0"
             const val TEST_INSTRUMENTATION_RUNNER = "androidx.test.runner.AndroidJUnitRunner"
@@ -84,9 +84,11 @@ object Versions {
         const val COROUTINES = "1.4.2"
         const val FLOW_TEST_OBSERVER = "1.5.0"
         const val JUNIT = "4.13.1"
+        const val KOIN = Koin.KOIN
         const val MOCKITO_KOTLIN = "2.2.0"
         const val MOCKK = "1.10.4"
         const val MOCK_WEB_SERVER = "4.9.0"
+        const val ROBOLECTRIC = "4.4"
     }
 
     object Detekt {

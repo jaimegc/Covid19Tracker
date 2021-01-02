@@ -60,6 +60,12 @@ android {
             getByName("androidTest").java.srcDirs(this)
         }
     }
+
+    testOptions {
+        unitTests {
+            this.isIncludeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
