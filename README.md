@@ -238,7 +238,7 @@ The data for any other day, from the last one in the local database until the cu
   - NumberExtension: 6 ✔️
   - DateExtension: 3 ✔️
 
-### Integration Tests (94 ✅)
+### Integration Tests (102 ✅)
 
 - Daos: 42 ✅
   - RegionStatsDao: 15 ✔️
@@ -258,6 +258,12 @@ The data for any other day, from the last one in the local database until the cu
   - CountryDao-Robolectric: 1 ✔️
 - ApiClients: 10 ✅
   - CovidTrackerDatasourceApiClient: 10 ✔️
+- SharedPreferences: 4 ✅
+  - CountryPreferences: 2 ✔️
+  - CovidTrackerPreferences: 2 ✔️
+- SharedPreferences (Robolectric): 4 ✅
+  - CountryPreferences-Robolectric: 2 ✔️
+  - CovidTrackerPreferences-Robolectric: 2 ✔️  
 
 ### GitHub Actions
 
