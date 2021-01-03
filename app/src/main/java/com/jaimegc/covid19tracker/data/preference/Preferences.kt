@@ -16,7 +16,7 @@ class CovidTrackerPreferences(
 
     companion object {
         private const val KEY_COVID_TRACKER_LAST_UPDATE_TIME = "KEY_COUNTRY_LAST_UPDATE_TIME"
-        private const val KEY_COUNTRY_LAST_UPDATE_DEFAULT = 0L
+        private const val COUNTRY_LAST_UPDATE_DEFAULT = 0L
         private val CACHE_TIME = TimeUnit.HOURS.toMillis(1)
     }
 
@@ -28,7 +28,7 @@ class CovidTrackerPreferences(
         TimeProvider().getCurrentTimeMillis() - getLastUpdateTime() > CACHE_TIME
 
     private fun getLastUpdateTime(): Long =
-        settings.getLong(KEY_COVID_TRACKER_LAST_UPDATE_TIME, KEY_COUNTRY_LAST_UPDATE_DEFAULT)
+        settings.getLong(KEY_COVID_TRACKER_LAST_UPDATE_TIME, COUNTRY_LAST_UPDATE_DEFAULT)
 }
 
 class CountryPreferences(
@@ -37,12 +37,12 @@ class CountryPreferences(
 
     companion object {
         private const val KEY_COUNTRY = "KEY_COUNTRY"
-        private const val KEY_COUNTRY_DEFAULT = "spain"
+        private const val COUNTRY_DEFAULT = "spain"
     }
 
     fun save(countryId: String) =
         settings.edit().putString(KEY_COUNTRY, countryId).apply()
 
     fun getId(): String =
-        settings.getString(KEY_COUNTRY, KEY_COUNTRY_DEFAULT)!!
+        settings.getString(KEY_COUNTRY, COUNTRY_DEFAULT)!!
 }
