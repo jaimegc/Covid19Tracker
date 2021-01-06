@@ -2,8 +2,10 @@ package com.jaimegc.covid19tracker.common.extensions
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Color
+import android.os.Bundle
 import android.util.TypedValue
 import android.view.Menu
 import android.view.View
@@ -146,4 +148,10 @@ fun Spinner.onItemSelected(ignoreFirst: Boolean = false, itemSelectedPos: (Int) 
 
         override fun onNothingSelected(parent: AdapterView<*>?) = Unit
     }
+}
+
+fun <T> Context.openActivity(it: Class<T>, noAnimation: Boolean = true) {
+    val intent = Intent(this, it)
+    if (noAnimation) intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
+    startActivity(intent)
 }
