@@ -17,7 +17,7 @@
     <string name="text_daily_change">DAILY CHANGE</string>
     <string name="last_updated">Last updated: %s</string>
     <string name="source">Source: %s</string>
-    <string name="loading_database">Loading local database\n\nPlease wait…</string>
+    <string name="initializing_database">Initializing local database\n\nPlease wait…</string>
 
     <!-- Graphs -->
     <string name="total_confirmed">Total confirmed</string>
@@ -40,14 +40,10 @@
     <string name="places_with_most_open_cases">Places with the most open cases</string>
 
     <!-- Menu -->
-    <string name="menu_world_list">World list</string>
-    <string name="menu_world_bar_chart">World bar chart</string>
-    <string name="menu_world_line_chart">World line chart</string>
-    <string name="menu_world_pie_chart">World pie chart</string>
-    <string name="menu_country_list">Country list</string>
-    <string name="menu_country_bar_chart">Country bar chart</string>
-    <string name="menu_country_line_chart">Country line chart</string>
-    <string name="menu_country_pie_chart">Country pie chart</string>
+    <string name="menu_list">List</string>
+    <string name="menu_bar_chart">Bar chart</string>
+    <string name="menu_line_chart">Line chart</string>
+    <string name="menu_pie_chart">Pie chart</string>
 
     <!-- Country Tab -->
     <string name="select_all_places">All</string>
