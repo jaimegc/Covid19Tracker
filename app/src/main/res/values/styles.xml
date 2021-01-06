@@ -8,6 +8,11 @@
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
 
+    <style name="AppThemeNoActionBar" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:windowBackground">@drawable/splash</item>
+    </style>
+
     <style name="ToolbarStyle" parent="@style/Widget.AppCompat.Toolbar">
         <item name="titleTextColor">@android:color/white</item>
         <item name="android:background">@color/colorPrimary</item>
