@@ -99,6 +99,7 @@ object Dependencies {
     internal const val TEST_MOCKITO_KOTLIN =
         "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.Test.MOCKITO_KOTLIN}"
     internal const val TEST_MOCKK = "io.mockk:mockk:${Versions.Test.MOCKK}"
+    internal const val TEST_MOCKK_ANDROID = "io.mockk:mockk-android:${Versions.Test.MOCKK}"
     internal const val TEST_MOCK_WEB_SERVER =
         "com.squareup.okhttp3:mockwebserver:${Versions.Test.MOCK_WEB_SERVER}"
     internal const val TEST_ROBOLECTRIC =
@@ -193,6 +194,8 @@ fun DependencyHandler.test() {
     androidTestImplementation(Dependencies.ANDROID_TEST_TRUTH)
     androidTestImplementation(Dependencies.TEST_COROUTINES)
     androidTestImplementation(Dependencies.TEST_KOIN)
+    androidTestImplementation(Dependencies.TEST_MOCKITO_KOTLIN)
+    androidTestImplementation(Dependencies.TEST_MOCKK_ANDROID)
 
     testImplementation(Dependencies.ANDROID_CORE_TESTING)
     testImplementation(Dependencies.ANDROID_TEST_TRUTH)
