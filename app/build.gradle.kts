@@ -67,6 +67,7 @@ android {
         unitTests {
             this.isIncludeAndroidResources = true
         }
+        animationsDisabled = true
     }
 }
 
