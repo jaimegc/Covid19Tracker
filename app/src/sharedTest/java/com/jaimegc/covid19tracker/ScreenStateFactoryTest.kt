@@ -1,4 +1,4 @@
-package com.jaimegc.covid19tracker.utils
+package com.jaimegc.covid19tracker
 
 import com.jaimegc.covid19tracker.domain.model.CountryOneStats
 import com.jaimegc.covid19tracker.domain.model.CovidTracker
@@ -39,7 +39,7 @@ import com.jaimegc.covid19tracker.ModelFactoryTest.listSubRegionStats
 import com.jaimegc.covid19tracker.ModelFactoryTest.listWorldStats
 import com.jaimegc.covid19tracker.ModelFactoryTest.regionOneStats
 
-object ScreenStateBuilder {
+object ScreenStateFactoryTest {
     val stateCovidTrackerLoading: State<CovidTracker> = State.Loading()
 
     val stateListWorldStatsLoading: State<ListWorldStats> = State.Loading()

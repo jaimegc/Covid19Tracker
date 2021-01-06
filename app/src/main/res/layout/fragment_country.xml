@@ -26,7 +26,7 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:src="@drawable/ic_expand_collapse"
-        android:tint="@color/dark_grey"
+        app:tint="@color/dark_grey"
         app:layout_constraintBottom_toBottomOf="@+id/country_spinner"
         app:layout_constraintEnd_toEndOf="@+id/country_spinner"
         app:layout_constraintTop_toTopOf="@+id/country_spinner" />
@@ -51,7 +51,7 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:src="@drawable/ic_expand_collapse"
-        android:tint="@color/dark_grey"
+        app:tint="@color/dark_grey"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/region_spinner"
         app:layout_constraintEnd_toEndOf="@+id/region_spinner"

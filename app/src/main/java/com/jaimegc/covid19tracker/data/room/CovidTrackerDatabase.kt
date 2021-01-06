@@ -21,6 +21,7 @@ import com.jaimegc.covid19tracker.data.room.entities.WorldStatsEntity
 import com.jaimegc.covid19tracker.data.room.views.CountryAndStatsDV
 import com.jaimegc.covid19tracker.data.room.views.RegionAndStatsDV
 import java.io.File
+import java.util.concurrent.Executors
 
 @Database(
     entities = [CountryEntity::class, WorldStatsEntity::class, CountryStatsEntity::class,
@@ -45,6 +46,12 @@ abstract class Covid19TrackerDatabase : RoomDatabase() {
             Room.databaseBuilder(context, Covid19TrackerDatabase::class.java, DATABASE_NAME)
                 .createFromFile(File("${context.filesDir}${File.separator}$DATABASE_NAME"))
                 .fallbackToDestructiveMigration()
+                .build()
+
+        fun buildTest(context: Context): Covid19TrackerDatabase =
+            Room.inMemoryDatabaseBuilder(context, Covid19TrackerDatabase::class.java)
+                .allowMainThreadQueries()
+                .setTransactionExecutor(Executors.newSingleThreadExecutor())
                 .build()
     }
 }

@@ -24,27 +24,31 @@ class FileUtils(private val context: Context) {
 
     suspend fun initDatabase() {
         try {
-            if (context.getDatabasePath(Covid19TrackerDatabase.DATABASE_NAME).exists().not()) {
-                val bis = BufferedInputStream(
-                    context.assets.open(
-                        "${Covid19TrackerDatabase.DATABASE_NAME}.zip"
-                    )
+            val bis = BufferedInputStream(
+                context.assets.open(
+                    "${Covid19TrackerDatabase.DATABASE_NAME}.zip"
                 )
-                val zis = ZipInputStream(bis).also { it.nextEntry }
-                val destinationFile = File(context.filesDir, Covid19TrackerDatabase.DATABASE_NAME)
-                val inputStream = BufferedInputStream(zis)
-                destinationFile.parentFile?.mkdirs()
+            )
+            val zis = ZipInputStream(bis).also { it.nextEntry }
+            val destinationFile = File(context.filesDir, Covid19TrackerDatabase.DATABASE_NAME)
+            val inputStream = BufferedInputStream(zis)
+            destinationFile.parentFile?.mkdirs()
 
-                saveFile(destinationFile, inputStream)
-            } else {
-                File(context.filesDir, Covid19TrackerDatabase.DATABASE_NAME).let { file ->
-                    file.exists().let { exists -> if (exists) file.delete() }
-                }
-            }
+            saveFile(destinationFile, inputStream)
         } catch (e: IOException) {
             e.printStackTrace()
         }
     }
+
+    fun databaseExists(): Boolean =
+        context.getDatabasePath(Covid19TrackerDatabase.DATABASE_NAME).exists().also { exists ->
+            if (exists) deleteDatabaseTemp()
+        }
+
+    private fun deleteDatabaseTemp() =
+        File(context.filesDir, Covid19TrackerDatabase.DATABASE_NAME).let { file ->
+            file.exists().let { exists -> if (exists) file.delete() }
+        }
 
     private suspend fun saveFile(file: File, bufferedInputStream: BufferedInputStream) {
         var length = 0

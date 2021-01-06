@@ -72,7 +72,7 @@
         android:layout_marginTop="12dp"
         android:background="@drawable/background_square"
         android:backgroundTint="@color/dark_red"
-        android:tint="@color/dark_red"
+        app:tint="@color/dark_red"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/percentage_total" />
 

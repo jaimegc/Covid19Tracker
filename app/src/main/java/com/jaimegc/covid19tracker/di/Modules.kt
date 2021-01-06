@@ -108,40 +108,39 @@ val databaseModule = module {
     }
 }
 
+val databaseTestModule = module {
+    single {
+        Covid19TrackerDatabase.buildTest(get())
+    }
+}
+
 val daoModule = module {
     single {
-        val database: Covid19TrackerDatabase = get()
-        database.covidTrackerDao()
+        get<Covid19TrackerDatabase>().covidTrackerDao()
     }
 
     single {
-        val database: Covid19TrackerDatabase = get()
-        database.worldStatsDao()
+        get<Covid19TrackerDatabase>().worldStatsDao()
     }
 
     single {
-        val database: Covid19TrackerDatabase = get()
-        database.countryStatsDao()
+        get<Covid19TrackerDatabase>().countryStatsDao()
     }
 
     single {
-        val database: Covid19TrackerDatabase = get()
-        database.countryDao()
+        get<Covid19TrackerDatabase>().countryDao()
     }
 
     single {
-        val database: Covid19TrackerDatabase = get()
-        database.regionDao()
+        get<Covid19TrackerDatabase>().regionDao()
     }
 
     single {
-        val database: Covid19TrackerDatabase = get()
-        database.regionStatsDao()
+        get<Covid19TrackerDatabase>().regionStatsDao()
     }
 
     single {
-        val database: Covid19TrackerDatabase = get()
-        database.subRegionStatsDao()
+        get<Covid19TrackerDatabase>().subRegionStatsDao()
     }
 }
 

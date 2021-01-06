@@ -9,10 +9,10 @@ import com.jaimegc.covid19tracker.domain.states.StateError
 import com.jaimegc.covid19tracker.domain.usecase.GetCovidTracker
 import com.jaimegc.covid19tracker.ui.home.MainViewModel
 import com.jaimegc.covid19tracker.utils.MainCoroutineRule
-import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCovidTrackerEmptyData
-import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCovidTrackerSuccess
-import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateErrorUnknownDatabase
-import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCovidTrackerLoading
+import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateCovidTrackerEmptyData
+import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateCovidTrackerSuccess
+import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateErrorUnknownDatabase
+import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateCovidTrackerLoading
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
