@@ -125,6 +125,14 @@ object ModelFactoryTest {
             code = "ES"
         )
 
+    val countryEmptyRegions =
+        Country(
+            id = "andorra",
+            name = "Andorra",
+            nameEs = "Andorra",
+            code = "AD"
+        )
+
     val countryUI =
         CountryUI(
             id = country.id,
@@ -448,6 +456,14 @@ object ModelFactoryTest {
             code = country.code
         )
 
+    val countryEmptyRegionsEntity =
+        CountryEntity(
+            id = countryEmptyRegions.id,
+            name = countryEmptyRegions.name,
+            nameEs = countryEmptyRegions.nameEs,
+            code = countryEmptyRegions.code
+        )
+
     val regionEntity =
         RegionEntity(
             id = region.id,
@@ -496,6 +512,14 @@ object ModelFactoryTest {
             date = stats.date,
             stats = statsEmbedded,
             idCountryFk = country.id
+        )
+
+    val countryStatsEmptyRegionsEntity =
+        CountryStatsEntity(
+            dateTimestamp = stats.dateTimestamp,
+            date = stats.date,
+            stats = statsEmbedded,
+            idCountryFk = countryEmptyRegions.id
         )
 
     val regionStatsEntity =

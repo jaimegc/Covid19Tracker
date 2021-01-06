@@ -3,10 +3,10 @@ package com.jaimegc.covid19tracker.usecase
 import arrow.core.Either
 import com.google.common.truth.Truth.assertThat
 import com.jaimegc.covid19tracker.domain.usecase.GetCovidTracker
-import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCovidTrackerEmptyData
-import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCovidTrackerSuccess
-import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateCovidTrackerLoading
-import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateErrorUnknownDatabase
+import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateCovidTrackerEmptyData
+import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateCovidTrackerSuccess
+import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateCovidTrackerLoading
+import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateErrorUnknownDatabase
 import com.jaimegc.covid19tracker.utils.UseCaseTest
 import dev.olog.flow.test.observer.test
 import io.mockk.every
