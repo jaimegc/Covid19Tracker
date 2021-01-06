@@ -22,7 +22,7 @@ class RecyclerViewItemsCountMatcher(
 
     override fun matches(item: Any): Boolean =
         (item as RecyclerView).adapter?.let { adapter ->
-            return when(option) {
+            return when (option) {
                 Options.EQUALS ->
                     adapter.itemCount == expectedItemCount
                 Options.NOT_EQUALS ->
