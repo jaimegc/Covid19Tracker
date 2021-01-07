@@ -61,8 +61,8 @@ import com.jaimegc.covid19tracker.ui.model.WorldStatsChartUI
 import com.jaimegc.covid19tracker.ui.model.WorldStatsUI
 
 object ModelFactoryTest {
-    val DATE = "2020-10-02"
-    val DATE_TIMESTAMP = 1601596800000L
+    const val DATE = "2020-10-02"
+    const val DATE_TIMESTAMP = 1601596800000L
 
     val stats =
         Stats(
