@@ -42,6 +42,7 @@ object Versions {
             const val LIFECYCLE = "2.2.0"
             const val NAVIGATION = "2.3.2"
             const val RECYCLERVIEW = "1.2.0-alpha04"
+            const val TEST_FRAGMENT = "1.2.4"
             const val TEST_RULES = "1.3.0"
             const val TEST_RUNNER = "1.2.0"
             const val ROOM = "2.2.6"

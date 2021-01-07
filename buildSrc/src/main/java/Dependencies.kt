@@ -49,6 +49,8 @@ object Dependencies {
         "androidx.navigation:navigation-ui-ktx:${Versions.Google.Androidx.NAVIGATION}"
     internal const val ANDROID_RECYCLERVIEW =
         "androidx.recyclerview:recyclerview:${Versions.Google.Androidx.RECYCLERVIEW}"
+    internal const val ANDROID_TEST_FRAGMENT =
+        "androidx.fragment:fragment-testing:${Versions.Google.Androidx.TEST_FRAGMENT}"
     internal const val ANDROID_TEST_RULES = "androidx.test:rules:${Versions.Google.Androidx.TEST_RULES}"
     internal const val ANDROID_TEST_RUNNER = "androidx.test:runner:${Versions.Google.Androidx.TEST_RUNNER}"
     internal const val ANDROID_ROOM_COMPILER = "androidx.room:room-compiler:${Versions.Google.Androidx.ROOM}"
