@@ -246,6 +246,7 @@ formatting:
     continuationIndentSize: 4
   MaximumLineLength:
     active: true
+    excludes: ['**/test/**', '**/androidTest/**', '**/sharedTest/**', '**/*.Test.kt', '**/*.Spec.kt', '**/*.Spek.kt']
     maxLineLength: 120
   ModifierOrdering:
     active: true
@@ -400,7 +401,7 @@ naming:
     minimumVariableNameLength: 1
   VariableNaming:
     active: true
-    excludes: ['**/test/**', '**/androidTest/**', '**/*.Test.kt', '**/*.Spec.kt', '**/*.Spek.kt']
+    excludes: ['**/test/**', '**/androidTest/**', '**/sharedTest/**', '**/*.Test.kt', '**/*.Spec.kt', '**/*.Spek.kt']
     variablePattern: '[a-z][A-Za-z0-9]*'
     privateVariablePattern: '(_)?[a-z][A-Za-z0-9]*'
     excludeClassPattern: '$^'
@@ -535,6 +536,7 @@ style:
     active: false
   MaxLineLength:
     active: true
+    excludes: ['**/test/**', '**/androidTest/**', '**/sharedTest/**', '**/*.Test.kt', '**/*.Spec.kt', '**/*.Spek.kt']
     maxLineLength: 120
     excludePackageStatements: true
     excludeImportStatements: true

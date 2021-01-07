@@ -18,13 +18,12 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.runner.RunWith
-import org.koin.core.context.stopKoin
-import org.koin.test.KoinTest
+import org.koin.test.AutoCloseKoinTest
 import org.robolectric.RobolectricTestRunner
 import java.util.concurrent.Executors
 
 @RunWith(RobolectricTestRunner::class)
-abstract class DatabaseRobolectricTest : KoinTest {
+abstract class DatabaseRobolectricTest : AutoCloseKoinTest() {
 
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
@@ -54,7 +53,6 @@ abstract class DatabaseRobolectricTest : KoinTest {
     @After
     fun closeDb() {
         database.close()
-        stopKoin()
     }
 
     private fun getDatabase(context: Context): Covid19TrackerDatabase =

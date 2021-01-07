@@ -3,9 +3,9 @@ package com.jaimegc.covid19tracker.usecase
 import arrow.core.Either
 import com.google.common.truth.Truth.assertThat
 import com.jaimegc.covid19tracker.domain.usecase.GetRegion
-import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListRegionLoading
-import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListRegionEmptySuccess
-import com.jaimegc.covid19tracker.utils.ScreenStateBuilder.stateListRegionSuccess
+import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateListRegionLoading
+import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateListRegionEmptySuccess
+import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateListRegionSuccess
 import com.jaimegc.covid19tracker.utils.UseCaseTest
 import dev.olog.flow.test.observer.test
 import io.mockk.every

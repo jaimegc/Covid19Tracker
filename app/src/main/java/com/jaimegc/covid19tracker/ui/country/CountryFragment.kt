@@ -71,13 +71,13 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
                             binding.loading.layout.show()
                         }
                     ScreenState.EmptyData ->
-                         if (currentMenuItem == menuItemLineChart) {
-                            binding.loading.layout.hide()
-                            binding.emptyDatabase.layout.show()
-                         }
+                        if (currentMenuItem == menuItemLineChart) {
+                           binding.loading.layout.hide()
+                           binding.emptyDatabase.layout.show()
+                        }
                     is ScreenState.Render<PlaceStateScreen> -> {
-                         binding.loading.layout.hide()
-                         handleRenderState(screenState.renderState)
+                        binding.loading.layout.hide()
+                        handleRenderState(screenState.renderState)
                     }
                     is ScreenState.Error<PlaceStateScreen> -> Unit // Not implemented
                 }

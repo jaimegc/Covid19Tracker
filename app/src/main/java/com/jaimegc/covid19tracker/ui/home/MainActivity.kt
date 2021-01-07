@@ -14,13 +14,10 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.WorkInfo
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.common.KeepStateNavigator
-import com.jaimegc.covid19tracker.common.extensions.hide
-import com.jaimegc.covid19tracker.common.extensions.ioMain
 import com.jaimegc.covid19tracker.common.extensions.show
 import com.jaimegc.covid19tracker.databinding.ActivityMainBinding
 import com.jaimegc.covid19tracker.ui.base.BaseActivity
 import com.jaimegc.covid19tracker.ui.dialog.DialogUpdateDatabase
-import com.jaimegc.covid19tracker.utils.FileUtils
 import com.jaimegc.covid19tracker.worker.UpdateDatabaseWorker
 import com.jaimegc.covid19tracker.worker.UpdateDatabaseWorker.Companion.UPDATE_TIME_HOURS
 import org.koin.core.component.inject
@@ -30,7 +27,6 @@ class MainActivity : BaseActivity() {
 
     private val viewModel: MainViewModel by inject()
 
-    private val fileUtils: FileUtils by inject()
     private lateinit var binding: ActivityMainBinding
     private lateinit var navigator: KeepStateNavigator
     private lateinit var navController: NavController
@@ -40,16 +36,13 @@ class MainActivity : BaseActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        ioMain({ fileUtils.initDatabase() }) {
-            initializeBottomNavigationBar()
-            viewModel.getCovidTracker()
-            initializeUpdateDatabaseWorker()
-        }
+        initializeBottomNavigationBar()
+        viewModel.getCovidTracker()
+        initializeUpdateDatabaseWorker()
     }
 
     @SuppressLint("RestrictedApi")
     private fun initializeBottomNavigationBar() {
-        binding.loadingDatabase.layout.hide()
         navController = findNavController(R.id.nav_host_fragment)
         supportFragmentManager.findFragmentById(R.id.nav_host_fragment)?.let { navHostFragment ->
             navigator =
