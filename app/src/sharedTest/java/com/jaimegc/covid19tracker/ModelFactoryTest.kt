@@ -62,10 +62,11 @@ import com.jaimegc.covid19tracker.ui.model.WorldStatsUI
 
 object ModelFactoryTest {
     val DATE = "2020-10-02"
+    val DATE_TIMESTAMP = 1601596800000L
 
     val stats =
         Stats(
-            dateTimestamp = 1601596800000L,
+            dateTimestamp = DATE_TIMESTAMP,
             date = DATE,
             source = "John Hopkins University",
             confirmed = 39290,
@@ -106,7 +107,7 @@ object ModelFactoryTest {
 
     val worldStats =
         WorldStats(
-            dateTimestamp = 1601596800000L,
+            dateTimestamp = DATE_TIMESTAMP,
             date = DATE,
             updatedAt = "2020-10-02 22:10UTC",
             stats = stats

@@ -1,6 +1,7 @@
 package com.jaimegc.covid19tracker.extension
 
 import com.jaimegc.covid19tracker.ModelFactoryTest.DATE
+import com.jaimegc.covid19tracker.ModelFactoryTest.DATE_TIMESTAMP
 import com.jaimegc.covid19tracker.common.extensions.dateToMilliseconds
 import com.jaimegc.covid19tracker.common.extensions.millisecondsToDate
 import com.jaimegc.covid19tracker.common.extensions.toLastUpdated
@@ -18,12 +19,12 @@ class DateExtensionTest {
 
     @Test
     fun dateStringToMillisecondsInUTC() {
-        assertEquals(1601596800000L, DATE.dateToMilliseconds())
+        assertEquals(DATE_TIMESTAMP, DATE.dateToMilliseconds())
     }
 
     @Test
     fun dateMillisecondsToStringInUTC() {
-        assertEquals(DATE, 1601596800000L.millisecondsToDate())
+        assertEquals(DATE, DATE_TIMESTAMP.millisecondsToDate())
     }
 
     @Test
