@@ -61,10 +61,12 @@ import com.jaimegc.covid19tracker.ui.model.WorldStatsChartUI
 import com.jaimegc.covid19tracker.ui.model.WorldStatsUI
 
 object ModelFactoryTest {
+    val DATE = "2020-10-02"
+
     val stats =
         Stats(
             dateTimestamp = 1601596800000L,
-            date = "2020-10-02",
+            date = DATE,
             source = "John Hopkins University",
             confirmed = 39290,
             deaths = 1458,
@@ -82,7 +84,7 @@ object ModelFactoryTest {
 
     val statsUI =
         StatsUI(
-            date = "2020-10-02",
+            date = DATE,
             source = "John Hopkins University",
             confirmed = "39,290",
             deaths = "1,458",
@@ -105,7 +107,7 @@ object ModelFactoryTest {
     val worldStats =
         WorldStats(
             dateTimestamp = 1601596800000L,
-            date = "2020-10-02",
+            date = DATE,
             updatedAt = "2020-10-02 22:10UTC",
             stats = stats
         )
@@ -443,7 +445,7 @@ object ModelFactoryTest {
 
     val covidTrackerDto =
         CovidTrackerDto(
-            dates = mapOf("2020-10-02" to covidTrackerDateDto),
+            dates = mapOf(DATE to covidTrackerDateDto),
             total = covidTrackerTotalDto,
             updatedAt = "2020-10-02 22:10UTC",
         )

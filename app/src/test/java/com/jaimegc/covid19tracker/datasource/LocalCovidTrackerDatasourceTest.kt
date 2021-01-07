@@ -3,6 +3,7 @@ package com.jaimegc.covid19tracker.datasource
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import arrow.core.Either
 import com.google.common.truth.Truth.assertThat
+import com.jaimegc.covid19tracker.ModelFactoryTest.DATE
 import com.jaimegc.covid19tracker.ModelFactoryTest.countryAndOneStatsPojo
 import com.jaimegc.covid19tracker.ModelFactoryTest.countryOneStats
 import com.jaimegc.covid19tracker.ModelFactoryTest.covidTracker
@@ -77,7 +78,6 @@ class LocalCovidTrackerDatasourceTest {
 
     companion object {
         private val DATES = listOf("date1", "date2", "date3")
-        private const val DATE = "2020-10-02"
         private const val EMPTY_DATE = ""
         private const val ID_COUNTRY = "id_country"
         private const val ID_REGION = "id_region"
