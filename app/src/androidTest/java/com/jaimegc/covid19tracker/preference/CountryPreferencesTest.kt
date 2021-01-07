@@ -20,7 +20,6 @@ class CountryPreferencesTest : SharedPreferencesTest() {
 
     @Before
     fun setUp() {
-        clearPrefs()
         countryPreferences = CountryPreferences(context)
     }
 

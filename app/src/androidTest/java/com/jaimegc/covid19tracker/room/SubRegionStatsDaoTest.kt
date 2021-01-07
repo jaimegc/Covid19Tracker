@@ -19,7 +19,6 @@ import com.jaimegc.covid19tracker.utils.DatabaseTest
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.runBlocking
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -39,12 +38,8 @@ class SubRegionStatsDaoTest : DatabaseTest() {
 
     @Before
     fun setup() {
-        initDb()
         subRegionStatsDao = database.subRegionStatsDao()
     }
-
-    @After
-    fun close() = closeDb()
 
     @Test
     fun getSubRegionAndStatsByCountryAndLastDate_shouldReturnSubRegionAndStatsDV() = runBlocking {
