@@ -151,6 +151,13 @@ object ModelFactoryTest {
             nameEs = "Andalucía"
         )
 
+    val regionEmptySubRegions =
+        Region(
+            id = "madrid",
+            name = "Madrid",
+            nameEs = "Madrid"
+        )
+
     val placeUI =
         PlaceUI(
             id = "andalucia",
@@ -475,6 +482,14 @@ object ModelFactoryTest {
             idCountryFk = country.id
         )
 
+    val regionEmptySubRegionsEntity =
+        RegionEntity(
+            id = regionEmptySubRegions.id,
+            name = regionEmptySubRegions.name,
+            nameEs = regionEmptySubRegions.nameEs,
+            idCountryFk = country.id
+        )
+
     val subRegionEntity =
         SubRegionEntity(
             id = subRegion.id,
@@ -531,6 +546,15 @@ object ModelFactoryTest {
             date = stats.date,
             stats = statsEmbedded,
             idRegionFk = region.id,
+            idCountryFk = country.id
+        )
+
+    val regionEmptyRegionsStatsEntity =
+        RegionStatsEntity(
+            dateTimestamp = stats.dateTimestamp,
+            date = stats.date,
+            stats = statsEmbedded,
+            idRegionFk = regionEmptySubRegions.id,
             idCountryFk = country.id
         )
 
