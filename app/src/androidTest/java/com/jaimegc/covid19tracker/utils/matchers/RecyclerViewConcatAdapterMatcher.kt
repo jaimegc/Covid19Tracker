@@ -25,12 +25,12 @@ class RecyclerViewConcatAdapterMatcher(
 
     enum class Adapters {
         PLACE_TOTAL, PLACE, PLACE_TOTAL_BAR_CHART, PLACE_BAR_CHART, PLACE_TOTAL_PIE_CHART,
-        PLACE_PIE_CHART, PLACE_LINE_CHART
+        PLACE_PIE_CHART, PLACE_LINE_CHART, EMPTY_ADAPTER
     }
 
     override fun matches(item: Any): Boolean =
         (item as RecyclerView).adapter?.let { adapter ->
-            if (adapter is ConcatAdapter && adapter.adapters.size == adapters.size) {
+            if (adapter is ConcatAdapter && adapter.adapters.size > 0 && adapter.adapters.size == adapters.size) {
                 var containsAllAdapters = true
                 adapter.adapters.forEachIndexed { index, adapt ->
                     if (containsAllAdapters) {
@@ -42,10 +42,13 @@ class RecyclerViewConcatAdapterMatcher(
                             Adapters.PLACE_TOTAL_PIE_CHART -> adapt is PlaceTotalPieChartAdapter
                             Adapters.PLACE_PIE_CHART -> adapt is PlacePieChartAdapter
                             Adapters.PLACE_LINE_CHART -> adapt is PlaceLineChartAdapter
+                            Adapters.EMPTY_ADAPTER -> false
                         }
                     }
                 }
                 containsAllAdapters
+            } else if (adapter.itemCount == 0) {
+                adapters.firstOrNull { it == Adapters.EMPTY_ADAPTER } != null
             } else {
                 false
             }
