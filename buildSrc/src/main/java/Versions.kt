@@ -41,8 +41,9 @@ object Versions {
             const val JUNIT_EXT = "1.1.2"
             const val LIFECYCLE = "2.2.0"
             const val NAVIGATION = "2.3.2"
-            const val RECYCLERVIEW = "1.2.0-alpha04"
-            const val TEST_FRAGMENT = "1.2.4"
+            const val RECYCLERVIEW = "1.2.0-beta01"
+            const val TEST_FRAGMENT = "1.3.0-rc01"
+            const val TEST_CORE = "1.3.0"
             const val TEST_RULES = "1.3.0"
             const val TEST_RUNNER = "1.2.0"
             const val ROOM = "2.2.6"
@@ -83,7 +84,7 @@ object Versions {
     object Test {
         const val APACHE_COMMONS = "20030203.000550"
         const val COROUTINES = "1.4.2"
-        const val FLOW_TEST_OBSERVER = "1.5.0"
+        const val FLOW_TEST_OBSERVER = "1.5.1"
         const val JUNIT = "4.13.1"
         const val KOIN = Koin.KOIN
         const val MOCKITO_KOTLIN = "2.2.0"
@@ -94,7 +95,7 @@ object Versions {
 
     object Detekt {
         const val DETEKT = "1.15.0"
-        const val DETEKT_FORMATTING = "1.15.0"
+        const val DETEKT_FORMATTING = DETEKT
     }
 
     object Arrow {

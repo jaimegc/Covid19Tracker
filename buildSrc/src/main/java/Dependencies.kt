@@ -27,6 +27,8 @@ object Dependencies {
     internal const val ANDROID_CORE_TESTING =
         "androidx.arch.core:core-testing:${Versions.Google.Androidx.CORE_TESTING}"
     internal const val ANDROID_JUNIT_EXT = "androidx.test.ext:junit:${Versions.Google.Androidx.JUNIT_EXT}"
+    internal const val ANDROID_ESPRESSO_CONTRIB =
+        "androidx.test.espresso:espresso-contrib:${Versions.Google.Androidx.ESPRESSO}"
     internal const val ANDROID_ESPRESSO_CORE =
         "androidx.test.espresso:espresso-core:${Versions.Google.Androidx.ESPRESSO}"
     internal const val ANDROID_LIFECYCLE_EXTENSIONS =
@@ -51,6 +53,7 @@ object Dependencies {
         "androidx.recyclerview:recyclerview:${Versions.Google.Androidx.RECYCLERVIEW}"
     internal const val ANDROID_TEST_FRAGMENT =
         "androidx.fragment:fragment-testing:${Versions.Google.Androidx.TEST_FRAGMENT}"
+    internal const val ANDROID_TEST_CORE = "androidx.test:core:${Versions.Google.Androidx.TEST_CORE}"
     internal const val ANDROID_TEST_RULES = "androidx.test:rules:${Versions.Google.Androidx.TEST_RULES}"
     internal const val ANDROID_TEST_RUNNER = "androidx.test:runner:${Versions.Google.Androidx.TEST_RUNNER}"
     internal const val ANDROID_ROOM_COMPILER = "androidx.room:room-compiler:${Versions.Google.Androidx.ROOM}"
@@ -190,7 +193,10 @@ fun DependencyHandler.koin() {
 fun DependencyHandler.test() {
     androidTestImplementation(Dependencies.ANDROID_CORE_TESTING)
     androidTestImplementation(Dependencies.ANDROID_JUNIT_EXT)
+    androidTestImplementation(Dependencies.ANDROID_ESPRESSO_CONTRIB)
     androidTestImplementation(Dependencies.ANDROID_ESPRESSO_CORE)
+    debugImplementation(Dependencies.ANDROID_TEST_FRAGMENT)
+    androidTestImplementation(Dependencies.ANDROID_TEST_CORE)
     androidTestImplementation(Dependencies.ANDROID_TEST_RULES)
     androidTestImplementation(Dependencies.ANDROID_TEST_RUNNER)
     androidTestImplementation(Dependencies.ANDROID_TEST_TRUTH)
@@ -234,6 +240,10 @@ private fun DependencyHandler.classpath(depName: String) {
 
 private fun DependencyHandler.implementation(depName: String) {
     add("implementation", depName)
+}
+
+private fun DependencyHandler.debugImplementation(depName: String) {
+    add("debugImplementation", depName)
 }
 
 private fun DependencyHandler.kapt(depName: String) {
