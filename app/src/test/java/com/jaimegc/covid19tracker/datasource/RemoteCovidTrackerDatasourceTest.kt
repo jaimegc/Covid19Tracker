@@ -2,6 +2,7 @@ package com.jaimegc.covid19tracker.datasource
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
+import com.jaimegc.covid19tracker.ModelFactoryTest.DATE
 import com.jaimegc.covid19tracker.ModelFactoryTest.covidTrackerDto
 import com.jaimegc.covid19tracker.data.api.client.CovidTrackerApiClient
 import com.jaimegc.covid19tracker.data.api.model.CovidTrackerDto
@@ -26,10 +27,6 @@ import retrofit2.Response
 import java.net.UnknownHostException
 
 class RemoteCovidTrackerDatasourceTest {
-
-    companion object {
-        private const val DATE = "2020-10-02"
-    }
 
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()

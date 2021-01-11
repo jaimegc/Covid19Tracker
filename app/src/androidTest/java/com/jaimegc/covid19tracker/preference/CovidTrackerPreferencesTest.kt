@@ -15,7 +15,6 @@ class CovidTrackerPreferencesTest : SharedPreferencesTest() {
 
     @Before
     fun setUp() {
-        clearPrefs()
         covidTrackerPreferences = CovidTrackerPreferences(context)
     }
 

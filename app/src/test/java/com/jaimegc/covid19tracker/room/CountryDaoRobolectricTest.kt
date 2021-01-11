@@ -20,12 +20,8 @@ class CountryDaoRobolectricTest : DatabaseRobolectricTest() {
 
     @Before
     fun setup() {
-        initDb()
         countryDao = database.countryDao()
     }
-
-    @After
-    fun close() = closeDb()
 
     @Test
     fun getAll_shouldReturnCountries() = runBlocking {
