@@ -83,4 +83,6 @@ dependencies {
     arrow()
     others()
     test()
+
+    debugImplementation("androidx.fragment:fragment-testing:1.3.0-rc01")
 }
