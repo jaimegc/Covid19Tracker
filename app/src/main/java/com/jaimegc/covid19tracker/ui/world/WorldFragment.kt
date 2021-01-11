@@ -1,9 +1,6 @@
 package com.jaimegc.covid19tracker.ui.world
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import androidx.recyclerview.widget.ConcatAdapter
 import com.jaimegc.covid19tracker.R
@@ -40,13 +37,14 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
     private val concatAdapter = ConcatAdapter()
 
     private lateinit var binding: FragmentWorldBinding
-    private lateinit var menu: Menu
 
     private var currentMenuItem = menuItemList
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentWorldBinding.bind(view)
+
+        initializeMenu()
 
         binding.recyclerWorld.adapter = concatAdapter
 
@@ -67,7 +65,6 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
         )
 
         viewModel.getListStats()
-        setHasOptionsMenu(true)
     }
 
     override fun handleRenderState(renderState: WorldStateScreen) {
@@ -118,50 +115,49 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
-        inflater.inflate(R.menu.menu_world, menu).also {
-            this.menu = menu
-            menu.enableItem(currentMenuItem)
-        }
+    private fun initializeMenu() {
+        configureToolbar(binding.toolbar.toolbar, R.string.title_world, R.menu.menu_world)
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean =
-        when (item.itemId) {
-            R.id.list_view -> {
-                if (menu.isCurrentItemChecked(menuItemList).not()) {
-                    menu.enableItem(menuItemList)
-                    currentMenuItem = menuItemList
-                    concatAdapter.removeAllAdapters()
-                    viewModel.getListStats()
+        binding.toolbar.toolbar.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.list_view -> {
+                    if (menu.isCurrentItemChecked(menuItemList).not()) {
+                        menu.enableItem(menuItemList)
+                        currentMenuItem = menuItemList
+                        concatAdapter.removeAllAdapters()
+                        viewModel.getListStats()
+                    }
+                    true
                 }
-                true
-            }
-            R.id.bar_chart_view -> {
-                if (menu.isCurrentItemChecked(menuItemBarChart).not()) {
-                    menu.enableItem(menuItemBarChart)
-                    currentMenuItem = menuItemBarChart
-                    concatAdapter.removeAllAdapters()
-                    viewModel.getBarChartStats()
+                R.id.bar_chart_view -> {
+                    if (menu.isCurrentItemChecked(menuItemBarChart).not()) {
+                        menu.enableItem(menuItemBarChart)
+                        currentMenuItem = menuItemBarChart
+                        concatAdapter.removeAllAdapters()
+                        viewModel.getBarChartStats()
+                    }
+                    true
                 }
-                true
-            }
-            R.id.line_chart_view -> {
-                if (menu.isCurrentItemChecked(menuItemLineChart).not()) {
-                    menu.enableItem(menuItemLineChart)
-                    currentMenuItem = menuItemLineChart
-                    concatAdapter.removeAllAdapters()
-                    viewModel.getLineChartsStats()
+                R.id.line_chart_view -> {
+                    if (menu.isCurrentItemChecked(menuItemLineChart).not()) {
+                        menu.enableItem(menuItemLineChart)
+                        currentMenuItem = menuItemLineChart
+                        concatAdapter.removeAllAdapters()
+                        viewModel.getLineChartsStats()
+                    }
+                    true
                 }
-                true
-            }
-            R.id.pie_chart_view -> {
-                if (menu.isCurrentItemChecked(menuItemPieChart).not()) {
-                    menu.enableItem(menuItemPieChart)
-                    currentMenuItem = menuItemPieChart
-                    concatAdapter.removeAllAdapters()
-                    viewModel.getPieChartStats()
+                R.id.pie_chart_view -> {
+                    if (menu.isCurrentItemChecked(menuItemPieChart).not()) {
+                        menu.enableItem(menuItemPieChart)
+                        currentMenuItem = menuItemPieChart
+                        concatAdapter.removeAllAdapters()
+                        viewModel.getPieChartStats()
+                    }
+                    true
                 }
-                true
+                else -> super.onOptionsItemSelected(item)
             }
-            else -> super.onOptionsItemSelected(item)
         }
+    }
 }

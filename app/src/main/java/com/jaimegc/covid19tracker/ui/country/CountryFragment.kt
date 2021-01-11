@@ -1,9 +1,6 @@
 package com.jaimegc.covid19tracker.ui.country
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import androidx.recyclerview.widget.ConcatAdapter
 import com.jaimegc.covid19tracker.R
@@ -47,7 +44,6 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
     private val concatAdapter = ConcatAdapter()
 
     private lateinit var binding: FragmentCountryBinding
-    private lateinit var menu: Menu
     private lateinit var countrySpinnerAdapter: CountrySpinnerAdapter
     private lateinit var placeSpinnerAdapter: PlaceSpinnerAdapter
     private lateinit var statsParent: StatsChartUI
@@ -58,6 +54,8 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCountryBinding.bind(view)
+
+        initializeMenu()
 
         binding.recyclerPlace.adapter = concatAdapter
 
@@ -85,7 +83,6 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
         )
 
         viewModel.getCountries()
-        setHasOptionsMenu(true)
     }
 
     override fun handleRenderState(renderState: PlaceStateScreen) {
@@ -211,49 +208,48 @@ class CountryFragment : BaseFragment<CountryViewModel, PlaceStateScreen>(R.layou
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
-        inflater.inflate(R.menu.menu_world, menu).also {
-            this.menu = menu
-            menu.enableItem(currentMenuItem)
-        }
+    private fun initializeMenu() {
+        configureToolbar(binding.toolbar.toolbar, R.string.title_country, R.menu.menu_country)
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean =
-        if (::countrySpinnerAdapter.isInitialized) {
-            when (item.itemId) {
-                R.id.list_view -> {
-                    if (menu.isCurrentItemChecked(menuItemList).not()) {
-                        concatAdapter.removeAllAdapters()
-                        menu.enableItem(menuItemList)
-                        selectMenu(getSelectedCountry(), getSelectedPlace())
+        binding.toolbar.toolbar.setOnMenuItemClickListener { item ->
+            if (::countrySpinnerAdapter.isInitialized) {
+                when (item.itemId) {
+                    R.id.list_view -> {
+                        if (menu.isCurrentItemChecked(menuItemList).not()) {
+                            concatAdapter.removeAllAdapters()
+                            menu.enableItem(menuItemList)
+                            selectMenu(getSelectedCountry(), getSelectedPlace())
+                        }
+                        true
                     }
-                    true
-                }
-                R.id.bar_chart_view -> {
-                    if (menu.isCurrentItemChecked(menuItemBarChart).not()) {
-                        menu.enableItem(menuItemBarChart)
-                        selectMenu(getSelectedCountry(), getSelectedPlace())
+                    R.id.bar_chart_view -> {
+                        if (menu.isCurrentItemChecked(menuItemBarChart).not()) {
+                            menu.enableItem(menuItemBarChart)
+                            selectMenu(getSelectedCountry(), getSelectedPlace())
+                        }
+                        true
                     }
-                    true
-                }
-                R.id.line_chart_view -> {
-                    if (menu.isCurrentItemChecked(menuItemLineChart).not()) {
-                        menu.enableItem(menuItemLineChart)
-                        selectMenu(getSelectedCountry(), getSelectedPlace())
+                    R.id.line_chart_view -> {
+                        if (menu.isCurrentItemChecked(menuItemLineChart).not()) {
+                            menu.enableItem(menuItemLineChart)
+                            selectMenu(getSelectedCountry(), getSelectedPlace())
+                        }
+                        true
                     }
-                    true
-                }
-                R.id.pie_chart_view -> {
-                    if (menu.isCurrentItemChecked(menuItemPieChart).not()) {
-                        menu.enableItem(menuItemPieChart)
-                        selectMenu(getSelectedCountry(), getSelectedPlace())
+                    R.id.pie_chart_view -> {
+                        if (menu.isCurrentItemChecked(menuItemPieChart).not()) {
+                            menu.enableItem(menuItemPieChart)
+                            selectMenu(getSelectedCountry(), getSelectedPlace())
+                        }
+                        true
                     }
-                    true
+                    else -> super.onOptionsItemSelected(item)
                 }
-                else -> super.onOptionsItemSelected(item)
+            } else {
+                super.onOptionsItemSelected(item)
             }
-        } else {
-            super.onOptionsItemSelected(item)
         }
+    }
 
     private fun getSelectedCountry(): String =
         countrySpinnerAdapter.getCountryId(
