@@ -12,7 +12,6 @@ import org.junit.runner.RunWith
 class CountryPreferencesTest : SharedPreferencesTest() {
 
     companion object {
-        private const val COUNTRY_DEFAULT = "spain"
         private const val COUNTRY = "germany"
     }
 
@@ -20,7 +19,6 @@ class CountryPreferencesTest : SharedPreferencesTest() {
 
     @Before
     fun setUp() {
-        clearPrefs()
         countryPreferences = CountryPreferences(context)
     }
 

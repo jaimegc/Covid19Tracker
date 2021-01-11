@@ -19,7 +19,6 @@ import com.jaimegc.covid19tracker.utils.DatabaseRobolectricTest
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.runBlocking
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -40,12 +39,8 @@ class RegionStatsDaoRobolectricTest : DatabaseRobolectricTest() {
 
     @Before
     fun setup() {
-        initDb()
         regionStatsDao = database.regionStatsDao()
     }
-
-    @After
-    fun close() = closeDb()
 
     @Test
     fun getById_shouldReturnStatsByCountryAndRegion() = runBlocking {

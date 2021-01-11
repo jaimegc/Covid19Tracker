@@ -9,7 +9,6 @@ import com.jaimegc.covid19tracker.utils.DatabaseTest
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.runBlocking
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -21,12 +20,8 @@ class RegionDaoTest : DatabaseTest() {
 
     @Before
     fun setup() {
-        initDb()
         regionDao = database.regionDao()
     }
-
-    @After
-    fun close() = closeDb()
 
     @Test
     fun getAll_shouldReturnRegions() = runBlocking {

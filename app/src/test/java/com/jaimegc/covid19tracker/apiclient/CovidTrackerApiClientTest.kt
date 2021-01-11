@@ -2,6 +2,7 @@ package com.jaimegc.covid19tracker.apiclient
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
+import com.jaimegc.covid19tracker.ModelFactoryTest.DATE
 import com.jaimegc.covid19tracker.data.api.client.CovidTrackerApiClient
 import com.jaimegc.covid19tracker.data.api.config.ServerApiCovidTrackerConfig
 import com.jaimegc.covid19tracker.data.api.model.CovidTrackerDto
@@ -18,7 +19,6 @@ import java.net.HttpURLConnection
 class CovidTrackerApiClientTest : MockWebServerTest() {
 
     companion object {
-        private const val DATE = "2020-10-02"
         private const val GET_COVID_TRACKER_RESPONSE = "getCovidTrackerResponse.json"
         private const val GET_COVID_TRACKER_NULL_REQUIRED_DATA_ERROR_RESPONSE =
             "getCovidTrackerNullRequiredDataErrorResponse.json"

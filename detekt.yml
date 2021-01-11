@@ -72,7 +72,7 @@ complexity:
     ignoreSimpleWhenEntries: false
     ignoreNestingFunctions: false
     nestingFunctions: [run, let, apply, with, also, use, forEach, isNotNull, ifNull]
-    excludes: ['**/CountryViewModel.kt', '**/CountryFragment.kt']
+    excludes: ['**/CountryViewModel.kt', '**/CountryFragment.kt', '**/test/**', '**/androidTest/**', '**/sharedTest/**', '**/*.Test.kt', '**/*.Spec.kt', '**/*.Spek.kt']
   LabeledExpression:
     active: false
     ignoredLabels: []
