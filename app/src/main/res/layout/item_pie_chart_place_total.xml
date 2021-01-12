@@ -64,7 +64,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/total_layout" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/square_confirmed"
         android:layout_width="10dp"
         android:layout_height="10dp"
@@ -72,7 +72,7 @@
         android:layout_marginTop="12dp"
         android:background="@drawable/background_square"
         android:backgroundTint="@color/dark_red"
-        app:tint="@color/dark_red"
+        android:tint="@color/dark_red"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/percentage_total" />
 

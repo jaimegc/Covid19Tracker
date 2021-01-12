@@ -8,6 +8,10 @@
     android:background="@android:color/white"
     tools:context=".ui.world.WorldFragment">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_title" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_world"
         android:layout_width="match_parent"
@@ -18,7 +22,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         android:paddingBottom="8dp"/>
 
     <include

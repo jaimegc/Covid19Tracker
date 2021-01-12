@@ -6,8 +6,7 @@ import java.util.Queue
 import java.util.LinkedList
 
 /**
- * This LiveData will deliver values even when they are
- * posted very quickly one after another.
+ * This LiveData will deliver values even when they are posted very quickly one after another.
  * https://stackoverflow.com/questions/56097647/can-we-use-livedata-without-loosing-any-value
  */
 class QueueLiveData<T> : MutableLiveData<T>() {

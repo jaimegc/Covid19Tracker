@@ -26,13 +26,13 @@
             android:layout_width="match_parent"
             android:layout_height="229dp">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ic_virus"
                 style="@style/ImageIcon"
                 android:layout_marginTop="16dp"
                 android:contentDescription="@string/confirmed"
                 android:src="@drawable/ic_virus"
-                app:tint="@color/dark_red"
+                android:tint="@color/dark_red"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -64,7 +64,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/text_confirmed"
                 android:text="@string/text_daily_change" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ic_trending_confirmed"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
@@ -72,7 +72,7 @@
                 android:layout_marginTop="2dp"
                 android:contentDescription="@string/confirmed"
                 android:src="@drawable/ic_trending_up"
-                app:tint="@color/dark_red"
+                android:tint="@color/dark_red"
                 app:layout_constraintEnd_toStartOf="@+id/text_new_confirmed"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="packed"
@@ -124,13 +124,13 @@
             android:layout_width="match_parent"
             android:layout_height="229dp">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ic_recovered"
                 style="@style/ImageIcon"
                 android:layout_marginTop="16dp"
                 android:contentDescription="@string/recovered"
                 android:src="@drawable/ic_heart"
-                app:tint="@color/dark_green"
+                android:tint="@color/dark_green"
                 app:layout_constraintBottom_toTopOf="@+id/text_recovered"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -161,7 +161,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/text_recovered"
                 android:text="@string/text_daily_change" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ic_trending_recovered"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
@@ -169,7 +169,7 @@
                 android:layout_marginTop="2dp"
                 android:contentDescription="@string/recovered"
                 android:src="@drawable/ic_trending_up"
-                app:tint="@color/dark_green"
+                android:tint="@color/dark_green"
                 app:layout_constraintEnd_toStartOf="@+id/text_new_recovered"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="packed"
@@ -221,13 +221,13 @@
             android:layout_width="match_parent"
             android:layout_height="229dp">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ic_open_cases"
                 style="@style/ImageIcon"
                 android:layout_marginTop="16dp"
                 android:contentDescription="@string/deaths"
                 android:src="@drawable/ic_patient"
-                app:tint="@color/dark_blue"
+                android:tint="@color/dark_blue"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -257,7 +257,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/text_open_cases"
                 android:text="@string/text_daily_change" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ic_trending_open_cases"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
@@ -265,7 +265,7 @@
                 android:layout_marginTop="2dp"
                 android:contentDescription="@string/open_cases"
                 android:src="@drawable/ic_trending_up"
-                app:tint="@color/dark_blue"
+                android:tint="@color/dark_blue"
                 app:layout_constraintEnd_toStartOf="@+id/text_new_open_cases"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="packed"
@@ -318,13 +318,13 @@
             android:layout_width="match_parent"
             android:layout_height="229dp">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ic_deaths"
                 style="@style/ImageIcon"
                 android:layout_marginTop="16dp"
                 android:contentDescription="@string/deaths"
                 android:src="@drawable/ic_death"
-                app:tint="@color/dark_grey"
+                android:tint="@color/dark_grey"
                 app:layout_constraintBottom_toTopOf="@+id/text_deaths"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -355,7 +355,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/text_deaths"
                 android:text="@string/text_daily_change" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ic_trending_deaths"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
@@ -363,7 +363,7 @@
                 android:layout_marginTop="2dp"
                 android:contentDescription="@string/deaths"
                 android:src="@drawable/ic_trending_up"
-                app:tint="@color/dark_grey"
+                android:tint="@color/dark_grey"
                 app:layout_constraintEnd_toStartOf="@+id/text_new_deaths"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="packed"

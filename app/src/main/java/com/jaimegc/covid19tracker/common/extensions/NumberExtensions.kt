@@ -6,7 +6,7 @@ import java.text.NumberFormat
 import java.util.Locale
 import kotlin.math.ln
 
-private const val PERCENTAGE = 100
+private const val PERCENTAGE = 100.0
 private const val MILLION = 1000000.0
 
 fun Double.formatDecimals(): String = numberFormatDecimals(this).format(this)

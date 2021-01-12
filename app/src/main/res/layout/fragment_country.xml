@@ -8,6 +8,10 @@
     android:background="@android:color/white"
     tools:context=".ui.country.CountryFragment">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_title" />
+
     <Spinner
         android:id="@+id/country_spinner"
         android:layout_width="0dp"
@@ -17,16 +21,16 @@
         android:layout_marginEnd="4dp"
         android:background="@drawable/background_card_place"
         android:minHeight="30dp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ic_expand_country"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:src="@drawable/ic_expand_collapse"
-        app:tint="@color/dark_grey"
+        android:tint="@color/dark_grey"
         app:layout_constraintBottom_toBottomOf="@+id/country_spinner"
         app:layout_constraintEnd_toEndOf="@+id/country_spinner"
         app:layout_constraintTop_toTopOf="@+id/country_spinner" />
@@ -43,15 +47,15 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         tools:visibility="visible" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ic_expand_region"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:src="@drawable/ic_expand_collapse"
-        app:tint="@color/dark_grey"
+        android:tint="@color/dark_grey"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/region_spinner"
         app:layout_constraintEnd_toEndOf="@+id/region_spinner"
