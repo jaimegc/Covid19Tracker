@@ -264,6 +264,12 @@ The data for any other day, from the last one in the local database until the cu
 - SharedPreferences (Robolectric): 4 ✅
   - CountryPreferences-Robolectric: 2 ✔️
   - CovidTrackerPreferences-Robolectric: 2 ✔️  
+  
+### UI Tests (47 ✅)
+
+- Fragments: 47 ✅
+  - CountryFragment: 9 ✔️
+  - WorldFragment: 9 ✔️
 
 ### GitHub Actions
 
