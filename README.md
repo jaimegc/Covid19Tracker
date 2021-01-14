@@ -303,10 +303,11 @@ For now, only configured for unit tests. You can see the config file [here](./.g
   * [Loading & Populating database](https://lottiefiles.com/17895-wear-mask)
   * [Empty chart data](https://lottiefiles.com/17801-stay-at-home)
   * [Loading](https://lottiefiles.com/18466-corona-virus)
-- Icons:
+- Icons & Images:
   * [Menu List](https://github.com/PatilShreyas/Covid19-Notifier-IN/tree/master/app/src/main/res/drawable)
   * [Launcher & Splash](https://www.flaticon.es/icono-gratis/coronavirus_2746582)
   * [Country](https://pngimage.net/%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%B0-png-4)
+  * [Test Pyramid](https://www.raywenderlich.com/books/android-test-driven-development-by-tutorials/v1.0)
 
 ## Contribute
 
