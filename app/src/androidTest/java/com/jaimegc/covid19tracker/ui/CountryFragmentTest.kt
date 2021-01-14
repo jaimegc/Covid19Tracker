@@ -18,7 +18,7 @@ import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.ui.adapter.PlaceAdapter
 import com.jaimegc.covid19tracker.ui.country.CountryFragment
 import com.jaimegc.covid19tracker.utils.UITest
-import com.jaimegc.covid19tracker.utils.matchers.RecyclerViewCompareSquareViewSize.Companion.recyclerViewCompareSquareViewSize
+import com.jaimegc.covid19tracker.utils.matchers.RecyclerViewCompareSquareViewSizeMatcher.Companion.recyclerViewHasSameViewsSize
 import com.jaimegc.covid19tracker.utils.matchers.RecyclerViewConcatAdapterMatcher.Adapters
 import com.jaimegc.covid19tracker.utils.matchers.RecyclerViewConcatAdapterMatcher.Companion.recyclerViewHasAdapters
 import com.jaimegc.covid19tracker.utils.matchers.RecyclerViewItemsCountMatcher.Companion.recyclerViewHasItemCount
@@ -401,7 +401,7 @@ class CountryFragmentTest : UITest() {
         )
 
         onView(withId(R.id.recycler_place)).check(
-            matches(recyclerViewCompareSquareViewSize(placeAdapterPosition, mapOf(
+            matches(recyclerViewHasSameViewsSize(placeAdapterPosition, mapOf(
                 R.id.ic_deaths to viewsSizeExpanded, R.id.ic_deaths to viewsSizeExpanded,
                 R.id.ic_recovered to viewsSizeExpanded, R.id.ic_open_cases to viewsSizeExpanded))
             )
