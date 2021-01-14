@@ -7,10 +7,6 @@
 
 <br />
 
-## APK
-
-[Download](/art/covid19tracker.apk?raw=true)
-
 ## Table of contents
 
 - [Introduction](#introduction)
@@ -207,6 +203,10 @@ The data for any other day, from the last one in the local database until the cu
 
 ## Working on... 👨🏻‍💻🧑🏿‍💻
 
+<p align="left">
+  <img src="./art/unit_tests_pyramid.png" height="200"/>
+</p>
+
 ### Unit Tests (341 ✅)
 
 - ViewModels: 45 ✅
@@ -237,6 +237,10 @@ The data for any other day, from the last one in the local database until the cu
 - Extensions: 9 ✅
   - NumberExtension: 6 ✔️
   - DateExtension: 3 ✔️
+  
+<p align="left">
+  <img src="./art/integration_tests_pyramid.png" height="200"/>
+</p>
 
 ### Integration Tests (102 ✅)
 
@@ -265,6 +269,10 @@ The data for any other day, from the last one in the local database until the cu
   - CountryPreferences-Robolectric: 2 ✔️
   - CovidTrackerPreferences-Robolectric: 2 ✔️  
   
+<p align="left">
+  <img src="./art/ui_tests_pyramid.png" height="200"/>
+</p>
+
 ### UI Tests (47 ✅)
 
 - Fragments: 47 ✅
