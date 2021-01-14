@@ -9,14 +9,14 @@ import org.hamcrest.BaseMatcher
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 
-class RecyclerViewCompareSquareViewSize(
+class RecyclerViewCompareSquareViewSizeMatcher(
     private val adapterPosition: Int,
     private val mapViewsSize: Map<Int, Int>
 ) : BaseMatcher<View>() {
 
     companion object {
-        fun recyclerViewCompareSquareViewSize(adapterPosition: Int, viewsSize: Map<Int, Int>): Matcher<View> =
-            RecyclerViewCompareSquareViewSize(adapterPosition, viewsSize)
+        fun recyclerViewHasSameViewsSize(adapterPosition: Int, viewsSize: Map<Int, Int>): Matcher<View> =
+            RecyclerViewCompareSquareViewSizeMatcher(adapterPosition, viewsSize)
     }
 
     override fun matches(item: Any): Boolean =
@@ -41,4 +41,3 @@ class RecyclerViewCompareSquareViewSize(
         )
     }
 }
-
