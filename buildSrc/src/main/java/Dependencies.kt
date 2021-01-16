@@ -31,6 +31,8 @@ object Dependencies {
         "androidx.test.espresso:espresso-contrib:${Versions.Google.Androidx.ESPRESSO}"
     internal const val ANDROID_ESPRESSO_CORE =
         "androidx.test.espresso:espresso-core:${Versions.Google.Androidx.ESPRESSO}"
+    internal const val ANDROID_ESPRESSO_INTENTS =
+        "androidx.test.espresso:espresso-intents:${Versions.Google.Androidx.ESPRESSO}"
     internal const val ANDROID_LIFECYCLE_EXTENSIONS =
         "androidx.lifecycle:lifecycle-extensions:${Versions.Google.Androidx.LIFECYCLE}"
     internal const val ANDROID_LIFECYCLE_LIVEDATA_KTX =
@@ -195,6 +197,7 @@ fun DependencyHandler.test() {
     androidTestImplementation(Dependencies.ANDROID_JUNIT_EXT)
     androidTestImplementation(Dependencies.ANDROID_ESPRESSO_CONTRIB)
     androidTestImplementation(Dependencies.ANDROID_ESPRESSO_CORE)
+    androidTestImplementation(Dependencies.ANDROID_ESPRESSO_INTENTS)
     debugImplementation(Dependencies.ANDROID_TEST_FRAGMENT)
     androidTestImplementation(Dependencies.ANDROID_TEST_CORE)
     androidTestImplementation(Dependencies.ANDROID_TEST_RULES)
