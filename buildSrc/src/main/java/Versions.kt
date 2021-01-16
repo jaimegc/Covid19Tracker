@@ -24,7 +24,7 @@ object Versions {
         const val KOTLIN = "1.4.21-2"
         const val MAVEN_PLUGIN = "2.1"
         const val GOOGLE_SERVICES = "4.3.4"
-        const val REMAL_PLUGIN = "1.2.0"
+        const val REMAL_PLUGIN = "1.2.1"
     }
 
     object Kotlin {
@@ -51,9 +51,9 @@ object Versions {
         }
 
         object Firebase {
-            const val ANALYTICS = "18.0.0"
+            const val ANALYTICS = "18.0.1"
             const val CRASHLYTICS = "17.3.0"
-            const val PERFORMANCE = "19.0.11"
+            const val PERFORMANCE = "19.1.0"
         }
 
         object Material {
