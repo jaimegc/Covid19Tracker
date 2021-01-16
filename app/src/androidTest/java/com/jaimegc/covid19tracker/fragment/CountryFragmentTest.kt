@@ -1,4 +1,4 @@
-package com.jaimegc.covid19tracker.ui
+package com.jaimegc.covid19tracker.fragment
 
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
@@ -30,6 +30,7 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4ClassRunner::class)
 class CountryFragmentTest : UITest() {
+
     private lateinit var scenario: FragmentScenario<CountryFragment>
 
     @Before

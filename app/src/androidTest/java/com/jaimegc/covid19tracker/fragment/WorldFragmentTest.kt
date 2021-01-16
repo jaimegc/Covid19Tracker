@@ -1,4 +1,4 @@
-package com.jaimegc.covid19tracker.ui
+package com.jaimegc.covid19tracker.fragment
 
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
