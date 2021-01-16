@@ -10,6 +10,13 @@ import com.jaimegc.covid19tracker.ui.adapter.PlacePieChartAdapter
 import com.jaimegc.covid19tracker.ui.adapter.PlaceTotalAdapter
 import com.jaimegc.covid19tracker.ui.adapter.PlaceTotalBarChartAdapter
 import com.jaimegc.covid19tracker.ui.adapter.PlaceTotalPieChartAdapter
+import com.jaimegc.covid19tracker.ui.adapter.WorldAdapter
+import com.jaimegc.covid19tracker.ui.adapter.WorldBarChartAdapter
+import com.jaimegc.covid19tracker.ui.adapter.WorldCountriesBarChartAdapter
+import com.jaimegc.covid19tracker.ui.adapter.WorldCountriesPieChartAdapter
+import com.jaimegc.covid19tracker.ui.adapter.WorldCountryAdapter
+import com.jaimegc.covid19tracker.ui.adapter.WorldLineChartAdapter
+import com.jaimegc.covid19tracker.ui.adapter.WorldPieChartAdapter
 import org.hamcrest.BaseMatcher
 import org.hamcrest.Description
 import org.hamcrest.Matcher
@@ -25,7 +32,8 @@ class RecyclerViewConcatAdapterMatcher(
 
     enum class Adapters {
         PLACE_TOTAL, PLACE, PLACE_TOTAL_BAR_CHART, PLACE_BAR_CHART, PLACE_TOTAL_PIE_CHART,
-        PLACE_PIE_CHART, PLACE_LINE_CHART, EMPTY_ADAPTER
+        PLACE_PIE_CHART, PLACE_LINE_CHART, WORLD, WORLD_COUNTRY, WORLD_BAR_CHART, WORLD_LINE_CHART,
+        WORLD_PIE_CHART, WORLD_COUNTRIES_BAR_CHART, WORLD_COUNTRIES_PIE_CHART, EMPTY_ADAPTER
     }
 
     override fun matches(item: Any): Boolean =
@@ -42,6 +50,13 @@ class RecyclerViewConcatAdapterMatcher(
                             Adapters.PLACE_TOTAL_PIE_CHART -> adapt is PlaceTotalPieChartAdapter
                             Adapters.PLACE_PIE_CHART -> adapt is PlacePieChartAdapter
                             Adapters.PLACE_LINE_CHART -> adapt is PlaceLineChartAdapter
+                            Adapters.WORLD -> adapt is WorldAdapter
+                            Adapters.WORLD_COUNTRY -> adapt is WorldCountryAdapter
+                            Adapters.WORLD_BAR_CHART -> adapt is WorldBarChartAdapter
+                            Adapters.WORLD_LINE_CHART -> adapt is WorldLineChartAdapter
+                            Adapters.WORLD_PIE_CHART -> adapt is WorldPieChartAdapter
+                            Adapters.WORLD_COUNTRIES_BAR_CHART -> adapt is WorldCountriesBarChartAdapter
+                            Adapters.WORLD_COUNTRIES_PIE_CHART -> adapt is WorldCountriesPieChartAdapter
                             Adapters.EMPTY_ADAPTER -> false
                         }
                     }

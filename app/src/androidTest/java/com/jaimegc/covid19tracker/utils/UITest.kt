@@ -1,14 +1,22 @@
 package com.jaimegc.covid19tracker.utils
 
-import androidx.test.core.app.ActivityScenario
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import arrow.core.Either
-import com.jaimegc.covid19tracker.ModelFactoryTest
+import com.jaimegc.covid19tracker.ModelFactoryTest.countryEmptyRegionsEntity
+import com.jaimegc.covid19tracker.ModelFactoryTest.countryEntity
+import com.jaimegc.covid19tracker.ModelFactoryTest.countryStatsEmptyRegionsEntity
+import com.jaimegc.covid19tracker.ModelFactoryTest.countryStatsEntity
+import com.jaimegc.covid19tracker.ModelFactoryTest.regionEmptyRegionsStatsEntity
+import com.jaimegc.covid19tracker.ModelFactoryTest.regionEmptySubRegionsEntity
+import com.jaimegc.covid19tracker.ModelFactoryTest.regionEntity
+import com.jaimegc.covid19tracker.ModelFactoryTest.regionStatsEntity
+import com.jaimegc.covid19tracker.ModelFactoryTest.subRegionEntity
+import com.jaimegc.covid19tracker.ModelFactoryTest.subRegionStatsEntity
+import com.jaimegc.covid19tracker.ModelFactoryTest.worldStatsEntity
 import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateCovidTrackerEmptyData
 import com.jaimegc.covid19tracker.data.room.Covid19TrackerDatabase
 import com.jaimegc.covid19tracker.data.room.daos.CovidTrackerDao
 import com.jaimegc.covid19tracker.domain.usecase.GetCovidTracker
-import com.jaimegc.covid19tracker.ui.home.MainActivity
 import io.mockk.every
 import io.mockk.mockkClass
 import kotlinx.coroutines.flow.flow
@@ -28,7 +36,6 @@ import org.koin.test.mock.declareMock
 
 @RunWith(AndroidJUnit4ClassRunner::class)
 abstract class UITest : KoinTest, SharedPreferencesTest() {
-    private lateinit var scenario: ActivityScenario<MainActivity>
     private lateinit var mockModule: Module
     private val covidTrackerDao: CovidTrackerDao by inject()
 
@@ -53,22 +60,19 @@ abstract class UITest : KoinTest, SharedPreferencesTest() {
 
         runBlocking {
             covidTrackerDao.populateDatabase(
-                worldsStats = listOf(ModelFactoryTest.worldStatsEntity),
-                countries = listOf(ModelFactoryTest.countryEntity, ModelFactoryTest.countryEmptyRegionsEntity),
-                countriesStats = listOf(ModelFactoryTest.countryStatsEntity, ModelFactoryTest.countryStatsEmptyRegionsEntity),
-                regions = listOf(ModelFactoryTest.regionEntity, ModelFactoryTest.regionEmptySubRegionsEntity),
-                regionsStats = listOf(ModelFactoryTest.regionStatsEntity, ModelFactoryTest.regionEmptyRegionsStatsEntity),
-                subRegions = listOf(ModelFactoryTest.subRegionEntity),
-                subRegionsStats = listOf(ModelFactoryTest.subRegionStatsEntity),
+                worldsStats = listOf(worldStatsEntity),
+                countries = listOf(countryEntity, countryEmptyRegionsEntity),
+                countriesStats = listOf(countryStatsEntity, countryStatsEmptyRegionsEntity),
+                regions = listOf(regionEntity, regionEmptySubRegionsEntity),
+                regionsStats = listOf(regionStatsEntity, regionEmptyRegionsStatsEntity),
+                subRegions = listOf(subRegionEntity),
+                subRegionsStats = listOf(subRegionStatsEntity),
             )
         }
-
-        scenario = ActivityScenario.launch(MainActivity::class.java)
     }
 
     @After
     fun after() {
-        scenario.close()
         unloadKoinModules(mockModule)
     }
 

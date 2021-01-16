@@ -24,7 +24,7 @@ object Versions {
         const val KOTLIN = "1.4.21-2"
         const val MAVEN_PLUGIN = "2.1"
         const val GOOGLE_SERVICES = "4.3.4"
-        const val REMAL_PLUGIN = "1.1.6"
+        const val REMAL_PLUGIN = "1.2.0"
     }
 
     object Kotlin {
@@ -88,7 +88,7 @@ object Versions {
         const val JUNIT = "4.13.1"
         const val KOIN = Koin.KOIN
         const val MOCKITO_KOTLIN = "2.2.0"
-        const val MOCKK = "1.10.4"
+        const val MOCKK = "1.10.5"
         const val MOCK_WEB_SERVER = "4.9.0"
         const val ROBOLECTRIC = "4.4"
     }

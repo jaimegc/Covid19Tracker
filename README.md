@@ -7,10 +7,6 @@
 
 <br />
 
-## APK
-
-[Download](/art/covid19tracker.apk?raw=true)
-
 ## Table of contents
 
 - [Introduction](#introduction)
@@ -207,6 +203,10 @@ The data for any other day, from the last one in the local database until the cu
 
 ## Working on... 👨🏻‍💻🧑🏿‍💻
 
+<p align="left">
+  <img src="./art/unit_tests_pyramid.png" height="200"/>
+</p>
+
 ### Unit Tests (341 ✅)
 
 - ViewModels: 45 ✅
@@ -237,6 +237,10 @@ The data for any other day, from the last one in the local database until the cu
 - Extensions: 9 ✅
   - NumberExtension: 6 ✔️
   - DateExtension: 3 ✔️
+  
+<p align="left">
+  <img src="./art/integration_tests_pyramid.png" height="200"/>
+</p>
 
 ### Integration Tests (102 ✅)
 
@@ -264,6 +268,16 @@ The data for any other day, from the last one in the local database until the cu
 - SharedPreferences (Robolectric): 4 ✅
   - CountryPreferences-Robolectric: 2 ✔️
   - CovidTrackerPreferences-Robolectric: 2 ✔️  
+  
+<p align="left">
+  <img src="./art/ui_tests_pyramid.png" height="200"/>
+</p>
+
+### UI Tests (47 ✅)
+
+- Fragments: 47 ✅
+  - CountryFragment: 9 ✔️
+  - WorldFragment: 9 ✔️
 
 ### GitHub Actions
 
@@ -289,10 +303,11 @@ For now, only configured for unit tests. You can see the config file [here](./.g
   * [Loading & Populating database](https://lottiefiles.com/17895-wear-mask)
   * [Empty chart data](https://lottiefiles.com/17801-stay-at-home)
   * [Loading](https://lottiefiles.com/18466-corona-virus)
-- Icons:
+- Icons & Images:
   * [Menu List](https://github.com/PatilShreyas/Covid19-Notifier-IN/tree/master/app/src/main/res/drawable)
   * [Launcher & Splash](https://www.flaticon.es/icono-gratis/coronavirus_2746582)
   * [Country](https://pngimage.net/%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%B0-png-4)
+  * [Test Pyramid](https://www.raywenderlich.com/books/android-test-driven-development-by-tutorials/v1.0)
 
 ## Contribute
 
