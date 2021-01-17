@@ -50,7 +50,8 @@ class PopulateDatabaseWorker(
             listDates.map { date ->
                 val dateSrc = "$FOLDER$date$JSON_FILE_EXTENSION"
 
-                val dataJson = applicationContext.assets.open(dateSrc).bufferedReader().use { it.readText() }
+                val dataJson =
+                    applicationContext.assets.open(dateSrc).bufferedReader().use { it.readText() }
 
                 moshi.fromJson(dataJson).also { covidTrackerDto ->
                     covidTrackerDto?.let {
@@ -83,7 +84,9 @@ class PopulateDatabaseWorker(
 
         coroutineScope {
             listDates.map { date ->
-                allRequests.add(async { covidTrackerApiClient.getCovidTrackerByDateAsResponse(date) })
+                allRequests.add(
+                    async { covidTrackerApiClient.getCovidTrackerByDateAsResponse(date) }
+                )
             }
         }
 
