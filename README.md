@@ -283,7 +283,7 @@ The data for any other day, from the last one in the local database until the cu
   - MainActivity: 4 ✔️
   - InitializeDatabaseActivity: 4 ✔️ 
 - Fragments: 47 ✅
-  - CountryFragment: 9 ✔️
+  - CountryFragment: 38 ✔️
   - WorldFragment: 9 ✔️
 
 ### GitHub Actions
