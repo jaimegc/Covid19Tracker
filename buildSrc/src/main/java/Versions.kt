@@ -86,6 +86,7 @@ object Versions {
         const val COROUTINES = "1.4.2"
         const val FLOW_TEST_OBSERVER = "1.5.1"
         const val JUNIT = "4.13.1"
+        const val KAKAO = "2.4.0"
         const val KOIN = Koin.KOIN
         const val MOCKITO_KOTLIN = "2.2.0"
         const val MOCKK = "1.10.5"
