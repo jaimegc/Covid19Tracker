@@ -218,15 +218,6 @@ class CountryFragmentTest : UITest() {
     }
 
     @Test
-    fun countryWithRegionsNoSelectedInBarChartView_shouldHavePlaceTotalAndPlaceAdapters() {
-        onView(withId(R.id.list_view)).perform(click())
-
-        onView(withId(R.id.recycler_place)).check(
-            matches(recyclerViewHasAdapters(listOf(Adapters.PLACE_TOTAL, Adapters.PLACE)))
-        )
-    }
-
-    @Test
     fun countryWithRegionsNoSelectedInMenuBarChartView_shouldHavePlaceTotalBarAndPlaceBarChartAdapters() {
         onView(withId(R.id.bar_chart_view)).perform(click())
 
