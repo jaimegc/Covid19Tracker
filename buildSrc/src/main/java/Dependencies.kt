@@ -103,6 +103,7 @@ object Dependencies {
     internal const val TEST_FLOW_OBSERVER =
         "com.github.ologe:flow-test-observer:${Versions.Test.FLOW_TEST_OBSERVER}"
     internal const val TEST_JUNIT = "junit:junit:${Versions.Test.JUNIT}"
+    internal const val TEST_KAKAO = "com.agoda.kakao:kakao:${Versions.Test.KAKAO}"
     internal const val TEST_KOIN = "org.koin:koin-test:${Versions.Test.KOIN}"
     internal const val TEST_MOCKITO_KOTLIN =
         "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.Test.MOCKITO_KOTLIN}"
@@ -206,6 +207,7 @@ fun DependencyHandler.test() {
     androidTestImplementation(Dependencies.ANDROID_TEST_TRUTH)
     androidTestImplementation(Dependencies.ANDROID_TEST_WORK)
     androidTestImplementation(Dependencies.TEST_COROUTINES)
+    androidTestImplementation(Dependencies.TEST_KAKAO)
     androidTestImplementation(Dependencies.TEST_KOIN)
     androidTestImplementation(Dependencies.TEST_MOCKITO_KOTLIN)
     androidTestImplementation(Dependencies.TEST_MOCKK_ANDROID)
