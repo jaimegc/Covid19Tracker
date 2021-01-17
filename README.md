@@ -242,7 +242,7 @@ The data for any other day, from the last one in the local database until the cu
   <img src="./art/integration_tests_pyramid.png" height="200"/>
 </p>
 
-### Integration Tests (107 ✅)
+### Integration Tests (112 ✅)
 
 - Daos: 42 ✅
   - RegionStatsDao: 15 ✔️
@@ -269,7 +269,9 @@ The data for any other day, from the last one in the local database until the cu
   - CountryPreferences-Robolectric: 2 ✔️
   - CovidTrackerPreferences-Robolectric: 2 ✔️
 - Workers: 5 ✅
-  - UpdateDatabaseWorker: 5 ✔️    
+  - UpdateDatabaseWorker: 5 ✔️
+- Workers (Robolectric): 5 ✅
+  - UpdateDatabaseWorker-Robolectric: 5 ✔️     
   
 <p align="left">
   <img src="./art/ui_tests_pyramid.png" height="200"/>
