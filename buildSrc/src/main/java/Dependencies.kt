@@ -58,6 +58,7 @@ object Dependencies {
     internal const val ANDROID_TEST_CORE = "androidx.test:core:${Versions.Google.Androidx.TEST_CORE}"
     internal const val ANDROID_TEST_RULES = "androidx.test:rules:${Versions.Google.Androidx.TEST_RULES}"
     internal const val ANDROID_TEST_RUNNER = "androidx.test:runner:${Versions.Google.Androidx.TEST_RUNNER}"
+    internal const val ANDROID_TEST_WORK = "androidx.work:work-testing:${Versions.Google.Androidx.WORK_MANAGER}"
     internal const val ANDROID_ROOM_COMPILER = "androidx.room:room-compiler:${Versions.Google.Androidx.ROOM}"
     internal const val ANDROID_ROOM_KTX = "androidx.room:room-ktx:${Versions.Google.Androidx.ROOM}"
     internal const val ANDROID_ROOM_RUNTIME = "androidx.room:room-runtime:${Versions.Google.Androidx.ROOM}"
@@ -203,6 +204,7 @@ fun DependencyHandler.test() {
     androidTestImplementation(Dependencies.ANDROID_TEST_RULES)
     androidTestImplementation(Dependencies.ANDROID_TEST_RUNNER)
     androidTestImplementation(Dependencies.ANDROID_TEST_TRUTH)
+    androidTestImplementation(Dependencies.ANDROID_TEST_WORK)
     androidTestImplementation(Dependencies.TEST_COROUTINES)
     androidTestImplementation(Dependencies.TEST_KOIN)
     androidTestImplementation(Dependencies.TEST_MOCKITO_KOTLIN)
@@ -210,6 +212,7 @@ fun DependencyHandler.test() {
 
     testImplementation(Dependencies.ANDROID_CORE_TESTING)
     testImplementation(Dependencies.ANDROID_TEST_TRUTH)
+    testImplementation(Dependencies.ANDROID_TEST_WORK)
     testImplementation(Dependencies.TEST_APACHE_COMMONS)
     testImplementation(Dependencies.TEST_COROUTINES)
     testImplementation(Dependencies.TEST_FLOW_OBSERVER)

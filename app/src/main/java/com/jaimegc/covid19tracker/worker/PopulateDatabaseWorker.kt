@@ -19,6 +19,8 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import retrofit2.Response
 
+// This is a util class that helps to create and download all jsons. Also, populate the data
+// in the database. By default, it's not used
 class PopulateDatabaseWorker(
     val context: Context,
     workerParams: WorkerParameters
@@ -50,7 +52,8 @@ class PopulateDatabaseWorker(
             listDates.map { date ->
                 val dateSrc = "$FOLDER$date$JSON_FILE_EXTENSION"
 
-                val dataJson = applicationContext.assets.open(dateSrc).bufferedReader().use { it.readText() }
+                val dataJson =
+                    applicationContext.assets.open(dateSrc).bufferedReader().use { it.readText() }
 
                 moshi.fromJson(dataJson).also { covidTrackerDto ->
                     covidTrackerDto?.let {
@@ -83,7 +86,9 @@ class PopulateDatabaseWorker(
 
         coroutineScope {
             listDates.map { date ->
-                allRequests.add(async { covidTrackerApiClient.getCovidTrackerByDateAsResponse(date) })
+                allRequests.add(
+                    async { covidTrackerApiClient.getCovidTrackerByDateAsResponse(date) }
+                )
             }
         }
 
