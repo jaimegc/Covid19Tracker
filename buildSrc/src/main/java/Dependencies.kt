@@ -212,6 +212,7 @@ fun DependencyHandler.test() {
 
     testImplementation(Dependencies.ANDROID_CORE_TESTING)
     testImplementation(Dependencies.ANDROID_TEST_TRUTH)
+    testImplementation(Dependencies.ANDROID_TEST_WORK)
     testImplementation(Dependencies.TEST_APACHE_COMMONS)
     testImplementation(Dependencies.TEST_COROUTINES)
     testImplementation(Dependencies.TEST_FLOW_OBSERVER)
