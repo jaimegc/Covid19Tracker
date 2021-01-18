@@ -1,6 +1,7 @@
-package com.jaimegc.covid19tracker.fragment.kakao
+package com.jaimegc.covid19tracker.utils.kakao
 
 import android.view.View
+import com.agoda.kakao.bottomnav.KBottomNavigationView
 import com.agoda.kakao.common.views.KView
 import com.agoda.kakao.recycler.KRecyclerItem
 import com.agoda.kakao.recycler.KRecyclerView
@@ -21,7 +22,7 @@ class WorldScreen : Screen<WorldScreen>() {
         {
             withId(R.id.recycler_world)
         }, itemTypeBuilder = {
-            itemType(::RecyclerWorldItem)
+            itemType(WorldScreen::RecyclerWorldItem)
         }
     )
 
@@ -48,7 +49,7 @@ class CountryScreen : Screen<CountryScreen>() {
         {
             withId(R.id.recycler_place)
         }, itemTypeBuilder = {
-            itemType(::RecyclerCountryItem)
+            itemType(CountryScreen::RecyclerCountryItem)
         }
     )
 
@@ -56,4 +57,8 @@ class CountryScreen : Screen<CountryScreen>() {
     val emptyDatabaseText = KTextView { withId(R.id.empty_database_text) }
 
     class RecyclerCountryItem(parent: Matcher<View>) : KRecyclerItem<RecyclerCountryItem>(parent)
+}
+
+class MainScreen : Screen<MainScreen>() {
+    val navigationView = KBottomNavigationView { withId(R.id.nav_view) }
 }

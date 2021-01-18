@@ -9,6 +9,7 @@ import com.agoda.kakao.spinner.KSpinnerItem
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.ui.country.CountryFragment
 import com.jaimegc.covid19tracker.utils.UITest
+import com.jaimegc.covid19tracker.utils.kakao.CountryScreen
 import com.jaimegc.covid19tracker.utils.matchers.RecyclerViewCompareSquareViewSizeMatcher.Companion.recyclerViewHasSameViewsSize
 import com.jaimegc.covid19tracker.utils.matchers.RecyclerViewConcatAdapterMatcher.Adapters
 import com.jaimegc.covid19tracker.utils.matchers.RecyclerViewConcatAdapterMatcher.Companion.recyclerViewHasAdapters
