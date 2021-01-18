@@ -96,7 +96,7 @@ class MainActivityTest : KoinTest {
     }
 
     @Test
-    fun clickOnBackButtonInNavigationWorld_shouldShowNavigationCountry() {
+    fun pressBackButtonInNavigationWorld_shouldShowNavigationCountry() {
         loadKoinModules(mockModule)
 
         scenario = ActivityScenario.launch(MainActivity::class.java)
