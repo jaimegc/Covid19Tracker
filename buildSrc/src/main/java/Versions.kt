@@ -24,7 +24,7 @@ object Versions {
         const val KOTLIN = "1.4.21-2"
         const val MAVEN_PLUGIN = "2.1"
         const val GOOGLE_SERVICES = "4.3.4"
-        const val REMAL_PLUGIN = "1.1.6"
+        const val REMAL_PLUGIN = "1.2.2"
     }
 
     object Kotlin {
@@ -51,9 +51,9 @@ object Versions {
         }
 
         object Firebase {
-            const val ANALYTICS = "18.0.0"
+            const val ANALYTICS = "18.0.1"
             const val CRASHLYTICS = "17.3.0"
-            const val PERFORMANCE = "19.0.11"
+            const val PERFORMANCE = "19.1.0"
         }
 
         object Material {
@@ -86,9 +86,10 @@ object Versions {
         const val COROUTINES = "1.4.2"
         const val FLOW_TEST_OBSERVER = "1.5.1"
         const val JUNIT = "4.13.1"
+        const val KAKAO = "2.4.0"
         const val KOIN = Koin.KOIN
         const val MOCKITO_KOTLIN = "2.2.0"
-        const val MOCKK = "1.10.4"
+        const val MOCKK = "1.10.5"
         const val MOCK_WEB_SERVER = "4.9.0"
         const val ROBOLECTRIC = "4.4"
     }

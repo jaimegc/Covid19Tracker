@@ -42,7 +42,6 @@ import com.jaimegc.covid19tracker.data.room.entities.CountryStatsEntity
 import com.jaimegc.covid19tracker.data.room.entities.RegionEntity
 import com.jaimegc.covid19tracker.data.room.entities.RegionStatsEntity
 import com.jaimegc.covid19tracker.data.room.entities.WorldStatsEntity
-import com.jaimegc.covid19tracker.data.room.mapper.toPojoCountriesOrdered
 import com.jaimegc.covid19tracker.data.room.pojos.CountryAndOneStatsPojo
 import com.jaimegc.covid19tracker.data.room.pojos.CountryAndStatsPojo
 import com.jaimegc.covid19tracker.data.room.pojos.RegionAndOneStatsPojo
@@ -52,9 +51,6 @@ import com.jaimegc.covid19tracker.data.room.pojos.SubRegionAndStatsPojo
 import com.jaimegc.covid19tracker.data.room.views.RegionAndStatsDV
 import com.jaimegc.covid19tracker.data.room.views.SubRegionAndStatsDV
 import com.jaimegc.covid19tracker.domain.model.DomainError
-import com.jaimegc.covid19tracker.domain.model.ListCountryAndStats
-import com.jaimegc.covid19tracker.domain.model.ListRegion
-import com.jaimegc.covid19tracker.domain.model.Region
 import com.jaimegc.covid19tracker.domain.model.toDomain
 import com.jaimegc.covid19tracker.domain.model.toStatsDomain
 import com.jaimegc.covid19tracker.ui.base.states.MenuItemViewType

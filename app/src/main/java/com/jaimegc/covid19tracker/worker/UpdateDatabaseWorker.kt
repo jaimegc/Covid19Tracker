@@ -53,31 +53,35 @@ class UpdateDatabaseWorker(
 
         allRequests.map { date -> date.map { covidTracker -> covidTrackers.add(covidTracker) } }
 
-        if (datesToDownloadSize > 1) {
-            setProgress(workDataOf(DATA_PROGRESS to context.getString(R.string.worker_start)))
-            delay(500)
-            setProgress(
-                workDataOf(
-                    DATA_PROGRESS to context.getString(
-                        R.string.worker_populating_database,
-                        datesToDownload.first(),
-                        datesToDownload.last()
+        if (covidTrackers.isNotEmpty()) {
+            if (datesToDownloadSize > 1) {
+                setProgress(workDataOf(DATA_PROGRESS to context.getString(R.string.worker_start)))
+                delay(500)
+                setProgress(
+                    workDataOf(
+                        DATA_PROGRESS to context.getString(
+                            R.string.worker_populating_database,
+                            datesToDownload.first(),
+                            datesToDownload.last()
+                        )
                     )
                 )
-            )
+            }
+
+            val useCase: AddCovidTracker by inject()
+            useCase.addCovidTrackers(covidTrackers)
+            // Sometimes this progress is not called
+            setProgress(workDataOf(DATA_PROGRESS to context.getString(R.string.worker_finish)))
+
+            // Save preferences if the current day was downloaded
+            covidTrackers.firstOrNull { covidTracker ->
+                covidTracker.worldStats.date == datesToDownload.last()
+            }?.let { covidTrackerPreferences.saveTime() }
+
+            return Result.success()
+        } else {
+            return Result.failure()
         }
-
-        val useCase: AddCovidTracker by inject()
-        useCase.addCovidTrackers(covidTrackers)
-        // Sometimes this progress is not called
-        setProgress(workDataOf(DATA_PROGRESS to context.getString(R.string.worker_finish)))
-
-        // Save preferences if the current day was downloaded
-        covidTrackers.firstOrNull { covidTracker ->
-            covidTracker.worldStats.date == datesToDownload.last()
-        }?.let { covidTrackerPreferences.saveTime() }
-
-        return Result.success()
     }
 
     private fun downloadAllDates(dates: List<String>) =

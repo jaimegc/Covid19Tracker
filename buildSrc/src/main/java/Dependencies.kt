@@ -31,6 +31,8 @@ object Dependencies {
         "androidx.test.espresso:espresso-contrib:${Versions.Google.Androidx.ESPRESSO}"
     internal const val ANDROID_ESPRESSO_CORE =
         "androidx.test.espresso:espresso-core:${Versions.Google.Androidx.ESPRESSO}"
+    internal const val ANDROID_ESPRESSO_INTENTS =
+        "androidx.test.espresso:espresso-intents:${Versions.Google.Androidx.ESPRESSO}"
     internal const val ANDROID_LIFECYCLE_EXTENSIONS =
         "androidx.lifecycle:lifecycle-extensions:${Versions.Google.Androidx.LIFECYCLE}"
     internal const val ANDROID_LIFECYCLE_LIVEDATA_KTX =
@@ -56,6 +58,7 @@ object Dependencies {
     internal const val ANDROID_TEST_CORE = "androidx.test:core:${Versions.Google.Androidx.TEST_CORE}"
     internal const val ANDROID_TEST_RULES = "androidx.test:rules:${Versions.Google.Androidx.TEST_RULES}"
     internal const val ANDROID_TEST_RUNNER = "androidx.test:runner:${Versions.Google.Androidx.TEST_RUNNER}"
+    internal const val ANDROID_TEST_WORK = "androidx.work:work-testing:${Versions.Google.Androidx.WORK_MANAGER}"
     internal const val ANDROID_ROOM_COMPILER = "androidx.room:room-compiler:${Versions.Google.Androidx.ROOM}"
     internal const val ANDROID_ROOM_KTX = "androidx.room:room-ktx:${Versions.Google.Androidx.ROOM}"
     internal const val ANDROID_ROOM_RUNTIME = "androidx.room:room-runtime:${Versions.Google.Androidx.ROOM}"
@@ -100,6 +103,7 @@ object Dependencies {
     internal const val TEST_FLOW_OBSERVER =
         "com.github.ologe:flow-test-observer:${Versions.Test.FLOW_TEST_OBSERVER}"
     internal const val TEST_JUNIT = "junit:junit:${Versions.Test.JUNIT}"
+    internal const val TEST_KAKAO = "com.agoda.kakao:kakao:${Versions.Test.KAKAO}"
     internal const val TEST_KOIN = "org.koin:koin-test:${Versions.Test.KOIN}"
     internal const val TEST_MOCKITO_KOTLIN =
         "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.Test.MOCKITO_KOTLIN}"
@@ -195,18 +199,22 @@ fun DependencyHandler.test() {
     androidTestImplementation(Dependencies.ANDROID_JUNIT_EXT)
     androidTestImplementation(Dependencies.ANDROID_ESPRESSO_CONTRIB)
     androidTestImplementation(Dependencies.ANDROID_ESPRESSO_CORE)
+    androidTestImplementation(Dependencies.ANDROID_ESPRESSO_INTENTS)
     debugImplementation(Dependencies.ANDROID_TEST_FRAGMENT)
     androidTestImplementation(Dependencies.ANDROID_TEST_CORE)
     androidTestImplementation(Dependencies.ANDROID_TEST_RULES)
     androidTestImplementation(Dependencies.ANDROID_TEST_RUNNER)
     androidTestImplementation(Dependencies.ANDROID_TEST_TRUTH)
+    androidTestImplementation(Dependencies.ANDROID_TEST_WORK)
     androidTestImplementation(Dependencies.TEST_COROUTINES)
+    androidTestImplementation(Dependencies.TEST_KAKAO)
     androidTestImplementation(Dependencies.TEST_KOIN)
     androidTestImplementation(Dependencies.TEST_MOCKITO_KOTLIN)
     androidTestImplementation(Dependencies.TEST_MOCKK_ANDROID)
 
     testImplementation(Dependencies.ANDROID_CORE_TESTING)
     testImplementation(Dependencies.ANDROID_TEST_TRUTH)
+    testImplementation(Dependencies.ANDROID_TEST_WORK)
     testImplementation(Dependencies.TEST_APACHE_COMMONS)
     testImplementation(Dependencies.TEST_COROUTINES)
     testImplementation(Dependencies.TEST_FLOW_OBSERVER)
