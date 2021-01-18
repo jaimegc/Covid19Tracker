@@ -24,7 +24,7 @@ object Versions {
         const val KOTLIN = "1.4.21-2"
         const val MAVEN_PLUGIN = "2.1"
         const val GOOGLE_SERVICES = "4.3.4"
-        const val REMAL_PLUGIN = "1.2.1"
+        const val REMAL_PLUGIN = "1.2.2"
     }
 
     object Kotlin {
