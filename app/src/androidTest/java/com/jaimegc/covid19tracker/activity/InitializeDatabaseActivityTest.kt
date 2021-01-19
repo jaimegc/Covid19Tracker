@@ -5,7 +5,10 @@ import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
+import arrow.core.Either
+import com.jaimegc.covid19tracker.ScreenStateFactoryTest
 import com.jaimegc.covid19tracker.data.room.Covid19TrackerDatabase
+import com.jaimegc.covid19tracker.domain.usecase.GetCovidTracker
 import com.jaimegc.covid19tracker.ui.home.InitializeDatabaseActivity
 import com.jaimegc.covid19tracker.ui.home.MainActivity
 import com.jaimegc.covid19tracker.utils.FileUtils
@@ -14,6 +17,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkClass
+import kotlinx.coroutines.flow.flow
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -25,6 +29,7 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.mock.MockProviderRule
+import org.koin.test.mock.declareMock
 
 @RunWith(AndroidJUnit4ClassRunner::class)
 class InitializeDatabaseActivityTest : KoinTest {
@@ -50,6 +55,8 @@ class InitializeDatabaseActivityTest : KoinTest {
             }
         }
 
+        mockRequests()
+
         Intents.init()
     }
 
@@ -57,6 +64,17 @@ class InitializeDatabaseActivityTest : KoinTest {
     fun tearDown() {
         Intents.release()
         unloadKoinModules(mockModule)
+    }
+
+    private fun mockRequests() {
+        // Empty requests for UpdateDatabaseWorker
+        every { fileUtils.generateCurrentDates() } returns listOf()
+
+        declareMock<GetCovidTracker> {
+            every { getCovidTrackerByDate(any()) } returns flow {
+                emit(Either.right(ScreenStateFactoryTest.stateCovidTrackerEmptyData))
+            }
+        }
     }
 
     @Test

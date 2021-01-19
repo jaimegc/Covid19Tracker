@@ -8,17 +8,23 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
+import arrow.core.Either
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.ui.home.MainActivity
 import com.jaimegc.covid19tracker.ui.world.WorldFragment
 import com.jaimegc.covid19tracker.utils.matchers.BottomNavigationViewMenuItemMatcher.Companion.bottomNavigationViewHasMenuItemChecked
 import com.google.common.truth.Truth.assertThat
+import com.jaimegc.covid19tracker.ScreenStateFactoryTest
 import com.jaimegc.covid19tracker.data.room.Covid19TrackerDatabase
+import com.jaimegc.covid19tracker.domain.usecase.GetCovidTracker
 import com.jaimegc.covid19tracker.ui.country.CountryFragment
 import com.jaimegc.covid19tracker.ui.home.MainViewModel
+import com.jaimegc.covid19tracker.utils.FileUtils
+import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkClass
 import io.mockk.verify
+import kotlinx.coroutines.flow.flow
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -28,6 +34,7 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.mock.MockProviderRule
+import org.koin.test.mock.declareMock
 
 @RunWith(AndroidJUnit4ClassRunner::class)
 class MainActivityTest : KoinTest {
@@ -49,6 +56,21 @@ class MainActivityTest : KoinTest {
             }
             single {
                 viewModel
+            }
+        }
+
+        mockRequests()
+    }
+
+    private fun mockRequests() {
+        // Empty requests for UpdateDatabaseWorker
+        declareMock<FileUtils> {
+            every { generateCurrentDates() } returns listOf()
+        }
+
+        declareMock<GetCovidTracker> {
+            every { getCovidTrackerByDate(any()) } returns flow {
+                emit(Either.right(ScreenStateFactoryTest.stateCovidTrackerEmptyData))
             }
         }
     }
