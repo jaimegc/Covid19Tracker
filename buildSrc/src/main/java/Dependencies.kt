@@ -98,6 +98,8 @@ object Dependencies {
 
     internal const val TEST_APACHE_COMMONS =
         "commons-io:commons-io:${Versions.Test.APACHE_COMMONS}"
+    internal const val TEST_BARISTA =
+        "com.schibsted.spain:barista:${Versions.Test.BARISTA}"
     internal const val TEST_COROUTINES =
         "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.Test.COROUTINES}"
     internal const val TEST_FLOW_OBSERVER =
@@ -206,6 +208,7 @@ fun DependencyHandler.test() {
     androidTestImplementation(Dependencies.ANDROID_TEST_RUNNER)
     androidTestImplementation(Dependencies.ANDROID_TEST_TRUTH)
     androidTestImplementation(Dependencies.ANDROID_TEST_WORK)
+    androidTestImplementation(Dependencies.TEST_BARISTA)
     androidTestImplementation(Dependencies.TEST_COROUTINES)
     androidTestImplementation(Dependencies.TEST_KAKAO)
     androidTestImplementation(Dependencies.TEST_KOIN)

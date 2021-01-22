@@ -216,7 +216,9 @@ class CountryFragmentKakaoTest : UITest() {
             menuItemListView { click() }
             recyclerPlace {
                 view.check(
-                    matches(recyclerViewHasAdapters(listOf(Adapters.PLACE_TOTAL, Adapters.PLACE)))
+                    matches(
+                        recyclerViewHasAdapters(listOf(Adapters.PLACE_TOTAL, Adapters.PLACE))
+                    )
                 )
             }
         }
@@ -229,7 +231,9 @@ class CountryFragmentKakaoTest : UITest() {
             recyclerPlace {
                 view.check(
                     matches(
-                        recyclerViewHasAdapters(listOf(Adapters.PLACE_TOTAL_BAR_CHART, Adapters.PLACE_BAR_CHART))
+                        recyclerViewHasAdapters(
+                            listOf(Adapters.PLACE_TOTAL_BAR_CHART, Adapters.PLACE_BAR_CHART)
+                        )
                     )
                 )
             }
@@ -255,7 +259,9 @@ class CountryFragmentKakaoTest : UITest() {
             recyclerPlace {
                 view.check(
                     matches(
-                        recyclerViewHasAdapters(listOf(Adapters.PLACE_TOTAL_PIE_CHART, Adapters.PLACE_PIE_CHART))
+                        recyclerViewHasAdapters(
+                            listOf(Adapters.PLACE_TOTAL_PIE_CHART, Adapters.PLACE_PIE_CHART)
+                        )
                     )
                 )
             }
@@ -282,7 +288,9 @@ class CountryFragmentKakaoTest : UITest() {
             menuItemBarChart { click() }
             recyclerPlace {
                 view.check(
-                    matches(recyclerViewHasAdapters(listOf(Adapters.PLACE_TOTAL_BAR_CHART, Adapters.PLACE_BAR_CHART)))
+                    matches(recyclerViewHasAdapters(
+                        listOf(Adapters.PLACE_TOTAL_BAR_CHART, Adapters.PLACE_BAR_CHART))
+                    )
                 )
             }
         }
@@ -309,7 +317,9 @@ class CountryFragmentKakaoTest : UITest() {
             recyclerPlace {
                 view.check(
                     matches(
-                        recyclerViewHasAdapters(listOf(Adapters.PLACE_TOTAL_PIE_CHART, Adapters.PLACE_PIE_CHART))
+                        recyclerViewHasAdapters(
+                            listOf(Adapters.PLACE_TOTAL_PIE_CHART, Adapters.PLACE_PIE_CHART)
+                        )
                     )
                 )
             }
@@ -421,7 +431,7 @@ class CountryFragmentKakaoTest : UITest() {
     }
 
     @Test
-    fun countryWithRegionWithEmptySubRegionsSelectedInLineChartView_shouldHaveEmptyDatabaseViews() {
+    fun countryWithRegionWithEmptySubRegionsSelectedInMenuLineChartView_shouldHaveEmptyDatabaseViews() {
         onScreen<CountryScreen> {
             selectRegionWithEmptySubRegions(this)
             menuItemLineChart { click() }

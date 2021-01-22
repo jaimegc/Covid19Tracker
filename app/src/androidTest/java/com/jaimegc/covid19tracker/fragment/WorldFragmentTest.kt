@@ -117,7 +117,7 @@ class WorldFragmentTest : UITest() {
             scrollToPosition<WorldCountryAdapter.WorldCountryViewHolder>(worldCountryAdapterPosition),
             actionOnItemAtPosition<WorldCountryAdapter.WorldCountryViewHolder>(
                 worldCountryAdapterPosition, click()
-            ),
+            )
         )
 
         onView(withId(R.id.recycler_world)).check(

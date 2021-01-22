@@ -1,19 +1,17 @@
-package com.jaimegc.covid19tracker.activity
+package com.jaimegc.covid19tracker.activity.kakao
 
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.Intents.intended
-import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import arrow.core.Either
+import com.agoda.kakao.screen.Screen.Companion.onScreen
 import com.jaimegc.covid19tracker.ScreenStateFactoryTest
 import com.jaimegc.covid19tracker.data.room.Covid19TrackerDatabase
 import com.jaimegc.covid19tracker.domain.usecase.GetCovidTracker
 import com.jaimegc.covid19tracker.ui.home.InitializeDatabaseActivity
-import com.jaimegc.covid19tracker.ui.home.MainActivity
 import com.jaimegc.covid19tracker.utils.FileUtils
+import com.jaimegc.covid19tracker.utils.kakao.InitializeDatabaseScreen
 import io.mockk.coEvery
-import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkClass
@@ -32,7 +30,7 @@ import org.koin.test.mock.MockProviderRule
 import org.koin.test.mock.declareMock
 
 @RunWith(AndroidJUnit4ClassRunner::class)
-class InitializeDatabaseActivityTest : KoinTest {
+class InitializeDatabaseActivityKakaoTest : KoinTest {
 
     private lateinit var scenario: ActivityScenario<InitializeDatabaseActivity>
     private val fileUtils = mockk<FileUtils>()
@@ -56,7 +54,6 @@ class InitializeDatabaseActivityTest : KoinTest {
         }
 
         mockRequests()
-
         Intents.init()
     }
 
@@ -78,56 +75,33 @@ class InitializeDatabaseActivityTest : KoinTest {
     }
 
     @Test
-    fun ifDatabaseExists_shouldNotCallInitDatabase() {
-        every { fileUtils.databaseExists() } returns true
-
-        loadKoinModules(mockModule)
-
-        scenario = ActivityScenario.launch(InitializeDatabaseActivity::class.java)
-
-        coVerify(exactly = 0) { fileUtils.initDatabase() }
-
-        scenario.close()
-    }
-
-    @Test
-    fun ifDatabaseDoesNotExist_shouldCallInitDatabase() {
-        every { fileUtils.databaseExists() } returns false
-        coEvery { fileUtils.initDatabase() } returns Unit
-
-        loadKoinModules(mockModule)
-
-        scenario = ActivityScenario.launch(InitializeDatabaseActivity::class.java)
-
-        coVerify { fileUtils.initDatabase() }
-
-        scenario.close()
-    }
-
-    @Test
     fun ifDatabaseExists_shouldOpenMainActivityDirectly() {
-        every { fileUtils.databaseExists() } returns true
+        onScreen<InitializeDatabaseScreen> {
+            every { fileUtils.databaseExists() } returns true
 
-        loadKoinModules(mockModule)
+            loadKoinModules(mockModule)
 
-        scenario = ActivityScenario.launch(InitializeDatabaseActivity::class.java)
+            scenario = ActivityScenario.launch(InitializeDatabaseActivity::class.java)
 
-        intended(hasComponent(MainActivity::class.java.name))
+            mainActivityIntent { intended() }
 
-        scenario.close()
+            scenario.close()
+        }
     }
 
     @Test
     fun ifDatabaseDoesNotExist_shouldOpenMainActivityAfterInitDatabase() {
-        every { fileUtils.databaseExists() } returns false
-        coEvery { fileUtils.initDatabase() } returns Unit
+        onScreen<InitializeDatabaseScreen> {
+            every { fileUtils.databaseExists() } returns false
+            coEvery { fileUtils.initDatabase() } returns Unit
 
-        loadKoinModules(mockModule)
+            loadKoinModules(mockModule)
 
-        scenario = ActivityScenario.launch(InitializeDatabaseActivity::class.java)
+            scenario = ActivityScenario.launch(InitializeDatabaseActivity::class.java)
 
-        intended(hasComponent(MainActivity::class.java.name))
+            mainActivityIntent { intended() }
 
-        scenario.close()
+            scenario.close()
+        }
     }
 }

@@ -277,19 +277,25 @@ The data for any other day, from the last one in the local database until the cu
   <img src="./art/ui_tests_pyramid.png" height="200"/>
 </p>
 
-### UI Tests (103 ✅)
+### UI Tests (154 ✅)
 
 - Activities: 8 ✅
   - MainActivity: 4 ✔️
   - InitializeDatabaseActivity: 4 ✔️
-- Activities (Kakao): 3 ✅
-  - MainActivity-Kakao: 3 ✔️   
+- Activities (Kakao): 5 ✅
+  - MainActivity-Kakao: 3 ✔
+  - InitializeActivity-Kakao: 2 ✔
+- Activities (Barista): 3 ✅
+  - MainActivity-Barista: 3 ✔
 - Fragments: 46 ✅
   - CountryFragment: 37 ✔️
   - WorldFragment: 9 ✔️
 - Fragments (Kakao): 46 ✅
   - CountryFragment-Kakao: 37 ✔️
   - WorldFragment-Kakao: 9 ✔️
+- Fragments (Barista): 46 ✅
+  - CountryFragment-Barista: 37 ✔️
+  - WorldFragment-Barista: 9 ✔️
 
 ### GitHub Actions
 
