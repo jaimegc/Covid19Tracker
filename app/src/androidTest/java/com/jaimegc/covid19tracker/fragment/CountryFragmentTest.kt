@@ -222,7 +222,9 @@ class CountryFragmentTest : UITest() {
         onView(withId(R.id.bar_chart_view)).perform(click())
 
         onView(withId(R.id.recycler_place)).check(
-            matches(recyclerViewHasAdapters(listOf(Adapters.PLACE_TOTAL_BAR_CHART, Adapters.PLACE_BAR_CHART)))
+            matches(recyclerViewHasAdapters(
+                listOf(Adapters.PLACE_TOTAL_BAR_CHART, Adapters.PLACE_BAR_CHART))
+            )
         )
     }
 
@@ -240,7 +242,9 @@ class CountryFragmentTest : UITest() {
         onView(withId(R.id.pie_chart_view)).perform(click())
 
         onView(withId(R.id.recycler_place)).check(
-            matches(recyclerViewHasAdapters(listOf(Adapters.PLACE_TOTAL_PIE_CHART, Adapters.PLACE_PIE_CHART)))
+            matches(recyclerViewHasAdapters(
+                listOf(Adapters.PLACE_TOTAL_PIE_CHART, Adapters.PLACE_PIE_CHART))
+            )
         )
     }
 
@@ -260,7 +264,9 @@ class CountryFragmentTest : UITest() {
         onView(withId(R.id.bar_chart_view)).perform(click())
 
         onView(withId(R.id.recycler_place)).check(
-            matches(recyclerViewHasAdapters(listOf(Adapters.PLACE_TOTAL_BAR_CHART, Adapters.PLACE_BAR_CHART)))
+            matches(recyclerViewHasAdapters(
+                listOf(Adapters.PLACE_TOTAL_BAR_CHART, Adapters.PLACE_BAR_CHART))
+            )
         )
     }
 
@@ -280,7 +286,9 @@ class CountryFragmentTest : UITest() {
         onView(withId(R.id.pie_chart_view)).perform(click())
 
         onView(withId(R.id.recycler_place)).check(
-            matches(recyclerViewHasAdapters(listOf(Adapters.PLACE_TOTAL_PIE_CHART, Adapters.PLACE_PIE_CHART)))
+            matches(recyclerViewHasAdapters(
+                listOf(Adapters.PLACE_TOTAL_PIE_CHART, Adapters.PLACE_PIE_CHART))
+            )
         )
     }
 
@@ -365,7 +373,7 @@ class CountryFragmentTest : UITest() {
     }
 
     @Test
-    fun countryWithRegionWithEmptySubRegionsSelectedInLineChartView_shouldHaveEmptyDatabaseViews() {
+    fun countryWithRegionWithEmptySubRegionsSelectedInMenuLineChartView_shouldHaveEmptyDatabaseViews() {
         selectRegionWithEmptySubRegions()
         onView(withId(R.id.line_chart_view)).perform(click())
 
@@ -389,7 +397,7 @@ class CountryFragmentTest : UITest() {
 
         onView(withId(R.id.recycler_place)).perform(
             scrollToPosition<PlaceAdapter.PlaceStatsViewHolder>(placeAdapterPosition),
-            actionOnItemAtPosition<PlaceAdapter.PlaceStatsViewHolder>(placeAdapterPosition, click()),
+            actionOnItemAtPosition<PlaceAdapter.PlaceStatsViewHolder>(placeAdapterPosition, click())
         )
 
         onView(withId(R.id.recycler_place)).check(
