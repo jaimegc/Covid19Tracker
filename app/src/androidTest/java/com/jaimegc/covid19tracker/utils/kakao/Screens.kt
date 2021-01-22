@@ -1,8 +1,10 @@
 package com.jaimegc.covid19tracker.utils.kakao
 
+import android.content.Intent
 import android.view.View
 import com.agoda.kakao.bottomnav.KBottomNavigationView
 import com.agoda.kakao.common.views.KView
+import com.agoda.kakao.intent.KIntent
 import com.agoda.kakao.recycler.KRecyclerItem
 import com.agoda.kakao.recycler.KRecyclerView
 import com.agoda.kakao.screen.Screen
@@ -61,4 +63,10 @@ class CountryScreen : Screen<CountryScreen>() {
 
 class MainScreen : Screen<MainScreen>() {
     val navigationView = KBottomNavigationView { withId(R.id.nav_view) }
+}
+
+class InitializeDatabaseScreen : Screen<InitializeDatabaseScreen>() {
+    val mainActivityIntent = KIntent {
+        hasFlag(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+    }
 }
