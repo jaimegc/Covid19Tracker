@@ -1,5 +1,6 @@
 package com.jaimegc.covid19tracker.activity.barista
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -9,7 +10,7 @@ import arrow.core.Either
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.ui.home.MainActivity
 import com.jaimegc.covid19tracker.ui.world.WorldFragment
-import com.jaimegc.covid19tracker.utils.matchers.BottomNavigationViewMenuItemMatcher.Companion.bottomNavigationViewHasMenuItemChecked
+import com.jaimegc.covid19tracker.matchers.BottomNavigationViewMenuItemMatcher.Companion.bottomNavigationViewHasMenuItemChecked
 import com.google.common.truth.Truth.assertThat
 import com.jaimegc.covid19tracker.ScreenStateFactoryTest
 import com.jaimegc.covid19tracker.data.room.Covid19TrackerDatabase
@@ -38,6 +39,9 @@ import org.koin.test.mock.declareMock
 
 @RunWith(AndroidJUnit4ClassRunner::class)
 class MainActivityBaristaTest : KoinTest {
+
+    @get:Rule
+    val instantExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var scenario: ActivityScenario<MainActivity>
     private val viewModel = mockk<MainViewModel>(relaxed = true)

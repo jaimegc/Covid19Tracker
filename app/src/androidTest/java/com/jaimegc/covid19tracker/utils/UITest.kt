@@ -1,5 +1,6 @@
 package com.jaimegc.covid19tracker.utils
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import arrow.core.Either
 import com.jaimegc.covid19tracker.ModelFactoryTest.countryEmptyRegionsEntity
@@ -36,6 +37,10 @@ import org.koin.test.mock.declareMock
 
 @RunWith(AndroidJUnit4ClassRunner::class)
 abstract class UITest : KoinTest, SharedPreferencesTest() {
+
+    @get:Rule
+    val instantExecutorRule = InstantTaskExecutorRule()
+
     private lateinit var mockModule: Module
     private val covidTrackerDao: CovidTrackerDao by inject()
 
