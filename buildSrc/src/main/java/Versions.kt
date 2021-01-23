@@ -61,7 +61,7 @@ object Versions {
         }
 
         object Test {
-            const val TRUTH = "1.2"
+            const val TRUTH = "1.1.2"
         }
     }
 
