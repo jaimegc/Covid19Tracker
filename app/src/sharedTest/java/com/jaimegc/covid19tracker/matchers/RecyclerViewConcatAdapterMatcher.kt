@@ -1,4 +1,4 @@
-package com.jaimegc.covid19tracker.utils.matchers
+package com.jaimegc.covid19tracker.matchers
 
 import android.view.View
 import androidx.recyclerview.widget.ConcatAdapter
