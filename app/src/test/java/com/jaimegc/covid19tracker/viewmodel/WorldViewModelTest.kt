@@ -6,13 +6,13 @@ import arrow.core.Either
 import com.jaimegc.covid19tracker.domain.usecase.GetCountryStats
 import com.jaimegc.covid19tracker.domain.usecase.GetWorldAndCountries
 import com.jaimegc.covid19tracker.domain.usecase.GetWorldStats
-import com.jaimegc.covid19tracker.utils.getOrAwaitValue
-import com.jaimegc.covid19tracker.utils.observeForTesting
+import com.jaimegc.covid19tracker.util.getOrAwaitValue
+import com.jaimegc.covid19tracker.util.observeForTesting
 import com.jaimegc.covid19tracker.ui.base.states.MenuItemViewType
 import com.jaimegc.covid19tracker.ui.base.states.ScreenState
 import com.jaimegc.covid19tracker.ui.base.states.WorldStateScreen
 import com.jaimegc.covid19tracker.ui.world.WorldViewModel
-import com.jaimegc.covid19tracker.utils.MainCoroutineRule
+import com.jaimegc.covid19tracker.util.MainCoroutineRule
 import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateCovidTrackerEmptyData
 import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateCovidTrackerSuccess
 import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateErrorUnknownDatabase

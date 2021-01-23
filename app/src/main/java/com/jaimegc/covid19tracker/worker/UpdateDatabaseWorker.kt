@@ -13,7 +13,7 @@ import com.jaimegc.covid19tracker.data.preference.CovidTrackerPreferences
 import com.jaimegc.covid19tracker.domain.model.CovidTracker
 import com.jaimegc.covid19tracker.domain.usecase.AddCovidTracker
 import com.jaimegc.covid19tracker.domain.usecase.GetDates
-import com.jaimegc.covid19tracker.utils.FileUtils
+import com.jaimegc.covid19tracker.util.FileUtils
 import kotlinx.coroutines.delay
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject

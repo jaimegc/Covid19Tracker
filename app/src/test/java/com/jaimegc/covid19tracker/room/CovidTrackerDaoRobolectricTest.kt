@@ -2,7 +2,7 @@ package com.jaimegc.covid19tracker.room
 
 import com.google.common.truth.Truth.assertThat
 import com.jaimegc.covid19tracker.ModelFactoryTest.worldAndCountriesStatsPojo
-import com.jaimegc.covid19tracker.utils.DatabaseRobolectricTest
+import com.jaimegc.covid19tracker.util.DatabaseRobolectricTest
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.runBlocking

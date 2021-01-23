@@ -10,7 +10,7 @@ import com.jaimegc.covid19tracker.data.datasource.RemoteCovidTrackerDatasource
 import com.jaimegc.covid19tracker.data.preference.CovidTrackerPreferences
 import com.jaimegc.covid19tracker.domain.model.DomainError
 import com.jaimegc.covid19tracker.domain.model.toDomain
-import com.jaimegc.covid19tracker.utils.MainCoroutineRule
+import com.jaimegc.covid19tracker.util.MainCoroutineRule
 import com.squareup.moshi.JsonDataException
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery

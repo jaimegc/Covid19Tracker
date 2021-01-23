@@ -4,7 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import com.jaimegc.covid19tracker.ModelFactoryTest.country
 import com.jaimegc.covid19tracker.ModelFactoryTest.listRegionEntity
 import com.jaimegc.covid19tracker.data.room.daos.RegionDao
-import com.jaimegc.covid19tracker.utils.DatabaseRobolectricTest
+import com.jaimegc.covid19tracker.util.DatabaseRobolectricTest
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.runBlocking

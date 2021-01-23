@@ -54,7 +54,7 @@ import com.jaimegc.covid19tracker.domain.model.DomainError
 import com.jaimegc.covid19tracker.domain.model.toDomain
 import com.jaimegc.covid19tracker.domain.model.toStatsDomain
 import com.jaimegc.covid19tracker.ui.base.states.MenuItemViewType
-import com.jaimegc.covid19tracker.utils.MainCoroutineRule
+import com.jaimegc.covid19tracker.util.MainCoroutineRule
 import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery

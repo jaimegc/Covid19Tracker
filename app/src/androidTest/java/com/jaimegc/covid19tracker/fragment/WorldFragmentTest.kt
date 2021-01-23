@@ -12,7 +12,7 @@ import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.ui.adapter.WorldCountryAdapter
 import com.jaimegc.covid19tracker.ui.world.WorldFragment
-import com.jaimegc.covid19tracker.utils.UITest
+import com.jaimegc.covid19tracker.util.UITest
 import com.jaimegc.covid19tracker.matchers.RecyclerViewCompareSquareViewSizeMatcher.Companion.recyclerViewHasSameViewsSize
 import com.jaimegc.covid19tracker.matchers.RecyclerViewConcatAdapterMatcher.Adapters
 import com.jaimegc.covid19tracker.matchers.RecyclerViewConcatAdapterMatcher.Companion.recyclerViewHasAdapters

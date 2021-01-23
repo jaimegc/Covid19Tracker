@@ -5,10 +5,10 @@ import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.ui.world.WorldFragment
-import com.jaimegc.covid19tracker.utils.UITest
+import com.jaimegc.covid19tracker.util.UITest
 import com.jaimegc.covid19tracker.matchers.RecyclerViewConcatAdapterMatcher.Adapters
 import com.jaimegc.covid19tracker.matchers.RecyclerViewItemsCountMatcher.Options
-import com.jaimegc.covid19tracker.utils.screenrobot.worldScreenRobot
+import com.jaimegc.covid19tracker.util.screenrobot.worldScreenRobot
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

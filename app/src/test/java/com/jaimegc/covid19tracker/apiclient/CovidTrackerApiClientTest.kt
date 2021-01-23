@@ -6,8 +6,8 @@ import com.jaimegc.covid19tracker.ModelFactoryTest.DATE
 import com.jaimegc.covid19tracker.data.api.client.CovidTrackerApiClient
 import com.jaimegc.covid19tracker.data.api.config.ServerApiCovidTrackerConfig
 import com.jaimegc.covid19tracker.data.api.model.CovidTrackerDto
-import com.jaimegc.covid19tracker.utils.MainCoroutineRule
-import com.jaimegc.covid19tracker.utils.MockWebServerTest
+import com.jaimegc.covid19tracker.util.MainCoroutineRule
+import com.jaimegc.covid19tracker.util.MockWebServerTest
 import com.squareup.moshi.JsonDataException
 import kotlinx.coroutines.runBlocking
 import org.junit.Before

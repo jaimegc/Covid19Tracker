@@ -1,4 +1,4 @@
-package com.jaimegc.covid19tracker.utils
+package com.jaimegc.covid19tracker.util
 
 import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry

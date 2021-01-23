@@ -2,7 +2,7 @@ package com.jaimegc.covid19tracker.usecase
 
 import com.jaimegc.covid19tracker.ModelFactoryTest.covidTracker
 import com.jaimegc.covid19tracker.domain.usecase.AddCovidTracker
-import com.jaimegc.covid19tracker.utils.UseCaseTest
+import com.jaimegc.covid19tracker.util.UseCaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
 import kotlinx.coroutines.test.runBlockingTest

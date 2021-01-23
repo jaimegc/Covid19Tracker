@@ -3,7 +3,7 @@ package com.jaimegc.covid19tracker.room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
 import com.jaimegc.covid19tracker.ModelFactoryTest.worldAndCountriesStatsPojo
-import com.jaimegc.covid19tracker.utils.DatabaseTest
+import com.jaimegc.covid19tracker.util.DatabaseTest
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.runBlocking
