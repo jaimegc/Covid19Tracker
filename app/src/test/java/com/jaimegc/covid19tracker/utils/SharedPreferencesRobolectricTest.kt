@@ -6,8 +6,10 @@ import org.junit.Before
 import org.junit.runner.RunWith
 import org.koin.test.AutoCloseKoinTest
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.LooperMode
 
 @RunWith(RobolectricTestRunner::class)
+@LooperMode(LooperMode.Mode.PAUSED)
 abstract class SharedPreferencesRobolectricTest : AutoCloseKoinTest() {
 
     companion object {

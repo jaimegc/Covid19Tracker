@@ -1,30 +1,29 @@
-package com.jaimegc.covid19tracker.activity.barista
+package com.jaimegc.covid19tracker.activity
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.pressBack
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
+import androidx.work.testing.WorkManagerTestInitHelper
 import arrow.core.Either
-import com.jaimegc.covid19tracker.R
-import com.jaimegc.covid19tracker.ui.home.MainActivity
-import com.jaimegc.covid19tracker.ui.world.WorldFragment
-import com.jaimegc.covid19tracker.matchers.BottomNavigationViewMenuItemMatcher.Companion.bottomNavigationViewHasMenuItemChecked
 import com.google.common.truth.Truth.assertThat
-import com.jaimegc.covid19tracker.ScreenStateFactoryTest
+import com.jaimegc.covid19tracker.R
+import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateCovidTrackerEmptyData
 import com.jaimegc.covid19tracker.data.room.Covid19TrackerDatabase
 import com.jaimegc.covid19tracker.domain.usecase.GetCovidTracker
+import com.jaimegc.covid19tracker.matchers.BottomNavigationViewMenuItemMatcher.Companion.bottomNavigationViewHasMenuItemChecked
 import com.jaimegc.covid19tracker.ui.country.CountryFragment
+import com.jaimegc.covid19tracker.ui.home.MainActivity
 import com.jaimegc.covid19tracker.ui.home.MainViewModel
+import com.jaimegc.covid19tracker.ui.world.WorldFragment
 import com.jaimegc.covid19tracker.utils.FileUtils
-import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickBack
-import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
-import com.schibsted.spain.barista.internal.assertAnyView
-import com.schibsted.spain.barista.internal.matcher.DisplayedMatchers.displayedWithId
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkClass
+import io.mockk.verify
 import kotlinx.coroutines.flow.flow
 import org.junit.Before
 import org.junit.Rule
@@ -33,15 +32,17 @@ import org.junit.runner.RunWith
 import org.koin.core.context.loadKoinModules
 import org.koin.core.module.Module
 import org.koin.dsl.module
-import org.koin.test.KoinTest
+import org.koin.test.AutoCloseKoinTest
 import org.koin.test.mock.MockProviderRule
 import org.koin.test.mock.declareMock
+import org.robolectric.Robolectric.buildActivity
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.LooperMode
 
-@RunWith(AndroidJUnit4ClassRunner::class)
-class MainActivityBaristaTest : KoinTest {
 
-    @get:Rule
-    val instantExecutorRule = InstantTaskExecutorRule()
+@RunWith(RobolectricTestRunner::class)
+@LooperMode(LooperMode.Mode.PAUSED)
+class MainActivityRobolectricTest : AutoCloseKoinTest() {
 
     private lateinit var scenario: ActivityScenario<MainActivity>
     private val viewModel = mockk<MainViewModel>(relaxed = true)
@@ -64,6 +65,8 @@ class MainActivityBaristaTest : KoinTest {
         }
 
         mockRequests()
+
+        WorkManagerTestInitHelper.initializeTestWorkManager(getApplicationContext())
     }
 
     private fun mockRequests() {
@@ -74,7 +77,7 @@ class MainActivityBaristaTest : KoinTest {
 
         declareMock<GetCovidTracker> {
             every { getCovidTrackerByDate(any()) } returns flow {
-                emit(Either.right(ScreenStateFactoryTest.stateCovidTrackerEmptyData))
+                emit(Either.right(stateCovidTrackerEmptyData))
             }
         }
     }
@@ -92,8 +95,8 @@ class MainActivityBaristaTest : KoinTest {
             assertThat(fragments[0]::class.java).isEqualTo(CountryFragment::class.java)
         }
 
-        assertAnyView(displayedWithId(R.id.nav_view),
-            bottomNavigationViewHasMenuItemChecked(R.id.navigation_country)
+        onView(withId(R.id.nav_view)).check(
+            matches(bottomNavigationViewHasMenuItemChecked(R.id.navigation_country))
         )
 
         scenario.close()
@@ -105,7 +108,7 @@ class MainActivityBaristaTest : KoinTest {
 
         scenario = ActivityScenario.launch(MainActivity::class.java)
 
-        clickOn(R.id.navigation_world)
+        onView(withId(R.id.navigation_world)).perform(click())
 
         scenario.onActivity { activity ->
             val fragments =
@@ -114,8 +117,8 @@ class MainActivityBaristaTest : KoinTest {
             assertThat(fragments[1]::class.java).isEqualTo(WorldFragment::class.java)
         }
 
-        assertAnyView(displayedWithId(R.id.nav_view),
-            bottomNavigationViewHasMenuItemChecked(R.id.navigation_world)
+        onView(withId(R.id.nav_view)).check(
+            matches(bottomNavigationViewHasMenuItemChecked(R.id.navigation_world))
         )
 
         scenario.close()
@@ -125,15 +128,22 @@ class MainActivityBaristaTest : KoinTest {
     fun pressBackButtonInNavigationWorld_shouldShowNavigationCountry() {
         loadKoinModules(mockModule)
 
-        scenario = ActivityScenario.launch(MainActivity::class.java)
+        buildActivity(MainActivity::class.java).setup()
 
-        clickOn(R.id.navigation_world)
-        clickBack()
+        onView(withId(R.id.navigation_world)).perform(click())
+        pressBack()
 
         onView(withId(R.id.nav_view)).check(
             matches(bottomNavigationViewHasMenuItemChecked(R.id.navigation_country))
         )
+    }
 
-        scenario.close()
+    @Test
+    fun openActivity_shouldCallGetCovidTracker() {
+        loadKoinModules(mockModule)
+
+        buildActivity(MainActivity::class.java).setup()
+
+        verify { viewModel.getCovidTracker() }
     }
 }

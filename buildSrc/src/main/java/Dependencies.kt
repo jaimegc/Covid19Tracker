@@ -93,8 +93,8 @@ object Dependencies {
 
     internal const val KOIN = "org.koin:koin-android:${Versions.Koin.KOIN}"
     internal const val KOIN_CORE = "org.koin:koin-core:${Versions.Koin.KOIN}"
-    internal const val KOIN_SCOPE = "org.koin:koin-android-scope:${Versions.Koin.KOIN}"
-    internal const val KOIN_VIEWMODEL = "org.koin:koin-android-viewmodel:${Versions.Koin.KOIN}"
+    internal const val KOIN_SCOPE = "org.koin:koin-androidx-scope:${Versions.Koin.KOIN}"
+    internal const val KOIN_VIEWMODEL = "org.koin:koin-androidx-viewmodel:${Versions.Koin.KOIN}"
 
     internal const val TEST_APACHE_COMMONS =
         "commons-io:commons-io:${Versions.Test.APACHE_COMMONS}"
@@ -202,7 +202,6 @@ fun DependencyHandler.test() {
     androidTestImplementation(Dependencies.ANDROID_ESPRESSO_CONTRIB)
     androidTestImplementation(Dependencies.ANDROID_ESPRESSO_CORE)
     androidTestImplementation(Dependencies.ANDROID_ESPRESSO_INTENTS)
-    debugImplementation(Dependencies.ANDROID_TEST_FRAGMENT)
     androidTestImplementation(Dependencies.ANDROID_TEST_CORE)
     androidTestImplementation(Dependencies.ANDROID_TEST_RULES)
     androidTestImplementation(Dependencies.ANDROID_TEST_RUNNER)
@@ -216,6 +215,9 @@ fun DependencyHandler.test() {
     androidTestImplementation(Dependencies.TEST_MOCKK_ANDROID)
 
     testImplementation(Dependencies.ANDROID_CORE_TESTING)
+    testImplementation(Dependencies.ANDROID_ESPRESSO_CONTRIB)
+    testImplementation(Dependencies.ANDROID_ESPRESSO_CORE)
+    testImplementation(Dependencies.ANDROID_ESPRESSO_INTENTS)
     testImplementation(Dependencies.ANDROID_TEST_TRUTH)
     testImplementation(Dependencies.ANDROID_TEST_WORK)
     testImplementation(Dependencies.TEST_APACHE_COMMONS)
@@ -227,6 +229,8 @@ fun DependencyHandler.test() {
     testImplementation(Dependencies.TEST_MOCKK)
     testImplementation(Dependencies.TEST_MOCK_WEB_SERVER)
     testImplementation(Dependencies.TEST_ROBOLECTRIC)
+
+    debugImplementation(Dependencies.ANDROID_TEST_FRAGMENT)
 }
 
 fun DependencyHandler.detektFormatting() {

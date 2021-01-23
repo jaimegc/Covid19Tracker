@@ -8,22 +8,24 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.ui.adapter.WorldCountryAdapter
 import com.jaimegc.covid19tracker.ui.world.WorldFragment
-import com.jaimegc.covid19tracker.utils.UITest
 import com.jaimegc.covid19tracker.matchers.RecyclerViewCompareSquareViewSizeMatcher.Companion.recyclerViewHasSameViewsSize
 import com.jaimegc.covid19tracker.matchers.RecyclerViewConcatAdapterMatcher.Adapters
 import com.jaimegc.covid19tracker.matchers.RecyclerViewConcatAdapterMatcher.Companion.recyclerViewHasAdapters
 import com.jaimegc.covid19tracker.matchers.RecyclerViewItemsCountMatcher.Companion.recyclerViewHasItemCount
 import com.jaimegc.covid19tracker.matchers.RecyclerViewItemsCountMatcher.Options
+import com.jaimegc.covid19tracker.utils.UIRobolectricTest
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.LooperMode
 
-@RunWith(AndroidJUnit4ClassRunner::class)
-class WorldFragmentTest : UITest() {
+@RunWith(RobolectricTestRunner::class)
+@LooperMode(LooperMode.Mode.PAUSED)
+class WorldFragmentRobolectricTest : UIRobolectricTest() {
 
     private lateinit var scenario: FragmentScenario<WorldFragment>
 
