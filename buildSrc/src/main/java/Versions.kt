@@ -92,7 +92,7 @@ object Versions {
         const val MOCKITO_KOTLIN = "2.2.0"
         const val MOCKK = "1.10.5"
         const val MOCK_WEB_SERVER = "4.9.0"
-        const val ROBOLECTRIC = "4.4"
+        const val ROBOLECTRIC = "4.5"
     }
 
     object Detekt {
