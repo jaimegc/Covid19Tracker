@@ -37,7 +37,7 @@ class CountryFragmentScreenRobotTest : UITest() {
             selectCountryWithEmptyRegions()
 
             countrySpinnerIsDisplayed()
-            regionSpinnerIsNotDisplayed()    
+            regionSpinnerIsNotDisplayed()
         }
     }
 
@@ -92,7 +92,7 @@ class CountryFragmentScreenRobotTest : UITest() {
         countryScreenRobot {
             selectRegionWithSubRegions()
             clickOnMenuItemBarChart()
-    
+
             checkRecyclerViewHasItemCount(2, Options.GREATER_THAN_OR_EQUAL)
         }
     }
@@ -102,7 +102,7 @@ class CountryFragmentScreenRobotTest : UITest() {
         countryScreenRobot {
             selectRegionWithSubRegions()
             clickOnMenuItemLineChart()
-    
+
             checkRecyclerViewHasItemCount(1)
         }
     }
@@ -258,7 +258,7 @@ class CountryFragmentScreenRobotTest : UITest() {
         countryScreenRobot {
             selectRegionWithSubRegions()
             clickOnMenuItemLineChart()
-    
+
             checkRecyclerHasAdapters(listOf(Adapters.PLACE_LINE_CHART))
         }
     }
