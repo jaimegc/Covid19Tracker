@@ -277,7 +277,7 @@ The data for any other day, from the last one in the local database until the cu
   <img src="./art/ui_tests_pyramid.png" height="200"/>
 </p>
 
-### UI Tests (171 ✅)
+### UI Tests (222 ✅)
 
 - Activities: 8 ✅
   - MainActivity: 4 ✔️
@@ -286,10 +286,13 @@ The data for any other day, from the last one in the local database until the cu
   - MainActivity-Robolectric: 4 ✔️
   - InitializeDatabaseActivity-Robolectric: 4 ✔️
 - Activities (Kakao): 5 ✅
-  - MainActivity-Kakao: 3 ✔
-  - InitializeActivity-Kakao: 2 ✔
+  - MainActivity-Kakao: 3 ✔️
+  - InitializeActivity-Kakao: 2 ✔️
 - Activities (Barista): 3 ✅
-  - MainActivity-Barista: 3 ✔
+  - MainActivity-Barista: 3 ✔️
+- Activities (ScreenRobot): 5 ✅
+  - MainActivity-ScreenRobot: 3 ✔️
+  - InitializeActivity-Kakao: 2 ✔️
 - Fragments: 46 ✅
   - CountryFragment: 37 ✔️
   - WorldFragment: 9 ✔️
@@ -301,6 +304,9 @@ The data for any other day, from the last one in the local database until the cu
 - Fragments (Barista): 46 ✅
   - CountryFragment-Barista: 37 ✔️
   - WorldFragment-Barista: 9 ✔️
+- Fragments (ScreenRobot): 46 ✅
+  - CountryFragment-ScreenRobot: 37 ✔️
+  - WorldFragment-ScreenRobot: 9 ✔️
 
 ### GitHub Actions
 

@@ -20,7 +20,7 @@ object Versions {
     object Gradle {
         const val FIREBASE_CRASHLYTICS = "2.4.1"
         const val FIREBASE_PERFORMANCE_PLUGIN = "1.3.4"
-        const val GRADLE_ANDROID = "4.1.1"
+        const val GRADLE_ANDROID = "4.1.2"
         const val KOTLIN = "1.4.21-2"
         const val MAVEN_PLUGIN = "2.1"
         const val GOOGLE_SERVICES = "4.3.4"
@@ -61,7 +61,7 @@ object Versions {
         }
 
         object Test {
-            const val TRUTH = "1.1"
+            const val TRUTH = "1.1.2"
         }
     }
 
