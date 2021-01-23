@@ -1,11 +1,8 @@
 package com.jaimegc.covid19tracker.activity
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
-import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import arrow.core.Either
 import com.jaimegc.covid19tracker.ScreenStateFactoryTest
 import com.jaimegc.covid19tracker.data.room.Covid19TrackerDatabase
@@ -28,19 +25,18 @@ import org.koin.core.context.loadKoinModules
 import org.koin.core.context.unloadKoinModules
 import org.koin.core.module.Module
 import org.koin.dsl.module
-import org.koin.test.KoinTest
+import org.koin.test.AutoCloseKoinTest
 import org.koin.test.mock.MockProviderRule
 import org.koin.test.mock.declareMock
+import org.robolectric.Robolectric.buildActivity
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.LooperMode
 
-@RunWith(AndroidJUnit4ClassRunner::class)
-class InitializeDatabaseActivityTest : KoinTest {
+@RunWith(RobolectricTestRunner::class)
+@LooperMode(LooperMode.Mode.PAUSED)
+class InitializeDatabaseActivityRobolectricTest : AutoCloseKoinTest() {
 
-    @get:Rule
-    val instantExecutorRule = InstantTaskExecutorRule()
-
-    private lateinit var scenario: ActivityScenario<InitializeDatabaseActivity>
     private val fileUtils = mockk<FileUtils>()
-
     private lateinit var mockModule: Module
 
     @get:Rule
@@ -87,11 +83,9 @@ class InitializeDatabaseActivityTest : KoinTest {
 
         loadKoinModules(mockModule)
 
-        scenario = ActivityScenario.launch(InitializeDatabaseActivity::class.java)
+        buildActivity(InitializeDatabaseActivity::class.java).setup()
 
         coVerify(exactly = 0) { fileUtils.initDatabase() }
-
-        scenario.close()
     }
 
     @Test
@@ -101,11 +95,9 @@ class InitializeDatabaseActivityTest : KoinTest {
 
         loadKoinModules(mockModule)
 
-        scenario = ActivityScenario.launch(InitializeDatabaseActivity::class.java)
+        buildActivity(InitializeDatabaseActivity::class.java).setup()
 
         coVerify { fileUtils.initDatabase() }
-
-        scenario.close()
     }
 
     @Test
@@ -114,11 +106,9 @@ class InitializeDatabaseActivityTest : KoinTest {
 
         loadKoinModules(mockModule)
 
-        scenario = ActivityScenario.launch(InitializeDatabaseActivity::class.java)
+        buildActivity(InitializeDatabaseActivity::class.java).setup()
 
         intended(hasComponent(MainActivity::class.java.name))
-
-        scenario.close()
     }
 
     @Test
@@ -128,10 +118,8 @@ class InitializeDatabaseActivityTest : KoinTest {
 
         loadKoinModules(mockModule)
 
-        scenario = ActivityScenario.launch(InitializeDatabaseActivity::class.java)
+        buildActivity(InitializeDatabaseActivity::class.java).setup()
 
         intended(hasComponent(MainActivity::class.java.name))
-
-        scenario.close()
     }
 }

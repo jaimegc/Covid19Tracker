@@ -1,5 +1,6 @@
 package com.jaimegc.covid19tracker.activity.kakao
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.intent.Intents
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
@@ -31,6 +32,9 @@ import org.koin.test.mock.declareMock
 
 @RunWith(AndroidJUnit4ClassRunner::class)
 class InitializeDatabaseActivityKakaoTest : KoinTest {
+
+    @get:Rule
+    val instantExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var scenario: ActivityScenario<InitializeDatabaseActivity>
     private val fileUtils = mockk<FileUtils>()
