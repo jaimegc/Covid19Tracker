@@ -15,7 +15,7 @@ import com.jaimegc.covid19tracker.data.room.Covid19TrackerDatabase
 import com.jaimegc.covid19tracker.domain.model.DomainError
 import com.jaimegc.covid19tracker.domain.usecase.AddCovidTracker
 import com.jaimegc.covid19tracker.domain.usecase.GetDates
-import com.jaimegc.covid19tracker.utils.FileUtils
+import com.jaimegc.covid19tracker.util.FileUtils
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every

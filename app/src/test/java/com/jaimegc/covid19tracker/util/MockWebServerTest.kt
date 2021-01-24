@@ -1,4 +1,4 @@
-package com.jaimegc.covid19tracker.utils
+package com.jaimegc.covid19tracker.util
 
 import com.google.common.truth.Truth.assertThat
 import okhttp3.mockwebserver.MockResponse

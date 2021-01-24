@@ -10,8 +10,8 @@ import com.jaimegc.covid19tracker.ScreenStateFactoryTest
 import com.jaimegc.covid19tracker.data.room.Covid19TrackerDatabase
 import com.jaimegc.covid19tracker.domain.usecase.GetCovidTracker
 import com.jaimegc.covid19tracker.ui.home.InitializeDatabaseActivity
-import com.jaimegc.covid19tracker.utils.FileUtils
-import com.jaimegc.covid19tracker.utils.kakao.InitializeDatabaseScreen
+import com.jaimegc.covid19tracker.util.FileUtils
+import com.jaimegc.covid19tracker.util.kakao.InitializeDatabaseScreen
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk

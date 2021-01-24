@@ -7,7 +7,7 @@ import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateCovidTrackerEmptyD
 import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateCovidTrackerSuccess
 import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateCovidTrackerLoading
 import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateErrorUnknownDatabase
-import com.jaimegc.covid19tracker.utils.UseCaseTest
+import com.jaimegc.covid19tracker.util.UseCaseTest
 import dev.olog.flow.test.observer.test
 import io.mockk.every
 import io.mockk.verify

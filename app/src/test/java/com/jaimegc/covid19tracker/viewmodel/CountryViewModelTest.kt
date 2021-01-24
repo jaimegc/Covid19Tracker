@@ -12,7 +12,7 @@ import com.jaimegc.covid19tracker.ui.base.states.MenuItemViewType
 import com.jaimegc.covid19tracker.ui.base.states.PlaceStateScreen
 import com.jaimegc.covid19tracker.ui.base.states.ScreenState
 import com.jaimegc.covid19tracker.ui.country.CountryViewModel
-import com.jaimegc.covid19tracker.utils.MainCoroutineRule
+import com.jaimegc.covid19tracker.util.MainCoroutineRule
 import com.jaimegc.covid19tracker.ScreenStateFactoryTest.placeStateScreenErrorUnknownDatabase
 import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateCountryOneStatsLoading
 import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateCountryOneStatsSuccess
@@ -88,8 +88,8 @@ import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateScreenListRegionSu
 import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateScreenListSubRegionStatsBarChartEmptySuccessData
 import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateScreenListSubRegionStatsPieChartEmptySuccessData
 import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateScreenListSubRegionStatsEmptySuccessData
-import com.jaimegc.covid19tracker.utils.getOrAwaitValue
-import com.jaimegc.covid19tracker.utils.observeForTesting
+import com.jaimegc.covid19tracker.util.getOrAwaitValue
+import com.jaimegc.covid19tracker.util.observeForTesting
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.mock

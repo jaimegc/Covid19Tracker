@@ -8,7 +8,7 @@ import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.domain.states.StateError
 import com.jaimegc.covid19tracker.domain.usecase.GetCovidTracker
 import com.jaimegc.covid19tracker.ui.home.MainViewModel
-import com.jaimegc.covid19tracker.utils.MainCoroutineRule
+import com.jaimegc.covid19tracker.util.MainCoroutineRule
 import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateCovidTrackerEmptyData
 import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateCovidTrackerSuccess
 import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateErrorUnknownDatabase

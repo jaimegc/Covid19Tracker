@@ -6,7 +6,7 @@ import com.jaimegc.covid19tracker.domain.usecase.GetRegion
 import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateListRegionLoading
 import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateListRegionEmptySuccess
 import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateListRegionSuccess
-import com.jaimegc.covid19tracker.utils.UseCaseTest
+import com.jaimegc.covid19tracker.util.UseCaseTest
 import dev.olog.flow.test.observer.test
 import io.mockk.every
 import io.mockk.verify

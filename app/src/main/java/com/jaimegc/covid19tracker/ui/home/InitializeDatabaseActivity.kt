@@ -5,7 +5,7 @@ import com.jaimegc.covid19tracker.common.extensions.ioMain
 import com.jaimegc.covid19tracker.common.extensions.openActivity
 import com.jaimegc.covid19tracker.databinding.ActivityInitializeDatabaseBinding
 import com.jaimegc.covid19tracker.ui.base.BaseActivity
-import com.jaimegc.covid19tracker.utils.FileUtils
+import com.jaimegc.covid19tracker.util.FileUtils
 import org.koin.core.component.inject
 
 class InitializeDatabaseActivity : BaseActivity() {

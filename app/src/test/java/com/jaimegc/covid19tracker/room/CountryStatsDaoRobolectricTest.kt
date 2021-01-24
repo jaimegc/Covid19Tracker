@@ -8,7 +8,7 @@ import com.jaimegc.covid19tracker.ModelFactoryTest.countryStatsEntity
 import com.jaimegc.covid19tracker.ModelFactoryTest.listCountryStatsEntity
 import com.jaimegc.covid19tracker.data.room.daos.CountryStatsDao
 import com.jaimegc.covid19tracker.data.room.pojos.CountryAndOneStatsPojo
-import com.jaimegc.covid19tracker.utils.DatabaseRobolectricTest
+import com.jaimegc.covid19tracker.util.DatabaseRobolectricTest
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.runBlocking

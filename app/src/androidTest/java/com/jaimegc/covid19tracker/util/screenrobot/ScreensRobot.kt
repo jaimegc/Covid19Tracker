@@ -1,4 +1,4 @@
-package com.jaimegc.covid19tracker.utils.screenrobot
+package com.jaimegc.covid19tracker.util.screenrobot
 
 import android.view.View
 import androidx.annotation.IdRes

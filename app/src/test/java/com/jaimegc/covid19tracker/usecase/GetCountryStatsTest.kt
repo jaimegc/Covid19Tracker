@@ -16,7 +16,7 @@ import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateListCountryAndStat
 import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateListCountryAndStatsSuccess
 import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateListCountryOnlyStatsLoading
 import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateListCountryOnlyStatsSuccess
-import com.jaimegc.covid19tracker.utils.UseCaseTest
+import com.jaimegc.covid19tracker.util.UseCaseTest
 import io.mockk.every
 import io.mockk.verify
 import kotlinx.coroutines.flow.collectIndexed

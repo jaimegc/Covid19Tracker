@@ -8,8 +8,8 @@ import com.agoda.kakao.screen.Screen.Companion.onScreen
 import com.agoda.kakao.spinner.KSpinnerItem
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.ui.country.CountryFragment
-import com.jaimegc.covid19tracker.utils.UITest
-import com.jaimegc.covid19tracker.utils.kakao.CountryScreen
+import com.jaimegc.covid19tracker.util.UITest
+import com.jaimegc.covid19tracker.util.kakao.CountryScreen
 import com.jaimegc.covid19tracker.matchers.RecyclerViewCompareSquareViewSizeMatcher.Companion.recyclerViewHasSameViewsSize
 import com.jaimegc.covid19tracker.matchers.RecyclerViewConcatAdapterMatcher.Adapters
 import com.jaimegc.covid19tracker.matchers.RecyclerViewConcatAdapterMatcher.Companion.recyclerViewHasAdapters

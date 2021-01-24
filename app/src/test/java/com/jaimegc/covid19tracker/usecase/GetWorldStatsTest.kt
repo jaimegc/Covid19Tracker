@@ -7,7 +7,7 @@ import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateErrorUnknownDataba
 import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateListWorldStatsEmptyData
 import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateListWorldStatsLoading
 import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateListWorldStatsSuccess
-import com.jaimegc.covid19tracker.utils.UseCaseTest
+import com.jaimegc.covid19tracker.util.UseCaseTest
 import dev.olog.flow.test.observer.test
 import io.mockk.every
 import io.mockk.verify

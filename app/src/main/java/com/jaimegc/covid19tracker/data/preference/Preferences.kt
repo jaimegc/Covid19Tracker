@@ -2,7 +2,7 @@ package com.jaimegc.covid19tracker.data.preference
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.jaimegc.covid19tracker.utils.TimeProvider
+import com.jaimegc.covid19tracker.util.TimeProvider
 import java.util.concurrent.TimeUnit
 
 open class BasePreferences(context: Context) {

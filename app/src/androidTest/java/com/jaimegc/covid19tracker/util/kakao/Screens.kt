@@ -1,4 +1,4 @@
-package com.jaimegc.covid19tracker.utils.kakao
+package com.jaimegc.covid19tracker.util.kakao
 
 import android.content.Intent
 import android.view.View

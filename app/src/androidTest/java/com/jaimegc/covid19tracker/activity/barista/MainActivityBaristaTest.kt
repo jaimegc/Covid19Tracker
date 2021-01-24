@@ -17,7 +17,7 @@ import com.jaimegc.covid19tracker.data.room.Covid19TrackerDatabase
 import com.jaimegc.covid19tracker.domain.usecase.GetCovidTracker
 import com.jaimegc.covid19tracker.ui.country.CountryFragment
 import com.jaimegc.covid19tracker.ui.home.MainViewModel
-import com.jaimegc.covid19tracker.utils.FileUtils
+import com.jaimegc.covid19tracker.util.FileUtils
 import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickBack
 import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
 import com.schibsted.spain.barista.internal.assertAnyView
