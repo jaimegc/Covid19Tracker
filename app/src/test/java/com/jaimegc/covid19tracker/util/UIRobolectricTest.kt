@@ -1,11 +1,16 @@
 package com.jaimegc.covid19tracker.util
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import arrow.core.Either
+import com.jaimegc.covid19tracker.ModelFactoryTest.country
+import com.jaimegc.covid19tracker.ModelFactoryTest.countryEmptyRegions
 import com.jaimegc.covid19tracker.ModelFactoryTest.countryEmptyRegionsEntity
 import com.jaimegc.covid19tracker.ModelFactoryTest.countryEntity
 import com.jaimegc.covid19tracker.ModelFactoryTest.countryStatsEmptyRegionsEntity
 import com.jaimegc.covid19tracker.ModelFactoryTest.countryStatsEntity
+import com.jaimegc.covid19tracker.ModelFactoryTest.region
 import com.jaimegc.covid19tracker.ModelFactoryTest.regionEmptyRegionsStatsEntity
+import com.jaimegc.covid19tracker.ModelFactoryTest.regionEmptySubRegions
 import com.jaimegc.covid19tracker.ModelFactoryTest.regionEmptySubRegionsEntity
 import com.jaimegc.covid19tracker.ModelFactoryTest.regionEntity
 import com.jaimegc.covid19tracker.ModelFactoryTest.regionStatsEntity
@@ -15,7 +20,12 @@ import com.jaimegc.covid19tracker.ModelFactoryTest.worldStatsEntity
 import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateCovidTrackerEmptyData
 import com.jaimegc.covid19tracker.data.room.Covid19TrackerDatabase
 import com.jaimegc.covid19tracker.data.room.daos.CovidTrackerDao
+import com.jaimegc.covid19tracker.domain.model.ListCountry
+import com.jaimegc.covid19tracker.domain.model.ListRegion
+import com.jaimegc.covid19tracker.domain.states.State
+import com.jaimegc.covid19tracker.domain.usecase.GetCountry
 import com.jaimegc.covid19tracker.domain.usecase.GetCovidTracker
+import com.jaimegc.covid19tracker.domain.usecase.GetRegion
 import io.mockk.every
 import io.mockk.mockkClass
 import kotlinx.coroutines.flow.flow
@@ -38,6 +48,10 @@ import org.robolectric.annotation.LooperMode
 @RunWith(RobolectricTestRunner::class)
 @LooperMode(LooperMode.Mode.PAUSED)
 abstract class UIRobolectricTest : KoinTest, SharedPreferencesRobolectricTest() {
+
+    @get:Rule
+    val instantExecutorRule = InstantTaskExecutorRule()
+
     private lateinit var mockModule: Module
     private val covidTrackerDao: CovidTrackerDao by inject()
 
@@ -48,8 +62,6 @@ abstract class UIRobolectricTest : KoinTest, SharedPreferencesRobolectricTest() 
 
     @Before
     fun before() {
-        // This is not necessary because we have the Covid19TrackerTestRunner
-        // with the databaseTestModule using this. It's only an example :)
         mockModule = module(createdAtStart = true, override = true) {
             single {
                 Covid19TrackerDatabase.buildTest(get())
@@ -89,5 +101,40 @@ abstract class UIRobolectricTest : KoinTest, SharedPreferencesRobolectricTest() 
                 emit(Either.right(stateCovidTrackerEmptyData))
             }
         }
+
+        /**
+         *  IMPORTANT: We need to mock GetCountry and GetRegion because changing the spinner can
+         *  produce flaky tests
+         */
+
+        declareMock<GetCountry> {
+            every { getCountries() } returns flow {
+                emit(Either.right(stateListCountrySuccess))
+            }
+        }
+
+        declareMock<GetRegion> {
+            every { getRegionsByCountry(country.id) } returns flow {
+                emit(Either.right(stateListRegionSpainSuccess))
+            }
+
+            every { getRegionsByCountry(countryEmptyRegions.id) } returns flow {
+                emit(Either.right(stateListRegionAndorraSuccess))
+            }
+        }
     }
+
+    private val stateListCountrySuccess: State<ListCountry> = State.Success(
+        ListCountry(
+            countries = listOf(countryEmptyRegions, country)
+        )
+    )
+
+    private val stateListRegionSpainSuccess: State<ListRegion> = State.Success(
+        ListRegion(regions = listOf(region, regionEmptySubRegions))
+    )
+
+    private val stateListRegionAndorraSuccess: State<ListRegion> = State.Success(
+        ListRegion(regions = listOf())
+    )
 }
