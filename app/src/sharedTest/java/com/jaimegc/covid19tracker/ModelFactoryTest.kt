@@ -198,6 +198,13 @@ object ModelFactoryTest {
             regionStats = listOf(regionStats)
         )
 
+    val countryOneStatsEmptyRegions =
+        CountryOneStats(
+            country = countryEmptyRegions,
+            stats = stats,
+            regionStats = listOf()
+        )
+
     val countryAndStats =
         CountryAndStats(
             country = country,
@@ -349,7 +356,7 @@ object ModelFactoryTest {
             )
         )
 
-    val covidTrackerDateCountryDto =
+    private val covidTrackerDateCountryDto =
         CovidTrackerDateCountryDto(
             id = country.id,
             name = country.name,
@@ -567,19 +574,19 @@ object ModelFactoryTest {
             idRegionFk = region.id
         )
 
-    val countryAndStatsDV =
+    private val countryAndStatsDV =
         CountryAndStatsDV(
             country = countryEntity,
             countryStats = countryStatsEntity
         )
 
-    val regionAndStatsDV =
+    private val regionAndStatsDV =
         RegionAndStatsDV(
             region = regionEntity,
             regionStats = regionStatsEntity
         )
 
-    val subRegionAndStatsDV =
+    private val subRegionAndStatsDV =
         SubRegionAndStatsDV(
             subRegion = subRegionEntity,
             subRegionStats = subRegionStatsEntity
@@ -645,6 +652,11 @@ object ModelFactoryTest {
     val listRegion =
         ListRegion(
             regions = listOf(region)
+        )
+
+    val listRegionEmptySubRegions =
+        ListRegion(
+            regions = listOf(region, regionEmptySubRegions)
         )
 
     val listRegionEmpty: ListRegion = ListRegion(regions = listOf())

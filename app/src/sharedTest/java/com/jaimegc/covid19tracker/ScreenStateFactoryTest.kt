@@ -1,5 +1,7 @@
 package com.jaimegc.covid19tracker
 
+import com.jaimegc.covid19tracker.ModelFactoryTest.country
+import com.jaimegc.covid19tracker.ModelFactoryTest.countryEmptyRegions
 import com.jaimegc.covid19tracker.domain.model.CountryOneStats
 import com.jaimegc.covid19tracker.domain.model.CovidTracker
 import com.jaimegc.covid19tracker.domain.model.DomainError
@@ -26,12 +28,14 @@ import com.jaimegc.covid19tracker.ui.model.toPlaceChartUI
 import com.jaimegc.covid19tracker.ui.model.toPlaceUI
 import com.jaimegc.covid19tracker.ui.model.toUI
 import com.jaimegc.covid19tracker.ModelFactoryTest.countryOneStats
+import com.jaimegc.covid19tracker.ModelFactoryTest.countryOneStatsEmptyRegions
 import com.jaimegc.covid19tracker.ModelFactoryTest.covidTracker
 import com.jaimegc.covid19tracker.ModelFactoryTest.listCountry
 import com.jaimegc.covid19tracker.ModelFactoryTest.listCountryAndStats
 import com.jaimegc.covid19tracker.ModelFactoryTest.listCountryOnlyStats
 import com.jaimegc.covid19tracker.ModelFactoryTest.listRegion
 import com.jaimegc.covid19tracker.ModelFactoryTest.listRegionAndStats
+import com.jaimegc.covid19tracker.ModelFactoryTest.listRegionEmptySubRegions
 import com.jaimegc.covid19tracker.ModelFactoryTest.listRegionOnlyStats
 import com.jaimegc.covid19tracker.ModelFactoryTest.listRegionStats
 import com.jaimegc.covid19tracker.ModelFactoryTest.listSubRegionAndStats
@@ -110,9 +114,21 @@ object ScreenStateFactoryTest {
 
     val stateListCountrySuccess: State<ListCountry> = State.Success(listCountry)
 
+    val stateListCountrySpainAndorraSuccess: State<ListCountry> = State.Success(
+        ListCountry(countries = listOf(countryEmptyRegions, country))
+    )
+
     val stateListRegionSuccess: State<ListRegion> = State.Success(listRegion)
 
+    val stateListRegionSpainSuccess: State<ListRegion> = State.Success(listRegionEmptySubRegions)
+
+    val stateListRegionAndorraSuccess: State<ListRegion> = State.Success(
+        ListRegion(regions = listOf())
+    )
+
     val stateCountryOneStatsSuccess: State<CountryOneStats> = State.Success(countryOneStats)
+
+    val stateCountryOneStatsEmptySuccess: State<CountryOneStats> = State.Success(countryOneStatsEmptyRegions)
 
     val stateRegionOneStatsSuccess: State<RegionOneStats> = State.Success(regionOneStats)
 
