@@ -9,7 +9,7 @@ import com.jaimegc.covid19tracker.data.api.model.CovidTrackerDto
 import com.jaimegc.covid19tracker.domain.model.CovidTracker
 import com.jaimegc.covid19tracker.domain.model.toDomain
 import com.jaimegc.covid19tracker.domain.usecase.AddCovidTracker
-import com.jaimegc.covid19tracker.utils.FileUtils
+import com.jaimegc.covid19tracker.util.FileUtils
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async

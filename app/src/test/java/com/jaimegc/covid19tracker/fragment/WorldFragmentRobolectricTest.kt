@@ -16,7 +16,7 @@ import com.jaimegc.covid19tracker.matchers.RecyclerViewConcatAdapterMatcher.Adap
 import com.jaimegc.covid19tracker.matchers.RecyclerViewConcatAdapterMatcher.Companion.recyclerViewHasAdapters
 import com.jaimegc.covid19tracker.matchers.RecyclerViewItemsCountMatcher.Companion.recyclerViewHasItemCount
 import com.jaimegc.covid19tracker.matchers.RecyclerViewItemsCountMatcher.Options
-import com.jaimegc.covid19tracker.utils.UIRobolectricTest
+import com.jaimegc.covid19tracker.util.UIRobolectricTest
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

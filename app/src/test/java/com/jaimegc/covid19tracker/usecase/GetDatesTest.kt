@@ -3,7 +3,7 @@ package com.jaimegc.covid19tracker.usecase
 import arrow.core.Either
 import com.google.common.truth.Truth.assertThat
 import com.jaimegc.covid19tracker.domain.usecase.GetDates
-import com.jaimegc.covid19tracker.utils.UseCaseTest
+import com.jaimegc.covid19tracker.util.UseCaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
 import kotlinx.coroutines.test.runBlockingTest

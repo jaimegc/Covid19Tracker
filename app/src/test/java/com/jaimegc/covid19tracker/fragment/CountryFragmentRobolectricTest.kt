@@ -21,15 +21,16 @@ import com.jaimegc.covid19tracker.matchers.RecyclerViewConcatAdapterMatcher.Adap
 import com.jaimegc.covid19tracker.matchers.RecyclerViewConcatAdapterMatcher.Companion.recyclerViewHasAdapters
 import com.jaimegc.covid19tracker.matchers.RecyclerViewItemsCountMatcher.Companion.recyclerViewHasItemCount
 import com.jaimegc.covid19tracker.matchers.RecyclerViewItemsCountMatcher.Options
-import com.jaimegc.covid19tracker.utils.UIRobolectricTest
+import com.jaimegc.covid19tracker.util.UIRobolectricTest
 import org.hamcrest.CoreMatchers.not
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.LooperMode
 
-/*@RunWith(RobolectricTestRunner::class)
+@RunWith(RobolectricTestRunner::class)
 @LooperMode(LooperMode.Mode.PAUSED)
 class CountryFragmentRobolectricTest : UIRobolectricTest() {
 
@@ -424,4 +425,4 @@ class CountryFragmentRobolectricTest : UIRobolectricTest() {
         onView(withId(R.id.region_spinner)).perform(click())
         onView(withText(regionEmptySubRegionsEntity.name)).perform(click())
     }
-}*/
+}

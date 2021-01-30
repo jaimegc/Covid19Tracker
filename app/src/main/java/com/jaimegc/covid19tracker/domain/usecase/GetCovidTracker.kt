@@ -6,7 +6,7 @@ import com.jaimegc.covid19tracker.domain.model.CovidTracker
 import com.jaimegc.covid19tracker.domain.model.DomainError
 import com.jaimegc.covid19tracker.domain.states.State
 import com.jaimegc.covid19tracker.domain.states.StateError
-import com.jaimegc.covid19tracker.utils.TimeProvider
+import com.jaimegc.covid19tracker.util.TimeProvider
 import kotlinx.coroutines.flow.Flow
 
 class GetCovidTracker(

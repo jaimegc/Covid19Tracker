@@ -15,7 +15,7 @@ import com.jaimegc.covid19tracker.ModelFactoryTest.regionStatsEntity
 import com.jaimegc.covid19tracker.data.room.daos.RegionStatsDao
 import com.jaimegc.covid19tracker.data.room.entities.CountryEntity
 import com.jaimegc.covid19tracker.data.room.pojos.RegionAndOneStatsPojo
-import com.jaimegc.covid19tracker.utils.DatabaseRobolectricTest
+import com.jaimegc.covid19tracker.util.DatabaseRobolectricTest
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.runBlocking

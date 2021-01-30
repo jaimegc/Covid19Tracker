@@ -1,4 +1,4 @@
-package com.jaimegc.covid19tracker.utils
+package com.jaimegc.covid19tracker.util
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.jaimegc.covid19tracker.data.repository.CovidTrackerRepository

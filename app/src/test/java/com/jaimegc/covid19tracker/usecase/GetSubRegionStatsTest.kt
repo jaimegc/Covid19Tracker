@@ -16,7 +16,7 @@ import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateListSubRegionStats
 import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateListSubRegionStatsSuccess
 import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateMenuItemViewTypeListSubRegionAndStatsEmptyData
 import com.jaimegc.covid19tracker.ScreenStateFactoryTest.stateMenuItemViewTypeListSubRegionAndStatsLoading
-import com.jaimegc.covid19tracker.utils.UseCaseTest
+import com.jaimegc.covid19tracker.util.UseCaseTest
 import io.mockk.every
 import io.mockk.verify
 import kotlinx.coroutines.flow.collectIndexed

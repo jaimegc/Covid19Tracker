@@ -2,7 +2,7 @@ package com.jaimegc.covid19tracker.preference
 
 import com.google.common.truth.Truth.assertThat
 import com.jaimegc.covid19tracker.data.preference.CountryPreferences
-import com.jaimegc.covid19tracker.utils.SharedPreferencesRobolectricTest
+import com.jaimegc.covid19tracker.util.SharedPreferencesRobolectricTest
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
