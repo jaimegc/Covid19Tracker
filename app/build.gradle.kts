@@ -21,6 +21,7 @@ android {
         versionName = Versions.Android.DefaultConfig.VERSION_NAME
 
         testInstrumentationRunner = Versions.Android.DefaultConfig.TEST_INSTRUMENTATION_RUNNER
+        testInstrumentationRunnerArguments(mapOf("clearPackageData" to "true"))
 
         setProperty("archivesBaseName", Versions.Android.DefaultConfig.APPLICATION_NAME)
     }
@@ -70,6 +71,7 @@ android {
             this.isIncludeAndroidResources = true
         }
         animationsDisabled = true
+        execution = "ANDROIDX_TEST_ORCHESTRATOR"
     }
 }
 
