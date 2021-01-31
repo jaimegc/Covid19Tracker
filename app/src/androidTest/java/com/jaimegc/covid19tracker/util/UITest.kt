@@ -297,17 +297,17 @@ abstract class UITest : KoinTest, SharedPreferencesTest() {
             emit(Either.right(stateListRegionStatsLoading))
             emit(Either.right(stateListRegionStatsEmptyData))
         }
-        
+
         every { getRegionStats.getRegionAndStatsByDate(country.id, any(), any()) } returns flow {
             emit(Either.right(stateRegionOneStatsLoading))
             emit(Either.right(stateRegionOneStatsSuccess))
         }
-        
+
         every { getSubRegionStats.getSubRegionsStatsOrderByConfirmed(country.id, region.id, any()) } returns flow {
             emit(Either.right(stateListSubRegionStatsLoading))
             emit(Either.right(stateListSubRegionStatsSuccess))
         }
-        
+
         every { getSubRegionStats.getSubRegionsStatsOrderByConfirmed(country.id, regionEmptySubRegions.id, any()) } returns flow {
             emit(Either.right(stateListSubRegionStatsLoading))
             emit(Either.right(stateListSubRegionStatsEmptyData))
