@@ -3,6 +3,7 @@ package com.jaimegc.covid19tracker.activity.kakao
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.filters.LargeTest
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import arrow.core.Either
 import com.agoda.kakao.screen.Screen.Companion.onScreen
@@ -34,6 +35,7 @@ import org.koin.test.mock.MockProviderRule
 import org.koin.test.mock.declareMock
 
 @RunWith(AndroidJUnit4ClassRunner::class)
+@LargeTest
 class MainActivityKakaoTest : KoinTest {
 
     @get:Rule

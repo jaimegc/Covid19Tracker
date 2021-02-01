@@ -5,6 +5,7 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
+import androidx.test.filters.LargeTest
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import arrow.core.Either
 import com.jaimegc.covid19tracker.ScreenStateFactoryTest
@@ -33,6 +34,7 @@ import org.koin.test.mock.MockProviderRule
 import org.koin.test.mock.declareMock
 
 @RunWith(AndroidJUnit4ClassRunner::class)
+@LargeTest
 class InitializeDatabaseActivityTest : KoinTest {
 
     @get:Rule

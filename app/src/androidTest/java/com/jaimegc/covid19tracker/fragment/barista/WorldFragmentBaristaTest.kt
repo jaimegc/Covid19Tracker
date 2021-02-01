@@ -2,6 +2,7 @@ package com.jaimegc.covid19tracker.fragment.barista
 
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
+import androidx.test.filters.LargeTest
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.ui.world.WorldFragment
@@ -22,6 +23,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4ClassRunner::class)
+@LargeTest
 class WorldFragmentBaristaTest : UITest() {
 
     private lateinit var scenario: FragmentScenario<WorldFragment>
