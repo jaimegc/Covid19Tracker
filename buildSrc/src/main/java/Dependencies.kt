@@ -284,3 +284,7 @@ private fun DependencyHandler.testImplementation(depName: String) {
 private fun DependencyHandler.androidTestImplementation(depName: String) {
     add("androidTestImplementation", depName)
 }
+
+private fun DependencyHandler.androidTestUtil(depName: String) {
+    add("androidTestUtil", depName)
+}

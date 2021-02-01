@@ -2,6 +2,7 @@ package com.jaimegc.covid19tracker.worker
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.filters.MediumTest
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import androidx.work.testing.TestListenableWorkerBuilder
 import androidx.work.ListenableWorker.Result
@@ -36,6 +37,7 @@ import org.koin.test.KoinTest
 import org.koin.test.mock.MockProviderRule
 
 @RunWith(AndroidJUnit4ClassRunner::class)
+@MediumTest
 class UpdateDatabaseWorkerTest : KoinTest {
     private lateinit var mockModule: Module
     private lateinit var context: Context

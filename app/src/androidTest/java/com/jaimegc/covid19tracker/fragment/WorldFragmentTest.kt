@@ -8,6 +8,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.filters.LargeTest
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.ui.adapter.WorldCountryAdapter
@@ -23,6 +24,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4ClassRunner::class)
+@LargeTest
 class WorldFragmentTest : UITest() {
 
     private lateinit var scenario: FragmentScenario<WorldFragment>

@@ -3,6 +3,7 @@ package com.jaimegc.covid19tracker.fragment.kakao
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.filters.LargeTest
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.agoda.kakao.screen.Screen.Companion.onScreen
 import com.agoda.kakao.spinner.KSpinnerItem
@@ -20,6 +21,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4ClassRunner::class)
+@LargeTest
 class CountryFragmentKakaoTest : UITest() {
 
     private lateinit var scenario: FragmentScenario<CountryFragment>

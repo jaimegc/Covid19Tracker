@@ -2,6 +2,7 @@ package com.jaimegc.covid19tracker.activity.screenrobot
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ActivityScenario
+import androidx.test.filters.LargeTest
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import arrow.core.Either
 import com.jaimegc.covid19tracker.ui.home.MainActivity
@@ -30,6 +31,7 @@ import org.koin.test.mock.MockProviderRule
 import org.koin.test.mock.declareMock
 
 @RunWith(AndroidJUnit4ClassRunner::class)
+@LargeTest
 class MainActivityScreenRobotTest : KoinTest {
 
     @get:Rule

@@ -5,6 +5,7 @@ object Versions {
 
         object DefaultConfig {
             const val APPLICATION_ID = "com.jaimegc.covid19tracker"
+            const val APPLICATION_NAME = "covid19tracker"
             const val MIN_ANDROID_SDK = 21
             const val TARGET_ANDROID_SDK = 28
             const val VERSION_CODE = 1
@@ -23,7 +24,7 @@ object Versions {
         const val GRADLE_ANDROID = "4.1.2"
         const val KOTLIN = "1.4.21-2"
         const val MAVEN_PLUGIN = "2.1"
-        const val GOOGLE_SERVICES = "4.3.4"
+        const val GOOGLE_SERVICES = "4.3.5"
         const val REMAL_PLUGIN = "1.2.2"
     }
 
@@ -40,19 +41,19 @@ object Versions {
             const val ESPRESSO = "3.3.0"
             const val JUNIT_EXT = "1.1.2"
             const val LIFECYCLE = "2.2.0"
-            const val NAVIGATION = "2.3.2"
+            const val NAVIGATION = "2.3.3"
             const val RECYCLERVIEW = "1.2.0-beta01"
             const val TEST_FRAGMENT = "1.3.0-rc01"
             const val TEST_CORE = "1.3.0"
             const val TEST_RULES = "1.3.0"
             const val TEST_RUNNER = "1.2.0"
             const val ROOM = "2.2.6"
-            const val WORK_MANAGER = "2.4.0"
+            const val WORK_MANAGER = "2.5.0"
         }
 
         object Firebase {
-            const val ANALYTICS = "18.0.1"
-            const val CRASHLYTICS = "17.3.0"
+            const val ANALYTICS = "18.0.2"
+            const val CRASHLYTICS = "17.3.1"
             const val PERFORMANCE = "19.1.0"
         }
 
@@ -67,7 +68,7 @@ object Versions {
 
     object Square {
         const val MOSHI = "1.11.0"
-        const val OK_HTTP = "4.9.0"
+        const val OK_HTTP = "4.9.1"
         const val RETROFIT = "2.9.0"
         const val RETROFIT_CONVERTER_MOSHI = "2.9.0"
     }
@@ -91,7 +92,7 @@ object Versions {
         const val KOIN = Koin.KOIN
         const val MOCKITO_KOTLIN = "2.2.0"
         const val MOCKK = "1.10.5"
-        const val MOCK_WEB_SERVER = "4.9.0"
+        const val MOCK_WEB_SERVER = "4.9.1"
         const val ROBOLECTRIC = "4.5"
     }
 

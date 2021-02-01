@@ -21,6 +21,8 @@ android {
         versionName = Versions.Android.DefaultConfig.VERSION_NAME
 
         testInstrumentationRunner = Versions.Android.DefaultConfig.TEST_INSTRUMENTATION_RUNNER
+
+        setProperty("archivesBaseName", Versions.Android.DefaultConfig.APPLICATION_NAME)
     }
 
     buildTypes {
