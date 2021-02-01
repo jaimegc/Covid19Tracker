@@ -9,8 +9,8 @@ on:
       - master
       - dev
 
-#env:
-  #GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false -Dkotlin.incremental=false"
+env:
+  GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false -Dkotlin.incremental=false"
 
 jobs:
   test:
@@ -28,14 +28,14 @@ jobs:
       - name: Run unit tests
         run: ./gradlew testDebugUnitTest --stacktrace
 
-      - name: Run instrumentation & ui tests
+      - name: Run instrumentation tests (only @MediumTest)
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 28
-          #arch: x86_64
-          #profile: Nexus 6
-          #emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back none
-          script: ./gradlew connectedAndroidTest --stacktrace
+          api-level: 29
+          arch: x86
+          profile: Nexus 6
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back none
+          script: ./gradlew connectedAndroidTest --stacktrace -Pandroid.testInstrumentationRunnerArguments.size=medium
 
       - name: Upload reports
         uses: actions/upload-artifact@v1
