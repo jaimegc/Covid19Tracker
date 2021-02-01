@@ -45,7 +45,6 @@ object Versions {
             const val RECYCLERVIEW = "1.2.0-beta01"
             const val TEST_FRAGMENT = "1.3.0-rc01"
             const val TEST_CORE = "1.3.0"
-            const val TEST_ORCHESTRATOR = "1.3.0"
             const val TEST_RULES = "1.3.0"
             const val TEST_RUNNER = "1.2.0"
             const val ROOM = "2.2.6"

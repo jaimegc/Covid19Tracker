@@ -56,8 +56,6 @@ object Dependencies {
     internal const val ANDROID_TEST_FRAGMENT =
         "androidx.fragment:fragment-testing:${Versions.Google.Androidx.TEST_FRAGMENT}"
     internal const val ANDROID_TEST_CORE = "androidx.test:core:${Versions.Google.Androidx.TEST_CORE}"
-    internal const val ANDROID_TEST_ORCHESTRATOR =
-        "androidx.test:orchestrator:${Versions.Google.Androidx.TEST_ORCHESTRATOR}"
     internal const val ANDROID_TEST_RULES = "androidx.test:rules:${Versions.Google.Androidx.TEST_RULES}"
     internal const val ANDROID_TEST_RUNNER = "androidx.test:runner:${Versions.Google.Androidx.TEST_RUNNER}"
     internal const val ANDROID_TEST_WORK = "androidx.work:work-testing:${Versions.Google.Androidx.WORK_MANAGER}"
@@ -215,8 +213,6 @@ fun DependencyHandler.test() {
     androidTestImplementation(Dependencies.TEST_KOIN)
     androidTestImplementation(Dependencies.TEST_MOCKITO_KOTLIN)
     androidTestImplementation(Dependencies.TEST_MOCKK_ANDROID)
-
-    androidTestUtil(Dependencies.ANDROID_TEST_ORCHESTRATOR)
 
     testImplementation(Dependencies.ANDROID_CORE_TESTING)
     testImplementation(Dependencies.ANDROID_ESPRESSO_CONTRIB)
