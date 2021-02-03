@@ -2,6 +2,7 @@ package com.jaimegc.covid19tracker.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import androidx.lifecycle.asLiveData
 import arrow.core.Either
 import com.jaimegc.covid19tracker.domain.usecase.GetCountryStats
 import com.jaimegc.covid19tracker.domain.usecase.GetWorldAndCountries
@@ -41,7 +42,10 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
@@ -70,11 +74,506 @@ class WorldViewModelTest {
     @Before
     fun setup() {
         worldViewModel = WorldViewModel(getWorldAndCountries, getWorldStats, getCountryStats)
-        worldViewModel.screenState.observeForever(stateObserver)
+        worldViewModel.screenState.asLiveData().observeForever(stateObserver)
     }
 
     @Test
-    fun `get list stats should return loading and success if date exists`() {
+    fun `get list stats should return loading and success if date exists using stateflow`() {
+        val flow = flow {
+            emit(Either.right(stateCovidTrackerLoading))
+            delay(10)
+            emit(Either.right(stateCovidTrackerSuccess))
+        }
+
+        whenever(getWorldAndCountries.getWorldAndCountriesByDate()).thenReturn(flow)
+
+        worldViewModel.getListStats()
+
+        val loading = worldViewModel.screenState.value
+        coroutineScope.advanceUntilIdle()
+        val success = worldViewModel.screenState.value
+
+        verify(stateObserver, Mockito.times(2)).onChanged(captor.capture())
+
+        assertEquals(ScreenState.Loading, loading)
+        assertTrue(success is ScreenState.Render)
+        assertTrue((success as ScreenState.Render).renderState is WorldStateScreen.SuccessCovidTracker)
+        assertEquals(stateScreenSuccessCovidTrackerData,
+            (success.renderState as WorldStateScreen.SuccessCovidTracker).data)
+    }
+
+    @Test
+    fun `get list stats with empty data should return loading and empty success`() {
+        val flow = flow {
+            emit(Either.right(stateCovidTrackerLoading))
+            delay(10)
+            emit(Either.right(stateCovidTrackerEmptyData))
+        }
+
+        whenever(getWorldAndCountries.getWorldAndCountriesByDate()).thenReturn(flow)
+
+        worldViewModel.getListStats()
+
+        val loading = worldViewModel.screenState.value
+        coroutineScope.advanceUntilIdle()
+        val empty = worldViewModel.screenState.value
+
+        verify(stateObserver, Mockito.times(2)).onChanged(captor.capture())
+
+        assertEquals(ScreenState.Loading, loading)
+        assertEquals(ScreenState.EmptyData, empty)
+    }
+
+    @Test
+    fun `get list stats with database problem should return loading and unknown database error`() {
+        val flow = flow {
+            emit(Either.right(stateCovidTrackerLoading))
+            delay(10)
+            emit(Either.left(stateErrorUnknownDatabase))
+        }
+
+        whenever(getWorldAndCountries.getWorldAndCountriesByDate()).thenReturn(flow)
+
+        worldViewModel.getListStats()
+
+        val loading = worldViewModel.screenState.value
+        coroutineScope.advanceUntilIdle()
+        val error = worldViewModel.screenState.value
+
+        verify(stateObserver, Mockito.times(2)).onChanged(captor.capture())
+
+        assertEquals(ScreenState.Loading, loading)
+        assertTrue(error is ScreenState.Error)
+        assertTrue((error as ScreenState.Error).errorState is WorldStateScreen.SomeError)
+        assertEquals(worldStateScreenErrorUnknownDatatabase,
+            (error.errorState as WorldStateScreen.SomeError).data)
+    }
+
+    @Test
+    fun `get pie chart stats should return loading and success if date exists`() {
+        val flow = flow {
+            emit(Either.right(stateCovidTrackerLoading))
+            delay(10)
+            emit(Either.right(stateCovidTrackerSuccess))
+        }
+
+        whenever(getWorldAndCountries.getWorldAndCountriesByDate()).thenReturn(flow)
+
+        worldViewModel.getPieChartStats()
+
+        val loading = worldViewModel.screenState.value
+        coroutineScope.advanceUntilIdle()
+        val success = worldViewModel.screenState.value
+
+        verify(stateObserver, Mockito.times(2)).onChanged(captor.capture())
+
+        assertEquals(ScreenState.Loading, loading)
+        assertTrue(success is ScreenState.Render)
+        assertTrue((success as ScreenState.Render)
+            .renderState is WorldStateScreen.SuccessCountriesStatsPieCharts)
+        assertEquals(stateScreenSuccessCountriesStatsPieChartData,
+            (success.renderState as WorldStateScreen.SuccessCountriesStatsPieCharts).data)
+    }
+
+    @Test
+    fun `get pie chart stats with empty data should return loading and empty success`() {
+        val flow = flow {
+            emit(Either.right(stateCovidTrackerLoading))
+            delay(10)
+            emit(Either.right(stateCovidTrackerEmptyData))
+        }
+
+        whenever(getWorldAndCountries.getWorldAndCountriesByDate()).thenReturn(flow)
+
+        worldViewModel.getPieChartStats()
+
+        val loading = worldViewModel.screenState.value
+        coroutineScope.advanceUntilIdle()
+        val empty = worldViewModel.screenState.value
+
+        verify(stateObserver, Mockito.times(2)).onChanged(captor.capture())
+
+        assertEquals(ScreenState.Loading, loading)
+        assertEquals(ScreenState.EmptyData, empty)
+    }
+
+    @Test
+    fun `get pie chart stats with database problem should return loading and unknown database error`() {
+        val flow = flow {
+            emit(Either.right(stateCovidTrackerLoading))
+            delay(10)
+            emit(Either.left(stateErrorUnknownDatabase))
+        }
+
+        whenever(getWorldAndCountries.getWorldAndCountriesByDate()).thenReturn(flow)
+
+        worldViewModel.getPieChartStats()
+
+        val loading = worldViewModel.screenState.value
+        coroutineScope.advanceUntilIdle()
+        val error = worldViewModel.screenState.value
+
+        verify(stateObserver, Mockito.times(2)).onChanged(captor.capture())
+
+        assertEquals(ScreenState.Loading, loading)
+        assertTrue(error is ScreenState.Error)
+        assertTrue((error as ScreenState.Error).errorState is WorldStateScreen.SomeError)
+        assertEquals(worldStateScreenErrorUnknownDatatabase,
+            (error.errorState as WorldStateScreen.SomeError).data)
+    }
+
+    @Test
+    fun `get bar chart stats should return loading and success if date exists`() {
+        val worldFlow = flow {
+            emit(Either.right(stateListWorldStatsLoading))
+            delay(10)
+            emit(Either.right(stateListWorldStatsSuccess))
+        }
+
+        val countriesFlow = flow {
+            delay(20)
+            emit(Either.right(stateListCountryAndStatsLoading))
+            delay(10)
+            emit(Either.right(stateListCountryAndStatsSuccess))
+        }
+
+        whenever(getWorldStats.getWorldAllStats()).thenReturn(worldFlow)
+        whenever(getCountryStats.getCountriesStatsOrderByConfirmed()).thenReturn(countriesFlow)
+
+        worldViewModel.getBarChartStats()
+
+        val worldLoading = worldViewModel.screenState.value
+        coroutineScope.advanceTimeBy(10)
+        val worldSuccess = worldViewModel.screenState.value
+        coroutineScope.advanceTimeBy(10)
+        val countriesLoading = worldViewModel.screenState.value
+        coroutineScope.advanceTimeBy(10)
+        val countriesSuccess = worldViewModel.screenState.value
+
+        verify(stateObserver, Mockito.times(4)).onChanged(captor.capture())
+
+        assertEquals(ScreenState.Loading, worldLoading)
+        assertEquals(ScreenState.Loading, countriesLoading)
+        assertTrue(worldSuccess is ScreenState.Render)
+        assertTrue((worldSuccess as ScreenState.Render)
+            .renderState is WorldStateScreen.SuccessWorldStatsBarCharts)
+        assertEquals(stateScreenSuccessListWorldStatsPieChartData,
+            (worldSuccess.renderState as WorldStateScreen.SuccessWorldStatsBarCharts).data)
+        assertTrue(countriesSuccess is ScreenState.Render)
+        assertTrue((countriesSuccess as ScreenState.Render)
+            .renderState is WorldStateScreen.SuccessCountriesStatsBarCharts)
+        assertEquals(stateScreenSuccessListCountryAndStatsBarChartData,
+            (countriesSuccess.renderState as WorldStateScreen.SuccessCountriesStatsBarCharts).data)
+    }
+
+    @Test
+    fun `get bar chart stats with empty data should return loading and empty success`() {
+        val worldFlow = flow {
+            emit(Either.right(stateListWorldStatsLoading))
+            delay(10)
+            emit(Either.right(stateListWorldStatsEmptyData))
+        }
+
+        val countriesFlow = flow {
+            delay(20)
+            emit(Either.right(stateListCountryAndStatsLoading))
+            delay(10)
+            emit(Either.right(stateListCountryAndStatsEmptyData))
+        }
+
+        whenever(getWorldStats.getWorldAllStats()).thenReturn(worldFlow)
+        whenever(getCountryStats.getCountriesStatsOrderByConfirmed()).thenReturn(countriesFlow)
+
+        worldViewModel.getBarChartStats()
+
+        val worldLoading = worldViewModel.screenState.value
+        coroutineScope.advanceTimeBy(10)
+        val worldEmpty = worldViewModel.screenState.value
+        coroutineScope.advanceTimeBy(10)
+        val countriesLoading = worldViewModel.screenState.value
+        coroutineScope.advanceTimeBy(10)
+        val countriesEmpty = worldViewModel.screenState.value
+
+        verify(stateObserver, Mockito.times(4)).onChanged(captor.capture())
+
+        assertEquals(ScreenState.Loading, worldLoading)
+        assertEquals(ScreenState.Loading, countriesLoading)
+        assertEquals(ScreenState.EmptyData, worldEmpty)
+        assertEquals(ScreenState.EmptyData, countriesEmpty)
+    }
+
+    @Test
+    fun `get bar chart stats with database problem should return loading and unknown database error`() {
+        val worldFlow = flow {
+            emit(Either.right(stateListWorldStatsLoading))
+            delay(10)
+            emit(Either.left(stateErrorUnknownDatabase))
+        }
+
+        val countriesFlow = flow {
+            delay(20)
+            emit(Either.right(stateListCountryAndStatsLoading))
+            delay(10)
+            emit(Either.left(stateErrorUnknownDatabase))
+        }
+
+        whenever(getWorldStats.getWorldAllStats()).thenReturn(worldFlow)
+        whenever(getCountryStats.getCountriesStatsOrderByConfirmed()).thenReturn(countriesFlow)
+
+        worldViewModel.getBarChartStats()
+
+        val worldLoading = worldViewModel.screenState.value
+        coroutineScope.advanceTimeBy(10)
+        val worldError = worldViewModel.screenState.value
+        coroutineScope.advanceTimeBy(10)
+        val countriesLoading = worldViewModel.screenState.value
+        coroutineScope.advanceTimeBy(10)
+        val countriesError = worldViewModel.screenState.value
+
+        verify(stateObserver, Mockito.times(4)).onChanged(captor.capture())
+
+        assertEquals(ScreenState.Loading, worldLoading)
+        assertEquals(ScreenState.Loading, countriesLoading)
+        assertTrue(worldError is ScreenState.Error)
+        assertTrue((worldError as ScreenState.Error).errorState is WorldStateScreen.SomeError)
+        assertEquals(worldStateScreenErrorUnknownDatatabase,
+            (worldError.errorState as WorldStateScreen.SomeError).data)
+        assertTrue(countriesError is ScreenState.Error)
+        assertTrue((countriesError as ScreenState.Error).errorState is WorldStateScreen.SomeError)
+        assertEquals(worldStateScreenErrorUnknownDatatabase,
+            (countriesError.errorState as WorldStateScreen.SomeError).data)
+    }
+
+    @Test
+    fun `get line charts stats should return loading and success if date exists`() {
+        val mostConfirmedFlow = flow {
+            emit(Either.right(stateListCountryAndStatsLoading))
+            delay(10)
+            emit(Either.right(stateListCountryAndStatsMostConfirmedSuccess))
+        }
+
+        val mostDeathsFlow = flow {
+            delay(20)
+            emit(Either.right(stateListCountryAndStatsLoading))
+            delay(10)
+            emit(Either.right(stateListCountryAndStatsMostDeathsSuccess))
+        }
+
+        val mostOpenCasesFlow = flow {
+            delay(40)
+            emit(Either.right(stateListCountryAndStatsLoading))
+            delay(10)
+            emit(Either.right(stateListCountryAndStatsMostOpenCasesSuccess))
+        }
+
+        val mostRecoveredFlow = flow {
+            delay(60)
+            emit(Either.right(stateListCountryAndStatsLoading))
+            delay(10)
+            emit(Either.right(stateListCountryAndStatsMostRecoveredSuccess))
+        }
+
+        whenever(getCountryStats.getCountriesAndStatsWithMostConfirmed()).thenReturn(mostConfirmedFlow)
+        whenever(getCountryStats.getCountriesAndStatsWithMostDeaths()).thenReturn(mostDeathsFlow)
+        whenever(getCountryStats.getCountriesAndStatsWithMostOpenCases()).thenReturn(mostOpenCasesFlow)
+        whenever(getCountryStats.getCountriesAndStatsWithMostRecovered()).thenReturn(mostRecoveredFlow)
+
+        worldViewModel.getLineChartsStats()
+
+        val mostConfirmedLoading = worldViewModel.screenState.value
+        coroutineScope.advanceTimeBy(10)
+        val mostConfirmedSuccess = worldViewModel.screenState.value
+        coroutineScope.advanceTimeBy(10)
+        val mostDeathsLoading = worldViewModel.screenState.value
+        coroutineScope.advanceTimeBy(10)
+        val mostDeathsSuccess = worldViewModel.screenState.value
+        coroutineScope.advanceTimeBy(10)
+        val mostOpenCasesLoading = worldViewModel.screenState.value
+        coroutineScope.advanceTimeBy(10)
+        val mostOpenCasesSuccess = worldViewModel.screenState.value
+        coroutineScope.advanceTimeBy(10)
+        val mostRecoveredLoading = worldViewModel.screenState.value
+        coroutineScope.advanceTimeBy(10)
+        val mostRecoveredSuccess = worldViewModel.screenState.value
+
+        verify(stateObserver, Mockito.times(8)).onChanged(captor.capture())
+
+        assertEquals(ScreenState.Loading, mostConfirmedLoading)
+        assertEquals(ScreenState.Loading, mostDeathsLoading)
+        assertEquals(ScreenState.Loading, mostOpenCasesLoading)
+        assertEquals(ScreenState.Loading, mostRecoveredLoading)
+        assertTrue(mostConfirmedSuccess is ScreenState.Render)
+        assertTrue((mostConfirmedSuccess as ScreenState.Render)
+            .renderState is WorldStateScreen.SuccessCountriesStatsLineCharts)
+        assertEquals(stateScreenSuccessListCountryAndStatsLineChartMostConfirmedData[MenuItemViewType.LineChartMostConfirmed],
+            (mostConfirmedSuccess.renderState as WorldStateScreen.SuccessCountriesStatsLineCharts)
+                .data[MenuItemViewType.LineChartMostConfirmed])
+        assertTrue(mostDeathsSuccess is ScreenState.Render)
+        assertTrue((mostDeathsSuccess as ScreenState.Render)
+            .renderState is WorldStateScreen.SuccessCountriesStatsLineCharts)
+        assertEquals(stateScreenSuccessListCountryAndStatsLineChartMostDeathsData[MenuItemViewType.LineChartMostDeaths],
+            (mostDeathsSuccess.renderState as WorldStateScreen.SuccessCountriesStatsLineCharts)
+                .data[MenuItemViewType.LineChartMostDeaths])
+        assertTrue(mostOpenCasesSuccess is ScreenState.Render)
+        assertTrue((mostOpenCasesSuccess as ScreenState.Render)
+            .renderState is WorldStateScreen.SuccessCountriesStatsLineCharts)
+        assertEquals(stateScreenSuccessListCountryAndStatsLineChartMostOpenCasesData[MenuItemViewType.LineChartMostOpenCases],
+            (mostOpenCasesSuccess.renderState as WorldStateScreen.SuccessCountriesStatsLineCharts)
+                .data[MenuItemViewType.LineChartMostOpenCases])
+        assertTrue(mostRecoveredSuccess is ScreenState.Render)
+        assertTrue((mostRecoveredSuccess as ScreenState.Render)
+            .renderState is WorldStateScreen.SuccessCountriesStatsLineCharts)
+        assertEquals(stateScreenSuccessListCountryAndStatsLineChartMostRecoveredData[MenuItemViewType.LineChartMostRecovered],
+            (mostRecoveredSuccess.renderState as WorldStateScreen.SuccessCountriesStatsLineCharts)
+                .data[MenuItemViewType.LineChartMostRecovered])
+    }
+
+    @Test
+    fun `get line charts stats with empty data should return loading and empty success`() {
+        val mostConfirmedFlow = flow {
+            emit(Either.right(stateListCountryAndStatsLoading))
+            delay(10)
+            emit(Either.right(stateListCountryAndStatsEmptyData))
+        }
+
+        val mostDeathsFlow = flow {
+            delay(20)
+            emit(Either.right(stateListCountryAndStatsLoading))
+            delay(10)
+            emit(Either.right(stateListCountryAndStatsEmptyData))
+        }
+
+        val mostOpenCasesFlow = flow {
+            delay(40)
+            emit(Either.right(stateListCountryAndStatsLoading))
+            delay(10)
+            emit(Either.right(stateListCountryAndStatsEmptyData))
+        }
+
+        val mostRecoveredFlow = flow {
+            delay(60)
+            emit(Either.right(stateListCountryAndStatsLoading))
+            delay(10)
+            emit(Either.right(stateListCountryAndStatsEmptyData))
+        }
+
+        whenever(getCountryStats.getCountriesAndStatsWithMostConfirmed()).thenReturn(mostConfirmedFlow)
+        whenever(getCountryStats.getCountriesAndStatsWithMostDeaths()).thenReturn(mostDeathsFlow)
+        whenever(getCountryStats.getCountriesAndStatsWithMostOpenCases()).thenReturn(mostOpenCasesFlow)
+        whenever(getCountryStats.getCountriesAndStatsWithMostRecovered()).thenReturn(mostRecoveredFlow)
+
+        worldViewModel.getLineChartsStats()
+
+        val mostConfirmedLoading = worldViewModel.screenState.value
+        coroutineScope.advanceTimeBy(10)
+        val mostConfirmedEmpty = worldViewModel.screenState.value
+        coroutineScope.advanceTimeBy(10)
+        val mostDeathsLoading = worldViewModel.screenState.value
+        coroutineScope.advanceTimeBy(10)
+        val mostDeathsEmpty = worldViewModel.screenState.value
+        coroutineScope.advanceTimeBy(10)
+        val mostOpenCasesLoading = worldViewModel.screenState.value
+        coroutineScope.advanceTimeBy(10)
+        val mostOpenCasesEmpty = worldViewModel.screenState.value
+        coroutineScope.advanceTimeBy(10)
+        val mostRecoveredLoading = worldViewModel.screenState.value
+        coroutineScope.advanceTimeBy(10)
+        val mostRecoveredEmpty = worldViewModel.screenState.value
+
+        verify(stateObserver, Mockito.times(8)).onChanged(captor.capture())
+
+        assertEquals(ScreenState.Loading, mostConfirmedLoading)
+        assertEquals(ScreenState.Loading, mostDeathsLoading)
+        assertEquals(ScreenState.Loading, mostOpenCasesLoading)
+        assertEquals(ScreenState.Loading, mostRecoveredLoading)
+        assertEquals(ScreenState.EmptyData, mostConfirmedEmpty)
+        assertEquals(ScreenState.EmptyData, mostDeathsEmpty)
+        assertEquals(ScreenState.EmptyData, mostOpenCasesEmpty)
+        assertEquals(ScreenState.EmptyData, mostRecoveredEmpty)
+    }
+
+    @Test
+    fun `get line charts stats with database problem should return loading and unknown database error`() {
+        val mostConfirmedFlow = flow {
+            emit(Either.right(stateListCountryAndStatsLoading))
+            delay(10)
+            emit(Either.left(stateErrorUnknownDatabase))
+        }
+
+        val mostDeathsFlow = flow {
+            delay(20)
+            emit(Either.right(stateListCountryAndStatsLoading))
+            delay(10)
+            emit(Either.left(stateErrorUnknownDatabase))
+        }
+
+        val mostOpenCasesFlow = flow {
+            delay(40)
+            emit(Either.right(stateListCountryAndStatsLoading))
+            delay(10)
+            emit(Either.left(stateErrorUnknownDatabase))
+        }
+
+        val mostRecoveredFlow = flow {
+            delay(60)
+            emit(Either.right(stateListCountryAndStatsLoading))
+            delay(10)
+            emit(Either.left(stateErrorUnknownDatabase))
+        }
+
+        whenever(getCountryStats.getCountriesAndStatsWithMostConfirmed()).thenReturn(mostConfirmedFlow)
+        whenever(getCountryStats.getCountriesAndStatsWithMostDeaths()).thenReturn(mostDeathsFlow)
+        whenever(getCountryStats.getCountriesAndStatsWithMostOpenCases()).thenReturn(mostOpenCasesFlow)
+        whenever(getCountryStats.getCountriesAndStatsWithMostRecovered()).thenReturn(mostRecoveredFlow)
+
+        worldViewModel.getLineChartsStats()
+
+        val mostConfirmedLoading = worldViewModel.screenState.value
+        coroutineScope.advanceTimeBy(10)
+        val mostConfirmedError = worldViewModel.screenState.value
+        coroutineScope.advanceTimeBy(10)
+        val mostDeathsLoading = worldViewModel.screenState.value
+        coroutineScope.advanceTimeBy(10)
+        val mostDeathsError = worldViewModel.screenState.value
+        coroutineScope.advanceTimeBy(10)
+        val mostOpenCasesLoading = worldViewModel.screenState.value
+        coroutineScope.advanceTimeBy(10)
+        val mostOpenCasesError = worldViewModel.screenState.value
+        coroutineScope.advanceTimeBy(10)
+        val mostRecoveredLoading = worldViewModel.screenState.value
+        coroutineScope.advanceTimeBy(10)
+        val mostRecoveredError = worldViewModel.screenState.value
+
+        verify(stateObserver, Mockito.times(8)).onChanged(captor.capture())
+
+        assertEquals(ScreenState.Loading, mostConfirmedLoading)
+        assertEquals(ScreenState.Loading, mostDeathsLoading)
+        assertEquals(ScreenState.Loading, mostOpenCasesLoading)
+        assertEquals(ScreenState.Loading, mostRecoveredLoading)
+        assertTrue(mostConfirmedError is ScreenState.Error)
+        assertTrue((mostConfirmedError as ScreenState.Error).errorState is WorldStateScreen.SomeError)
+        assertEquals(worldStateScreenErrorUnknownDatatabase,
+            (mostConfirmedError.errorState as WorldStateScreen.SomeError).data)
+        assertTrue(mostDeathsError is ScreenState.Error)
+        assertTrue((mostDeathsError as ScreenState.Error).errorState is WorldStateScreen.SomeError)
+        assertEquals(worldStateScreenErrorUnknownDatatabase,
+            (mostDeathsError.errorState as WorldStateScreen.SomeError).data)
+        assertTrue(mostOpenCasesError is ScreenState.Error)
+        assertTrue((mostOpenCasesError as ScreenState.Error).errorState is WorldStateScreen.SomeError)
+        assertEquals(worldStateScreenErrorUnknownDatatabase,
+            (mostOpenCasesError.errorState as WorldStateScreen.SomeError).data)
+        assertTrue(mostRecoveredError is ScreenState.Error)
+        assertTrue((mostRecoveredError as ScreenState.Error).errorState is WorldStateScreen.SomeError)
+        assertEquals(worldStateScreenErrorUnknownDatatabase,
+            (mostRecoveredError.errorState as WorldStateScreen.SomeError).data)
+    }
+
+    /************************************************************************************************************
+     *  Using StateFlow as LiveData --> (worldViewModel.screenState.asLiveData().observeForever(stateObserver)) *
+     ************************************************************************************************************/
+
+    @Test
+    fun `get list stats should return loading and success if date exists using stateflow as livedata`() {
         val flow = flow {
             emit(Either.right(stateCovidTrackerLoading))
             emit(Either.right(stateCovidTrackerSuccess))
@@ -96,57 +595,8 @@ class WorldViewModelTest {
             (success.renderState as WorldStateScreen.SuccessCovidTracker).data)
     }
 
-    /*****************************************************************
-     *  getOrAwaitValue and observeForTesting from Google repository *
-     *****************************************************************/
-
     @Test
-    fun `get list stats should return loading and success if date exists using getOrAwaitValue & observeForTesting`() {
-        val flow = flow {
-            emit(Either.right(stateCovidTrackerLoading))
-            delay(10)
-            emit(Either.right(stateCovidTrackerSuccess))
-        }
-
-        whenever(getWorldAndCountries.getWorldAndCountriesByDate()).thenReturn(flow)
-
-        worldViewModel.getListStats()
-
-        worldViewModel.screenState.getOrAwaitValue {
-            val loading = worldViewModel.screenState.value
-            coroutineScope.advanceUntilIdle()
-            val success = worldViewModel.screenState.value
-
-            assertEquals(ScreenState.Loading, loading)
-            assertNotNull(success)
-            assertTrue(success is ScreenState.Render)
-            assertTrue((success as ScreenState.Render)
-                .renderState is WorldStateScreen.SuccessCovidTracker)
-            assertEquals(stateScreenSuccessCovidTrackerData,
-                (success.renderState as WorldStateScreen.SuccessCovidTracker).data)
-        }
-
-        worldViewModel.getListStats()
-
-        worldViewModel.screenState.observeForTesting {
-            val loading = worldViewModel.screenState.value
-            coroutineScope.advanceUntilIdle()
-            val success = worldViewModel.screenState.value
-
-            assertEquals(ScreenState.Loading, loading)
-            assertNotNull(success)
-            assertTrue(success is ScreenState.Render)
-            assertTrue((success as ScreenState.Render)
-                .renderState is WorldStateScreen.SuccessCovidTracker)
-            assertEquals(stateScreenSuccessCovidTrackerData,
-                (success.renderState as WorldStateScreen.SuccessCovidTracker).data)
-        }
-    }
-
-    /***********************************************************************************************/
-
-    @Test
-    fun `get list stats with empty data should return loading and empty success`() {
+    fun `get list stats with empty data should return loading and empty success using stateflow as livedata`() {
         val flow = flow {
             emit(Either.right(stateCovidTrackerLoading))
             emit(Either.right(stateCovidTrackerEmptyData))
@@ -166,7 +616,7 @@ class WorldViewModelTest {
     }
 
     @Test
-    fun `get list stats with database problem should return loading and unknown database error`() {
+    fun `get list stats with database problem should return loading and unknown database error using stateflow as livedata`() {
         val flow = flow {
             emit(Either.right(stateCovidTrackerLoading))
             emit(Either.left(stateErrorUnknownDatabase))
@@ -189,7 +639,7 @@ class WorldViewModelTest {
     }
 
     @Test
-    fun `get pie chart stats should return loading and success if date exists`() {
+    fun `get pie chart stats should return loading and success if date exists using stateflow as livedata`() {
         val flow = flow {
             emit(Either.right(stateCovidTrackerLoading))
             emit(Either.right(stateCovidTrackerSuccess))
@@ -213,7 +663,7 @@ class WorldViewModelTest {
     }
 
     @Test
-    fun `get pie chart stats with empty data should return loading and empty success`() {
+    fun `get pie chart stats with empty data should return loading and empty success using stateflow as livedata`() {
         val flow = flow {
             emit(Either.right(stateCovidTrackerLoading))
             emit(Either.right(stateCovidTrackerEmptyData))
@@ -233,7 +683,7 @@ class WorldViewModelTest {
     }
 
     @Test
-    fun `get pie chart stats with database problem should return loading and unknown database error`() {
+    fun `get pie chart stats with database problem should return loading and unknown database error using stateflow as livedata`() {
         val flow = flow {
             emit(Either.right(stateCovidTrackerLoading))
             emit(Either.left(stateErrorUnknownDatabase))
@@ -256,7 +706,7 @@ class WorldViewModelTest {
     }
 
     @Test
-    fun `get bar chart stats should return loading and success if date exists`() {
+    fun `get bar chart stats should return loading and success if date exists using stateflow as livedata`() {
         val worldFlow = flow {
             emit(Either.right(stateListWorldStatsLoading))
             emit(Either.right(stateListWorldStatsSuccess))
@@ -294,7 +744,7 @@ class WorldViewModelTest {
     }
 
     @Test
-    fun `get bar chart stats with empty data should return loading and empty success`() {
+    fun `get bar chart stats with empty data should return loading and empty success using stateflow as livedata`() {
         val worldFlow = flow {
             emit(Either.right(stateListWorldStatsLoading))
             emit(Either.right(stateListWorldStatsEmptyData))
@@ -324,7 +774,7 @@ class WorldViewModelTest {
     }
 
     @Test
-    fun `get bar chart stats with database problem should return loading and unknown database error`() {
+    fun `get bar chart stats with database problem should return loading and unknown database error using stateflow as livedata`() {
         val worldFlow = flow {
             emit(Either.right(stateListWorldStatsLoading))
             emit(Either.left(stateErrorUnknownDatabase))
@@ -360,7 +810,7 @@ class WorldViewModelTest {
     }
 
     @Test
-    fun `get line charts stats should return loading and success if date exists`() {
+    fun `get line charts stats should return loading and success if date exists using stateflow as livedata`() {
         val mostConfirmedFlow = flow {
             emit(Either.right(stateListCountryAndStatsLoading))
             emit(Either.right(stateListCountryAndStatsMostConfirmedSuccess))
@@ -430,7 +880,7 @@ class WorldViewModelTest {
     }
 
     @Test
-    fun `get line charts stats with empty data should return loading and empty success`() {
+    fun `get line charts stats with empty data should return loading and empty success using stateflow as livedata`() {
         val mostConfirmedFlow = flow {
             emit(Either.right(stateListCountryAndStatsLoading))
             emit(Either.right(stateListCountryAndStatsEmptyData))
@@ -480,7 +930,7 @@ class WorldViewModelTest {
     }
 
     @Test
-    fun `get line charts stats with database problem should return loading and unknown database error`() {
+    fun `get line charts stats with database problem should return loading and unknown database error using stateflow as livedata`() {
         val mostConfirmedFlow = flow {
             emit(Either.right(stateListCountryAndStatsLoading))
             emit(Either.left(stateErrorUnknownDatabase))
@@ -540,4 +990,36 @@ class WorldViewModelTest {
         assertEquals(worldStateScreenErrorUnknownDatatabase,
             (mostRecoveredError.errorState as WorldStateScreen.SomeError).data)
     }
+
+    /*****************************************************************************************
+     *  StateFlow as LiveData & getOrAwaitValue and observeForTesting from Google repository *
+     *****************************************************************************************/
+
+    @Test
+    fun `get list stats should return loading and success if date exists using getOrAwaitValue & observeForTesting & stateflow as livedata`() {
+        val flow = flow {
+            emit(Either.right(stateCovidTrackerLoading))
+            delay(10)
+            emit(Either.right(stateCovidTrackerSuccess))
+        }
+
+        whenever(getWorldAndCountries.getWorldAndCountriesByDate()).thenReturn(flow)
+
+        worldViewModel.getListStats()
+
+        val loading = worldViewModel.screenState.value
+        assertEquals(ScreenState.Loading, loading)
+
+        coroutineScope.advanceUntilIdle()
+
+        val success = worldViewModel.screenState.value
+        assertNotNull(success)
+        assertTrue(success is ScreenState.Render)
+        assertTrue((success as ScreenState.Render)
+            .renderState is WorldStateScreen.SuccessCovidTracker)
+        assertEquals(stateScreenSuccessCovidTrackerData,
+            (success.renderState as WorldStateScreen.SuccessCovidTracker).data)
+    }
+
+    /***********************************************************************************************/
 }
