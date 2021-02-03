@@ -207,11 +207,11 @@ The data for any other day, from the last one in the local database until the cu
   <img src="./art/unit_tests_pyramid.png" height="200"/>
 </p>
 
-### Unit Tests (341 ✅)
+### Unit Tests (353 ✅)
 
-- ViewModels: 45 ✅
+- ViewModels: 57 ✅
   - CountryViewModel: 26 ✔️
-  - WorldViewModel: 13 ✔️
+  - WorldViewModel: 25 ✔️
   - MainViewModel: 6 ✔️
 - UseCases: 93 ✅
   - GetRegionStats: 24 ✔️
