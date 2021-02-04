@@ -2,6 +2,7 @@ package com.jaimegc.covid19tracker.ui.world
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
 import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.common.extensions.containsAdapter
@@ -18,12 +19,13 @@ import com.jaimegc.covid19tracker.ui.adapter.WorldCountriesPieChartAdapter
 import com.jaimegc.covid19tracker.ui.adapter.WorldCountryAdapter
 import com.jaimegc.covid19tracker.ui.adapter.WorldLineChartAdapter
 import com.jaimegc.covid19tracker.ui.adapter.WorldPieChartAdapter
-import com.jaimegc.covid19tracker.ui.base.BaseFragment
+import com.jaimegc.covid19tracker.ui.base.BaseFragmentStateFlow
 import com.jaimegc.covid19tracker.ui.base.states.ScreenState
 import com.jaimegc.covid19tracker.ui.base.states.WorldStateScreen
+import kotlinx.coroutines.flow.collect
 import org.koin.core.component.inject
 
-class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fragment_world) {
+class WorldFragment : BaseFragmentStateFlow<WorldViewModel, WorldStateScreen>(R.layout.fragment_world) {
 
     override val viewModel: WorldViewModel by inject()
 
@@ -48,9 +50,8 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
 
         binding.recyclerWorld.adapter = concatAdapter
 
-        viewModel.screenState.observe(
-            viewLifecycleOwner,
-            { screenState ->
+        lifecycleScope.launchWhenStarted {
+            viewModel.screenState.collect { screenState ->
                 when (screenState) {
                     is ScreenState.Loading ->
                         if (concatAdapter.adapters.isEmpty()) binding.loading.layout.show()
@@ -62,7 +63,7 @@ class WorldFragment : BaseFragment<WorldViewModel, WorldStateScreen>(R.layout.fr
                     is ScreenState.Error -> Unit // Not implemented
                 }
             }
-        )
+        }
 
         viewModel.getListStats()
     }
