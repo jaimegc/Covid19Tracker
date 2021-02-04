@@ -16,7 +16,7 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4ClassRunner::class)
 @LargeTest
-class WorldFragmenScreenRobotTest : UITest() {
+class WorldFragmentScreenRobotTest : UITest() {
 
     private lateinit var scenario: FragmentScenario<WorldFragment>
 
