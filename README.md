@@ -7,24 +7,6 @@
 
 <br />
 
-## Table of contents
-
-- [Introduction](#introduction)
-- [Technical summary](#technical-summary)
-- [Screens](#screens)
-  - [Country](#country)
-  - [World](#world)
-  - [Others](#others)
-- [Simplified UML Database](#simplified-uml-database)
-- [Initialize Database](#initialize-database)
-- [TODO List](#todo-list)
-- [Credits](#credits)
-  - [Special thanks](#special-thanks)
-  - [Thanks](#thanks)
-- [Contribute](#contribute)
-- [Author](#author)
-- [License](#license)
-
 ## Introduction
 
 Covid19 Tracker is a sample Android application focused on displaying statistics using graphs and adding tests, tests and more tests. From a technical point of view, it has an <b>Offline-First</b> approach and uses the <b>Single Source of Truth (SSOT)</b> principle. Also, it has been built making use of a huge database and <b>Flow</b> streams with the aim of achieving the best performance. However, it is important to point out that certain technical decisions have been made only for me to have an opportunity to practice new Android concepts.
@@ -210,33 +192,33 @@ The data for any other day, from the last one in the local database until the cu
 ### Unit Tests (353 ✅)
 
 - ViewModels: 57 ✅
-  - CountryViewModel: 26 ✔️
-  - WorldViewModel: 25 ✔️
-  - MainViewModel: 6 ✔️
+  - [CountryViewModel](/app/src/test/java/com/jaimegc/covid19tracker/viewmodel/CountryViewModelTest.kt): 26 ✔️
+  - [WorldViewModel](/app/src/test/java/com/jaimegc/covid19tracker/viewmodel/WorldViewModelTest.kt): 25 ✔️
+  - [MainViewModel](/app/src/test/java/com/jaimegc/covid19tracker/viewmodel/MainViewModelTest.kt): 6 ✔️
 - UseCases: 93 ✅
-  - GetRegionStats: 24 ✔️
-  - GetCountryStats: 20 ✔️
-  - GetSubRegionStats: 18 ✔️
-  - GetCountry: 6 ✔️
-  - GetCovidTracker: 6 ✔️
-  - GetRegion: 4 ✔️
-  - GetWorldAndCountries: 6 ✔️
-  - GetWorldStats: 6 ✔️
-  - GetDates: 2 ✔️
-  - AddCovidTrackers: 1 ✔️
+  - [GetRegionStats](/app/src/test/java/com/jaimegc/covid19tracker/usecase/GetRegionStatsTest.kt): 24 ✔️
+  - [GetCountryStats](/app/src/test/java/com/jaimegc/covid19tracker/usecase/GetCountryStatsTest.kt): 20 ✔️
+  - [GetSubRegionStats](/app/src/test/java/com/jaimegc/covid19tracker/usecase/GetSubRegionStatsTest.kt): 18 ✔️
+  - [GetCountry](/app/src/test/java/com/jaimegc/covid19tracker/usecase/GetCountryTest.kt): 6 ✔️
+  - [GetCovidTracker](/app/src/test/java/com/jaimegc/covid19tracker/usecase/GetCovidTrackerTest.kt): 6 ✔️
+  - [GetRegion](/app/src/test/java/com/jaimegc/covid19tracker/usecase/GetRegionTest.kt): 4 ✔️
+  - [GetWorldAndCountries](/app/src/test/java/com/jaimegc/covid19tracker/usecase/GetWorldAndCountriesTest.kt): 6 ✔️
+  - [GetWorldStats](/app/src/test/java/com/jaimegc/covid19tracker/usecase/GetWorldStatsTest.kt): 6 ✔️
+  - [GetDates](/app/src/test/java/com/jaimegc/covid19tracker/usecase/GetDatesTest.kt): 2 ✔️
+  - [AddCovidTracker](/app/src/test/java/com/jaimegc/covid19tracker/usecase/AddCovidTrackerTest.kt): 1 ✔️
 - Repositories: 59 ✅
-  - CovidTrackerRepository: 59 ✔️
+  - [CovidTrackerRepository](/app/src/test/java/com/jaimegc/covid19tracker/repository/CovidTrackerRepositoryTest.kt): 59 ✔️
 - Datasources: 72 ✅
-    - LocalCovidTrackerDatasource: 67 ✔️
-    - RemoteCovidTrackerDatasource: 5 ✔️
+    - [LocalCovidTrackerDatasource](/app/src/test/java/com/jaimegc/covid19tracker/datasource/LocalCovidTrackerDatasourceTest.kt): 67 ✔️
+    - [RemoteCovidTrackerDatasource](/app/src/test/java/com/jaimegc/covid19tracker/datasource/RemoteCovidTrackerDatasourceTest.kt): 5 ✔️
 - Mappers: 63 ✅
-  - DomainMapper: 30 ✔️
-  - UIMapper: 22 ✔️
-  - EntityMapper: 8 ✔️
-  - PojoMapper: 3 ✔️
+  - [DomainMapper](/app/src/test/java/com/jaimegc/covid19tracker/mapper/DomainMapperTest.kt): 30 ✔️
+  - [UIMapper](/app/src/test/java/com/jaimegc/covid19tracker/mapper/UIMapperTest.kt): 22 ✔️
+  - [EntityMapper](/app/src/test/java/com/jaimegc/covid19tracker/mapper/EntityMapperTest.kt): 8 ✔️
+  - [PojoMapper](/app/src/test/java/com/jaimegc/covid19tracker/mapper/PojoMapperTest.kt): 3 ✔️
 - Extensions: 9 ✅
-  - NumberExtension: 6 ✔️
-  - DateExtension: 3 ✔️
+  - [NumberExtension](/app/src/test/java/com/jaimegc/covid19tracker/extension/NumberExtensionTest.kt): 6 ✔️
+  - [DateExtension](/app/src/test/java/com/jaimegc/covid19tracker/extension/DateExtensionTest.kt): 3 ✔️
   
 <p align="left">
   <img src="./art/integration_tests_pyramid.png" height="200"/>
@@ -245,33 +227,33 @@ The data for any other day, from the last one in the local database until the cu
 ### Integration Tests (112 ✅)
 
 - Daos: 42 ✅
-  - RegionStatsDao: 15 ✔️
-  - SubRegionStatsDao: 12 ✔️
-  - CountryStatsDao: 8 ✔️
-  - CovidTrackerDao: 2 ✔️
-  - RegionDao: 2 ✔️
-  - WorldStatsDao: 2 ✔️
-  - CountryDao: 1 ✔️
+  - [RegionStatsDao](/app/src/androidTest/java/com/jaimegc/covid19tracker/room/RegionStatsDaoTest.kt): 15 ✔️
+  - [SubRegionStatsDao](/app/src/androidTest/java/com/jaimegc/covid19tracker/room/SubRegionStatsDaoTest.kt): 12 ✔️
+  - [CountryStatsDao](/app/src/androidTest/java/com/jaimegc/covid19tracker/room/CountryStatsDaoTest.kt): 8 ✔️
+  - [CovidTrackerDao](/app/src/androidTest/java/com/jaimegc/covid19tracker/room/CovidTrackerDaoTest.kt): 2 ✔️
+  - [RegionDao](/app/src/androidTest/java/com/jaimegc/covid19tracker/room/RegionDaoTest.kt): 2 ✔️
+  - [WorldStatsDao](/app/src/androidTest/java/com/jaimegc/covid19tracker/room/WorldStatsDaoTest.kt): 2 ✔️
+  - [CountryDao](/app/src/androidTest/java/com/jaimegc/covid19tracker/room/CountryDaoTest.kt): 1 ✔️
 - Daos (Robolectric): 42 ✅
-  - RegionStatsDao-Robolectric: 15 ✔️
-  - SubRegionStatsDao-Robolectric: 12 ✔️
-  - CountryStatsDao-Robolectric: 8 ✔️
-  - CovidTrackerDao-Robolectric: 2 ✔️
-  - RegionDao-Robolectric: 2 ✔️
-  - WorldStatsDao-Robolectric: 2 ✔️
-  - CountryDao-Robolectric: 1 ✔️
+  - [RegionStatsDao-Robolectric](/app/src/test/java/com/jaimegc/covid19tracker/room/RegionStatsDaoRobolectricTest.kt): 15 ✔️
+  - [SubRegionStatsDao-Robolectric](/app/src/test/java/com/jaimegc/covid19tracker/room/SubRegionStatsDaoRobolectricTest.kt): 12 ✔️
+  - [CountryStatsDao-Robolectric](/app/src/test/java/com/jaimegc/covid19tracker/room/CountryStatsDaoRobolectricTest.kt): 8 ✔️
+  - [CovidTrackerDao-Robolectric](/app/src/test/java/com/jaimegc/covid19tracker/room/CovidTrackerDaoRobolectricTest.kt): 2 ✔️
+  - [RegionDao-Robolectric](/app/src/test/java/com/jaimegc/covid19tracker/room/RegionDaoRobolectricTest.kt): 2 ✔️
+  - [WorldStatsDao-Robolectric](/app/src/test/java/com/jaimegc/covid19tracker/room/WorldStatsDaoRobolectricTest.kt): 2 ✔️
+  - [CountryDao-Robolectric](/app/src/test/java/com/jaimegc/covid19tracker/room/CountryDaoRobolectricTest.kt): 1 ✔️
 - ApiClients: 10 ✅
-  - CovidTrackerDatasourceApiClient: 10 ✔️
+  - [CovidTrackerDatasourceApiClient](/app/src/test/java/com/jaimegc/covid19tracker/apiclient/CovidTrackerApiClientTest.kt): 10 ✔️
 - SharedPreferences: 4 ✅
-  - CountryPreferences: 2 ✔️
-  - CovidTrackerPreferences: 2 ✔️
+  - [CountryPreferences](/app/src/androidTest/java/com/jaimegc/covid19tracker/preference/CountryPreferencesTest.kt): 2 ✔️
+  - [CovidTrackerPreferences](/app/src/androidTest/java/com/jaimegc/covid19tracker/preference/CovidTrackerPreferencesTest.kt): 2 ✔️
 - SharedPreferences (Robolectric): 4 ✅
-  - CountryPreferences-Robolectric: 2 ✔️
-  - CovidTrackerPreferences-Robolectric: 2 ✔️
+  - [CountryPreferences-Robolectric](/app/src/test/java/com/jaimegc/covid19tracker/preference/CountryPreferencesRobolectricTest.kt): 2 ✔️
+  - [CovidTrackerPreferences-Robolectric](/app/src/test/java/com/jaimegc/covid19tracker/preference/CovidTrackerPreferencesRobolectricTest.kt): 2 ✔️
 - Workers: 5 ✅
-  - UpdateDatabaseWorker: 5 ✔️
+  - [UpdateDatabaseWorker](/app/src/androidTest/java/com/jaimegc/covid19tracker/worker/UpdateDatabaseWorkerTest.kt): 5 ✔️
 - Workers (Robolectric): 5 ✅
-  - UpdateDatabaseWorker-Robolectric: 5 ✔️     
+  - [UpdateDatabaseWorker-Robolectric](/app/src/test/java/com/jaimegc/covid19tracker/worker/UpdateDatabaseWorkerRobolectricTest.kt): 5 ✔️     
   
 <p align="left">
   <img src="./art/ui_tests_pyramid.png" height="200"/>
@@ -280,38 +262,38 @@ The data for any other day, from the last one in the local database until the cu
 ### UI Tests (259 ✅)
 
 - Activities: 8 ✅
-  - MainActivity: 4 ✔️
-  - InitializeDatabaseActivity: 4 ✔️
+  - [MainActivity](/app/src/androidTest/java/com/jaimegc/covid19tracker/activity/MainActivityTest.kt): 4 ✔️
+  - [InitializeDatabaseActivity](/app/src/androidTest/java/com/jaimegc/covid19tracker/activity/InitializeDatabaseActivityTest.kt): 4 ✔️
 - Activities (Robolectric): 8 ✅
-  - MainActivity-Robolectric: 4 ✔️
-  - InitializeDatabaseActivity-Robolectric: 4 ✔️
+  - [MainActivity-Robolectric](/app/src/test/java/com/jaimegc/covid19tracker/activity/MainActivityRobolectricTest.kt): 4 ✔️
+  - [InitializeDatabaseActivity-Robolectric](/app/src/test/java/com/jaimegc/covid19tracker/activity/InitializeDatabaseActivityRobolectricTest.kt): 4 ✔️
 - Activities (Kakao): 5 ✅
-  - MainActivity-Kakao: 3 ✔️
-  - InitializeActivity-Kakao: 2 ✔️
+  - [MainActivity-Kakao](/app/src/androidTest/java/com/jaimegc/covid19tracker/activity/kakao/MainActivityKakaoTest.kt): 3 ✔️
+  - [InitializeDatabaseActivity-Kakao](/app/src/androidTest/java/com/jaimegc/covid19tracker/activity/kakao/InitializeDatabaseActivityKakaoTest.kt): 2 ✔️
 - Activities (Barista): 3 ✅
-  - MainActivity-Barista: 3 ✔️
-- Activities (ScreenRobot): 5 ✅
-  - MainActivity-ScreenRobot: 3 ✔️
-  - InitializeActivity-Kakao: 2 ✔️
+  - [MainActivity-Barista](/app/src/androidTest/java/com/jaimegc/covid19tracker/activity/barista/MainActivityBaristaTest.kt): 3 ✔️
+- Activities (ScreenRobot): 5 ✅ 
+  - [MainActivity-ScreenRobot](/app/src/androidTest/java/com/jaimegc/covid19tracker/activity/screenrobot/MainActivityScreenRobotTest.kt): 3 ✔️
+  - [InitializeDatabaseActivity-ScreenRobot](/app/src/androidTest/java/com/jaimegc/covid19tracker/activity/screenrobot/InitializeDatabaseActivityScreenRobotTest.kt): 2 ✔️
 - Fragments: 46 ✅
-  - CountryFragment: 37 ✔️
-  - WorldFragment: 9 ✔️
+  - [CountryFragment](/app/src/androidTest/java/com/jaimegc/covid19tracker/fragment/CountryFragmentTest.kt): 37 ✔️
+  - [WorldFragment](/app/src/androidTest/java/com/jaimegc/covid19tracker/fragment/WorldFragmentTest.kt): 9 ✔️
 - Fragments (Robolectric): 46 ✅
-  - CountryFragment-Robolectric: 37 ✔️
-  - WorldFragment-Robolectric: 9 ✔️
+  - [CountryFragment-Robolectric](/app/src/test/java/com/jaimegc/covid19tracker/fragment/CountryFragmentRobolectricTest.kt): 37 ✔️
+  - [WorldFragment-Robolectric](/app/src/test/java/com/jaimegc/covid19tracker/fragment/WorldFragmentRobolectricTest.kt): 9 ✔️
 - Fragments (Kakao): 46 ✅
-  - CountryFragment-Kakao: 37 ✔️
-  - WorldFragment-Kakao: 9 ✔️
+  - [CountryFragment-Kakao](/app/src/androidTest/java/com/jaimegc/covid19tracker/fragment/kakao/CountryFragmentKakaoTest.kt): 37 ✔️
+  - [WorldFragment-Kakao](/app/src/androidTest/java/com/jaimegc/covid19tracker/fragment/kakao/WorldFragmentKakaoTest.kt): 9 ✔️
 - Fragments (Barista): 46 ✅
-  - CountryFragment-Barista: 37 ✔️
-  - WorldFragment-Barista: 9 ✔️
+  - [CountryFragment-Barista](/app/src/androidTest/java/com/jaimegc/covid19tracker/fragment/barista/CountryFragmentBaristaTest.kt): 37 ✔️
+  - [WorldFragment-Barista](/app/src/androidTest/java/com/jaimegc/covid19tracker/fragment/barista/WorldFragmentBaristaTest.kt): 9 ✔️
 - Fragments (ScreenRobot): 46 ✅
-  - CountryFragment-ScreenRobot: 37 ✔️
-  - WorldFragment-ScreenRobot: 9 ✔️
+  - [CountryFragment-ScreenRobot](/app/src/androidTest/java/com/jaimegc/covid19tracker/fragment/screenrobot/CountryFragmentScreenRobotTest.kt): 37 ✔️
+  - [WorldFragment-ScreenRobot](/app/src/androidTest/java/com/jaimegc/covid19tracker/fragment/screenrobot/WorldFragmentScreenRobotTest.kt): 9 ✔️
 
 ### GitHub Actions
 
-For now, only configured for unit tests. You can see the config file [here](./.github/workflows/android-workflow.yaml).
+You can see the config file [here](./.github/workflows/android-workflow.yaml).
 
 ## Credits
 
