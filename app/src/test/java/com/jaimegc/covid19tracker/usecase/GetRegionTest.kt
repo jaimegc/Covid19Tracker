@@ -1,5 +1,6 @@
 package com.jaimegc.covid19tracker.usecase
 
+import app.cash.turbine.test
 import arrow.core.Either
 import com.google.common.truth.Truth.assertThat
 import com.jaimegc.covid19tracker.domain.usecase.GetRegion
@@ -113,6 +114,48 @@ class GetRegionTest : UseCaseTest() {
             assertValues(Either.right(stateListRegionLoading), Either.right(stateListRegionEmptySuccess))
             assertValueCount(2)
             assertComplete()
+        }
+    }
+
+    /************
+     *  Turbine *
+     ************/
+
+    @Test
+    fun `get regions by country should return loading and success using turbine`() = runBlockingTest {
+        val flow = flow {
+            emit(Either.right(stateListRegionLoading))
+            emit(Either.right(stateListRegionSuccess))
+        }
+
+        every { repository.getRegionsByCountry(any()) } returns flow
+
+        val flowUseCase = getRegion.getRegionsByCountry(ID_COUNTRY)
+
+        verify { repository.getRegionsByCountry(any()) }
+        flowUseCase.test {
+            assertThat(Either.right(stateListRegionLoading)).isEqualTo(expectItem())
+            assertThat(Either.right(stateListRegionSuccess)).isEqualTo(expectItem())
+            expectComplete()
+        }
+    }
+
+    @Test
+    fun `get regions by country with empty data should return loading and success using turbine`() = runBlockingTest {
+        val flow = flow {
+            emit(Either.right(stateListRegionLoading))
+            emit(Either.right(stateListRegionEmptySuccess))
+        }
+
+        every { repository.getRegionsByCountry(any()) } returns flow
+
+        val flowUseCase = getRegion.getRegionsByCountry(ID_COUNTRY)
+
+        verify { repository.getRegionsByCountry(any()) }
+        flowUseCase.test {
+            assertThat(Either.right(stateListRegionLoading)).isEqualTo(expectItem())
+            assertThat(Either.right(stateListRegionEmptySuccess)).isEqualTo(expectItem())
+            expectComplete()
         }
     }
 }
