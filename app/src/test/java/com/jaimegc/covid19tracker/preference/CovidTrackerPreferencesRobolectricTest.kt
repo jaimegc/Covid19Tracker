@@ -9,7 +9,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
-class CovidTrackerPreferencesRoboletricTest : SharedPreferencesRobolectricTest() {
+class CovidTrackerPreferencesRobolectricTest : SharedPreferencesRobolectricTest() {
 
     private lateinit var covidTrackerPreferences: CovidTrackerPreferences
 
