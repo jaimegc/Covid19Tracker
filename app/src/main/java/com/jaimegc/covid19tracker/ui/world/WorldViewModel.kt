@@ -1,8 +1,6 @@
 package com.jaimegc.covid19tracker.ui.world
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import com.jaimegc.covid19tracker.common.QueueLiveData
 import com.jaimegc.covid19tracker.domain.model.CovidTracker
 import com.jaimegc.covid19tracker.domain.model.DomainError
 import com.jaimegc.covid19tracker.domain.model.ListCountryAndStats
@@ -12,14 +10,16 @@ import com.jaimegc.covid19tracker.domain.states.StateError
 import com.jaimegc.covid19tracker.domain.usecase.GetCountryStats
 import com.jaimegc.covid19tracker.domain.usecase.GetWorldAndCountries
 import com.jaimegc.covid19tracker.domain.usecase.GetWorldStats
+import com.jaimegc.covid19tracker.ui.base.BaseScreenStateMenuViewModelStateFlow
 import com.jaimegc.covid19tracker.ui.model.CountryListStatsChartUI
 import com.jaimegc.covid19tracker.ui.model.toListChartUI
 import com.jaimegc.covid19tracker.ui.model.toUI
-import com.jaimegc.covid19tracker.ui.base.BaseScreenStateMenuViewModel
 import com.jaimegc.covid19tracker.ui.base.states.MenuItemViewType
 import com.jaimegc.covid19tracker.ui.base.states.ScreenState
 import com.jaimegc.covid19tracker.ui.base.states.WorldStateScreen
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -27,10 +27,10 @@ class WorldViewModel(
     private val getWorldAndCountries: GetWorldAndCountries,
     private val getWorldStats: GetWorldStats,
     private val getCountryStats: GetCountryStats
-) : BaseScreenStateMenuViewModel<WorldStateScreen>() {
+) : BaseScreenStateMenuViewModelStateFlow<WorldStateScreen>() {
 
-    override val screenStateQueue = QueueLiveData<ScreenState<WorldStateScreen>>()
-    override val screenState: LiveData<ScreenState<WorldStateScreen>> = screenStateQueue
+    override val screenStateQueue = MutableStateFlow<ScreenState<WorldStateScreen>>(ScreenState.Loading)
+    override val screenState = screenStateQueue.asStateFlow()
 
     private val mapWorldLineStats =
         mutableMapOf<MenuItemViewType, List<CountryListStatsChartUI>>()
@@ -154,33 +154,30 @@ class WorldViewModel(
                     is CovidTracker -> {
                         when (viewType) {
                             is MenuItemViewType.List ->
-                                screenStateQueue.postValue(
+                                screenStateQueue.value =
                                     ScreenState.Render(
                                         WorldStateScreen.SuccessCovidTracker(state.data.toUI())
                                     )
-                                )
                             is MenuItemViewType.PieChart ->
-                                screenStateQueue.postValue(
+                                screenStateQueue.value =
                                     ScreenState.Render(
                                         WorldStateScreen.SuccessCountriesStatsPieCharts(
                                             state.data.toListChartUI()
                                         )
                                     )
-                                )
                         }
                     }
                     is ListWorldStats ->
-                        screenStateQueue.postValue(
+                        screenStateQueue.value =
                             ScreenState.Render(
                                 WorldStateScreen.SuccessWorldStatsBarCharts(
                                     state.data.worldStats.map { worldStats -> worldStats.toListChartUI() }
                                 )
                             )
-                        )
                     is ListCountryAndStats -> {
                         when (viewType) {
                             is MenuItemViewType.BarChart ->
-                                screenStateQueue.postValue(
+                                screenStateQueue.value =
                                     ScreenState.Render(
                                         WorldStateScreen.SuccessCountriesStatsBarCharts(
                                             state.data.countriesStats.map { countryStats ->
@@ -188,7 +185,6 @@ class WorldViewModel(
                                             }
                                         )
                                     )
-                                )
                             is MenuItemViewType.LineChartMostConfirmed,
                                MenuItemViewType.LineChartMostDeaths,
                                MenuItemViewType.LineChartMostOpenCases,
@@ -196,31 +192,30 @@ class WorldViewModel(
                                    mapWorldLineStats[viewType] = state.data.countriesStats.map {
                                         countryStats -> countryStats.toListChartUI()
                                    }
-                                screenStateQueue.postValue(
+                                screenStateQueue.value =
                                     ScreenState.Render(
                                         WorldStateScreen.SuccessCountriesStatsLineCharts(mapWorldLineStats)
                                     )
-                                )
                             }
                         }
                     }
                 }
             }
             is State.Loading ->
-                screenStateQueue.postValue(ScreenState.Loading)
+                screenStateQueue.value = (ScreenState.Loading)
             is State.EmptyData ->
-                screenStateQueue.postValue(ScreenState.EmptyData)
+                screenStateQueue.value = (ScreenState.EmptyData)
         }
     }
 
     private fun handleError(state: StateError<DomainError>) {
         when (state) {
             is StateError.Error ->
-                screenStateQueue.postValue(
+                screenStateQueue.value =
                     ScreenState.Error(
                         WorldStateScreen.SomeError(state.error.toUI())
                     )
-                )
+
         }
     }
 

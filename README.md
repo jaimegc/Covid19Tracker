@@ -27,7 +27,7 @@
 
 ## Introduction
 
-Covid19 Tracker is a sample Android application focused on displaying statistics using graphs. From a technical point of view, it has an <b>Offline-First</b> approach and uses the <b>Single Source of Truth (SSOT)</b> principle. Also, it has been built making use of a huge database and <b>Flow</b> streams with the aim of achieving the best performance. However, it is important to point out that certain technical decisions have been made only for me to have an opportunity to practice new Android concepts.
+Covid19 Tracker is a sample Android application focused on displaying statistics using graphs and adding tests, tests and more tests. From a technical point of view, it has an <b>Offline-First</b> approach and uses the <b>Single Source of Truth (SSOT)</b> principle. Also, it has been built making use of a huge database and <b>Flow</b> streams with the aim of achieving the best performance. However, it is important to point out that certain technical decisions have been made only for me to have an opportunity to practice new Android concepts.
 
 ## Technical summary
 
@@ -207,11 +207,11 @@ The data for any other day, from the last one in the local database until the cu
   <img src="./art/unit_tests_pyramid.png" height="200"/>
 </p>
 
-### Unit Tests (341 ✅)
+### Unit Tests (353 ✅)
 
-- ViewModels: 45 ✅
+- ViewModels: 57 ✅
   - CountryViewModel: 26 ✔️
-  - WorldViewModel: 13 ✔️
+  - WorldViewModel: 25 ✔️
   - MainViewModel: 6 ✔️
 - UseCases: 93 ✅
   - GetRegionStats: 24 ✔️
