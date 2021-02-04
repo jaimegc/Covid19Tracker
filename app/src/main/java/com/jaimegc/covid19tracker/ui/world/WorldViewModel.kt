@@ -215,7 +215,6 @@ class WorldViewModel(
                     ScreenState.Error(
                         WorldStateScreen.SomeError(state.error.toUI())
                     )
-
         }
     }
 
