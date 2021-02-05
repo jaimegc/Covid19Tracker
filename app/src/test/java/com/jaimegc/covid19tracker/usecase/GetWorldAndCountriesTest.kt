@@ -1,5 +1,6 @@
 package com.jaimegc.covid19tracker.usecase
 
+import app.cash.turbine.test
 import arrow.core.Either
 import com.google.common.truth.Truth.assertThat
 import com.jaimegc.covid19tracker.domain.usecase.GetWorldAndCountries
@@ -149,6 +150,67 @@ class GetWorldAndCountriesTest : UseCaseTest() {
             assertValues(Either.right(stateCovidTrackerLoading), Either.left(stateErrorUnknownDatabase))
             assertValueCount(2)
             assertComplete()
+        }
+    }
+
+    /************
+     *  Turbine *
+     ************/
+
+    @Test
+    fun `get world and countries by date should return loading and success if date exists using turbine`() = runBlockingTest {
+        val flow = flow {
+            emit(Either.right(stateCovidTrackerLoading))
+            emit(Either.right(stateCovidTrackerSuccess))
+        }
+
+        every { repository.getWorldAndCountriesByDate(any()) } returns flow
+
+        val flowUseCase = getWorldAndCountries.getWorldAndCountriesByDate()
+
+        verify { repository.getWorldAndCountriesByDate(any()) }
+        flowUseCase.test {
+            assertThat(Either.right(stateCovidTrackerLoading)).isEqualTo(expectItem())
+            assertThat(Either.right(stateCovidTrackerSuccess)).isEqualTo(expectItem())
+            expectComplete()
+        }
+    }
+
+    @Test
+    fun `get world and countries by date with empty data should return loading and empty success using turbine`() = runBlockingTest {
+        val flow = flow {
+            emit(Either.right(stateCovidTrackerLoading))
+            emit(Either.right(stateCovidTrackerEmptyData))
+        }
+
+        every { repository.getWorldAndCountriesByDate(any()) } returns flow
+
+        val flowUseCase = getWorldAndCountries.getWorldAndCountriesByDate()
+
+        verify { repository.getWorldAndCountriesByDate(any()) }
+        flowUseCase.test {
+            assertThat(Either.right(stateCovidTrackerLoading)).isEqualTo(expectItem())
+            assertThat(Either.right(stateCovidTrackerEmptyData)).isEqualTo(expectItem())
+            expectComplete()
+        }
+    }
+
+    @Test
+    fun `get world and countries by date with database problem should return loading and unknown database error using turbine`() = runBlockingTest {
+        val flow = flow {
+            emit(Either.right(stateCovidTrackerLoading))
+            emit(Either.left(stateErrorUnknownDatabase))
+        }
+
+        every { repository.getWorldAndCountriesByDate(any()) } returns flow
+
+        val flowUseCase = getWorldAndCountries.getWorldAndCountriesByDate()
+
+        verify { repository.getWorldAndCountriesByDate(any()) }
+        flowUseCase.test {
+            assertThat(Either.right(stateCovidTrackerLoading)).isEqualTo(expectItem())
+            assertThat(Either.left(stateErrorUnknownDatabase)).isEqualTo(expectItem())
+            expectComplete()
         }
     }
 }

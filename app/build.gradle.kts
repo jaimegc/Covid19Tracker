@@ -45,7 +45,8 @@ android {
             "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
             "-Xopt-in=kotlinx.coroutines.ObsoleteCoroutinesApi",
             "-Xopt-in=kotlinx.coroutines.FlowPreview",
-            "-Xopt-in=org.koin.core.component.KoinApiExtension"
+            "-Xopt-in=org.koin.core.component.KoinApiExtension",
+            "-Xopt-in=kotlin.time.ExperimentalTime"
         )
     }
 
