@@ -1,5 +1,6 @@
 package com.jaimegc.covid19tracker.usecase
 
+import app.cash.turbine.test
 import arrow.core.Either
 import com.google.common.truth.Truth.assertThat
 import com.jaimegc.covid19tracker.domain.usecase.GetCovidTracker
@@ -153,6 +154,67 @@ class GetCovidTrackerTest : UseCaseTest() {
             assertValues(Either.right(stateCovidTrackerLoading), Either.left(stateErrorUnknownDatabase))
             assertValueCount(2)
             assertComplete()
+        }
+    }
+
+    /************
+     *  Turbine *
+     ************/
+
+    @Test
+    fun `get covid tracker by date should return loading and success if date exists using turbine`() = runBlockingTest {
+        val flow = flow {
+            emit(Either.right(stateCovidTrackerLoading))
+            emit(Either.right(stateCovidTrackerSuccess))
+        }
+
+        every { repository.getCovidTrackerByDate(any()) } returns flow
+
+        val flowUseCase = getCovidTracker.getCovidTrackerByDate(DATE)
+
+        verify { repository.getCovidTrackerByDate(any()) }
+        flowUseCase.test {
+            assertThat(Either.right(stateCovidTrackerLoading)).isEqualTo(expectItem())
+            assertThat(Either.right(stateCovidTrackerSuccess)).isEqualTo(expectItem())
+            expectComplete()
+        }
+    }
+
+    @Test
+    fun `get covid tracker by date with empty data should return loading empty success using turbine`() = runBlockingTest {
+        val flow = flow {
+            emit(Either.right(stateCovidTrackerLoading))
+            emit(Either.right(stateCovidTrackerEmptyData))
+        }
+
+        every { repository.getCovidTrackerByDate(any()) } returns flow
+
+        val flowUseCase = getCovidTracker.getCovidTrackerByDate(DATE)
+
+        verify { repository.getCovidTrackerByDate(any()) }
+        flowUseCase.test {
+            assertThat(Either.right(stateCovidTrackerLoading)).isEqualTo(expectItem())
+            assertThat(Either.right(stateCovidTrackerEmptyData)).isEqualTo(expectItem())
+            expectComplete()
+        }
+    }
+
+    @Test
+    fun `get covid tracker with database problem by date should return loading and unknown database error using turbine`() = runBlockingTest {
+        val flow = flow {
+            emit(Either.right(stateCovidTrackerLoading))
+            emit(Either.left(stateErrorUnknownDatabase))
+        }
+
+        every { repository.getCovidTrackerByDate(any()) } returns flow
+
+        val flowUseCase = getCovidTracker.getCovidTrackerByDate(DATE)
+
+        verify { repository.getCovidTrackerByDate(any()) }
+        flowUseCase.test {
+            assertThat(Either.right(stateCovidTrackerLoading)).isEqualTo(expectItem())
+            assertThat(Either.left(stateErrorUnknownDatabase)).isEqualTo(expectItem())
+            expectComplete()
         }
     }
 }

@@ -115,6 +115,8 @@ object Dependencies {
         "com.squareup.okhttp3:mockwebserver:${Versions.Test.MOCK_WEB_SERVER}"
     internal const val TEST_ROBOLECTRIC =
         "org.robolectric:robolectric:${Versions.Test.ROBOLECTRIC}"
+    internal const val TEST_TURBINE =
+        "app.cash.turbine:turbine:${Versions.Test.TURBINE}"
 
     const val DETEKT = Versions.Detekt.DETEKT
     const val DETEKT_PLUGIN = "io.gitlab.arturbosch.detekt"
@@ -229,6 +231,7 @@ fun DependencyHandler.test() {
     testImplementation(Dependencies.TEST_MOCKK)
     testImplementation(Dependencies.TEST_MOCK_WEB_SERVER)
     testImplementation(Dependencies.TEST_ROBOLECTRIC)
+    testImplementation(Dependencies.TEST_TURBINE)
 
     debugImplementation(Dependencies.ANDROID_TEST_FRAGMENT)
 }

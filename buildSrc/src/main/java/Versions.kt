@@ -58,7 +58,7 @@ object Versions {
         }
 
         object Material {
-            const val DESIGN = "1.2.1"
+            const val DESIGN = "1.3.0"
         }
 
         object Test {
@@ -94,6 +94,7 @@ object Versions {
         const val MOCKK = "1.10.5"
         const val MOCK_WEB_SERVER = "4.9.1"
         const val ROBOLECTRIC = "4.5.1"
+        const val TURBINE = "0.3.0"
     }
 
     object Detekt {

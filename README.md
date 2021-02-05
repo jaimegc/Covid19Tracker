@@ -189,21 +189,21 @@ The data for any other day, from the last one in the local database until the cu
   <img src="./art/unit_tests_pyramid.png" height="200"/>
 </p>
 
-### Unit Tests (353 ✅)
+### Unit Tests (370 ✅)
 
-- ViewModels: 57 ✅
+- ViewModels: 60 ✅
   - [CountryViewModel](/app/src/test/java/com/jaimegc/covid19tracker/viewmodel/CountryViewModelTest.kt): 26 ✔️
   - [WorldViewModel](/app/src/test/java/com/jaimegc/covid19tracker/viewmodel/WorldViewModelTest.kt): 25 ✔️
-  - [MainViewModel](/app/src/test/java/com/jaimegc/covid19tracker/viewmodel/MainViewModelTest.kt): 6 ✔️
-- UseCases: 93 ✅
+  - [MainViewModel](/app/src/test/java/com/jaimegc/covid19tracker/viewmodel/MainViewModelTest.kt): 9 ✔️
+- UseCases: 107 ✅
   - [GetRegionStats](/app/src/test/java/com/jaimegc/covid19tracker/usecase/GetRegionStatsTest.kt): 24 ✔️
   - [GetCountryStats](/app/src/test/java/com/jaimegc/covid19tracker/usecase/GetCountryStatsTest.kt): 20 ✔️
   - [GetSubRegionStats](/app/src/test/java/com/jaimegc/covid19tracker/usecase/GetSubRegionStatsTest.kt): 18 ✔️
-  - [GetCountry](/app/src/test/java/com/jaimegc/covid19tracker/usecase/GetCountryTest.kt): 6 ✔️
-  - [GetCovidTracker](/app/src/test/java/com/jaimegc/covid19tracker/usecase/GetCovidTrackerTest.kt): 6 ✔️
-  - [GetRegion](/app/src/test/java/com/jaimegc/covid19tracker/usecase/GetRegionTest.kt): 4 ✔️
-  - [GetWorldAndCountries](/app/src/test/java/com/jaimegc/covid19tracker/usecase/GetWorldAndCountriesTest.kt): 6 ✔️
-  - [GetWorldStats](/app/src/test/java/com/jaimegc/covid19tracker/usecase/GetWorldStatsTest.kt): 6 ✔️
+  - [GetCountry](/app/src/test/java/com/jaimegc/covid19tracker/usecase/GetCountryTest.kt): 9 ✔️
+  - [GetCovidTracker](/app/src/test/java/com/jaimegc/covid19tracker/usecase/GetCovidTrackerTest.kt): 9 ✔️
+  - [GetWorldAndCountries](/app/src/test/java/com/jaimegc/covid19tracker/usecase/GetWorldAndCountriesTest.kt): 9 ✔️
+  - [GetWorldStats](/app/src/test/java/com/jaimegc/covid19tracker/usecase/GetWorldStatsTest.kt): 9 ✔️
+  - [GetRegion](/app/src/test/java/com/jaimegc/covid19tracker/usecase/GetRegionTest.kt): 6 ✔️
   - [GetDates](/app/src/test/java/com/jaimegc/covid19tracker/usecase/GetDatesTest.kt): 2 ✔️
   - [AddCovidTracker](/app/src/test/java/com/jaimegc/covid19tracker/usecase/AddCovidTrackerTest.kt): 1 ✔️
 - Repositories: 59 ✅

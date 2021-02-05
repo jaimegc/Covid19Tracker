@@ -1,5 +1,6 @@
 package com.jaimegc.covid19tracker.usecase
 
+import app.cash.turbine.test
 import arrow.core.Either
 import com.google.common.truth.Truth.assertThat
 import com.jaimegc.covid19tracker.domain.usecase.GetWorldStats
@@ -149,6 +150,67 @@ class GetWorldStatsTest : UseCaseTest() {
             assertValues(Either.right(stateListWorldStatsLoading), Either.left(stateErrorUnknownDatabase))
             assertValueCount(2)
             assertComplete()
+        }
+    }
+
+    /************
+     *  Turbine *
+     ************/
+
+    @Test
+    fun `get world all stats should return loading and success if date exists using turbine`() = runBlockingTest {
+        val flow = flow {
+            emit(Either.right(stateListWorldStatsLoading))
+            emit(Either.right(stateListWorldStatsSuccess))
+        }
+
+        every { repository.getWorldAllStats() } returns flow
+
+        val flowUseCase = getWorldStats.getWorldAllStats()
+
+        verify { repository.getWorldAllStats() }
+        flowUseCase.test {
+            assertThat(Either.right(stateListWorldStatsLoading)).isEqualTo(expectItem())
+            assertThat(Either.right(stateListWorldStatsSuccess)).isEqualTo(expectItem())
+            expectComplete()
+        }
+    }
+
+    @Test
+    fun `get world all stats with empty data should return loading and empty success using turbine`() = runBlockingTest {
+        val flow = flow {
+            emit(Either.right(stateListWorldStatsLoading))
+            emit(Either.right(stateListWorldStatsEmptyData))
+        }
+
+        every { repository.getWorldAllStats() } returns flow
+
+        val flowUseCase = getWorldStats.getWorldAllStats()
+
+        verify { repository.getWorldAllStats() }
+        flowUseCase.test {
+            assertThat(Either.right(stateListWorldStatsLoading)).isEqualTo(expectItem())
+            assertThat(Either.right(stateListWorldStatsEmptyData)).isEqualTo(expectItem())
+            expectComplete()
+        }
+    }
+
+    @Test
+    fun `get world all stats should with database problem return loading and unknown database error using turbine`() = runBlockingTest {
+        val flow = flow {
+            emit(Either.right(stateListWorldStatsLoading))
+            emit(Either.left(stateErrorUnknownDatabase))
+        }
+
+        every { repository.getWorldAllStats() } returns flow
+
+        val flowUseCase = getWorldStats.getWorldAllStats()
+
+        verify { repository.getWorldAllStats() }
+        flowUseCase.test {
+            assertThat(Either.right(stateListWorldStatsLoading)).isEqualTo(expectItem())
+            assertThat(Either.left(stateErrorUnknownDatabase)).isEqualTo(expectItem())
+            expectComplete()
         }
     }
 }
