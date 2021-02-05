@@ -1,5 +1,6 @@
 package com.jaimegc.covid19tracker.usecase
 
+import app.cash.turbine.test
 import arrow.core.Either
 import com.google.common.truth.Truth.assertThat
 import com.jaimegc.covid19tracker.domain.usecase.GetCountry
@@ -149,6 +150,67 @@ class GetCountryTest : UseCaseTest() {
             assertValues(Either.right(stateListCountryLoading), Either.left(stateErrorUnknownDatabase))
             assertValueCount(2)
             assertComplete()
+        }
+    }
+
+    /************
+     *  Turbine *
+     ************/
+
+    @Test
+    fun `get countries should return loading and success using turbine`() = runBlockingTest {
+        val flow = flow {
+            emit(Either.right(stateListCountryLoading))
+            emit(Either.right(stateListCountrySuccess))
+        }
+
+        every { repository.getCountries() } returns flow
+
+        val flowUseCase = getCountry.getCountries()
+
+        verify { repository.getCountries() }
+        flowUseCase.test {
+            assertThat(Either.right(stateListCountryLoading)).isEqualTo(expectItem())
+            assertThat(Either.right(stateListCountrySuccess)).isEqualTo(expectItem())
+            expectComplete()
+        }
+    }
+
+    @Test
+    fun `get countries with empty data should return loading and empty success using turbine`() = runBlockingTest {
+        val flow = flow {
+            emit(Either.right(stateListCountryLoading))
+            emit(Either.right(stateListCountryEmptyData))
+        }
+
+        every { repository.getCountries() } returns flow
+
+        val flowUseCase = getCountry.getCountries()
+
+        verify { repository.getCountries() }
+        flowUseCase.test {
+            assertThat(Either.right(stateListCountryLoading)).isEqualTo(expectItem())
+            assertThat(Either.right(stateListCountryEmptyData)).isEqualTo(expectItem())
+            expectComplete()
+        }
+    }
+
+    @Test
+    fun `get countries with database problem should return loading and unknown database error using turbine`() = runBlockingTest {
+        val flow = flow {
+            emit(Either.right(stateListCountryLoading))
+            emit(Either.left(stateErrorUnknownDatabase))
+        }
+
+        every { repository.getCountries() } returns flow
+
+        val flowUseCase = getCountry.getCountries()
+
+        verify { repository.getCountries() }
+        flowUseCase.test {
+            assertThat(Either.right(stateListCountryLoading)).isEqualTo(expectItem())
+            assertThat(Either.left(stateErrorUnknownDatabase)).isEqualTo(expectItem())
+            expectComplete()
         }
     }
 }
