@@ -18,17 +18,17 @@ class DateExtensionTest {
     }
 
     @Test
-    fun dateStringToMillisecondsInUTC() {
+    fun `date string to milliseconds in UTC`() {
         assertEquals(DATE_TIMESTAMP, DATE.dateToMilliseconds())
     }
 
     @Test
-    fun dateMillisecondsToStringInUTC() {
+    fun `date milliseconds to string in UTC`() {
         assertEquals(DATE, DATE_TIMESTAMP.millisecondsToDate())
     }
 
     @Test
-    fun addSpaceLastUpdatedDateUTC() {
+    fun `add space last updated date UTC`() {
         assertEquals("$DATE 22:10 UTC", "$DATE 22:10UTC".toLastUpdated())
     }
 }

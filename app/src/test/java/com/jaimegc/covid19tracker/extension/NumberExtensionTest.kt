@@ -18,7 +18,7 @@ class NumberExtensionTest {
     }
 
     @Test
-    fun doubleToString() {
+    fun `double to string`() {
         assertEquals("-5.50", (-5.5).formatDecimals())
         assertEquals("-2.48", (-2.48).formatDecimals())
         assertEquals("-2.48", (-2.489999).formatDecimals())
@@ -33,7 +33,7 @@ class NumberExtensionTest {
     }
 
     @Test
-    fun longToString() {
+    fun `long to string`() {
         assertEquals("-5", (-5L).formatValue())
         assertEquals("-2", (-2L).formatValue())
         assertEquals("-1", (-1L).formatValue())
@@ -46,7 +46,7 @@ class NumberExtensionTest {
     }
 
     @Test
-    fun floatToString() {
+    fun `float to string`() {
         assertEquals("-5.5", (-5.5f).formatValue())
         assertEquals("-2.48", (-2.48f).formatValue())
         assertEquals("-2.49", (-2.489999f).formatValue())
@@ -61,7 +61,7 @@ class NumberExtensionTest {
     }
 
     @Test
-    fun longToCompactString() {
+    fun `long to compact string`() {
         assertEquals("1", 1L.formatCompactValue())
         assertEquals("10", 10L.formatCompactValue())
         assertEquals("100", 100L.formatCompactValue())
@@ -96,7 +96,7 @@ class NumberExtensionTest {
     }
 
     @Test
-    fun percentageWithSymbol() {
+    fun `percentage with symbol`() {
         assertEquals("-0.99%", (-0.9999221f).percentageSymbol(100.0f))
         assertEquals("-0.91%", (-0.9197221f).percentageSymbol(100.0f))
         assertEquals("-0.69%", (-0.6993221f).percentageSymbol(100.0f))
