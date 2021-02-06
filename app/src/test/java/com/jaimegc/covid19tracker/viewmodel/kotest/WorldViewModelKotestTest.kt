@@ -65,12 +65,12 @@ class WorldViewModelKotestTest : FunSpec({
         ProjectConfig.advanceUntilIdle()
         val success = worldViewModel.screenState.value
         
-        ScreenState.Loading shouldBe loading
+        loading shouldBe ScreenState.Loading
         (success is ScreenState.Render) shouldBe true
         (success is ScreenState.Render) shouldBe true
         ((success as ScreenState.Render).renderState is WorldStateScreen.SuccessCovidTracker) shouldBe true
-        stateScreenSuccessCovidTrackerData shouldBe
-            (success.renderState as WorldStateScreen.SuccessCovidTracker).data
+        (success.renderState as WorldStateScreen.SuccessCovidTracker).data shouldBe
+            stateScreenSuccessCovidTrackerData
     }
 
     test("get list stats with empty data should return loading and empty success") {
@@ -88,8 +88,8 @@ class WorldViewModelKotestTest : FunSpec({
         ProjectConfig.advanceUntilIdle()
         val empty = worldViewModel.screenState.value
 
-        ScreenState.Loading shouldBe loading
-        ScreenState.EmptyData shouldBe empty
+        loading shouldBe ScreenState.Loading
+        empty shouldBe ScreenState.EmptyData
     }
 
     test("get list stats with database problem should return loading and unknown database error") {
@@ -107,11 +107,11 @@ class WorldViewModelKotestTest : FunSpec({
         ProjectConfig.advanceUntilIdle()
         val error = worldViewModel.screenState.value
 
-        ScreenState.Loading shouldBe loading
+        loading shouldBe ScreenState.Loading
         (error is ScreenState.Error) shouldBe true
         ((error as ScreenState.Error).errorState is WorldStateScreen.SomeError) shouldBe true
-        worldStateScreenErrorUnknownDatatabase shouldBe
-            (error.errorState as WorldStateScreen.SomeError).data
+        (error.errorState as WorldStateScreen.SomeError).data shouldBe
+            worldStateScreenErrorUnknownDatatabase
     }
 
     test("get pie chart stats should return loading and success if date exists") {
@@ -129,12 +129,12 @@ class WorldViewModelKotestTest : FunSpec({
         ProjectConfig.advanceUntilIdle()
         val success = worldViewModel.screenState.value
 
-        ScreenState.Loading shouldBe loading
+        loading shouldBe ScreenState.Loading
         (success is ScreenState.Render) shouldBe true
         ((success as ScreenState.Render)
             .renderState is WorldStateScreen.SuccessCountriesStatsPieCharts) shouldBe true
-        stateScreenSuccessCountriesStatsPieChartData shouldBe
-            (success.renderState as WorldStateScreen.SuccessCountriesStatsPieCharts).data
+        (success.renderState as WorldStateScreen.SuccessCountriesStatsPieCharts).data shouldBe
+            stateScreenSuccessCountriesStatsPieChartData
     }
 
     test("get pie chart stats with empty data should return loading and empty success") {
@@ -152,8 +152,8 @@ class WorldViewModelKotestTest : FunSpec({
         ProjectConfig.advanceUntilIdle()
         val empty = worldViewModel.screenState.value
 
-        ScreenState.Loading shouldBe loading
-        ScreenState.EmptyData shouldBe empty
+        loading shouldBe ScreenState.Loading
+        empty shouldBe ScreenState.EmptyData
     }
 
     test("get pie chart stats with database problem should return loading and unknown database error") {
@@ -171,11 +171,11 @@ class WorldViewModelKotestTest : FunSpec({
         ProjectConfig.advanceUntilIdle()
         val error = worldViewModel.screenState.value
 
-        ScreenState.Loading shouldBe loading
+        loading shouldBe ScreenState.Loading
         (error is ScreenState.Error) shouldBe true
         ((error as ScreenState.Error).errorState is WorldStateScreen.SomeError) shouldBe true
-        worldStateScreenErrorUnknownDatatabase shouldBe
-            (error.errorState as WorldStateScreen.SomeError).data
+        (error.errorState as WorldStateScreen.SomeError).data shouldBe
+            worldStateScreenErrorUnknownDatatabase
     }
 
     test("get bar chart stats should return loading and success if date exists") {
@@ -205,18 +205,18 @@ class WorldViewModelKotestTest : FunSpec({
         ProjectConfig.advanceTimeBy(10)
         val countriesSuccess = worldViewModel.screenState.value
 
-        ScreenState.Loading shouldBe worldLoading
-        ScreenState.Loading shouldBe countriesLoading
+        worldLoading shouldBe ScreenState.Loading
+        countriesLoading shouldBe ScreenState.Loading
         (worldSuccess is ScreenState.Render) shouldBe true
         ((worldSuccess as ScreenState.Render)
             .renderState is WorldStateScreen.SuccessWorldStatsBarCharts) shouldBe true
-        stateScreenSuccessListWorldStatsPieChartData shouldBe
-            (worldSuccess.renderState as WorldStateScreen.SuccessWorldStatsBarCharts).data
+        (worldSuccess.renderState as WorldStateScreen.SuccessWorldStatsBarCharts).data shouldBe
+            stateScreenSuccessListWorldStatsPieChartData
         (countriesSuccess is ScreenState.Render) shouldBe true
         ((countriesSuccess as ScreenState.Render)
             .renderState is WorldStateScreen.SuccessCountriesStatsBarCharts) shouldBe true
-        stateScreenSuccessListCountryAndStatsBarChartData shouldBe
-            (countriesSuccess.renderState as WorldStateScreen.SuccessCountriesStatsBarCharts).data
+        (countriesSuccess.renderState as WorldStateScreen.SuccessCountriesStatsBarCharts).data shouldBe
+            stateScreenSuccessListCountryAndStatsBarChartData
     }
 
     test("get bar chart stats with empty data should return loading and empty success") {
@@ -246,10 +246,10 @@ class WorldViewModelKotestTest : FunSpec({
         ProjectConfig.advanceTimeBy(10)
         val countriesEmpty = worldViewModel.screenState.value
 
-        ScreenState.Loading shouldBe worldLoading
-        ScreenState.Loading shouldBe countriesLoading
-        ScreenState.EmptyData shouldBe worldEmpty
-        ScreenState.EmptyData shouldBe countriesEmpty
+        worldLoading shouldBe ScreenState.Loading
+        countriesLoading shouldBe ScreenState.Loading
+        worldEmpty shouldBe ScreenState.EmptyData
+        countriesEmpty shouldBe ScreenState.EmptyData
     }
 
     test("get bar chart stats with database problem should return loading and unknown database error") {
@@ -279,16 +279,16 @@ class WorldViewModelKotestTest : FunSpec({
         ProjectConfig.advanceTimeBy(10)
         val countriesError = worldViewModel.screenState.value
 
-        ScreenState.Loading shouldBe worldLoading
-        ScreenState.Loading shouldBe countriesLoading
+        worldLoading shouldBe ScreenState.Loading
+        countriesLoading shouldBe ScreenState.Loading
         (worldError is ScreenState.Error) shouldBe true
         ((worldError as ScreenState.Error).errorState is WorldStateScreen.SomeError) shouldBe true
-        worldStateScreenErrorUnknownDatatabase shouldBe
-            (worldError.errorState as WorldStateScreen.SomeError).data
+        (worldError.errorState as WorldStateScreen.SomeError).data shouldBe
+            worldStateScreenErrorUnknownDatatabase
         (countriesError is ScreenState.Error) shouldBe true
         ((countriesError as ScreenState.Error).errorState is WorldStateScreen.SomeError) shouldBe true
-        worldStateScreenErrorUnknownDatatabase shouldBe
-            (countriesError.errorState as WorldStateScreen.SomeError).data
+        (countriesError.errorState as WorldStateScreen.SomeError).data shouldBe
+            worldStateScreenErrorUnknownDatatabase
     }
 
     test("get line charts stats should return loading and success if date exists") {
@@ -342,35 +342,36 @@ class WorldViewModelKotestTest : FunSpec({
         ProjectConfig.advanceTimeBy(10)
         val mostRecoveredSuccess = worldViewModel.screenState.value
 
-        ScreenState.Loading shouldBe mostConfirmedLoading
-        ScreenState.Loading shouldBe mostDeathsLoading
-        ScreenState.Loading shouldBe mostOpenCasesLoading
-        ScreenState.Loading shouldBe mostRecoveredLoading
+        mostConfirmedLoading shouldBe ScreenState.Loading
+        mostDeathsLoading shouldBe ScreenState.Loading
+        mostOpenCasesLoading shouldBe ScreenState.Loading
+        mostRecoveredLoading shouldBe ScreenState.Loading
 
         (mostConfirmedSuccess is ScreenState.Render) shouldBe true
         ((mostConfirmedSuccess as ScreenState.Render)
             .renderState is WorldStateScreen.SuccessCountriesStatsLineCharts) shouldBe true
-        stateScreenSuccessListCountryAndStatsLineChartMostConfirmedData[MenuItemViewType.LineChartMostConfirmed] shouldBe
-            (mostConfirmedSuccess.renderState as WorldStateScreen.SuccessCountriesStatsLineCharts)
-                .data[MenuItemViewType.LineChartMostConfirmed]
+        (mostConfirmedSuccess.renderState as WorldStateScreen.SuccessCountriesStatsLineCharts)
+            .data[MenuItemViewType.LineChartMostConfirmed] shouldBe
+                stateScreenSuccessListCountryAndStatsLineChartMostConfirmedData[MenuItemViewType.LineChartMostConfirmed]
         (mostDeathsSuccess is ScreenState.Render) shouldBe true
         ((mostDeathsSuccess as ScreenState.Render)
             .renderState is WorldStateScreen.SuccessCountriesStatsLineCharts) shouldBe true
-        stateScreenSuccessListCountryAndStatsLineChartMostDeathsData[MenuItemViewType.LineChartMostDeaths] shouldBe
-            (mostDeathsSuccess.renderState as WorldStateScreen.SuccessCountriesStatsLineCharts)
-                .data[MenuItemViewType.LineChartMostDeaths]
+
+        (mostDeathsSuccess.renderState as WorldStateScreen.SuccessCountriesStatsLineCharts)
+            .data[MenuItemViewType.LineChartMostDeaths] shouldBe
+                stateScreenSuccessListCountryAndStatsLineChartMostDeathsData[MenuItemViewType.LineChartMostDeaths]
         (mostOpenCasesSuccess is ScreenState.Render) shouldBe true
         ((mostOpenCasesSuccess as ScreenState.Render)
             .renderState is WorldStateScreen.SuccessCountriesStatsLineCharts) shouldBe true
-        stateScreenSuccessListCountryAndStatsLineChartMostOpenCasesData[MenuItemViewType.LineChartMostOpenCases] shouldBe
-            (mostOpenCasesSuccess.renderState as WorldStateScreen.SuccessCountriesStatsLineCharts)
-                .data[MenuItemViewType.LineChartMostOpenCases]
+        (mostOpenCasesSuccess.renderState as WorldStateScreen.SuccessCountriesStatsLineCharts)
+            .data[MenuItemViewType.LineChartMostOpenCases] shouldBe
+                stateScreenSuccessListCountryAndStatsLineChartMostOpenCasesData[MenuItemViewType.LineChartMostOpenCases]
         (mostRecoveredSuccess is ScreenState.Render) shouldBe true
         ((mostRecoveredSuccess as ScreenState.Render)
             .renderState is WorldStateScreen.SuccessCountriesStatsLineCharts) shouldBe true
-        stateScreenSuccessListCountryAndStatsLineChartMostRecoveredData[MenuItemViewType.LineChartMostRecovered] shouldBe
-            (mostRecoveredSuccess.renderState as WorldStateScreen.SuccessCountriesStatsLineCharts)
-                .data[MenuItemViewType.LineChartMostRecovered]
+        (mostRecoveredSuccess.renderState as WorldStateScreen.SuccessCountriesStatsLineCharts)
+            .data[MenuItemViewType.LineChartMostRecovered] shouldBe
+                stateScreenSuccessListCountryAndStatsLineChartMostRecoveredData[MenuItemViewType.LineChartMostRecovered]
     }
 
     test("get line charts stats with empty data should return loading and empty success") {
@@ -424,14 +425,14 @@ class WorldViewModelKotestTest : FunSpec({
         ProjectConfig.advanceTimeBy(10)
         val mostRecoveredEmpty = worldViewModel.screenState.value
 
-        ScreenState.Loading shouldBe mostConfirmedLoading
-        ScreenState.Loading shouldBe mostDeathsLoading
-        ScreenState.Loading shouldBe mostOpenCasesLoading
-        ScreenState.Loading shouldBe mostRecoveredLoading
-        ScreenState.EmptyData shouldBe mostConfirmedEmpty
-        ScreenState.EmptyData shouldBe mostDeathsEmpty
-        ScreenState.EmptyData shouldBe mostOpenCasesEmpty
-        ScreenState.EmptyData shouldBe mostRecoveredEmpty
+        mostConfirmedLoading shouldBe ScreenState.Loading
+        mostDeathsLoading shouldBe ScreenState.Loading
+        mostOpenCasesLoading shouldBe ScreenState.Loading
+        mostRecoveredLoading shouldBe ScreenState.Loading
+        mostConfirmedEmpty shouldBe ScreenState.EmptyData
+        mostDeathsEmpty shouldBe ScreenState.EmptyData
+        mostOpenCasesEmpty shouldBe ScreenState.EmptyData
+        mostRecoveredEmpty shouldBe ScreenState.EmptyData
     }
 
     test("get line charts stats with database problem should return loading and unknown database error") {
@@ -485,25 +486,25 @@ class WorldViewModelKotestTest : FunSpec({
         ProjectConfig.advanceTimeBy(10)
         val mostRecoveredError = worldViewModel.screenState.value
 
-        ScreenState.Loading shouldBe mostConfirmedLoading
-        ScreenState.Loading shouldBe mostDeathsLoading
-        ScreenState.Loading shouldBe mostOpenCasesLoading
-        ScreenState.Loading shouldBe mostRecoveredLoading
+        mostConfirmedLoading shouldBe ScreenState.Loading
+        mostDeathsLoading shouldBe ScreenState.Loading
+        mostOpenCasesLoading shouldBe ScreenState.Loading
+        mostRecoveredLoading shouldBe ScreenState.Loading
         (mostConfirmedError is ScreenState.Error) shouldBe true
         ((mostConfirmedError as ScreenState.Error).errorState is WorldStateScreen.SomeError) shouldBe true
-        worldStateScreenErrorUnknownDatatabase shouldBe
-            (mostConfirmedError.errorState as WorldStateScreen.SomeError).data
+        (mostConfirmedError.errorState as WorldStateScreen.SomeError).data shouldBe
+            worldStateScreenErrorUnknownDatatabase
         (mostDeathsError is ScreenState.Error) shouldBe true
         ((mostDeathsError as ScreenState.Error).errorState is WorldStateScreen.SomeError) shouldBe true
-        worldStateScreenErrorUnknownDatatabase shouldBe
-            (mostDeathsError.errorState as WorldStateScreen.SomeError).data
+        (mostDeathsError.errorState as WorldStateScreen.SomeError).data shouldBe
+            worldStateScreenErrorUnknownDatatabase
         (mostOpenCasesError is ScreenState.Error) shouldBe true
         ((mostOpenCasesError as ScreenState.Error).errorState is WorldStateScreen.SomeError) shouldBe true
-        worldStateScreenErrorUnknownDatatabase shouldBe
-            (mostOpenCasesError.errorState as WorldStateScreen.SomeError).data
+        (mostOpenCasesError.errorState as WorldStateScreen.SomeError).data shouldBe
+            worldStateScreenErrorUnknownDatatabase
         (mostRecoveredError is ScreenState.Error) shouldBe true
         ((mostRecoveredError as ScreenState.Error).errorState is WorldStateScreen.SomeError) shouldBe true
-        worldStateScreenErrorUnknownDatatabase shouldBe
-            (mostRecoveredError.errorState as WorldStateScreen.SomeError).data
+        (mostRecoveredError.errorState as WorldStateScreen.SomeError).data shouldBe
+            worldStateScreenErrorUnknownDatatabase
     }
 })

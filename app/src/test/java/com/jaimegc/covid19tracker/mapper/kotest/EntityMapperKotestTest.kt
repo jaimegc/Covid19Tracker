@@ -29,34 +29,34 @@ class EntityMapperKotestTest : StringSpec({
     }
 
     "countryOneStats to entity" {
-        countryEntity shouldBe countryOneStats.toEntity()
+        countryOneStats.toEntity() shouldBe countryEntity
     }
 
     "worldStats to entity" {
-        worldStatsEntity shouldBe worldStats.toEntity()
+        worldStats.toEntity() shouldBe worldStatsEntity
     }
 
     "stats to embedded" {
-        stats shouldBe statsEmbedded.toDomain(stats.date)
+        statsEmbedded.toDomain(stats.date) shouldBe stats
     }
 
     "countryStats to entity" {
-        countryStatsEntity shouldBe stats.toEntity(country.id)
+        stats.toEntity(country.id) shouldBe countryStatsEntity
     }
 
     "region to entity" {
-        regionEntity shouldBe region.toEntity(country.id)
+        region.toEntity(country.id) shouldBe regionEntity
     }
 
     "subRegion to entity" {
-        subRegionEntity shouldBe subRegion.toEntity(region.id, country.id)
+        subRegion.toEntity(region.id, country.id) shouldBe subRegionEntity
     }
 
     "regionStats to entity" {
-        regionStatsEntity shouldBe regionStats.toEntity(region.id, country.id)
+        regionStats.toEntity(region.id, country.id) shouldBe regionStatsEntity
     }
 
     "subRegionStats to entity" {
-        subRegionStatsEntity shouldBe subRegionStats.toEntity(subRegion.id, region.id)
+        subRegionStats.toEntity(subRegion.id, region.id) shouldBe subRegionStatsEntity
     }
 })

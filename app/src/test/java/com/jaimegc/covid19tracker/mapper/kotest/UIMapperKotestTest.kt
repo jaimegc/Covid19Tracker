@@ -53,100 +53,103 @@ class UIMapperKotestTest : StringSpec({
     }
 
     "covidTrackerDomain to ui" {
-        covidTrackerUI shouldBe covidTracker.toUI()
+        covidTracker.toUI() shouldBe covidTrackerUI
     }
 
     "worldStatsDomain to ui" {
-        worldStatsUI shouldBe worldStats.toUI()
+        worldStats.toUI() shouldBe worldStatsUI
     }
 
     "countryDomain to ui" {
-        countryUI shouldBe country.toUI()
+        country.toUI() shouldBe countryUI
     }
 
     "statsDomain to ui" {
-        statsUI shouldBe stats.toUI()
+        stats.toUI() shouldBe statsUI
     }
 
     "statsDomain to chart ui" {
-        statsChartUI shouldBe stats.toChartUI()
+        stats.toChartUI() shouldBe statsChartUI
     }
 
     "countryOneStatsDomain to chart ui" {
-        countryOneStatsChartUI shouldBe countryOneStats.toChartUI()
+        countryOneStats.toChartUI() shouldBe countryOneStatsChartUI
     }
 
     "worldStatsDomain to list chart ui" {
-        worldStatsChartUI shouldBe worldStats.toListChartUI()
+        worldStats.toListChartUI() shouldBe worldStatsChartUI
     }
 
     "countryAndStatsDomain to list chart ui" {
-        countryListStatsChartUI shouldBe countryAndStats.toListChartUI()
+        countryAndStats.toListChartUI() shouldBe countryListStatsChartUI
     }
 
     "covidTrackerDomain to list chart ui" {
-        listWorldCountryStatsUI shouldBe covidTracker.toListChartUI()
+        covidTracker.toListChartUI() shouldBe listWorldCountryStatsUI
     }
 
     "regionDomain to place ui" {
-        placeUI shouldBe region.toPlaceUI()
+        region.toPlaceUI() shouldBe placeUI
     }
 
     "subRegionDomain to place ui" {
-        placeUI.copy(id = subRegion.id, name = subRegion.name, nameEs = subRegion.nameEs) shouldBe
-            subRegion.toPlaceUI()
+        subRegion.toPlaceUI() shouldBe
+            placeUI.copy(id = subRegion.id, name = subRegion.name, nameEs = subRegion.nameEs)
     }
 
     "countryOneStatsDomain to place ui" {
-        countryPlaceStatsUI shouldBe countryOneStats.toPlaceUI()
+        countryOneStats.toPlaceUI() shouldBe countryPlaceStatsUI
     }
 
     "regionOneStatsDomain to place ui" {
-        placeStatsUI shouldBe regionOneStats.toPlaceUI()
+        regionOneStats.toPlaceUI() shouldBe placeStatsUI
     }
 
     "listRegionStatsDomain to place ui" {
-        listRegionStatsPlaceUI shouldBe listRegionStats.toPlaceUI()
+        listRegionStats.toPlaceUI() shouldBe listRegionStatsPlaceUI
     }
 
     "listSubRegionStatsDomain to place ui" {
-        listOf(listSubRegionStatsPlaceUI[0].copy(
-            id = subRegion.id, name = subRegion.name, nameEs = subRegion.nameEs)
-        ) shouldBe listSubRegionStats.toPlaceUI()
+        listSubRegionStats.toPlaceUI() shouldBe
+            listOf(listSubRegionStatsPlaceUI[0].copy(
+                id = subRegion.id, name = subRegion.name, nameEs = subRegion.nameEs)
+            )
     }
 
     "listCountryOnlyStatsDomain to place ui" {
-        listCountryOnlyStatsPlaceUI shouldBe listCountryOnlyStats.toPlaceUI()
+        listCountryOnlyStats.toPlaceUI() shouldBe listCountryOnlyStatsPlaceUI
     }
 
     "listRegionOnlyStatsDomain to place ui" {
-        listRegionOnlyStatsPlaceUI shouldBe listRegionOnlyStats.toPlaceUI()
+        listRegionOnlyStats.toPlaceUI() shouldBe listRegionOnlyStatsPlaceUI
     }
 
     "listRegionAndStatsDomain to place ui" {
-        placeListStatsChartUI shouldBe listRegionAndStats.toPlaceUI()
+        listRegionAndStats.toPlaceUI() shouldBe placeListStatsChartUI
     }
 
     "listSubRegionAndStatsDomain to place ui" {
-        listOf(placeListStatsChartUI[0].copy(
-            place = placeUI.copy(subRegion.id, name = subRegion.name, nameEs = subRegion.nameEs))
-        ) shouldBe listSubRegionAndStats.toPlaceUI()
+        listSubRegionAndStats.toPlaceUI() shouldBe
+            listOf(placeListStatsChartUI[0].copy(
+                place = placeUI.copy(subRegion.id, name = subRegion.name, nameEs = subRegion.nameEs))
+            )
     }
 
     "listRegionStatsDomain to place chart ui" {
-        listRegionPlaceStatsChartUI shouldBe listRegionStats.toPlaceChartUI()
+        listRegionStats.toPlaceChartUI() shouldBe listRegionPlaceStatsChartUI
     }
 
     "listSubRegionStatsDomain to place chart ui" {
-        listOf(listSubRegionPlaceStatsChartUI[0].copy(
-            place = placeUI.copy(id = subRegion.id, name = subRegion.name, nameEs = subRegion.nameEs))
-        ) shouldBe listSubRegionStats.toPlaceChartUI()
+        listSubRegionStats.toPlaceChartUI() shouldBe
+            listOf(listSubRegionPlaceStatsChartUI[0].copy(
+                place = placeUI.copy(id = subRegion.id, name = subRegion.name, nameEs = subRegion.nameEs))
+            )
     }
 
     "errorDomain to ui" {
         val domainError: DomainError = mock()
         val uiError = ErrorUI.SomeError
 
-        uiError shouldBe domainError.toUI()
+        domainError.toUI() shouldBe uiError
     }
 })

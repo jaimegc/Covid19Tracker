@@ -15,15 +15,15 @@ class DomainMapperKotestTest : StringSpec({
         Locale.setDefault(Locale.US)
     }
 
-    "dateStringToMillisecondsInUTC" {
-        DATE_TIMESTAMP shouldBe DATE.dateToMilliseconds()
+    "date string to milliseconds in UTC" {
+        DATE.dateToMilliseconds() shouldBe DATE_TIMESTAMP
     }
 
-    "dateMillisecondsToStringInUTC" {
-        DATE shouldBe DATE_TIMESTAMP.millisecondsToDate()
+    "date milliseconds to string in UTC" {
+        DATE_TIMESTAMP.millisecondsToDate() shouldBe DATE
     }
 
-    "addSpaceLastUpdatedDateUTC" {
-        "$DATE 22:10 UTC" shouldBe "$DATE 22:10UTC".toLastUpdated()
+    "add space last updated date UTC" {
+        "$DATE 22:10UTC".toLastUpdated() shouldBe "$DATE 22:10 UTC"
     }
 })

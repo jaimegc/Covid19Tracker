@@ -20,14 +20,14 @@ class PojoMapperKotestTest : StringSpec({
     }
 
     "listCountryAndOneStatsPojo to pojo countries ordered" {
-        listOf(countryAndStatsPojo) shouldBe listCountryAndOneStatsPojo.toPojoCountriesOrdered()
+        listCountryAndOneStatsPojo.toPojoCountriesOrdered() shouldBe listOf(countryAndStatsPojo)
     }
 
     "listRegionAndOneStatsPojo to pojo regions ordered" {
-        listOf(regionAndStatsPojo) shouldBe listRegionAndOneStatsPojo.toPojoRegionsOrdered()
+        listRegionAndOneStatsPojo.toPojoRegionsOrdered() shouldBe listOf(regionAndStatsPojo)
     }
 
     "listSubRegionAndOneStatsPojo to pojo subregions ordered" {
-        listOf(subRegionAndStatsPojo) shouldBe listSubRegionAndOneStatsPojo.toPojoSubRegionsOrdered()
+        listSubRegionAndOneStatsPojo.toPojoSubRegionsOrdered() shouldBe listOf(subRegionAndStatsPojo)
     }
 })

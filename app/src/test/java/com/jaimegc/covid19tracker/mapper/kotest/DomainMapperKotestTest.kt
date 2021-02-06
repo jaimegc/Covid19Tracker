@@ -65,124 +65,124 @@ class DomainMapperKotestTest : StringSpec({
    }
 
    "covidTrackerDto to domain" {
-      covidTracker shouldBe covidTrackerDto.toDomain(worldStats.date)
+      covidTrackerDto.toDomain(worldStats.date) shouldBe covidTracker
    }
 
    "covidTrackerTotalDto to domain" {
-      worldStats shouldBe covidTrackerTotalDto.toDomain(worldStats.date, worldStats.updatedAt)
+      covidTrackerTotalDto.toDomain(worldStats.date, worldStats.updatedAt) shouldBe worldStats
    }
 
    "worldAndCountriesStatsPojo to domain" {
-      covidTracker.copy(listOf(covidTracker.countriesStats.first().copy(regionStats = null))) shouldBe
-          worldAndCountriesStatsPojo.toDomain()
+      worldAndCountriesStatsPojo.toDomain() shouldBe
+          covidTracker.copy(listOf(covidTracker.countriesStats.first().copy(regionStats = null)))
    }
 
    "listCountryEntity to domain" {
-      listCountry shouldBe listCountryEntity.toDomain()
+      listCountryEntity.toDomain() shouldBe listCountry
    }
 
    "listRegionEntity to domain" {
-      listRegion shouldBe listRegionEntity.toDomain()
+      listRegionEntity.toDomain() shouldBe listRegion
    }
 
    "countryAndStatsPojo to domain" {
-      countryAndStats shouldBe countryAndStatsPojo.toDomain()
+      countryAndStatsPojo.toDomain() shouldBe countryAndStats
    }
 
    "regionAndStatsPojo to domain" {
-      regionAndStats shouldBe regionAndStatsPojo.toDomain()
+      regionAndStatsPojo.toDomain() shouldBe regionAndStats
    }
 
    "subRegionAndStatsPojo to domain" {
-      subRegionAndStats shouldBe subRegionAndStatsPojo.toDomain()
+      subRegionAndStatsPojo.toDomain() shouldBe subRegionAndStats
    }
 
    "countryAndOneStatsPojo to domain" {
-      countryOneStats.copy(regionStats = null) shouldBe countryAndOneStatsPojo.toDomain()
+      countryAndOneStatsPojo.toDomain() shouldBe countryOneStats.copy(regionStats = null)
    }
 
    "regionAndOneStatsPojo to domain" {
-      regionOneStats shouldBe regionAndOneStatsPojo.toDomain()
+      regionAndOneStatsPojo.toDomain() shouldBe regionOneStats
    }
 
    "listWorldStatsEntity to domain" {
-      listWorldStats shouldBe listWorldStatsEntity.toDomain()
+      listWorldStatsEntity.toDomain() shouldBe listWorldStats
    }
 
    "worldStatsEntity to domain" {
-      worldStats shouldBe worldStatsEntity.toDomain()
+      worldStatsEntity.toDomain() shouldBe worldStats
    }
 
    "listCountryAndStatsPojo to domain" {
-      listCountryAndStats shouldBe listCountryAndStatsPojo.toDomain()
+      listCountryAndStatsPojo.toDomain() shouldBe listCountryAndStats
    }
 
    "listRegionAndStatsPojo to domain" {
-      listRegionAndStats shouldBe listRegionAndStatsPojo.toDomain()
+      listRegionAndStatsPojo.toDomain() shouldBe listRegionAndStats
    }
 
    "listSubRegionAndStatsPojo to domain" {
-      listSubRegionAndStats shouldBe listSubRegionAndStatsPojo.toDomain()
+      listSubRegionAndStatsPojo.toDomain() shouldBe listSubRegionAndStats
    }
 
    "listCountryStatsEntity to stats domain" {
-      listCountryOnlyStats shouldBe listCountryStatsEntity.toStatsDomain()
+      listCountryStatsEntity.toStatsDomain() shouldBe listCountryOnlyStats
    }
 
    "listRegionStatsEntity to stats domain" {
-      listRegionOnlyStats shouldBe listRegionStatsEntity.toStatsDomain()
+      listRegionStatsEntity.toStatsDomain() shouldBe listRegionOnlyStats
    }
 
    "listRegionAndStatsDV to domain" {
-      listRegionStats.copy(regionStats = listOf(listRegionStats.regionStats.first().copy(subRegionStats = null))) shouldBe
-         listRegionAndStatsDV.toDomain()
+      listRegionAndStatsDV.toDomain() shouldBe
+          listRegionStats.copy(regionStats = listOf(listRegionStats.regionStats.first().copy(subRegionStats = null)))
    }
 
    "listSubRegionAndStatsDV to domain" {
-      listSubRegionStats shouldBe listSubRegionAndStatsDV.toDomain()
+      listSubRegionAndStatsDV.toDomain() shouldBe listSubRegionStats
    }
 
    "listRegionStatsEntity to region domain" {
-      listOf(stats) shouldBe listRegionStatsEntity.toRegionDomain()
+      listRegionStatsEntity.toRegionDomain() shouldBe listOf(stats)
    }
 
    "listSubRegionStatsEntity to subregion domain" {
-      listOf(stats) shouldBe listSubRegionStatsEntity.toSubRegionDomain()
+      listSubRegionStatsEntity.toSubRegionDomain() shouldBe listOf(stats)
    }
 
    "regionStatsEntity to domain" {
-      stats shouldBe regionStatsEntity.toDomain(stats.date)
+      regionStatsEntity.toDomain(stats.date) shouldBe stats
    }
 
    "subRegionStatsEntity to domain" {
-      stats shouldBe subRegionStatsEntity.toDomain(stats.date)
+      subRegionStatsEntity.toDomain(stats.date) shouldBe stats
    }
 
    "countryEntity to domain" {
-      country shouldBe countryEntity.toDomain()
+      countryEntity.toDomain() shouldBe country
    }
 
    "regionEntity to domain" {
-      region shouldBe regionEntity.toDomain()
+      regionEntity.toDomain() shouldBe region
    }
 
    "subRegionEntity to domain" {
-      subRegion shouldBe subRegionEntity.toDomain()
+      subRegionEntity.toDomain() shouldBe subRegion
    }
 
    "statsEmbedded to domain" {
-      stats shouldBe statsEmbedded.toDomain(stats.date)
+      statsEmbedded.toDomain(stats.date) shouldBe stats
    }
 
    "countryStatsEntity to domain" {
-      stats shouldBe countryStatsEntity.toDomain()
+      countryStatsEntity.toDomain() shouldBe stats
    }
 
    "listRegionAndStatsPojo to pojo region domain" {
-      listRegionAndStats shouldBe listRegionAndStatsPojo.toPojoRegionDomain()
+      listRegionAndStatsPojo.toPojoRegionDomain() shouldBe listRegionAndStats
    }
 
    "listSubRegionAndStatsPojo to pojo subregion domain" {
-      listSubRegionAndStats shouldBe listSubRegionAndStatsPojo.toPojoSubRegionDomain()
+      listSubRegionAndStatsPojo.toPojoSubRegionDomain() shouldBe listSubRegionAndStats
    }
 })
