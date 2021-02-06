@@ -53,7 +53,6 @@ class MainViewModelKotestTest : FunSpec({
             valueAt(1).shouldBeRight(stateCovidTrackerSuccess)
             assertValueCount(2)
             assertComplete()
-
         }
     }
     
