@@ -1007,18 +1007,35 @@ class WorldViewModelTest {
 
         worldViewModel.getListStats()
 
-        val loading = worldViewModel.screenState.value
-        assertEquals(ScreenState.Loading, loading)
+        worldViewModel.screenState.asLiveData().getOrAwaitValue {
+            val loading = worldViewModel.screenState.value
+            coroutineScope.advanceUntilIdle()
+            val success = worldViewModel.screenState.value
 
-        coroutineScope.advanceUntilIdle()
+            assertEquals(ScreenState.Loading, loading)
+            assertNotNull(success)
+            assertTrue(success is ScreenState.Render)
+            assertTrue((success as ScreenState.Render)
+                .renderState is WorldStateScreen.SuccessCovidTracker)
+            assertEquals(stateScreenSuccessCovidTrackerData,
+                (success.renderState as WorldStateScreen.SuccessCovidTracker).data)
+        }
 
-        val success = worldViewModel.screenState.value
-        assertNotNull(success)
-        assertTrue(success is ScreenState.Render)
-        assertTrue((success as ScreenState.Render)
-            .renderState is WorldStateScreen.SuccessCovidTracker)
-        assertEquals(stateScreenSuccessCovidTrackerData,
-            (success.renderState as WorldStateScreen.SuccessCovidTracker).data)
+        worldViewModel.getListStats()
+
+        worldViewModel.screenState.asLiveData().observeForTesting {
+            val loading = worldViewModel.screenState.value
+            coroutineScope.advanceUntilIdle()
+            val success = worldViewModel.screenState.value
+
+            assertEquals(ScreenState.Loading, loading)
+            assertNotNull(success)
+            assertTrue(success is ScreenState.Render)
+            assertTrue((success as ScreenState.Render)
+                .renderState is WorldStateScreen.SuccessCovidTracker)
+            assertEquals(stateScreenSuccessCovidTrackerData,
+                (success.renderState as WorldStateScreen.SuccessCovidTracker).data)
+        }
     }
 
     /***********************************************************************************************/
