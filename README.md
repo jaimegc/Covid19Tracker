@@ -189,12 +189,14 @@ The data for any other day, from the last one in the local database until the cu
   <img src="./art/unit_tests_pyramid.png" height="200"/>
 </p>
 
-### Unit Tests (370 ✅)
+### Unit Tests (454 ✅)
 
 - ViewModels: 60 ✅
   - [CountryViewModel](/app/src/test/java/com/jaimegc/covid19tracker/viewmodel/CountryViewModelTest.kt): 26 ✔️
   - [WorldViewModel](/app/src/test/java/com/jaimegc/covid19tracker/viewmodel/WorldViewModelTest.kt): 25 ✔️
   - [MainViewModel](/app/src/test/java/com/jaimegc/covid19tracker/viewmodel/MainViewModelTest.kt): 9 ✔️
+- ViewModels (Kotest): 12 ✅
+  - [WorldViewModel-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/viewmodel/kotest/WorldViewModelKotestTest.kt): 12 ✔️  
 - UseCases: 107 ✅
   - [GetRegionStats](/app/src/test/java/com/jaimegc/covid19tracker/usecase/GetRegionStatsTest.kt): 24 ✔️
   - [GetCountryStats](/app/src/test/java/com/jaimegc/covid19tracker/usecase/GetCountryStatsTest.kt): 20 ✔️
@@ -216,9 +218,17 @@ The data for any other day, from the last one in the local database until the cu
   - [UIMapper](/app/src/test/java/com/jaimegc/covid19tracker/mapper/UIMapperTest.kt): 22 ✔️
   - [EntityMapper](/app/src/test/java/com/jaimegc/covid19tracker/mapper/EntityMapperTest.kt): 8 ✔️
   - [PojoMapper](/app/src/test/java/com/jaimegc/covid19tracker/mapper/PojoMapperTest.kt): 3 ✔️
+- Mappers (Kotest): 63 ✅
+  - [DomainMapper-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/mapper/kotest/DomainMapperKotestTest.kt): 30 ✔️
+  - [UIMapper-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/mapper/kotest/UIMapperKotestTest.kt): 22 ✔️
+  - [EntityMapper-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/mapper/kotest/EntityMapperKotestTest.kt): 8 ✔️
+  - [PojoMapper-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/mapper/kotest/PojoMapperKotestTest.kt): 3 ✔️
 - Extensions: 9 ✅
   - [NumberExtension](/app/src/test/java/com/jaimegc/covid19tracker/extension/NumberExtensionTest.kt): 6 ✔️
   - [DateExtension](/app/src/test/java/com/jaimegc/covid19tracker/extension/DateExtensionTest.kt): 3 ✔️
+- Extensions (Kotest): 9 ✅
+  - [NumberExtension-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/extension/kotest/NumberExtensionKotestTest.kt): 6 ✔️
+  - [DateExtension-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/extension/kotest/DateExtensionKotestTest.kt): 3 ✔️
   
 <p align="left">
   <img src="./art/integration_tests_pyramid.png" height="200"/>
