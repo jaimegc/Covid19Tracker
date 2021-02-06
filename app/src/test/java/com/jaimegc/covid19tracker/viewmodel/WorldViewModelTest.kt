@@ -42,10 +42,7 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
@@ -78,7 +75,7 @@ class WorldViewModelTest {
     }
 
     @Test
-    fun `get list stats should return loading and success if date exists using stateflow`() {
+    fun `get list stats should return loading and success if date exists`() {
         val flow = flow {
             emit(Either.right(stateCovidTrackerLoading))
             delay(10)
