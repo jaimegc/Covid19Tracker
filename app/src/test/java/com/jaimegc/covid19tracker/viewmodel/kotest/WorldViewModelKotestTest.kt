@@ -67,7 +67,6 @@ class WorldViewModelKotestTest : FunSpec({
         
         loading shouldBe ScreenState.Loading
         (success is ScreenState.Render) shouldBe true
-        (success is ScreenState.Render) shouldBe true
         ((success as ScreenState.Render).renderState is WorldStateScreen.SuccessCovidTracker) shouldBe true
         (success.renderState as WorldStateScreen.SuccessCovidTracker).data shouldBe
             stateScreenSuccessCovidTrackerData
