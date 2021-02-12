@@ -189,14 +189,16 @@ The data for any other day, from the last one in the local database until the cu
   <img src="./art/unit_tests_pyramid.png" height="200"/>
 </p>
 
-### Unit Tests (454 ✅)
+### Unit Tests (551 ✅)
 
 - ViewModels: 60 ✅
   - [CountryViewModel](/app/src/test/java/com/jaimegc/covid19tracker/viewmodel/CountryViewModelTest.kt): 26 ✔️
   - [WorldViewModel](/app/src/test/java/com/jaimegc/covid19tracker/viewmodel/WorldViewModelTest.kt): 25 ✔️
   - [MainViewModel](/app/src/test/java/com/jaimegc/covid19tracker/viewmodel/MainViewModelTest.kt): 9 ✔️
-- ViewModels (Kotest): 12 ✅
-  - [WorldViewModel-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/viewmodel/kotest/WorldViewModelKotestTest.kt): 12 ✔️  
+- ViewModels (Kotest): 32 ✅
+  - [WorldViewModel-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/viewmodel/kotest/WorldViewModelKotestTest.kt): 12 ✔️
+  - [CountryViewModel-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/viewmodel/kotest/CountryViewModelKotestTest.kt): 11 ✔️
+  - [MainViewModel-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/viewmodel/kotest/MainViewModelKotestTest.kt): 9 ✔️  
 - UseCases: 107 ✅
   - [GetRegionStats](/app/src/test/java/com/jaimegc/covid19tracker/usecase/GetRegionStatsTest.kt): 24 ✔️
   - [GetCountryStats](/app/src/test/java/com/jaimegc/covid19tracker/usecase/GetCountryStatsTest.kt): 20 ✔️
@@ -208,11 +210,18 @@ The data for any other day, from the last one in the local database until the cu
   - [GetRegion](/app/src/test/java/com/jaimegc/covid19tracker/usecase/GetRegionTest.kt): 6 ✔️
   - [GetDates](/app/src/test/java/com/jaimegc/covid19tracker/usecase/GetDatesTest.kt): 2 ✔️
   - [AddCovidTracker](/app/src/test/java/com/jaimegc/covid19tracker/usecase/AddCovidTrackerTest.kt): 1 ✔️
+- UseCases (Kotest): 18 ✅
+  - [GetWorldStats-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/usecase/kotest/GetWorldStatsKotestTest.kt): 9 ✔️
+  - [GetRegion-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/usecase/kotest/GetRegionKotestTest.kt): 6 ✔️
+  - [GetDates-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/usecase/kotest/GetDatesKotestTest.kt): 2 ✔️
+  - [AddCovidTracker-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/usecase/kotest/AddCovidTrackerKotestTest.kt): 1 ✔️
 - Repositories: 59 ✅
   - [CovidTrackerRepository](/app/src/test/java/com/jaimegc/covid19tracker/repository/CovidTrackerRepositoryTest.kt): 59 ✔️
+- Repositories (Kotest): 59 ✅
+  - [CovidTrackerRepository-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/repository/kotest/CovidTrackerRepositoryKotestTest.kt): 59 ✔️  
 - Datasources: 72 ✅
-    - [LocalCovidTrackerDatasource](/app/src/test/java/com/jaimegc/covid19tracker/datasource/LocalCovidTrackerDatasourceTest.kt): 67 ✔️
-    - [RemoteCovidTrackerDatasource](/app/src/test/java/com/jaimegc/covid19tracker/datasource/RemoteCovidTrackerDatasourceTest.kt): 5 ✔️
+  - [LocalCovidTrackerDatasource](/app/src/test/java/com/jaimegc/covid19tracker/datasource/LocalCovidTrackerDatasourceTest.kt): 67 ✔️
+  - [RemoteCovidTrackerDatasource](/app/src/test/java/com/jaimegc/covid19tracker/datasource/RemoteCovidTrackerDatasourceTest.kt): 5 ✔️
 - Mappers: 63 ✅
   - [DomainMapper](/app/src/test/java/com/jaimegc/covid19tracker/mapper/DomainMapperTest.kt): 30 ✔️
   - [UIMapper](/app/src/test/java/com/jaimegc/covid19tracker/mapper/UIMapperTest.kt): 22 ✔️
