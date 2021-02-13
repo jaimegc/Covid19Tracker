@@ -189,7 +189,7 @@ The data for any other day, from the last one in the local database until the cu
   <img src="./art/unit_tests_pyramid.png" height="200"/>
 </p>
 
-### Unit Tests (640 ✅)
+### Unit Tests (712 ✅)
 
 - ViewModels: 60 ✅
   - [CountryViewModel](/app/src/test/java/com/jaimegc/covid19tracker/viewmodel/CountryViewModelTest.kt): 26 ✔️
@@ -228,6 +228,9 @@ The data for any other day, from the last one in the local database until the cu
 - Datasources: 72 ✅
   - [LocalCovidTrackerDatasource](/app/src/test/java/com/jaimegc/covid19tracker/datasource/LocalCovidTrackerDatasourceTest.kt): 67 ✔️
   - [RemoteCovidTrackerDatasource](/app/src/test/java/com/jaimegc/covid19tracker/datasource/RemoteCovidTrackerDatasourceTest.kt): 5 ✔️
+- Datasources (Kotest): 72 ✅
+  - [LocalCovidTrackerDatasource-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/datasource/kotest/LocalCovidTrackerDatasourceKotestTest.kt): 67 ✔️
+  - [RemoteCovidTrackerDatasource-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/datasource/kotest/RemoteCovidTrackerDatasourceKotestTest.kt): 5 ✔️  
 - Mappers: 63 ✅
   - [DomainMapper](/app/src/test/java/com/jaimegc/covid19tracker/mapper/DomainMapperTest.kt): 30 ✔️
   - [UIMapper](/app/src/test/java/com/jaimegc/covid19tracker/mapper/UIMapperTest.kt): 22 ✔️
@@ -249,7 +252,7 @@ The data for any other day, from the last one in the local database until the cu
   <img src="./art/integration_tests_pyramid.png" height="200"/>
 </p>
 
-### Integration Tests (112 ✅)
+### Integration Tests (122 ✅)
 
 - Daos: 42 ✅
   - [RegionStatsDao](/app/src/androidTest/java/com/jaimegc/covid19tracker/room/RegionStatsDaoTest.kt): 15 ✔️
@@ -269,6 +272,8 @@ The data for any other day, from the last one in the local database until the cu
   - [CountryDao-Robolectric](/app/src/test/java/com/jaimegc/covid19tracker/room/CountryDaoRobolectricTest.kt): 1 ✔️
 - ApiClients: 10 ✅
   - [CovidTrackerDatasourceApiClient](/app/src/test/java/com/jaimegc/covid19tracker/apiclient/CovidTrackerApiClientTest.kt): 10 ✔️
+- ApiClients (Kotest): 10 ✅
+  - [CovidTrackerDatasourceApiClient-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/apiclient/kotest/CovidTrackerApiClientKotestTest.kt): 10 ✔️
 - SharedPreferences: 4 ✅
   - [CountryPreferences](/app/src/androidTest/java/com/jaimegc/covid19tracker/preference/CountryPreferencesTest.kt): 2 ✔️
   - [CovidTrackerPreferences](/app/src/androidTest/java/com/jaimegc/covid19tracker/preference/CovidTrackerPreferencesTest.kt): 2 ✔️
