@@ -138,15 +138,15 @@ Covid19 Tracker is a sample Android application focused on displaying statistics
   <img src="./art/uml_database.png" width="600">
 </p>  
 
-### Database rows from 2020/01/23 until 2020/12/13
+### Database rows from 2020/01/23 until 2021/02/13
 
-- country: 193
+- country: 194
 - region: 418
 - sub_region: 3.208
-- world_stats: 326
-- country_stats: 62.308
-- region_stats: 132.719
-- sub_region_stats: 1.045.808
+- world_stats: 388
+- country_stats: 74.299
+- region_stats: 158.573
+- sub_region_stats: 1.244.704
 
 ## Initialize Database
 
@@ -173,11 +173,6 @@ There are three ways to initialize the local database:
 The data for any other day, from the last one in the local database until the current one, will be downloaded automatically using the [UpdateDatabaseWorker](/app/src/main/java/com/jaimegc/covid19tracker/worker/UpdateDatabaseWorker.kt) worker. The data will be updated every 6 hours.
 
 <b>⚠️ WARNING: ⚠️</b> The data provided and used for the generation of these products comes from the aggregation of different sources, each of which with different update times and frequencies. Additionally, each country has its own accounting criteria, so comparisons of data between countries or regions, and even within them over time, may not be representative of reality. An example is the case of positive cases that depend not only on the spread of the disease but also on the number of tests that are carried out.
-
-## Gradle tasks
-
-- ```./gradlew detektAll```: Code analysis. More information [here](https://github.com/detekt/detekt#features).
-- ```./gradlew checkDependencyUpdates```: Check dependency updates.
 
 ## Tests, tests and more tests
 
@@ -320,6 +315,11 @@ The data for any other day, from the last one in the local database until the cu
 ### GitHub Actions
 
 You can see the config file [here](./.github/workflows/android-workflow.yaml).
+
+## Gradle tasks
+
+- ```./gradlew detektAll```: Code analysis. More information [here](https://github.com/detekt/detekt#features).
+- ```./gradlew checkDependencyUpdates```: Check dependency updates.
 
 ## Credits
 
