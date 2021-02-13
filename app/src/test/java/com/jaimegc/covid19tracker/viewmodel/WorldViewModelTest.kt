@@ -42,10 +42,7 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
@@ -78,7 +75,7 @@ class WorldViewModelTest {
     }
 
     @Test
-    fun `get list stats should return loading and success if date exists using stateflow`() {
+    fun `get list stats should return loading and success if date exists`() {
         val flow = flow {
             emit(Either.right(stateCovidTrackerLoading))
             delay(10)
@@ -1007,18 +1004,35 @@ class WorldViewModelTest {
 
         worldViewModel.getListStats()
 
-        val loading = worldViewModel.screenState.value
-        assertEquals(ScreenState.Loading, loading)
+        worldViewModel.screenState.asLiveData().getOrAwaitValue {
+            val loading = worldViewModel.screenState.value
+            coroutineScope.advanceUntilIdle()
+            val success = worldViewModel.screenState.value
 
-        coroutineScope.advanceUntilIdle()
+            assertEquals(ScreenState.Loading, loading)
+            assertNotNull(success)
+            assertTrue(success is ScreenState.Render)
+            assertTrue((success as ScreenState.Render)
+                .renderState is WorldStateScreen.SuccessCovidTracker)
+            assertEquals(stateScreenSuccessCovidTrackerData,
+                (success.renderState as WorldStateScreen.SuccessCovidTracker).data)
+        }
 
-        val success = worldViewModel.screenState.value
-        assertNotNull(success)
-        assertTrue(success is ScreenState.Render)
-        assertTrue((success as ScreenState.Render)
-            .renderState is WorldStateScreen.SuccessCovidTracker)
-        assertEquals(stateScreenSuccessCovidTrackerData,
-            (success.renderState as WorldStateScreen.SuccessCovidTracker).data)
+        worldViewModel.getListStats()
+
+        worldViewModel.screenState.asLiveData().observeForTesting {
+            val loading = worldViewModel.screenState.value
+            coroutineScope.advanceUntilIdle()
+            val success = worldViewModel.screenState.value
+
+            assertEquals(ScreenState.Loading, loading)
+            assertNotNull(success)
+            assertTrue(success is ScreenState.Render)
+            assertTrue((success as ScreenState.Render)
+                .renderState is WorldStateScreen.SuccessCovidTracker)
+            assertEquals(stateScreenSuccessCovidTrackerData,
+                (success.renderState as WorldStateScreen.SuccessCovidTracker).data)
+        }
     }
 
     /***********************************************************************************************/

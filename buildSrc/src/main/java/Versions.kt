@@ -19,6 +19,7 @@ object Versions {
     }
 
     object Gradle {
+        const val ANDROID_JUNIT5 = "1.7.0.0"
         const val FIREBASE_CRASHLYTICS = "2.4.1"
         const val FIREBASE_PERFORMANCE_PLUGIN = "1.3.4"
         const val GRADLE_ANDROID = "4.1.2"
@@ -88,8 +89,10 @@ object Versions {
         const val COROUTINES = "1.4.2"
         const val FLOW_TEST_OBSERVER = "1.5.1"
         const val JUNIT = "4.13.1"
+        const val JUNIT_JUPITER = "5.7.0"
         const val KAKAO = "2.4.0"
         const val KOIN = Koin.KOIN
+        const val KOTEST = "4.3.2"
         const val MOCKITO_KOTLIN = "2.2.0"
         const val MOCKK = "1.10.5"
         const val MOCK_WEB_SERVER = "4.9.1"
