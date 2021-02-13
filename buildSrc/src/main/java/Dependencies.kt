@@ -39,9 +39,9 @@ object Dependencies {
     internal const val ANDROID_ESPRESSO_INTENTS =
         "androidx.test.espresso:espresso-intents:${Versions.Google.Androidx.ESPRESSO}"
     internal const val ANDROID_LIFECYCLE_EXTENSIONS =
-        "androidx.lifecycle:lifecycle-extensions:${Versions.Google.Androidx.LIFECYCLE}"
+        "androidx.lifecycle:lifecycle-extensions:${Versions.Google.Androidx.LIFECYCLE_EXTENSIONS}"
     internal const val ANDROID_LIFECYCLE_LIVEDATA_KTX =
-        "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.Google.Androidx.LIFECYCLE}"
+        "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.Google.Androidx.LIFECYCLE_LIVEDATA}"
     internal const val ANDROID_MATERIAL =
         "com.google.android.material:material:${Versions.Google.Material.DESIGN}"
     internal const val ANDROID_NAVIGATION_FRAGMENT =
@@ -129,8 +129,6 @@ object Dependencies {
         "io.kotest:kotest-assertions-core:${Versions.Test.KOTEST}"
     internal const val TEST_KOTEST_ASSERTIONS_ARROW =
         "io.kotest:kotest-assertions-arrow:${Versions.Test.KOTEST}"
-    internal const val TEST_KOTEST_MOCK_WEB_SERVER =
-        "io.kotest:kotest-extensions-mockserver:${Versions.Test.KOTEST}"
     internal const val TEST_KOTEST_RUNNER =
         "io.kotest:kotest-runner-junit5:${Versions.Test.KOTEST}"
     internal const val TEST_MOCKITO_KOTLIN =

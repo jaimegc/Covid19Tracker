@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
+import arrow.core.Either
 import arrow.fx.IO
 import arrow.fx.extensions.io.concurrent.parTraverse
 import arrow.fx.fix
@@ -11,6 +12,7 @@ import com.jaimegc.covid19tracker.R
 import com.jaimegc.covid19tracker.data.datasource.RemoteCovidTrackerDatasource
 import com.jaimegc.covid19tracker.data.preference.CovidTrackerPreferences
 import com.jaimegc.covid19tracker.domain.model.CovidTracker
+import com.jaimegc.covid19tracker.domain.model.DomainError
 import com.jaimegc.covid19tracker.domain.usecase.AddCovidTracker
 import com.jaimegc.covid19tracker.domain.usecase.GetDates
 import com.jaimegc.covid19tracker.util.FileUtils
@@ -84,7 +86,7 @@ class UpdateDatabaseWorker(
         }
     }
 
-    private fun downloadAllDates(dates: List<String>) =
+    private fun downloadAllDates(dates: List<String>): List<Either<DomainError, CovidTracker>> =
         dates.parTraverse { date ->
             IO.effect { remote.getCovidTrackerByDate(date) }
         }.fix().unsafeRunSync()
