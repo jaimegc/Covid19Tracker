@@ -129,8 +129,6 @@ object Dependencies {
         "io.kotest:kotest-assertions-core:${Versions.Test.KOTEST}"
     internal const val TEST_KOTEST_ASSERTIONS_ARROW =
         "io.kotest:kotest-assertions-arrow:${Versions.Test.KOTEST}"
-    internal const val TEST_KOTEST_MOCK_WEB_SERVER =
-        "io.kotest:kotest-extensions-mockserver:${Versions.Test.KOTEST}"
     internal const val TEST_KOTEST_RUNNER =
         "io.kotest:kotest-runner-junit5:${Versions.Test.KOTEST}"
     internal const val TEST_MOCKITO_KOTLIN =
