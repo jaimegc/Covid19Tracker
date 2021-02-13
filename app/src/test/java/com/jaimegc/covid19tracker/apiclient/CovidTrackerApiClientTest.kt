@@ -59,7 +59,7 @@ class CovidTrackerApiClientTest : MockWebServerTest() {
     }
 
     @Test(expected = JsonDataException::class)
-    fun `get covid trackers by date with null required data should return json data exception`(): Unit = runBlocking {
+    fun `get covid trackers by date with null required data should throw json data exception`(): Unit = runBlocking {
         enqueueMockResponse(
             HttpURLConnection.HTTP_OK, GET_COVID_TRACKER_NULL_REQUIRED_DATA_ERROR_RESPONSE
         )
@@ -68,7 +68,7 @@ class CovidTrackerApiClientTest : MockWebServerTest() {
     }
 
     @Test(expected = HttpException::class)
-    fun `get covid trackers by date with empty data should return http exception`(): Unit = runBlocking {
+    fun `get covid trackers by date with empty data should throw http exception`(): Unit = runBlocking {
         enqueueMockResponse(
             HttpURLConnection.HTTP_NOT_FOUND, GET_COVID_TRACKER_NO_DATA_ERROR_RESPONSE
         )
@@ -77,7 +77,7 @@ class CovidTrackerApiClientTest : MockWebServerTest() {
     }
 
     @Test(expected = HttpException::class)
-    fun `get covid trackers by date with server error should return http exception`(): Unit = runBlocking {
+    fun `get covid trackers by date with server error should throw http exception`(): Unit = runBlocking {
         enqueueMockResponse(HttpURLConnection.HTTP_INTERNAL_ERROR)
 
         apiClient.getCovidTrackerByDate(DATE)
@@ -103,7 +103,7 @@ class CovidTrackerApiClientTest : MockWebServerTest() {
     }
 
     @Test(expected = JsonDataException::class)
-    fun `get covid trackers by date as response with null required data should return json data exception`(): Unit = runBlocking {
+    fun `get covid trackers by date as response with null required data should throw json data exception`(): Unit = runBlocking {
         enqueueMockResponse(
             HttpURLConnection.HTTP_OK, GET_COVID_TRACKER_NULL_REQUIRED_DATA_ERROR_RESPONSE
         )
