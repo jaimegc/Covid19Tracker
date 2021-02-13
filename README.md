@@ -9,7 +9,9 @@
 
 ## Introduction
 
-Covid19 Tracker is a sample Android application focused on displaying statistics using graphs and adding tests, tests and more tests. From a technical point of view, it has an <b>Offline-First</b> approach and uses the <b>Single Source of Truth (SSOT)</b> principle. Also, it has been built making use of a huge database and <b>Flow</b> streams with the aim of achieving the best performance. However, it is important to point out that certain technical decisions have been made only for me to have an opportunity to practice new Android concepts.
+Covid19 Tracker is a sample Android application focused on displaying statistics using graphs and adding tests, tests and more tests (<b>> 1.000</b>). From a technical point of view, it has an <b>Offline-First</b> approach and uses the <b>Single Source of Truth (SSOT)</b> principle. Also, it has been built making use of a huge database and <b>Flow</b> streams with the aim of achieving the best performance. However, it is important to point out that certain technical decisions have been made only for me to have an opportunity to practice new Android concepts.
+
+You can download the app [here](https://dropbox.com/s/ifxiab9fsjkv5dx/covid19tracker.apk).
 
 ## Technical summary
 
@@ -31,7 +33,20 @@ Covid19 Tracker is a sample Android application focused on displaying statistics
   - [zip](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/zip.html): Zips values from the current flow (this) with other flow using provided transform function applied to each pair of values. The resulting flow completes as soon as one of the flows completes and cancel is called on the remaining flow.
   - [combine](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/combine.html): Returns a Flow whose values are generated with transform function by combining the most recently emitted values by each flow.
   - [flatMapMerge](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flat-map-merge.html): Transforms elements emitted by the original flow by applying transform, that returns another flow, and then merging and flattening these flows. This operator calls transform sequentially and then merges the resulting flows with a concurrency limit on the number of concurrently collected flows.
-- [StateFlow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-state-flow/): A SharedFlow that represents a read-only state with a single updatable data value that emits updates to the value to its collectors. A state flow is a hot flow because its active instance exists independently of the presence of collectors.    
+- [StateFlow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-state-flow/): A SharedFlow that represents a read-only state with a single updatable data value that emits updates to the value to its collectors. A state flow is a hot flow because its active instance exists independently of the presence of collectors.
+- [Testing](https://developer.android.com/training/testing/fundamentals): Unit, instrumentation and UI tests have been implemented. There are more than <b>1.000 tests</b> using different frameworks, libraries, patterns, techniques, etc.
+  - [Mockito-Kotlin](https://github.com/mockito/mockito-kotlin): A small library that provides helper functions to work with Mockito in Kotlin.
+  - [Mockk](https://mockk.io/): Provides DSL to mock behavior. Built from zero to fit Kotlin language. Supports named parameters, object mocks, coroutines and extension function mocking.
+  - [Espresso](https://developer.android.com/training/testing/espresso): Writing concise, beautiful, and reliable Android UI tests.
+  - [Screen Robot Pattern](https://academy.realm.io/posts/kau-jake-wharton-testing-robots/): This pattern fits with Espresso and allows to create clear and understandable tests.
+  - [Kakao](https://github.com/agoda-com/Kakao): Nice and simple DSL for Espresso in Kotlin.
+  - [Barista](https://github.com/AdevintaSpain/Barista): Barista makes developing UI test faster, easier and more predictable. Built on top of Espresso, it provides a simple and discoverable API, removing most of the boilerplate and verbosity of common Espresso tasks.
+  - [Robolectric](http://robolectric.org/): Robolectric lets you run your tests on your workstation, or on your continuous integration environment in a regular JVM, without an emulator. Running tests on an Android emulator or device is slow!
+  - [Kotest](https://kotest.io/): Kotest is a flexible and comprehensive testing tool for Kotlin with <b>multiplatform support</b>.
+  - [Turbine](https://github.com/cashapp/turbine): Turbine is a small testing library for kotlinx.coroutines flow. 
+  - [Flow-Test-Observer](https://github.com/ologe/flow-test-observer): Library inspired by TestSubscriber from RxJava. Works with both cold/finite and hot/infinite flow.
+  - [MockWebServer](https://github.com/square/okhttp/tree/master/mockwebserver): A scriptable web server for testing HTTP clients.
+  - [Google Truth](https://github.com/google/truth): Truth makes your test assertions and failure messages more readable. 
 - [Arrow](https://github.com/arrow-kt/arrow): It is a library for Typed Functional Programming in Kotlin.
   - [Either](https://arrow-kt.io/docs/0.10/apidocs/arrow-core-data/arrow.core/-either/): Represents the presence of either a Left value or a Right value. By convention, most functional programming libraries choose Left as the exceptional case and Right as the success value.
   - [IO](https://arrow-kt.io/docs/0.10/effects/io/): It is used to represent operations that can be executed lazily, and are capable of failing, generally with exceptions. This means that code wrapped inside IO will not throw exceptions until it is run, and those exceptions can be captured inside IO for the user to check. In this project, it has only been used in the [UpdateDatabaseWorker](/app/src/main/java/com/jaimegc/covid19tracker/worker/UpdateDatabaseWorker.kt) worker to build concurrent API calls.
@@ -138,15 +153,15 @@ Covid19 Tracker is a sample Android application focused on displaying statistics
   <img src="./art/uml_database.png" width="600">
 </p>  
 
-### Database rows from 2020/01/23 until 2020/12/13
+### Database rows from 2020/01/23 until 2021/02/13
 
-- country: 193
+- country: 194
 - region: 418
 - sub_region: 3.208
-- world_stats: 326
-- country_stats: 62.308
-- region_stats: 132.719
-- sub_region_stats: 1.045.808
+- world_stats: 388
+- country_stats: 74.299
+- region_stats: 158.573
+- sub_region_stats: 1.244.704
 
 ## Initialize Database
 
@@ -174,12 +189,9 @@ The data for any other day, from the last one in the local database until the cu
 
 <b>⚠️ WARNING: ⚠️</b> The data provided and used for the generation of these products comes from the aggregation of different sources, each of which with different update times and frequencies. Additionally, each country has its own accounting criteria, so comparisons of data between countries or regions, and even within them over time, may not be representative of reality. An example is the case of positive cases that depend not only on the spread of the disease but also on the number of tests that are carried out.
 
-## Gradle tasks
-
-- ```./gradlew detektAll```: Code analysis. More information [here](https://github.com/detekt/detekt#features).
-- ```./gradlew checkDependencyUpdates```: Check dependency updates.
-
 ## Tests, tests and more tests
+
+The tests are a mix of different frameworks, libraries, patterns, techniques, etc. You can see the same tests written differently.   
 
 <p align="left">
   <img src="./art/unit_tests_pyramid.png" height="200"/>
@@ -320,6 +332,11 @@ The data for any other day, from the last one in the local database until the cu
 ### GitHub Actions
 
 You can see the config file [here](./.github/workflows/android-workflow.yaml).
+
+## Gradle tasks
+
+- ```./gradlew detektAll```: Code analysis. More information [here](https://github.com/detekt/detekt#features).
+- ```./gradlew checkDependencyUpdates```: Check dependency updates.
 
 ## Credits
 

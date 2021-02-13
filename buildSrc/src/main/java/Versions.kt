@@ -20,7 +20,7 @@ object Versions {
 
     object Gradle {
         const val ANDROID_JUNIT5 = "1.7.0.0"
-        const val FIREBASE_CRASHLYTICS = "2.4.1"
+        const val FIREBASE_CRASHLYTICS = "2.5.0"
         const val FIREBASE_PERFORMANCE_PLUGIN = "1.3.4"
         const val GRADLE_ANDROID = "4.1.2"
         const val KOTLIN = "1.4.30"
@@ -41,10 +41,11 @@ object Versions {
             const val CORE_TESTING = "2.1.0"
             const val ESPRESSO = "3.3.0"
             const val JUNIT_EXT = "1.1.2"
-            const val LIFECYCLE = "2.2.0"
+            const val LIFECYCLE_EXTENSIONS = "2.2.0"
+            const val LIFECYCLE_LIVEDATA = "2.3.0"
             const val NAVIGATION = "2.3.3"
             const val RECYCLERVIEW = "1.2.0-beta01"
-            const val TEST_FRAGMENT = "1.3.0-rc01"
+            const val TEST_FRAGMENT = "1.3.0"
             const val TEST_CORE = "1.3.0"
             const val TEST_RULES = "1.3.0"
             const val TEST_RUNNER = "1.2.0"
@@ -55,7 +56,7 @@ object Versions {
         object Firebase {
             const val ANALYTICS = "18.0.2"
             const val CRASHLYTICS = "17.3.1"
-            const val PERFORMANCE = "19.1.0"
+            const val PERFORMANCE = "19.1.1"
         }
 
         object Material {
@@ -89,15 +90,15 @@ object Versions {
         const val COROUTINES = "1.4.2"
         const val FLOW_TEST_OBSERVER = "1.5.1"
         const val JUNIT = "4.13.1"
-        const val JUNIT_JUPITER = "5.7.0"
+        const val JUNIT_JUPITER = "5.7.1"
         const val KAKAO = "2.4.0"
         const val KOIN = Koin.KOIN
-        const val KOTEST = "4.3.2"
+        const val KOTEST = "4.4.1"
         const val MOCKITO_KOTLIN = "2.2.0"
-        const val MOCKK = "1.10.5"
+        const val MOCKK = "1.10.6"
         const val MOCK_WEB_SERVER = "4.9.1"
         const val ROBOLECTRIC = "4.5.1"
-        const val TURBINE = "0.3.0"
+        const val TURBINE = "0.4.0"
     }
 
     object Detekt {
