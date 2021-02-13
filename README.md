@@ -16,10 +16,6 @@ Covid19 Tracker is a sample Android application focused on displaying statistics
 - [Offline-First](https://applikeysolutions.com/blog/the-offline-first-approach-to-mobile-app-development): The offline-first apps, while still requiring a connection to the servers, don't need a constant internet connection. The data from servers is downloaded to the user's device and can still be accessed offline.
 - [Single Source of Truth (SSOT)](https://developer.android.com/jetpack/docs/guide#truth): It is the practice of structuring information models and associated schemata such that every data element is stored exactly once. You can have an offline app and be sure your data always use one source and that is your database.
 - [Model-View-ViewModel (MVVM)](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel): It is a software architectural pattern that facilitates the separation of the development of the graphical user interface (without using [DataBinding](https://developer.android.com/topic/libraries/data-binding)). Also, there are [Screen States](/app/src/main/java/com/jaimegc/covid19tracker/ui/base/states/ScreenStates.kt) to handle the different states in the UI.
-- [Flow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/): A cold asynchronous data stream that sequentially emits values and completes normally or with an exception.
-  - [zip](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/zip.html): Zips values from the current flow (this) with other flow using provided transform function applied to each pair of values. The resulting flow completes as soon as one of the flows completes and cancel is called on the remaining flow.
-  - [combine](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/combine.html): Returns a Flow whose values are generated with transform function by combining the most recently emitted values by each flow.
-  - [flatMapMerge](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flat-map-merge.html): Transforms elements emitted by the original flow by applying transform, that returns another flow, and then merging and flattening these flows. This operator calls transform sequentially and then merges the resulting flows with a concurrency limit on the number of concurrently collected flows.
 - [Android Architecture Components](https://developer.android.com/topic/libraries/architecture): Collection of libraries that help you design robust, testable, and maintainable apps.
   - [LiveData](https://developer.android.com/topic/libraries/architecture/livedata): Data objects that notify views when the underlying database changes.
   - [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel): Stores UI-related data that isn't destroyed on UI changes. 
@@ -31,6 +27,11 @@ Covid19 Tracker is a sample Android application focused on displaying statistics
   - Custom classes:
     - [QueueLiveData](/app/src/main/java/com/jaimegc/covid19tracker/common/QueueLiveData.kt): This custom LiveData class will deliver values even when they are posted very quickly one after another. It solves the issue of losing values when several new ones are posted very quickly.
     - [KeepStateNavigator](/app/src/main/java/com/jaimegc/covid19tracker/common/KeepStateNavigator.kt): This class is to keep state in fragment navigator.
+- [Flow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/): A cold asynchronous data stream that sequentially emits values and completes normally or with an exception.
+  - [zip](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/zip.html): Zips values from the current flow (this) with other flow using provided transform function applied to each pair of values. The resulting flow completes as soon as one of the flows completes and cancel is called on the remaining flow.
+  - [combine](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/combine.html): Returns a Flow whose values are generated with transform function by combining the most recently emitted values by each flow.
+  - [flatMapMerge](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flat-map-merge.html): Transforms elements emitted by the original flow by applying transform, that returns another flow, and then merging and flattening these flows. This operator calls transform sequentially and then merges the resulting flows with a concurrency limit on the number of concurrently collected flows.
+- [StateFlow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-state-flow/): A SharedFlow that represents a read-only state with a single updatable data value that emits updates to the value to its collectors. A state flow is a hot flow because its active instance exists independently of the presence of collectors.    
 - [Arrow](https://github.com/arrow-kt/arrow): It is a library for Typed Functional Programming in Kotlin.
   - [Either](https://arrow-kt.io/docs/0.10/apidocs/arrow-core-data/arrow.core/-either/): Represents the presence of either a Left value or a Right value. By convention, most functional programming libraries choose Left as the exceptional case and Right as the success value.
   - [IO](https://arrow-kt.io/docs/0.10/effects/io/): It is used to represent operations that can be executed lazily, and are capable of failing, generally with exceptions. This means that code wrapped inside IO will not throw exceptions until it is run, and those exceptions can be captured inside IO for the user to check. In this project, it has only been used in the [UpdateDatabaseWorker](/app/src/main/java/com/jaimegc/covid19tracker/worker/UpdateDatabaseWorker.kt) worker to build concurrent API calls.
@@ -178,23 +179,22 @@ The data for any other day, from the last one in the local database until the cu
 - ```./gradlew detektAll```: Code analysis. More information [here](https://github.com/detekt/detekt#features).
 - ```./gradlew checkDependencyUpdates```: Check dependency updates.
 
-## TODO List
-
-- Add unit tests, integration tests, UI tests, etc.
-- Add GitHub Actions.
-
-## Working on... 👨🏻‍💻🧑🏿‍💻
+## Tests, tests and more tests
 
 <p align="left">
   <img src="./art/unit_tests_pyramid.png" height="200"/>
 </p>
 
-### Unit Tests (370 ✅)
+### Unit Tests (712 ✅)
 
 - ViewModels: 60 ✅
   - [CountryViewModel](/app/src/test/java/com/jaimegc/covid19tracker/viewmodel/CountryViewModelTest.kt): 26 ✔️
   - [WorldViewModel](/app/src/test/java/com/jaimegc/covid19tracker/viewmodel/WorldViewModelTest.kt): 25 ✔️
   - [MainViewModel](/app/src/test/java/com/jaimegc/covid19tracker/viewmodel/MainViewModelTest.kt): 9 ✔️
+- ViewModels (Kotest): 32 ✅
+  - [WorldViewModel-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/viewmodel/kotest/WorldViewModelKotestTest.kt): 12 ✔️
+  - [CountryViewModel-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/viewmodel/kotest/CountryViewModelKotestTest.kt): 11 ✔️
+  - [MainViewModel-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/viewmodel/kotest/MainViewModelKotestTest.kt): 9 ✔️  
 - UseCases: 107 ✅
   - [GetRegionStats](/app/src/test/java/com/jaimegc/covid19tracker/usecase/GetRegionStatsTest.kt): 24 ✔️
   - [GetCountryStats](/app/src/test/java/com/jaimegc/covid19tracker/usecase/GetCountryStatsTest.kt): 20 ✔️
@@ -206,25 +206,49 @@ The data for any other day, from the last one in the local database until the cu
   - [GetRegion](/app/src/test/java/com/jaimegc/covid19tracker/usecase/GetRegionTest.kt): 6 ✔️
   - [GetDates](/app/src/test/java/com/jaimegc/covid19tracker/usecase/GetDatesTest.kt): 2 ✔️
   - [AddCovidTracker](/app/src/test/java/com/jaimegc/covid19tracker/usecase/AddCovidTrackerTest.kt): 1 ✔️
+- UseCases (Kotest): 107 ✅
+  - [GetRegionStats-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/usecase/kotest/GetRegionStatsKotestTest.kt): 24 ✔️
+  - [GetCountryStats-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/usecase/kotest/GetCountryStatsKotestTest.kt): 20 ✔️
+  - [GetSubRegionStats-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/usecase/kotest/GetSubRegionStatsKotestTest.kt): 18 ✔️
+  - [GetCountry-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/usecase/kotest/GetCountryKotestTest.kt): 9 ✔️ 
+  - [GetCovidTracker-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/usecase/kotest/GetCovidTrackerKotestTest.kt): 9 ✔️
+  - [GetWorldAndCountries-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/usecase/kotest/GetWorldAndCountriesKotestTest.kt): 9 ✔️
+  - [GetWorldStats-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/usecase/kotest/GetWorldStatsKotestTest.kt): 9 ✔️
+  - [GetRegion-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/usecase/kotest/GetRegionKotestTest.kt): 6 ✔️
+  - [GetDates-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/usecase/kotest/GetDatesKotestTest.kt): 2 ✔️
+  - [AddCovidTracker-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/usecase/kotest/AddCovidTrackerKotestTest.kt): 1 ✔️
 - Repositories: 59 ✅
   - [CovidTrackerRepository](/app/src/test/java/com/jaimegc/covid19tracker/repository/CovidTrackerRepositoryTest.kt): 59 ✔️
+- Repositories (Kotest): 59 ✅
+  - [CovidTrackerRepository-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/repository/kotest/CovidTrackerRepositoryKotestTest.kt): 59 ✔️  
 - Datasources: 72 ✅
-    - [LocalCovidTrackerDatasource](/app/src/test/java/com/jaimegc/covid19tracker/datasource/LocalCovidTrackerDatasourceTest.kt): 67 ✔️
-    - [RemoteCovidTrackerDatasource](/app/src/test/java/com/jaimegc/covid19tracker/datasource/RemoteCovidTrackerDatasourceTest.kt): 5 ✔️
+  - [LocalCovidTrackerDatasource](/app/src/test/java/com/jaimegc/covid19tracker/datasource/LocalCovidTrackerDatasourceTest.kt): 67 ✔️
+  - [RemoteCovidTrackerDatasource](/app/src/test/java/com/jaimegc/covid19tracker/datasource/RemoteCovidTrackerDatasourceTest.kt): 5 ✔️
+- Datasources (Kotest): 72 ✅
+  - [LocalCovidTrackerDatasource-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/datasource/kotest/LocalCovidTrackerDatasourceKotestTest.kt): 67 ✔️
+  - [RemoteCovidTrackerDatasource-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/datasource/kotest/RemoteCovidTrackerDatasourceKotestTest.kt): 5 ✔️  
 - Mappers: 63 ✅
   - [DomainMapper](/app/src/test/java/com/jaimegc/covid19tracker/mapper/DomainMapperTest.kt): 30 ✔️
   - [UIMapper](/app/src/test/java/com/jaimegc/covid19tracker/mapper/UIMapperTest.kt): 22 ✔️
   - [EntityMapper](/app/src/test/java/com/jaimegc/covid19tracker/mapper/EntityMapperTest.kt): 8 ✔️
   - [PojoMapper](/app/src/test/java/com/jaimegc/covid19tracker/mapper/PojoMapperTest.kt): 3 ✔️
+- Mappers (Kotest): 63 ✅
+  - [DomainMapper-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/mapper/kotest/DomainMapperKotestTest.kt): 30 ✔️
+  - [UIMapper-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/mapper/kotest/UIMapperKotestTest.kt): 22 ✔️
+  - [EntityMapper-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/mapper/kotest/EntityMapperKotestTest.kt): 8 ✔️
+  - [PojoMapper-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/mapper/kotest/PojoMapperKotestTest.kt): 3 ✔️
 - Extensions: 9 ✅
   - [NumberExtension](/app/src/test/java/com/jaimegc/covid19tracker/extension/NumberExtensionTest.kt): 6 ✔️
   - [DateExtension](/app/src/test/java/com/jaimegc/covid19tracker/extension/DateExtensionTest.kt): 3 ✔️
+- Extensions (Kotest): 9 ✅
+  - [NumberExtension-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/extension/kotest/NumberExtensionKotestTest.kt): 6 ✔️
+  - [DateExtension-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/extension/kotest/DateExtensionKotestTest.kt): 3 ✔️
   
 <p align="left">
   <img src="./art/integration_tests_pyramid.png" height="200"/>
 </p>
 
-### Integration Tests (112 ✅)
+### Integration Tests (122 ✅)
 
 - Daos: 42 ✅
   - [RegionStatsDao](/app/src/androidTest/java/com/jaimegc/covid19tracker/room/RegionStatsDaoTest.kt): 15 ✔️
@@ -244,6 +268,8 @@ The data for any other day, from the last one in the local database until the cu
   - [CountryDao-Robolectric](/app/src/test/java/com/jaimegc/covid19tracker/room/CountryDaoRobolectricTest.kt): 1 ✔️
 - ApiClients: 10 ✅
   - [CovidTrackerDatasourceApiClient](/app/src/test/java/com/jaimegc/covid19tracker/apiclient/CovidTrackerApiClientTest.kt): 10 ✔️
+- ApiClients (Kotest): 10 ✅
+  - [CovidTrackerDatasourceApiClient-Kotest](/app/src/test/java/com/jaimegc/covid19tracker/apiclient/kotest/CovidTrackerApiClientKotestTest.kt): 10 ✔️
 - SharedPreferences: 4 ✅
   - [CountryPreferences](/app/src/androidTest/java/com/jaimegc/covid19tracker/preference/CountryPreferencesTest.kt): 2 ✔️
   - [CovidTrackerPreferences](/app/src/androidTest/java/com/jaimegc/covid19tracker/preference/CovidTrackerPreferencesTest.kt): 2 ✔️
@@ -325,6 +351,8 @@ You can see the config file [here](./.github/workflows/android-workflow.yaml).
 
 If you want to contribute to this app, you're always welcome!
 See [Contributing Guidelines](CONTRIBUTING.md). 
+
+You can improve the code, adding screenshot tests, themes, compose, modularization, etc.
 
 ## Author
 

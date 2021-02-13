@@ -1,7 +1,5 @@
-package com.jaimegc.covid19tracker.datasource
+package com.jaimegc.covid19tracker.datasource.kotest
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import arrow.core.Either
 import com.google.common.truth.Truth.assertThat
 import com.jaimegc.covid19tracker.ModelFactoryTest.DATE
 import com.jaimegc.covid19tracker.ModelFactoryTest.countryAndOneStatsPojo
@@ -54,56 +52,38 @@ import com.jaimegc.covid19tracker.domain.model.DomainError
 import com.jaimegc.covid19tracker.domain.model.toDomain
 import com.jaimegc.covid19tracker.domain.model.toStatsDomain
 import com.jaimegc.covid19tracker.ui.base.states.MenuItemViewType
-import com.jaimegc.covid19tracker.util.MainCoroutineRule
+import io.kotest.assertions.arrow.either.shouldBeLeft
+import io.kotest.assertions.arrow.either.shouldBeRight
+import io.kotest.core.spec.style.ShouldSpec
+import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.coVerify
-import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
 
-class LocalCovidTrackerDatasourceTest {
+class LocalCovidTrackerDatasourceKotestTest : ShouldSpec({
 
-    companion object {
-        private val DATES = listOf("date1", "date2", "date3")
-        private const val EMPTY_DATE = ""
-        private const val ID_COUNTRY = "id_country"
-        private const val ID_REGION = "id_region"
-    }
+    val DATES = listOf("date1", "date2", "date3")
+    val EMPTY_DATE = ""
+    val ID_COUNTRY = "id_country"
+    val ID_REGION = "id_region"
 
-    @get:Rule
-    val instantExecutorRule = InstantTaskExecutorRule()
+    val covidTrackerDao: CovidTrackerDao = mockk(relaxed = true)
+    val worldStatsDao: WorldStatsDao = mockk()
+    val countryStatsDao: CountryStatsDao = mockk()
+    val countryDao: CountryDao = mockk()
+    val regionDao: RegionDao = mockk()
+    val regionStatsDao: RegionStatsDao = mockk()
+    val subRegionStatsDao: SubRegionStatsDao = mockk()
 
-    @get:Rule
-    val coroutineScope = MainCoroutineRule()
-
-    @MockK(relaxed = true)
-    private lateinit var covidTrackerDao: CovidTrackerDao
-    @MockK
-    private lateinit var worldStatsDao: WorldStatsDao
-    @MockK
-    private lateinit var countryStatsDao: CountryStatsDao
-    @MockK
-    private lateinit var countryDao: CountryDao
-    @MockK
-    private lateinit var regionDao: RegionDao
-    @MockK
-    private lateinit var regionStatsDao: RegionStatsDao
-    @MockK
-    private lateinit var subRegionStatsDao: SubRegionStatsDao
-
-    private lateinit var local: LocalCovidTrackerDatasource
-
-    @Before
-    fun init() {
+    lateinit var local: LocalCovidTrackerDatasource
+    
+    beforeTest {
         MockKAnnotations.init(this)
         local =
             LocalCovidTrackerDatasource(
@@ -117,8 +97,7 @@ class LocalCovidTrackerDatasourceTest {
             )
     }
 
-    @Test
-    fun `get covid tracker by empty date should return last data if exists`() = runBlocking {
+    should("get covid tracker by empty date should return last data if exists") {
         val flow = flow {
             emit(worldAndCountriesStatsPojo)
         }
@@ -128,14 +107,13 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getCovidTrackerByDate(EMPTY_DATE)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.right(worldAndCountriesStatsPojo.toDomain()))
+            data.shouldBeRight(worldAndCountriesStatsPojo.toDomain())
         }
         verify { covidTrackerDao.getWorldAndCountriesStatsByLastDate() }
         verify { covidTrackerDao.getWorldAndCountriesStatsByDate(any()) wasNot Called }
     }
 
-    @Test
-    fun `get covid tracker by empty date should database empty error if date doesn't exist`() = runBlocking {
+    should("get covid tracker by empty date should database empty error if date doesn't exist") {
         val flow = flow {
             emit(worldAndCountriesStatsPojo.copy(countriesStats = listOf()))
         }
@@ -145,14 +123,13 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getCovidTrackerByDate(EMPTY_DATE)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+            data.shouldBeLeft(DomainError.DatabaseEmptyData)
         }
         verify { covidTrackerDao.getWorldAndCountriesStatsByLastDate() }
         verify { covidTrackerDao.getWorldAndCountriesStatsByDate(any()) wasNot Called }
     }
 
-    @Test
-    fun `get covid tracker by date should return data if exists`() = runBlocking {
+    should("get covid tracker by date should return data if exists") {
         val flow = flow {
             emit(worldAndCountriesStatsPojo)
         }
@@ -162,14 +139,13 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getCovidTrackerByDate(DATE)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.right(worldAndCountriesStatsPojo.toDomain()))
+            data.shouldBeRight(worldAndCountriesStatsPojo.toDomain())
         }
         verify { covidTrackerDao.getWorldAndCountriesStatsByDate(any()) }
         verify { covidTrackerDao.getWorldAndCountriesStatsByLastDate() wasNot Called }
     }
 
-    @Test
-    fun `get covid tracker by date should return database empty error if date doesn't exist`() = runBlocking {
+    should("get covid tracker by date should return database empty error if date doesn't exist") {
         val flow = flow {
             emit(worldAndCountriesStatsPojo.copy(countriesStats = listOf()))
         }
@@ -179,14 +155,13 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getCovidTrackerByDate(DATE)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+            data.shouldBeLeft(DomainError.DatabaseEmptyData)
         }
         verify { covidTrackerDao.getWorldAndCountriesStatsByDate(any()) }
         verify { covidTrackerDao.getWorldAndCountriesStatsByLastDate() wasNot Called }
     }
 
-    @Test
-    fun `get world and countries by empty date should return last data if exists`() = runBlocking {
+    should("get world and countries by empty date should return last data if exists") {
         val flow = flow {
             emit(worldAndCountriesStatsPojo)
         }
@@ -196,14 +171,13 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getWorldAndCountriesByDate(EMPTY_DATE)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.right(worldAndCountriesStatsPojo.toDomain()))
+            data.shouldBeRight(worldAndCountriesStatsPojo.toDomain())
         }
         verify { covidTrackerDao.getWorldAndCountriesStatsByLastDate() }
         verify { covidTrackerDao.getWorldAndCountriesStatsByDate(any()) wasNot Called }
     }
 
-    @Test
-    fun `get world and countries by empty date should return database empty error if date doesn't exist`() = runBlocking {
+    should("get world and countries by empty date should return database empty error if date doesn't exist") {
         val flow = flow {
             emit(worldAndCountriesStatsPojo.copy(countriesStats = listOf()))
         }
@@ -213,14 +187,13 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getWorldAndCountriesByDate(EMPTY_DATE)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+            data.shouldBeLeft(DomainError.DatabaseEmptyData)
         }
         verify { covidTrackerDao.getWorldAndCountriesStatsByLastDate() }
         verify { covidTrackerDao.getWorldAndCountriesStatsByDate(any()) wasNot Called }
     }
 
-    @Test
-    fun `get world and countries by date should return data if exists`() = runBlocking {
+    should("get world and countries by date should return data if exists") {
         val flow = flow {
             emit(worldAndCountriesStatsPojo)
         }
@@ -230,15 +203,14 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getWorldAndCountriesByDate(DATE)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.right(worldAndCountriesStatsPojo.toDomain()))
+            data.shouldBeRight(worldAndCountriesStatsPojo.toDomain())
         }
         verify { local.getCovidTrackerByDate(DATE) }
         verify { covidTrackerDao.getWorldAndCountriesStatsByDate(any()) }
         verify { covidTrackerDao.getWorldAndCountriesStatsByLastDate() wasNot Called }
     }
 
-    @Test
-    fun `get world and countries by date should return database empty error if date doesn't exist`() = runBlocking {
+    should("get world and countries by date should return database empty error if date doesn't exist") {
         val flow = flow {
             emit(worldAndCountriesStatsPojo.copy(countriesStats = listOf()))
         }
@@ -248,15 +220,14 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getWorldAndCountriesByDate(DATE)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+            data.shouldBeLeft(DomainError.DatabaseEmptyData)
         }
         verify { local.getCovidTrackerByDate(DATE) }
         verify { covidTrackerDao.getWorldAndCountriesStatsByDate(any()) }
         verify { covidTrackerDao.getWorldAndCountriesStatsByLastDate() wasNot Called }
     }
 
-    @Test
-    fun `get world all stats should return data if exists`() = runBlocking {
+    should("get world all stats should return data if exists") {
         val flow = flow {
             emit(listWorldStatsEntity)
         }
@@ -266,12 +237,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getWorldAllStats()
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.right(listWorldStatsEntity.toDomain()))
+            data.shouldBeRight(listWorldStatsEntity.toDomain())
         }
     }
 
-    @Test
-    fun `get world all stats with empty data should return database empty error if data doesn't exists`() = runBlocking {
+    should("get world all stats with empty data should return database empty error if data doesn't exists") {
         val flow = flow {
             emit(listOf<WorldStatsEntity>())
         }
@@ -281,12 +251,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getWorldAllStats()
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+            data.shouldBeLeft(DomainError.DatabaseEmptyData)
         }
     }
 
-    @Test
-    fun `get country all stats should return data if exists`() = runBlocking {
+    should("get country all stats should return data if exists") {
         val flow = flow {
             emit(listCountryStatsEntity)
         }
@@ -296,12 +265,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getCountryAllStats(ID_COUNTRY)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.right(listCountryStatsEntity.toStatsDomain()))
+            data.shouldBeRight(listCountryStatsEntity.toStatsDomain())
         }
     }
 
-    @Test
-    fun `get country all stats with empty data should return database empty error if data doesn't exists`() = runBlocking {
+    should("get country all stats with empty data should return database empty error if data doesn't exists") {
         val flow = flow {
             emit(listOf<CountryStatsEntity>())
         }
@@ -311,12 +279,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getCountryAllStats(ID_COUNTRY)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+            data.shouldBeLeft(DomainError.DatabaseEmptyData)
         }
     }
 
-    @Test
-    fun `get region all stats should return data if exists`() = runBlocking {
+    should("get region all stats should return data if exists") {
         val flow = flow {
             emit(listRegionStatsEntity)
         }
@@ -326,12 +293,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getRegionAllStats(ID_COUNTRY, ID_REGION)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.right(listRegionStatsEntity.toStatsDomain()))
+            data.shouldBeRight(listRegionStatsEntity.toStatsDomain())
         }
     }
 
-    @Test
-    fun `get region all stats with empty data should return database empty error if data doesn't exists`() = runBlocking {
+    should("get region all stats with empty data should return database empty error if data doesn't exists") {
         val flow = flow {
             emit(listOf<RegionStatsEntity>())
         }
@@ -341,12 +307,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getRegionAllStats(ID_COUNTRY, ID_REGION)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+            data.shouldBeLeft(DomainError.DatabaseEmptyData)
         }
     }
 
-    @Test
-    fun `get countries and stats ordered by confirmed should return data if exists`() = runBlocking {
+    should("get countries and stats ordered by confirmed should return data if exists") {
         val flow = flow {
             emit(listCountryAndStatsPojo)
         }
@@ -356,12 +321,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getCountriesStatsOrderByConfirmed()
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.right(listCountryAndStatsPojo.toDomain()))
+            data.shouldBeRight(listCountryAndStatsPojo.toDomain())
         }
     }
 
-    @Test
-    fun `get countries and stats ordered by confirmed with empty data should return database empty error if data doesn't exists`() = runBlocking {
+    should("get countries and stats ordered by confirmed with empty data should return database empty error if data doesn't exists") {
         val flow = flow {
             emit(listOf<CountryAndStatsPojo>())
         }
@@ -371,12 +335,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getCountriesStatsOrderByConfirmed()
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+            data.shouldBeLeft(DomainError.DatabaseEmptyData)
         }
     }
 
-    @Test
-    fun `get regions and stats ordered by confirmed with empty date should return data if exists`() = runBlocking {
+    should("get regions and stats ordered by confirmed with empty date should return data if exists") {
         val flow = flow {
             emit(listRegionAndStatsDV)
         }
@@ -388,7 +351,7 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getRegionsStatsOrderByConfirmed(ID_COUNTRY, EMPTY_DATE)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.right(listRegionAndStatsDV.toDomain()))
+            data.shouldBeRight(listRegionAndStatsDV.toDomain())
         }
         verify { regionStatsDao.getRegionAndStatsByCountryAndLastDateOrderByConfirmed(any()) }
         verify {
@@ -396,8 +359,7 @@ class LocalCovidTrackerDatasourceTest {
         }
     }
 
-    @Test
-    fun `get regions and stats ordered by confirmed with empty data should return database empty error if data doesn't exists`() = runBlocking {
+    should("get regions and stats ordered by confirmed with empty data should return database empty error if data doesn't exists") {
         val flow = flow {
             emit(listOf<RegionAndStatsDV>())
         }
@@ -409,7 +371,7 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getRegionsStatsOrderByConfirmed(ID_COUNTRY, EMPTY_DATE)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+            data.shouldBeLeft(DomainError.DatabaseEmptyData)
         }
         verify { regionStatsDao.getRegionAndStatsByCountryAndLastDateOrderByConfirmed(any()) }
         verify {
@@ -417,8 +379,7 @@ class LocalCovidTrackerDatasourceTest {
         }
     }
 
-    @Test
-    fun `get regions and stats ordered by confirmed should return data if exists`() = runBlocking {
+    should("get regions and stats ordered by confirmed should return data if exists") {
         val flow = flow {
             emit(listRegionAndStatsDV)
         }
@@ -430,7 +391,7 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getRegionsStatsOrderByConfirmed(ID_COUNTRY, DATE)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.right(listRegionAndStatsDV.toDomain()))
+            data.shouldBeRight(listRegionAndStatsDV.toDomain())
         }
         verify { regionStatsDao.getRegionAndStatsByCountryAndDateOrderByConfirmed(any(), any()) }
         verify {
@@ -438,8 +399,7 @@ class LocalCovidTrackerDatasourceTest {
         }
     }
 
-    @Test
-    fun `get regions and stats ordered by confirmed should return database empty error if data doesn't exists`() = runBlocking {
+    should("get regions and stats ordered by confirmed should return database empty error if data doesn't exists") {
         val flow = flow {
             emit(listOf<RegionAndStatsDV>())
         }
@@ -451,7 +411,7 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getRegionsStatsOrderByConfirmed(ID_COUNTRY, DATE)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+            data.shouldBeLeft(DomainError.DatabaseEmptyData)
         }
         verify { regionStatsDao.getRegionAndStatsByCountryAndDateOrderByConfirmed(any(), any()) }
         verify {
@@ -459,8 +419,7 @@ class LocalCovidTrackerDatasourceTest {
         }
     }
 
-    @Test
-    fun `get subregions and stats ordered by confirmed with empty date should return data if exists`() = runBlocking {
+    should("get subregions and stats ordered by confirmed with empty date should return data if exists") {
         val flow = flow {
             emit(listSubRegionAndStatsDV)
         }
@@ -472,7 +431,7 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getSubRegionsStatsOrderByConfirmed(ID_COUNTRY, ID_REGION, EMPTY_DATE)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.right(listSubRegionAndStatsDV.toDomain()))
+            data.shouldBeRight(listSubRegionAndStatsDV.toDomain())
         }
         verify {
             subRegionStatsDao.getSubRegionAndStatsByCountryAndLastDateOrderByConfirmed(any(), any())
@@ -482,8 +441,7 @@ class LocalCovidTrackerDatasourceTest {
         }
     }
 
-    @Test
-    fun `get subregions and stats ordered by confirmed with empty data should return database empty error if data doesn't exists`() = runBlocking {
+    should("get subregions and stats ordered by confirmed with empty data should return database empty error if data doesn't exists") {
         val flow = flow {
             emit(listOf<SubRegionAndStatsDV>())
         }
@@ -493,7 +451,7 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getSubRegionsStatsOrderByConfirmed(ID_COUNTRY, ID_REGION, EMPTY_DATE)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+            data.shouldBeLeft(DomainError.DatabaseEmptyData)
         }
         verify {
             subRegionStatsDao.getSubRegionAndStatsByCountryAndLastDateOrderByConfirmed(any(), any())
@@ -503,8 +461,7 @@ class LocalCovidTrackerDatasourceTest {
         }
     }
 
-    @Test
-    fun `get subregions and stats ordered by confirmed should return data if exists`() = runBlocking {
+    should("get subregions and stats ordered by confirmed should return data if exists") {
         val flow = flow {
             emit(listSubRegionAndStatsDV)
         }
@@ -516,7 +473,7 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getSubRegionsStatsOrderByConfirmed(ID_COUNTRY, ID_REGION, DATE)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.right(listSubRegionAndStatsDV.toDomain()))
+            data.shouldBeRight(listSubRegionAndStatsDV.toDomain())
         }
         verify {
             subRegionStatsDao.getSubRegionAndStatsByCountryAndDateOrderByConfirmed(any(), any(), any())
@@ -526,8 +483,7 @@ class LocalCovidTrackerDatasourceTest {
         }
     }
 
-    @Test
-    fun `get subregions and stats ordered by confirmed should return database empty error if data doesn't exists`() = runBlocking {
+    should("get subregions and stats ordered by confirmed should return database empty error if data doesn't exists") {
         val flow = flow {
             emit(listOf<SubRegionAndStatsDV>())
         }
@@ -539,7 +495,7 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getSubRegionsStatsOrderByConfirmed(ID_COUNTRY, ID_REGION, DATE)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+            data.shouldBeLeft(DomainError.DatabaseEmptyData)
         }
         verify {
             subRegionStatsDao.getSubRegionAndStatsByCountryAndDateOrderByConfirmed(any(), any(), any())
@@ -549,8 +505,7 @@ class LocalCovidTrackerDatasourceTest {
         }
     }
 
-    @Test
-    fun `get regions all stats ordered by confirmed with empty date should return data if exists`() = runBlocking {
+    should("get regions all stats ordered by confirmed with empty date should return data if exists") {
         val flow = flow {
             emit(listRegionAndStatsPojo)
         }
@@ -562,12 +517,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getRegionsAllStatsOrderByConfirmed(ID_COUNTRY)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.right(listRegionAndStatsPojo.toDomain()))
+            data.shouldBeRight(listRegionAndStatsPojo.toDomain())
         }
     }
 
-    @Test
-    fun `get regions all stats ordered by confirmed with empty data should return database empty error if data doesn't exists`() = runBlocking {
+    should("get regions all stats ordered by confirmed with empty data should return database empty error if data doesn't exists") {
         val flow = flow {
             emit(listOf<RegionAndStatsPojo>())
         }
@@ -579,12 +533,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getRegionsAllStatsOrderByConfirmed(ID_COUNTRY)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+            data.shouldBeLeft(DomainError.DatabaseEmptyData)
         }
     }
 
-    @Test
-    fun `get subregions all stats ordered by confirmed with empty date should return data if exists`() = runBlocking {
+    should("get subregions all stats ordered by confirmed with empty date should return data if exists") {
         val flow = flow {
             emit(listSubRegionAndStatsPojo)
         }
@@ -596,12 +549,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getSubRegionsAllStatsOrderByConfirmed(ID_COUNTRY, ID_REGION)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.right(listSubRegionAndStatsPojo.toDomain()))
+            data.shouldBeRight(listSubRegionAndStatsPojo.toDomain())
         }
     }
 
-    @Test
-    fun `get subregions all stats ordered by confirmed with empty data should return database empty error if data doesn't exists`() = runBlocking {
+    should("get subregions all stats ordered by confirmed with empty data should return database empty error if data doesn't exists") {
         val flow = flow {
             emit(listOf<SubRegionAndStatsPojo>())
         }
@@ -613,12 +565,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getSubRegionsAllStatsOrderByConfirmed(ID_COUNTRY, ID_REGION)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+            data.shouldBeLeft(DomainError.DatabaseEmptyData)
         }
     }
 
-    @Test
-    fun `get countries and stats most confirmed should return data if exists`() = runBlocking {
+    should("get countries and stats most confirmed should return data if exists") {
         val flow = flow {
             emit(listCountryAndOneStatsPojo)
         }
@@ -630,12 +581,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getCountriesAndStatsWithMostConfirmed()
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.right(listCountryAndStats))
+            data.shouldBeRight(listCountryAndStats)
         }
     }
 
-    @Test
-    fun `get countries and stats most confirmed should return database empty error if data doesn't exists`() = runBlocking {
+    should("get countries and stats most confirmed should return database empty error if data doesn't exists") {
         val flow = flow {
             emit(listOf<CountryAndOneStatsPojo>())
         }
@@ -647,12 +597,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getCountriesAndStatsWithMostConfirmed()
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+            data.shouldBeLeft(DomainError.DatabaseEmptyData)
         }
     }
 
-    @Test
-    fun `get regions and stats most confirmed should return data if exists`() = runBlocking {
+    should("get regions and stats most confirmed should return data if exists") {
         val flow = flow {
             emit(listRegionAndOneStatsPojo)
         }
@@ -664,14 +613,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getRegionsAndStatsWithMostConfirmed(ID_COUNTRY)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(
-                Either.right(Pair(MenuItemViewType.LineChartMostConfirmed, listRegionAndStats))
-            )
+            data.shouldBeRight(Pair(MenuItemViewType.LineChartMostConfirmed, listRegionAndStats))
         }
     }
 
-    @Test
-    fun `get regions and stats most confirmed should return database empty error if data doesn't exists`() = runBlocking {
+    should("get regions and stats most confirmed should return database empty error if data doesn't exists") {
         val flow = flow {
             emit(listOf<RegionAndOneStatsPojo>())
         }
@@ -683,12 +629,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getRegionsAndStatsWithMostConfirmed(ID_COUNTRY)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+            data.shouldBeLeft(DomainError.DatabaseEmptyData)
         }
     }
 
-    @Test
-    fun `get subregions and stats most confirmed should return data if exists`() = runBlocking {
+    should("get subregions and stats most confirmed should return data if exists") {
         val flow = flow {
             emit(listSubRegionAndOneStatsPojo)
         }
@@ -700,14 +645,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getSubRegionsAndStatsWithMostConfirmed(ID_COUNTRY, ID_REGION)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(
-                Either.right(Pair(MenuItemViewType.LineChartMostConfirmed, listSubRegionAndStats))
-            )
+            data.shouldBeRight(Pair(MenuItemViewType.LineChartMostConfirmed, listSubRegionAndStats))
         }
     }
 
-    @Test
-    fun `get subregions and stats most confirmed should return database empty error if data doesn't exists`() = runBlocking {
+    should("get subregions and stats most confirmed should return database empty error if data doesn't exists") {
         val flow = flow {
             emit(listOf<SubRegionAndOneStatsPojo>())
         }
@@ -719,12 +661,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getSubRegionsAndStatsWithMostConfirmed(ID_COUNTRY, ID_REGION)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+            data.shouldBeLeft(DomainError.DatabaseEmptyData)
         }
     }
 
-    @Test
-    fun `get countries and stats most deaths should return data if exists`() = runBlocking {
+    should("get countries and stats most deaths should return data if exists") {
         val flow = flow {
             emit(listCountryAndOneStatsPojo)
         }
@@ -736,12 +677,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getCountriesAndStatsWithMostDeaths()
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.right(listCountryAndStats))
+            data.shouldBeRight(listCountryAndStats)
         }
     }
 
-    @Test
-    fun `get countries and stats most deaths should return database empty error if data doesn't exists`() = runBlocking {
+    should("get countries and stats most deaths should return database empty error if data doesn't exists") {
         val flow = flow {
             emit(listOf<CountryAndOneStatsPojo>())
         }
@@ -753,12 +693,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getCountriesAndStatsWithMostDeaths()
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+            data.shouldBeLeft(DomainError.DatabaseEmptyData)
         }
     }
 
-    @Test
-    fun `get regions and stats most deaths should return data if exists`() = runBlocking {
+    should("get regions and stats most deaths should return data if exists") {
         val flow = flow {
             emit(listRegionAndOneStatsPojo)
         }
@@ -770,14 +709,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getRegionsAndStatsWithMostDeaths(ID_COUNTRY)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(
-                Either.right(Pair(MenuItemViewType.LineChartMostDeaths, listRegionAndStats))
-            )
+            data.shouldBeRight(Pair(MenuItemViewType.LineChartMostDeaths, listRegionAndStats))
         }
     }
 
-    @Test
-    fun `get regions and stats most deaths should return database empty error if data doesn't exists`() = runBlocking {
+    should("get regions and stats most deaths should return database empty error if data doesn't exists") {
         val flow = flow {
             emit(listOf<RegionAndOneStatsPojo>())
         }
@@ -789,12 +725,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getRegionsAndStatsWithMostDeaths(ID_COUNTRY)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+            data.shouldBeLeft(DomainError.DatabaseEmptyData)
         }
     }
 
-    @Test
-    fun `get subregions and stats most deaths should return data if exists`() = runBlocking {
+    should("get subregions and stats most deaths should return data if exists") {
         val flow = flow {
             emit(listSubRegionAndOneStatsPojo)
         }
@@ -806,14 +741,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getSubRegionsAndStatsWithMostDeaths(ID_COUNTRY, ID_REGION)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(
-                Either.right(Pair(MenuItemViewType.LineChartMostDeaths, listSubRegionAndStats))
-            )
+            data.shouldBeRight(Pair(MenuItemViewType.LineChartMostDeaths, listSubRegionAndStats))
         }
     }
 
-    @Test
-    fun `get subregions and stats most deaths should return database empty error if data doesn't exists`() = runBlocking {
+    should("get subregions and stats most deaths should return database empty error if data doesn't exists") {
         val flow = flow {
             emit(listOf<SubRegionAndOneStatsPojo>())
         }
@@ -825,12 +757,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getSubRegionsAndStatsWithMostDeaths(ID_COUNTRY, ID_REGION)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+            data.shouldBeLeft(DomainError.DatabaseEmptyData)
         }
     }
 
-    @Test
-    fun `get countries and stats most open cases should return data if exists`() = runBlocking {
+    should("get countries and stats most open cases should return data if exists") {
         val flow = flow {
             emit(listCountryAndOneStatsPojo)
         }
@@ -842,12 +773,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getCountriesAndStatsWithMostOpenCases()
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.right(listCountryAndStats))
+            data.shouldBeRight(listCountryAndStats)
         }
     }
 
-    @Test
-    fun `get countries and stats most open cases should return database empty error if data doesn't exists`() = runBlocking {
+    should("get countries and stats most open cases should return database empty error if data doesn't exists") {
         val flow = flow {
             emit(listOf<CountryAndOneStatsPojo>())
         }
@@ -859,12 +789,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getCountriesAndStatsWithMostOpenCases()
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+            data.shouldBeLeft(DomainError.DatabaseEmptyData)
         }
     }
 
-    @Test
-    fun `get regions and stats most open cases should return data if exists`() = runBlocking {
+    should("get regions and stats most open cases should return data if exists") {
         val flow = flow {
             emit(listRegionAndOneStatsPojo)
         }
@@ -876,14 +805,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getRegionsAndStatsWithMostOpenCases(ID_COUNTRY)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(
-                Either.right(Pair(MenuItemViewType.LineChartMostOpenCases, listRegionAndStats))
-            )
+            data.shouldBeRight(Pair(MenuItemViewType.LineChartMostOpenCases, listRegionAndStats))
         }
     }
 
-    @Test
-    fun `get regions and stats most open cases should return database empty error if data doesn't exists`() = runBlocking {
+    should("get regions and stats most open cases should return database empty error if data doesn't exists") {
         val flow = flow {
             emit(listOf<RegionAndOneStatsPojo>())
         }
@@ -895,12 +821,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getRegionsAndStatsWithMostOpenCases(ID_COUNTRY)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+            data.shouldBeLeft(DomainError.DatabaseEmptyData)
         }
     }
 
-    @Test
-    fun `get subregions and stats most open cases should return data if exists`() = runBlocking {
+    should("get subregions and stats most open cases should return data if exists") {
         val flow = flow {
             emit(listSubRegionAndOneStatsPojo)
         }
@@ -912,14 +837,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getSubRegionsAndStatsWithMostOpenCases(ID_COUNTRY, ID_REGION)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(
-                Either.right(Pair(MenuItemViewType.LineChartMostOpenCases, listSubRegionAndStats))
-            )
+            data.shouldBeRight(Pair(MenuItemViewType.LineChartMostOpenCases, listSubRegionAndStats))
         }
     }
 
-    @Test
-    fun `get subregions and stats most open cases should return database empty error if data doesn't exists`() = runBlocking {
+    should("get subregions and stats most open cases should return database empty error if data doesn't exists") {
         val flow = flow {
             emit(listOf<SubRegionAndOneStatsPojo>())
         }
@@ -931,12 +853,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getSubRegionsAndStatsWithMostOpenCases(ID_COUNTRY, ID_REGION)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+            data.shouldBeLeft(DomainError.DatabaseEmptyData)
         }
     }
 
-    @Test
-    fun `get countries and stats most recovered should return data if exists`() = runBlocking {
+    should("get countries and stats most recovered should return data if exists") {
         val flow = flow {
             emit(listCountryAndOneStatsPojo)
         }
@@ -948,12 +869,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getCountriesAndStatsWithMostRecovered()
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.right(listCountryAndStats))
+            data.shouldBeRight(listCountryAndStats)
         }
     }
 
-    @Test
-    fun `get countries and stats most recovered should return database empty error if data doesn't exists`() = runBlocking {
+    should("get countries and stats most recovered should return database empty error if data doesn't exists") {
         val flow = flow {
             emit(listOf<CountryAndOneStatsPojo>())
         }
@@ -965,12 +885,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getCountriesAndStatsWithMostRecovered()
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+            data.shouldBeLeft(DomainError.DatabaseEmptyData)
         }
     }
 
-    @Test
-    fun `get regions and stats most recovered should return data if exists`() = runBlocking {
+    should("get regions and stats most recovered should return data if exists") {
         val flow = flow {
             emit(listRegionAndOneStatsPojo)
         }
@@ -982,14 +901,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getRegionsAndStatsWithMostRecovered(ID_COUNTRY)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(
-                Either.right(Pair(MenuItemViewType.LineChartMostRecovered, listRegionAndStats))
-            )
+            data.shouldBeRight(Pair(MenuItemViewType.LineChartMostRecovered, listRegionAndStats))
         }
     }
 
-    @Test
-    fun `get regions and stats most recovered should return database empty error if data doesn't exists`() = runBlocking {
+    should("get regions and stats most recovered should return database empty error if data doesn't exists") {
         val flow = flow {
             emit(listOf<RegionAndOneStatsPojo>())
         }
@@ -1001,12 +917,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getRegionsAndStatsWithMostRecovered(ID_COUNTRY)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+            data.shouldBeLeft(DomainError.DatabaseEmptyData)
         }
     }
 
-    @Test
-    fun `get subregions and stats most recovered should return data if exists`() = runBlocking {
+    should("get subregions and stats most recovered should return data if exists") {
         val flow = flow {
             emit(listSubRegionAndOneStatsPojo)
         }
@@ -1018,14 +933,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getSubRegionsAndStatsWithMostRecovered(ID_COUNTRY, ID_REGION)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(
-                Either.right(Pair(MenuItemViewType.LineChartMostRecovered, listSubRegionAndStats))
-            )
+            data.shouldBeRight(Pair(MenuItemViewType.LineChartMostRecovered, listSubRegionAndStats))
         }
     }
 
-    @Test
-    fun `get subregions and stats most recovered should return database empty error if data doesn't exists`() = runBlocking {
+    should("get subregions and stats most recovered should return database empty error if data doesn't exists") {
         val flow = flow {
             emit(listOf<SubRegionAndOneStatsPojo>())
         }
@@ -1037,12 +949,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getSubRegionsAndStatsWithMostRecovered(ID_COUNTRY, ID_REGION)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+            data.shouldBeLeft(DomainError.DatabaseEmptyData)
         }
     }
 
-    @Test
-    fun `get countries should return data if exists`() = runBlocking {
+    should("get countries should return data if exists") {
         val flow = flow {
             emit(listCountryEntity)
         }
@@ -1052,12 +963,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getCountries()
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.right(listCountry))
+            data.shouldBeRight(listCountry)
         }
     }
 
-    @Test
-    fun `get countries should return database empty error if data doesn't exists`() = runBlocking {
+    should("get countries should return database empty error if data doesn't exists") {
         val flow = flow {
             emit(listOf<CountryEntity>())
         }
@@ -1067,12 +977,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getCountries()
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.left(DomainError.DatabaseEmptyData))
+            data.shouldBeLeft(DomainError.DatabaseEmptyData)
         }
     }
 
-    @Test
-    fun `get regions by country should return data if exists`() = runBlocking {
+    should("get regions by country should return data if exists") {
         val flow = flow {
             emit(listRegionEntity)
         }
@@ -1082,12 +991,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getRegionsByCountry(ID_COUNTRY)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.right(listRegion))
+            data.shouldBeRight(listRegion)
         }
     }
 
-    @Test
-    fun `get regions by country should return empty list if data doesn't exists`() = runBlocking {
+    should("get regions by country should return empty list if data doesn't exists") {
         val flow = flow {
             emit(listOf<RegionEntity>())
         }
@@ -1097,12 +1005,11 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getRegionsByCountry(ID_COUNTRY)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.right(listRegionEmpty))
+            data.shouldBeRight(listRegionEmpty)
         }
     }
 
-    @Test
-    fun `get country and stats by empty date should return last data if exists`() = runBlocking {
+    should("get country and stats by empty date should return last data if exists") {
         val flow = flow {
             emit(countryAndOneStatsPojo)
         }
@@ -1112,14 +1019,13 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getCountryAndStatsByDate(ID_COUNTRY, EMPTY_DATE)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.right(countryOneStats.copy(regionStats = null)))
+            data.shouldBeRight(countryOneStats.copy(regionStats = null))
         }
         verify { countryStatsDao.getCountryAndStatsByLastDate(any()) }
         verify { countryStatsDao.getCountryAndStatsByDate(any(), any()) wasNot Called }
     }
 
-    @Test
-    fun `get country and stats by empty date should return database mapper error if data doesn't exists`() = runBlocking {
+    should("get country and stats by empty date should return database mapper error if data doesn't exists") {
         val flow = flow {
             emit(countryAndOneStatsPojo.copy(country = null))
         }
@@ -1129,15 +1035,14 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getCountryAndStatsByDate(ID_COUNTRY, EMPTY_DATE)
 
         flowLocalDs.collect { data ->
-            assertThat(data.isLeft()).isTrue()
+            data.shouldBeLeft()
             data.mapLeft { assertThat(it).isInstanceOf(DomainError.MapperDatabaseError::class.java) }
         }
         verify { countryStatsDao.getCountryAndStatsByLastDate(any()) }
         verify { countryStatsDao.getCountryAndStatsByDate(any(), any()) wasNot Called }
     }
 
-    @Test
-    fun `get country and stats by date should return last data if exists`() = runBlocking {
+    should("get country and stats by date should return last data if exists") {
         val flow = flow {
             emit(countryAndOneStatsPojo)
         }
@@ -1147,14 +1052,13 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getCountryAndStatsByDate(ID_COUNTRY, DATE)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.right(countryOneStats.copy(regionStats = null)))
+            data.shouldBeRight(countryOneStats.copy(regionStats = null))
         }
         verify { countryStatsDao.getCountryAndStatsByDate(any(), any()) }
         verify { countryStatsDao.getCountryAndStatsByLastDate(any()) wasNot Called }
     }
 
-    @Test
-    fun `get country and stats by date should return database mapper error if data doesn't exists`() = runBlocking {
+    should("get country and stats by date should return database mapper error if data doesn't exists") {
         val flow = flow {
             emit(countryAndOneStatsPojo.copy(country = null))
         }
@@ -1164,15 +1068,14 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getCountryAndStatsByDate(ID_COUNTRY, DATE)
 
         flowLocalDs.collect { data ->
-            assertThat(data.isLeft()).isTrue()
+            data.shouldBeLeft()
             data.mapLeft { assertThat(it).isInstanceOf(DomainError.MapperDatabaseError::class.java) }
         }
         verify { countryStatsDao.getCountryAndStatsByDate(any(), any()) }
         verify { countryStatsDao.getCountryAndStatsByLastDate(any()) wasNot Called }
     }
 
-    @Test
-    fun `get region and stats by empty date should return last data if exists`() = runBlocking {
+    should("get region and stats by empty date should return last data if exists") {
         val flow = flow {
             emit(regionAndOneStatsPojo)
         }
@@ -1182,14 +1085,13 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getRegionAndStatsByDate(ID_COUNTRY, ID_REGION, EMPTY_DATE)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.right(regionOneStats))
+            data.shouldBeRight(regionOneStats)
         }
         verify { regionStatsDao.getRegionAndStatsByLastDate(any(), any()) }
         verify { regionStatsDao.getRegionAndStatsByDate(any(), any(), any()) wasNot Called }
     }
 
-    @Test
-    fun `get region and stats by empty date should return database mapper error if data doesn't exists`() = runBlocking {
+    should("get region and stats by empty date should return database mapper error if data doesn't exists") {
         val flow = flow {
             emit(regionAndOneStatsPojo.copy(region = null))
         }
@@ -1199,15 +1101,14 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getRegionAndStatsByDate(ID_COUNTRY, ID_REGION, EMPTY_DATE)
 
         flowLocalDs.collect { data ->
-            assertThat(data.isLeft()).isTrue()
+            data.shouldBeLeft()
             data.mapLeft { assertThat(it).isInstanceOf(DomainError.MapperDatabaseError::class.java) }
         }
         verify { regionStatsDao.getRegionAndStatsByLastDate(any(), any()) }
         verify { regionStatsDao.getRegionAndStatsByDate(any(), any(), any()) wasNot Called }
     }
 
-    @Test
-    fun `get region and stats by date should return last data if exists`() = runBlocking {
+    should("get region and stats by date should return last data if exists") {
         val flow = flow {
             emit(regionAndOneStatsPojo)
         }
@@ -1217,14 +1118,13 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getRegionAndStatsByDate(ID_COUNTRY, ID_REGION, DATE)
 
         flowLocalDs.collect { data ->
-            assertThat(data).isEqualTo(Either.right(regionOneStats))
+            data.shouldBeRight(regionOneStats)
         }
         verify { regionStatsDao.getRegionAndStatsByDate(any(), any(), any()) }
         verify { regionStatsDao.getRegionAndStatsByLastDate(any(), any()) wasNot Called }
     }
 
-    @Test
-    fun `get region and stats by date should return database mapper error if data doesn't exists`() = runBlocking {
+    should("get region and stats by date should return database mapper error if data doesn't exists") {
         val flow = flow {
             emit(regionAndOneStatsPojo.copy(region = null))
         }
@@ -1234,15 +1134,14 @@ class LocalCovidTrackerDatasourceTest {
         val flowLocalDs = local.getRegionAndStatsByDate(ID_COUNTRY, ID_REGION, DATE)
 
         flowLocalDs.collect { data ->
-            assertThat(data.isLeft()).isTrue()
+            data.shouldBeLeft()
             data.mapLeft { assertThat(it).isInstanceOf(DomainError.MapperDatabaseError::class.java) }
         }
         verify { regionStatsDao.getRegionAndStatsByDate(any(), any(), any()) }
         verify { regionStatsDao.getRegionAndStatsByLastDate(any(), any()) wasNot Called }
     }
 
-    @Test
-    fun `populate database with covid tracker list should call populate database method`() = runBlockingTest {
+    should("populate database with covid tracker list should call populate database method") {
         coEvery {
             covidTrackerDao.populateDatabase(any(), any(), any(), any(), any(), any(), any())
         } returns Unit
@@ -1252,8 +1151,7 @@ class LocalCovidTrackerDatasourceTest {
         coVerify { covidTrackerDao.populateDatabase(any(), any(), any(), any(), any(), any(), any()) }
     }
 
-    @Test
-    fun `save covid tracker should should call populate database method`() = runBlockingTest {
+    should("save covid tracker should should call populate database method") {
         coEvery {
             covidTrackerDao.populateDatabase(any(), any(), any(), any(), any(), any(), any())
         } returns Unit
@@ -1264,17 +1162,15 @@ class LocalCovidTrackerDatasourceTest {
         coVerify { covidTrackerDao.populateDatabase(any(), any(), any(), any(), any(), any(), any()) }
     }
 
-    @Test
-    fun `get all dates should return a list with all dates`() = runBlockingTest {
+    should("get all dates should return a list with all dates") {
         coEvery { worldStatsDao.getAllDates() } returns DATES
 
         val data = local.getAllDates()
 
         coVerify { local.getAllDates() }
-        assertThat(data.isRight()).isTrue()
+        data.shouldBeRight()
         data.map { dates ->
-            assertThat(dates).hasSize(3)
-            assertThat(dates).isEqualTo(DATES)
+            dates shouldBe DATES
         }
     }
-}
+})

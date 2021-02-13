@@ -7,6 +7,7 @@ plugins {
     // id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("com.google.firebase.firebase-perf")
+    id("de.mannodermaus.android-junit5")
 }
 
 android {
@@ -70,7 +71,13 @@ android {
         unitTests {
             this.isIncludeAndroidResources = true
         }
-        animationsDisabled = true
+
+        unitTests.all {
+            // This executes all tests JUnit5 based tests for Kotest.
+            // We must use JUnit4 for the rest of the tests. See:
+            // https://github.com/mannodermaus/android-junit5
+            it.useJUnitPlatform()
+        }
     }
 }
 

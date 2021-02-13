@@ -3,6 +3,8 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 object Dependencies {
     internal const val GRADLE_ANDROID_TOOLS =
         "com.android.tools.build:gradle:${Versions.Gradle.GRADLE_ANDROID}"
+    internal const val GRADLE_ANDROID_JUNIT5 =
+        "de.mannodermaus.gradle.plugins:android-junit5:${Versions.Gradle.ANDROID_JUNIT5}"
     internal const val GRADLE_FIREBASE_CRASHLYTICS =
         "com.google.firebase:firebase-crashlytics-gradle:${Versions.Gradle.FIREBASE_CRASHLYTICS}"
     internal const val GRADLE_FIREBASE_PERFORMANCE_PLUGIN =
@@ -15,7 +17,8 @@ object Dependencies {
         "org.jetbrains.kotlin:kotlin-serialization:${Versions.Gradle.KOTLIN}"
     internal const val GRADLE_MAVEN_PLUGIN =
         "com.github.dcendents:android-maven-gradle-plugin:${Versions.Gradle.MAVEN_PLUGIN}"
-    internal const val GRADLE_REMAL_PLUGIN = "name.remal:gradle-plugins:${Versions.Gradle.REMAL_PLUGIN}"
+    internal const val GRADLE_REMAL_PLUGIN =
+        "name.remal:gradle-plugins:${Versions.Gradle.REMAL_PLUGIN}"
 
     internal const val KOTLIN_JDK = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.Kotlin.JDK}"
 
@@ -23,10 +26,12 @@ object Dependencies {
         "androidx.appcompat:appcompat:${Versions.Google.Androidx.APP_COMPAT}"
     internal const val ANDROID_CONSTRAINT_LAYOUT =
         "androidx.constraintlayout:constraintlayout:${Versions.Google.Androidx.CONSTRAINT_LAYOUT}"
-    internal const val ANDROID_CORE_KTX = "androidx.core:core-ktx:${Versions.Google.Androidx.CORE_KTX}"
+    internal const val ANDROID_CORE_KTX =
+        "androidx.core:core-ktx:${Versions.Google.Androidx.CORE_KTX}"
     internal const val ANDROID_CORE_TESTING =
         "androidx.arch.core:core-testing:${Versions.Google.Androidx.CORE_TESTING}"
-    internal const val ANDROID_JUNIT_EXT = "androidx.test.ext:junit:${Versions.Google.Androidx.JUNIT_EXT}"
+    internal const val ANDROID_JUNIT_EXT =
+        "androidx.test.ext:junit:${Versions.Google.Androidx.JUNIT_EXT}"
     internal const val ANDROID_ESPRESSO_CONTRIB =
         "androidx.test.espresso:espresso-contrib:${Versions.Google.Androidx.ESPRESSO}"
     internal const val ANDROID_ESPRESSO_CORE =
@@ -55,13 +60,20 @@ object Dependencies {
         "androidx.recyclerview:recyclerview:${Versions.Google.Androidx.RECYCLERVIEW}"
     internal const val ANDROID_TEST_FRAGMENT =
         "androidx.fragment:fragment-testing:${Versions.Google.Androidx.TEST_FRAGMENT}"
-    internal const val ANDROID_TEST_CORE = "androidx.test:core:${Versions.Google.Androidx.TEST_CORE}"
-    internal const val ANDROID_TEST_RULES = "androidx.test:rules:${Versions.Google.Androidx.TEST_RULES}"
-    internal const val ANDROID_TEST_RUNNER = "androidx.test:runner:${Versions.Google.Androidx.TEST_RUNNER}"
-    internal const val ANDROID_TEST_WORK = "androidx.work:work-testing:${Versions.Google.Androidx.WORK_MANAGER}"
-    internal const val ANDROID_ROOM_COMPILER = "androidx.room:room-compiler:${Versions.Google.Androidx.ROOM}"
-    internal const val ANDROID_ROOM_KTX = "androidx.room:room-ktx:${Versions.Google.Androidx.ROOM}"
-    internal const val ANDROID_ROOM_RUNTIME = "androidx.room:room-runtime:${Versions.Google.Androidx.ROOM}"
+    internal const val ANDROID_TEST_CORE =
+        "androidx.test:core:${Versions.Google.Androidx.TEST_CORE}"
+    internal const val ANDROID_TEST_RULES =
+        "androidx.test:rules:${Versions.Google.Androidx.TEST_RULES}"
+    internal const val ANDROID_TEST_RUNNER =
+        "androidx.test:runner:${Versions.Google.Androidx.TEST_RUNNER}"
+    internal const val ANDROID_TEST_WORK =
+        "androidx.work:work-testing:${Versions.Google.Androidx.WORK_MANAGER}"
+    internal const val ANDROID_ROOM_COMPILER =
+        "androidx.room:room-compiler:${Versions.Google.Androidx.ROOM}"
+    internal const val ANDROID_ROOM_KTX =
+        "androidx.room:room-ktx:${Versions.Google.Androidx.ROOM}"
+    internal const val ANDROID_ROOM_RUNTIME =
+        "androidx.room:room-runtime:${Versions.Google.Androidx.ROOM}"
     internal const val ANDROID_WORK_MANAGER =
         "androidx.work:work-runtime-ktx:${Versions.Google.Androidx.WORK_MANAGER}"
 
@@ -105,8 +117,22 @@ object Dependencies {
     internal const val TEST_FLOW_OBSERVER =
         "com.github.ologe:flow-test-observer:${Versions.Test.FLOW_TEST_OBSERVER}"
     internal const val TEST_JUNIT = "junit:junit:${Versions.Test.JUNIT}"
+    internal const val TEST_JUNIT_JUPITER_API =
+        "org.junit.jupiter:junit-jupiter-api:${Versions.Test.JUNIT_JUPITER}"
+    internal const val TEST_JUNIT_JUPITER_ENGINE =
+        "org.junit.jupiter:junit-jupiter-engine:${Versions.Test.JUNIT_JUPITER}"
+    internal const val TEST_JUNIT_JUPITER_VINTAGE =
+        "org.junit.vintage:junit-vintage-engine:${Versions.Test.JUNIT_JUPITER}"
     internal const val TEST_KAKAO = "com.agoda.kakao:kakao:${Versions.Test.KAKAO}"
     internal const val TEST_KOIN = "org.koin:koin-test:${Versions.Test.KOIN}"
+    internal const val TEST_KOTEST_ASSERTIONS =
+        "io.kotest:kotest-assertions-core:${Versions.Test.KOTEST}"
+    internal const val TEST_KOTEST_ASSERTIONS_ARROW =
+        "io.kotest:kotest-assertions-arrow:${Versions.Test.KOTEST}"
+    internal const val TEST_KOTEST_MOCK_WEB_SERVER =
+        "io.kotest:kotest-extensions-mockserver:${Versions.Test.KOTEST}"
+    internal const val TEST_KOTEST_RUNNER =
+        "io.kotest:kotest-runner-junit5:${Versions.Test.KOTEST}"
     internal const val TEST_MOCKITO_KOTLIN =
         "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.Test.MOCKITO_KOTLIN}"
     internal const val TEST_MOCKK = "io.mockk:mockk:${Versions.Test.MOCKK}"
@@ -134,6 +160,7 @@ object Dependencies {
 }
 
 fun DependencyHandler.gradle() {
+    classpath(Dependencies.GRADLE_ANDROID_JUNIT5)
     classpath(Dependencies.GRADLE_ANDROID_TOOLS)
     classpath(Dependencies.GRADLE_FIREBASE_CRASHLYTICS)
     classpath(Dependencies.GRADLE_FIREBASE_PERFORMANCE_PLUGIN)
@@ -226,12 +253,19 @@ fun DependencyHandler.test() {
     testImplementation(Dependencies.TEST_COROUTINES)
     testImplementation(Dependencies.TEST_FLOW_OBSERVER)
     testImplementation(Dependencies.TEST_JUNIT)
+    testImplementation(Dependencies.TEST_JUNIT_JUPITER_API)
     testImplementation(Dependencies.TEST_KOIN)
+    testImplementation(Dependencies.TEST_KOTEST_ASSERTIONS)
+    testImplementation(Dependencies.TEST_KOTEST_ASSERTIONS_ARROW)
+    testImplementation(Dependencies.TEST_KOTEST_RUNNER)
     testImplementation(Dependencies.TEST_MOCKITO_KOTLIN)
     testImplementation(Dependencies.TEST_MOCKK)
     testImplementation(Dependencies.TEST_MOCK_WEB_SERVER)
     testImplementation(Dependencies.TEST_ROBOLECTRIC)
     testImplementation(Dependencies.TEST_TURBINE)
+
+    testRuntimeOnly(Dependencies.TEST_JUNIT_JUPITER_ENGINE)
+    testRuntimeOnly(Dependencies.TEST_JUNIT_JUPITER_VINTAGE)
 
     debugImplementation(Dependencies.ANDROID_TEST_FRAGMENT)
 }
@@ -282,6 +316,10 @@ private fun DependencyHandler.id(depName: String) {
 
 private fun DependencyHandler.testImplementation(depName: String) {
     add("testImplementation", depName)
+}
+
+private fun DependencyHandler.testRuntimeOnly(depName: String) {
+    add("testRuntimeOnly", depName)
 }
 
 private fun DependencyHandler.androidTestImplementation(depName: String) {
