@@ -39,9 +39,9 @@ object Dependencies {
     internal const val ANDROID_ESPRESSO_INTENTS =
         "androidx.test.espresso:espresso-intents:${Versions.Google.Androidx.ESPRESSO}"
     internal const val ANDROID_LIFECYCLE_EXTENSIONS =
-        "androidx.lifecycle:lifecycle-extensions:${Versions.Google.Androidx.LIFECYCLE}"
+        "androidx.lifecycle:lifecycle-extensions:${Versions.Google.Androidx.LIFECYCLE_EXTENSIONS}"
     internal const val ANDROID_LIFECYCLE_LIVEDATA_KTX =
-        "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.Google.Androidx.LIFECYCLE}"
+        "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.Google.Androidx.LIFECYCLE_LIVEDATA}"
     internal const val ANDROID_MATERIAL =
         "com.google.android.material:material:${Versions.Google.Material.DESIGN}"
     internal const val ANDROID_NAVIGATION_FRAGMENT =
