@@ -29,21 +29,23 @@ tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
 }
 
-tasks.register("detektAll", io.gitlab.arturbosch.detekt.Detekt::class) {
-    buildUponDefaultConfig = true
-    autoCorrect = true
-    parallel = true
-    setSource(files(projectDir))
-    config.setFrom(files("$rootDir/detekt.yml"))
-    include("**/*.kt")
-    include("**/*.kts")
-    exclude("**/build/**")
-    exclude("**/buildSrc/**")
-    exclude("**/test/**/*.kt")
-    reports {
-        xml.enabled = false
-        html.enabled = false
-        txt.enabled = false
+tasks {
+    withType<io.gitlab.arturbosch.detekt.Detekt> {
+        buildUponDefaultConfig = true
+        autoCorrect = true
+        parallel = true
+        setSource(files(projectDir))
+        config.setFrom(files("$rootDir/detekt.yml"))
+        include("**/*.kt")
+        include("**/*.kts")
+        exclude("**/build/**")
+        exclude("**/buildSrc/**")
+        exclude("**/test/**/*.kt")
+        reports {
+            xml.enabled = false
+            html.enabled = false
+            txt.enabled = false
+        }
     }
 }
 
