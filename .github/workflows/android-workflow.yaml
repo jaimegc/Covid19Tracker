@@ -26,5 +26,5 @@ jobs:
       - name: Validate gradle wrapper
         uses: gradle/wrapper-validation-action@v1
 
-      - name: Detekt
-        run: ./gradlew detekt
+      - name: detekt
+        uses: natiginfo/action-detekt-all@1.16.0-RC1
