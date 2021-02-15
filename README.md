@@ -191,7 +191,7 @@ The data for any other day, from the last one in the local database until the cu
 
 ## Tests, tests and more tests
 
-The tests are a mix of different frameworks, libraries, patterns, techniques, etc. You can see the same tests written differently.   
+The tests are a mix of different frameworks, libraries, patterns, techniques, etc. You can see the same tests implemented in a variety of ways.   
 
 <p align="left">
   <img src="./art/unit_tests_pyramid.png" height="200"/>
