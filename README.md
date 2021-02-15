@@ -335,7 +335,7 @@ You can see the config file [here](./.github/workflows/android-workflow.yaml).
 
 ## Gradle tasks
 
-- ```./gradlew detektAll```: Code analysis. More information [here](https://github.com/detekt/detekt#features).
+- ```./gradlew detekt```: Code analysis. More information [here](https://github.com/detekt/detekt).
 - ```./gradlew checkDependencyUpdates```: Check dependency updates.
 
 ## Credits
